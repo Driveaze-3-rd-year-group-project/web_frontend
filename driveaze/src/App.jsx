@@ -5,12 +5,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from './components/auth/LoginPage';
 import RegistrationPage from './components/auth/RegistrationPage';
 import UserService from './components/service/UserService';
-import Home from './components/userpage/Home';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/common/Sidebar';
 import AdminDashboard from './components/userpage/Admin/AdminDashboard';
 import StaffAccounts from './components/userpage/Admin/StaffAccounts';
 import SupervisorDashboard from './components/userpage/Supervisor/SupervisorDashboard';
+import ReceptionistDashboard from './components/userpage/Receptionist/ReceptionistDashboard';
+import OngoingJobs from './components/userpage/Receptionist/OngoingJobs';
+
 
 function App() {
   return (
@@ -71,14 +73,13 @@ function App() {
               )}
               {!UserService.isReceptionist() ? (
                 <>
-                  <Route path="/profile" element={<Home />} />
-                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
+                  <Route path="/dashboard" element={<Navigate to="/" />} />
                 </>
               ) : (
                 <>
-                  <Route path="/profile" element={<Home />} />
-                  <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
-                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
+                  <Route path="/dashboard" element={<ReceptionistDashboard />} />
+                  <Route path="/ongoingjobs" element={<OngoingJobs />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
             </Route>

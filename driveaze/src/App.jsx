@@ -15,6 +15,7 @@ import JobManagement from './components/userpage/Receptionist/JobManagement';
 import CustomerDashboard from './components/userpage/Customer/CustomerDashboard';
 import VehicleManagement from './components/userpage/Receptionist/VehicleManagement';
 import Anjani from './components/userpage/Receptionist/Anjani';
+import CustomerAccounts from './components/userpage/Admin/CustomerAccounts';
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<AdminDashboard />} />
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
+                  <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -82,8 +84,7 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />} />
                   <Route path="/jobmanagement" element={<JobManagement />} />
-                  <Route path="/vehiclemanagement" element={<VehicleManagement />} />
-                  <Route path="/anjani" element={<Anjani />} />                
+                  <Route path="/vehiclemanagement" element={<VehicleManagement />} />          
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

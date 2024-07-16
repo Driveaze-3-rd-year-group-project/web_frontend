@@ -11,6 +11,7 @@ import Sidebar from './components/common/Sidebar';
 import AdminDashboard from './components/userpage/Admin/AdminDashboard';
 import StaffAccounts from './components/userpage/Admin/StaffAccounts';
 import SupervisorDashboard from './components/userpage/Supervisor/SupervisorDashboard';
+import RepairVehicles from './components/userpage/Supervisor/RepairVehicles';
 
 function App() {
   return (
@@ -61,12 +62,12 @@ function App() {
               {!UserService.isSupervisor() ? (
                 <>
                   {/* <Route path="/dashboard" element={<Navigate to="/" />} /> */}
+                  
                 </>
               ) : (
                 <>
                   <Route path="/dashboard" element={<SupervisorDashboard />} />
-                  <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
-                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
+                  <Route path="/repairvehicles" element={<RepairVehicles />} />
                 </>
               )}
               {!UserService.isReceptionist() ? (

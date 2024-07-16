@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../service/UserService';
-import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime,FaCarAlt } from "react-icons/fa";
+import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime,FaCarAlt, FaShoppingCart, FaTools } from "react-icons/fa";
 
 function Sidebar() {
     const isAuthenticated = UserService.isAuthenticated();
@@ -138,12 +138,21 @@ function Sidebar() {
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
+
+                                    <a href="/repairvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaTools />
+                                        </div>
+                                        <p className="flex-1">Vehicle repair</p>
+                                    </a>
+
                                     <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaAccessibleIcon />
+                                            <FaShoppingCart />
                                         </div>
-                                        <p className="flex-1">Dashboard</p>
+                                        <p className="flex-1">Inventory Management</p>
                                     </a>
                                 </li>
                             )}

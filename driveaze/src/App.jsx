@@ -11,7 +11,10 @@ import AdminDashboard from './components/userpage/Admin/AdminDashboard';
 import StaffAccounts from './components/userpage/Admin/StaffAccounts';
 import SupervisorDashboard from './components/userpage/Supervisor/SupervisorDashboard';
 import ReceptionistDashboard from './components/userpage/Receptionist/ReceptionistDashboard';
-import OngoingJobs from './components/userpage/Receptionist/OngoingJobs';
+import JobManagement from './components/userpage/Receptionist/JobManagement';
+import CustomerDashboard from './components/userpage/Customer/CustomerDashboard';
+import VehicleManagement from './components/userpage/Receptionist/VehicleManagement';
+import Anjani from './components/userpage/Receptionist/Anjani';
 
 
 function App() {
@@ -73,12 +76,14 @@ function App() {
               )}
               {!UserService.isReceptionist() ? (
                 <>
-                  <Route path="/dashboard" element={<Navigate to="/" />} />
+                  <Route path="/jobmanagement" element={<Navigate to="/dashboard" />} />
                 </>
               ) : (
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />} />
-                  <Route path="/ongoingjobs" element={<OngoingJobs />} />
+                  <Route path="/jobmanagement" element={<JobManagement />} />
+                  <Route path="/vehiclemanagement" element={<VehicleManagement />} />
+                  <Route path="/anjani" element={<Anjani />} />                
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

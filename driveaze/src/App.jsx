@@ -10,11 +10,15 @@ import Sidebar from './components/common/Sidebar';
 import AdminDashboard from './components/userpage/Admin/AdminDashboard';
 import StaffAccounts from './components/userpage/Admin/StaffAccounts';
 import SupervisorDashboard from './components/userpage/Supervisor/SupervisorDashboard';
+import CustomerDashboard from './components/userpage/Customer/CustomerDashboard';
+
 import ReceptionistDashboard from './components/userpage/Receptionist/ReceptionistDashboard';
 import JobManagement from './components/userpage/Receptionist/JobManagement';
-import CustomerDashboard from './components/userpage/Customer/CustomerDashboard';
 import VehicleManagement from './components/userpage/Receptionist/VehicleManagement';
-import Anjani from './components/userpage/Receptionist/Anjani';
+import BookingManagement from './components/userpage/Receptionist/BookingManagement';
+import Payments from './components/userpage/Receptionist/Payments';
+import Billing from './components/userpage/Receptionist/Billing';
+import EditVehicle from './components/userpage/Receptionist/EditVehicle';
 
 
 function App() {
@@ -77,13 +81,20 @@ function App() {
               {!UserService.isReceptionist() ? (
                 <>
                   <Route path="/jobmanagement" element={<Navigate to="/dashboard" />} />
+                  <Route path="/vehiclemanagement" element={<Navigate to="/dashboard" />} />
+                  <Route path="/bookingmanagement" element={<Navigate to="/dashboard" />} />
+                  <Route path="/billing" element={<Navigate to="/dashboard" />} />
+                  <Route path="/payments" element={<Navigate to="/dashboard" />} />
                 </>
               ) : (
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />} />
                   <Route path="/jobmanagement" element={<JobManagement />} />
                   <Route path="/vehiclemanagement" element={<VehicleManagement />} />
-                  <Route path="/anjani" element={<Anjani />} />                
+                  <Route path="/bookingmanagement" element={<BookingManagement />} />
+                  <Route path="/billing" element={<Billing />} />
+                  <Route path="/payments" element={<Payments />} />  
+                  <Route path="/editvehicle" element={<EditVehicle />} />              
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

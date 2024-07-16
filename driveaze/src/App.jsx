@@ -15,15 +15,12 @@ import CustomerDashboard from './components/userpage/Customer/CustomerDashboard'
 import ReceptionistDashboard from './components/userpage/Receptionist/ReceptionistDashboard';
 import JobManagement from './components/userpage/Receptionist/JobManagement';
 import VehicleManagement from './components/userpage/Receptionist/VehicleManagement';
-<<<<<<< HEAD
-import Anjani from './components/userpage/Receptionist/Anjani';
+
 import CustomerAccounts from './components/userpage/Admin/CustomerAccounts';
-=======
 import BookingManagement from './components/userpage/Receptionist/BookingManagement';
 import Payments from './components/userpage/Receptionist/Payments';
 import Billing from './components/userpage/Receptionist/Billing';
 import EditVehicle from './components/userpage/Receptionist/EditVehicle';
->>>>>>> a80263a3d4301c03440ae176aca572d36a3d3d9a
 
 
 function App() {
@@ -96,15 +93,14 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />} />
                   <Route path="/jobmanagement" element={<JobManagement />} />
-<<<<<<< HEAD
+
                   <Route path="/vehiclemanagement" element={<VehicleManagement />} />          
 =======
                   <Route path="/vehiclemanagement" element={<VehicleManagement />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
                   <Route path="/payments" element={<Payments />} />  
-                  <Route path="/editvehicle" element={<EditVehicle />} />              
->>>>>>> a80263a3d4301c03440ae176aca572d36a3d3d9a
+                  <Route path="/editvehicle" element={<EditVehicle />} /> 
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

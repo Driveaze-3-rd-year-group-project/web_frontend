@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../service/UserService';
-import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime,FaCarAlt, FaShoppingCart, FaTools } from "react-icons/fa";
+import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime, FaCarAlt, FaCalendarCheck, FaMoneyCheckAlt, FaRegClipboard, FaShoppingCart, FaTools } from "react-icons/fa";
 
 function Sidebar() {
     const isAuthenticated = UserService.isAuthenticated();
@@ -161,16 +161,44 @@ function Sidebar() {
                                     <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaAccessibleIcon />
+                                            <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/jobmanagement" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaAccessibleIcon />
+                                            <FaBusinessTime />
                                         </div>
-                                        <p className="flex-1">Dashboard</p>
+                                        <p className="flex-1">Job Management</p>
+                                    </a>
+                                    <a href="/vehiclemanagement" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaCarAlt />
+                                        </div>
+                                        <p className="flex-1">Vehicle Management</p>
+                                    </a>
+                                    <a href="/bookingmanagement" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaCalendarCheck />
+                                        </div>
+                                        <p className="flex-1">Booking Management</p>
+                                    </a>
+                                    <a href="/billing" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaRegClipboard />
+                                        </div>
+                                        <p className="flex-1">Billing</p>
+                                    </a>
+                                    <a href="/payments" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaMoneyCheckAlt />
+                                        </div>
+                                        <p className="flex-1">Payments</p>
                                     </a>
                                 </li>
                             )}

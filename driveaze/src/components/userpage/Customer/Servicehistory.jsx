@@ -49,10 +49,10 @@ const ServiceHistory = () => {
           <table className="w-full table-auto text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
-                <th className="text-deepblue font-bold py-3 px-6">Service Number</th>
-                <th className="text-deepblue font-bold py-3 px-6">Date</th>
-                <th className="text-deepblue font-bold py-3 px-6">Title</th>
-                <th className="text-deepblue font-bold py-3 px-6"></th>
+                <th className="text-deepblue bg-dered font-bold py-3 px-6">Service Number</th>
+                <th className="text-deepblue  bg-dered font-bold py-3 px-6">Date</th>
+                <th className="text-deepblue  bg-dered font-bold py-3 px-6">Title</th>
+                <th className="text-deepblue  bg-dered font-bold py-3 px-6"></th>
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
@@ -72,7 +72,7 @@ const ServiceHistory = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan="4" className="px-6 py-0 whitespace-nowrap">
+                    <td colSpan="4" className="border-1  border-black px-6 py-0 whitespace-nowrap">
                       <div className={`transition-all duration-300 ease-in-out overflow-hidden ${expandedRows[idx] ? 'max-h-40' : 'max-h-0'}`}>
                         <p className="text-deepblue p-4">{item.content}</p>
                       </div>

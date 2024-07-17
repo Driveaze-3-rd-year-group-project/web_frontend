@@ -9,7 +9,8 @@ export default {
       colors: {
         deepblue: '#01103B',
         lightblue: '#A5BECC',
-        driveazered: '#e80f17'
+        driveazered: '#e80f17',
+        dered:'#F5131B',
       },
     },
   },

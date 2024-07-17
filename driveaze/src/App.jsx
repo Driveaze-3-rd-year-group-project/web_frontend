@@ -5,31 +5,23 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from './components/auth/LoginPage';
 import RegistrationPage from './components/auth/RegistrationPage';
 import UserService from './components/service/UserService';
+import Home from './components/userpage/Home';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sidebar from './components/common/Sidebar';
 import AdminDashboard from './components/userpage/Admin/AdminDashboard';
 import StaffAccounts from './components/userpage/Admin/StaffAccounts';
 import SupervisorDashboard from './components/userpage/Supervisor/SupervisorDashboard';
-import RepairVehicles from './components/userpage/Supervisor/RepairVehicles';
 import CustomerDashboard from './components/userpage/Customer/CustomerDashboard';
-
-import ReceptionistDashboard from './components/userpage/Receptionist/ReceptionistDashboard';
-import JobManagement from './components/userpage/Receptionist/JobManagement';
-import VehicleManagement from './components/userpage/Receptionist/VehicleManagement';
-
-import CustomerAccounts from './components/userpage/Admin/CustomerAccounts';
-import BookingManagement from './components/userpage/Receptionist/BookingManagement';
-import Payments from './components/userpage/Receptionist/Payments';
-import Billing from './components/userpage/Receptionist/Billing';
-import EditVehicle from './components/userpage/Receptionist/EditVehicle';
+import VehicleInfo from './components/userpage/Customer/Vehicleinfo';
+import ServiceHistory from './components/userpage/Customer/Servicehistory';
+import Servicebookings from './components/userpage/Customer/Servicebookings';
 
 
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="App flex">
-        {UserService.isAuthenticated() && (
+      <div className="App flex">        {UserService.isAuthenticated() && (
           <div className="w-72">
             <Sidebar />
           </div>
@@ -56,54 +48,42 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<AdminDashboard />} />
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
-                  <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
               {!UserService.isCustomer() ? (
                 <>
-                  <Route path="/profile" element={<Navigate to="/" />} />
-                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
+                  <Route path="/myvehicles" element={<Navigate to="/" />} />
                 </>
               ) : (
                 <>
-                  <Route path="/dashboard" element={<CustomerDashboard />} />
-                  <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
-                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
+                  <Route path="/dashboard" element={<CustomerDashboard/>} />
+                  <Route path="/vehicleinfo" element={<VehicleInfo/>} /> 
+                  <Route path="/servicehistory" element={<ServiceHistory/>} /> 
+                  <Route path="/servicebookings" element={<Servicebookings/>} /> 
                 </>
               )}
               {!UserService.isSupervisor() ? (
                 <>
                   {/* <Route path="/dashboard" element={<Navigate to="/" />} /> */}
-                  
                 </>
               ) : (
                 <>
                   <Route path="/dashboard" element={<SupervisorDashboard />} />
-                  <Route path="/repairvehicles" element={<RepairVehicles />} />
+                  <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
+                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                 </>
               )}
               {!UserService.isReceptionist() ? (
                 <>
-                  <Route path="/jobmanagement" element={<Navigate to="/dashboard" />} />
-                  <Route path="/vehiclemanagement" element={<Navigate to="/dashboard" />} />
-                  <Route path="/bookingmanagement" element={<Navigate to="/dashboard" />} />
-                  <Route path="/billing" element={<Navigate to="/dashboard" />} />
-                  <Route path="/payments" element={<Navigate to="/dashboard" />} />
+                  <Route path="/profile" element={<Home />} />
+                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                 </>
               ) : (
                 <>
-                  <Route path="/dashboard" element={<ReceptionistDashboard />} />
-                  <Route path="/jobmanagement" element={<JobManagement />} />
-
-                  <Route path="/vehiclemanagement" element={<VehicleManagement />} />          
-=======
-                  <Route path="/vehiclemanagement" element={<VehicleManagement />} />
-                  <Route path="/bookingmanagement" element={<BookingManagement />} />
-                  <Route path="/billing" element={<Billing />} />
-                  <Route path="/payments" element={<Payments />} />  
-                  <Route path="/editvehicle" element={<EditVehicle />} /> 
-                  <Route path="*" element={<Navigate to="/dashboard" />} />
+                  <Route path="/profile" element={<Home />} />
+                  <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
+                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                 </>
               )}
             </Route>

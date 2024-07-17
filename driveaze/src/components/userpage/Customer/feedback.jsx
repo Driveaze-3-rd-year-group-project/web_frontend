@@ -1,77 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaCircle } from "react-icons/fa";
 import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'; 
+import { MdReport } from "react-icons/md";
+import { VscFeedback } from "react-icons/vsc";
 
-const feedback = () => {
-  const location = useLocation();
+const Feedback = () => {
 
-  const navigate = useNavigate(); 
-
-  const handleClick = () => {
-
-    navigate('/newservice');
-  };
-
-
-  const tableItems = [
+  const members = [
     {
-      Date: "3/16/2023",
-      Vehicle: "Regular Maintenance",
-      Status: "Pending",
-    },
+      icon: <VscFeedback size="40" className="text-dered"/>,
+      title: "Send us your thoughts",
+    }, 
     {
-        Date: "3/16/2023",
-        Vehicle: "Regular Maintenance",
-        Status: "Accepted",
-      },
-      {
-        Date: "3/16/2023",
-        Vehicle: "Regular Maintenance",
-        Status: "Rejected",
-      },
-    // Add more items with content
+      icon: <MdReport size="40"  className="text-dered"/>,
+      title: "Report a issue",
+    }
   ];
 
+  const [isOpen, setIsOpen] = useState(false);  // State variable for popup
+  const [selectedMember, setSelectedMember] = useState(null);  // Track selected member
+  const popupRef = useRef(null); // Ref for the popup element
+
+  const handleItemClick = (member) => {
+    setIsOpen(true);
+    setSelectedMember(member);
+  };
+
+  const handleClosePopup = () => {
+    setIsOpen(false);
+    setSelectedMember(null);
+  };
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      handleClosePopup();
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
-    <div className="max-w-screen-xl mx-auto p-10 shadow-lg ml-5 mt-10">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Book a service</h1>
+    <div className="max-w-2xl mx-auto px-4 mt-40">
+      <ul className="mt-12 divide-y">
+        {
+          members.map((item, idx) => (
+            <li key={idx} className="p-5 rounded bg-deepblue flex items-start justify-between cursor-pointer hover:bg-blue-100" onClick={() => handleItemClick(item)}>  {/* Make clickable & hover effect */}
+              <div className="flex gap-3">
+                {item.icon}
+                <div className="ml-2">
+                  <span className="text-xl text-white block text-sm text-gray-700 font-semibold"> {item.title}</span>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      {/* Popup component (conditionally rendered) */}
+      {isOpen && selectedMember && (
+        <div className="fixed w-full h-full top-0 left-0  bg-gray-200 bg-opacity-50 z-50 flex justify-center items-center">
+          <div className="bg-deepblue w-1/2 h-38 p-4 rounded-lg shadow-md" ref={popupRef}>  {/* Set minimum width & height for popup */}
+            <h2 className="p-5 text-white text-xl font-semibold mb-4">{selectedMember.title}</h2>
+            <textarea className="w-full h-48 border rounded p-2" placeholder="Enter your feedback"></textarea>  {/* Increased textarea height */}
+            <div className="flex justify-end mt-4">
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleClosePopup}>Send</button>
+            </div>
+          </div>
         </div>
-          <button className="bg-dered hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"  onClick={handleClick}>
-            Book a new service
-          </button>
-        </div>
-        <div className="h-px bg-gray-200 border-t border-gray-400 my-4"></div>
-      
-        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-          <div className="mt-12 shadow-sm border rounded-lg overflow-hidden">
-            <table className="w-full table-auto text-sm text-left">
-              <tbody className="text-gray-600 divide-y">
-                {tableItems.map((item, idx) => (
-                <tr key={idx}>
-                  <td className="bg-deepblue text-white px-6 py-4 whitespace-nowrap">{item.Date}</td>
-                  <td className="bg-deepblue text-white px-6 py-4 whitespace-nowrap">{item.Vehicle}</td>
-                  <td className="bg-deepblue text-white px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center space-x-2">
-                      <span>{item.Status}</span>
-                      <FaCircle className={
-                        item.Status === 'Pending' ? 'text-white' :
-                        item.Status === 'Rejected' ? 'text-red-500' :
-                        item.Status === 'Accepted' ? 'text-green-500' :
-                        ''
-                      } />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
 
-export default feedback;
+export default Feedback;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../service/UserService';
+import { MdFeedback } from "react-icons/md";
 import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime,FaCarAlt, FaCar } from "react-icons/fa";
 
 function Sidebar() {
@@ -126,6 +127,13 @@ function Sidebar() {
                                             <FaCar />
                                         </div>
                                         <p className="flex-1">Service Bookings</p>
+                                    </a>
+                                    <a href="/feedback" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <MdFeedback />
+                                        </div>
+                                        <p className="flex-1">Feedback</p>
                                     </a>
                                 </li>
                             )}

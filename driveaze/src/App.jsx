@@ -16,6 +16,7 @@ import VehicleInfo from './components/userpage/Customer/Vehicleinfo';
 import ServiceHistory from './components/userpage/Customer/Servicehistory';
 import Servicebookings from './components/userpage/Customer/Servicebookings';
 import NewService from './components/userpage/Customer/newservice';
+import Feedback from './components/userpage/Customer/feedback';
 
 
 
@@ -63,7 +64,7 @@ function App() {
                   <Route path="/servicehistory" element={<ServiceHistory/>} /> 
                   <Route path="/servicebookings" element={<Servicebookings/>} /> 
                   <Route path="/newservice" element={<NewService/>}/>
-                  <Route path="/feedback" element={<feedback/>}/>
+                  <Route path="/feedback" element={<Feedback/>}/>
                 </>
               )}
               {!UserService.isSupervisor() ? (

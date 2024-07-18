@@ -12,27 +12,6 @@ import StaffAccounts from "./components/userpage/Admin/StaffAccounts";
 import SupervisorDashboard from "./components/userpage/Supervisor/SupervisorDashboard";
 import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
 
-import LoginPage from './components/auth/LoginPage';
-import RegistrationPage from './components/auth/RegistrationPage';
-import UserService from './components/service/UserService';
-import ProtectedRoute from './components/ProtectedRoute';
-import Sidebar from './components/common/Sidebar';
-import AdminDashboard from './components/userpage/Admin/AdminDashboard';
-import StaffAccounts from './components/userpage/Admin/StaffAccounts';
-import SupervisorDashboard from './components/userpage/Supervisor/SupervisorDashboard';
-import RepairVehicles from './components/userpage/Supervisor/RepairVehicles';
-import CustomerDashboard from './components/userpage/Customer/CustomerDashboard';
-
-import ReceptionistDashboard from './components/userpage/Receptionist/ReceptionistDashboard';
-import JobManagement from './components/userpage/Receptionist/JobManagement';
-import VehicleManagement from './components/userpage/Receptionist/VehicleManagement';
-
-import CustomerAccounts from './components/userpage/Admin/CustomerAccounts';
-import BookingManagement from './components/userpage/Receptionist/BookingManagement';
-import Payments from './components/userpage/Receptionist/Payments';
-import Billing from './components/userpage/Receptionist/Billing';
-import EditVehicle from './components/userpage/Receptionist/EditVehicle';
-
 import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
 import JobManagement from "./components/userpage/Receptionist/JobManagement";
 import VehicleManagement from "./components/userpage/Receptionist/VehicleManagement";
@@ -42,6 +21,7 @@ import Billing from "./components/userpage/Receptionist/Billing";
 import EditVehicle from "./components/userpage/Receptionist/EditVehicle";
 import JobDetails from "./components/userpage/Receptionist/JobDetails";
 import JobCreate from "./components/userpage/Receptionist/JobCreate";
+import RepairVehicles from "./components/userpage/Supervisor/ReapairVehicles";
 
 
 function App() {

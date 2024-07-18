@@ -44,10 +44,23 @@ class UserService{
         }
     }
 
-    static async getAllUsers(token){
+    static async getAllEmployees(token){
         try{
 
-            const response = await axios.get(`${UserService.BASE_URL}/admin/get-all-users`, {
+            const response = await axios.get(`${UserService.BASE_URL}/admin/get-all-employees`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllCustomers(token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/admin/get-all-customers`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             return response.data;

@@ -101,7 +101,7 @@ const VehicleManagement = () => {
           </thead>
           <tbody className="text-gray-600 divide-y">
             {tableItems.map((item, idx) => (
-              <tr key={idx}>
+              <tr key={idx} className="hover:bg-gray-100">
                 <td className="py-3 px-6 whitespace-nowrap">
                   {item.vehicleNumber}
                 </td>

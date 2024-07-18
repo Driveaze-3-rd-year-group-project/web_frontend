@@ -22,7 +22,7 @@ import EditVehicle from "./components/userpage/Receptionist/EditVehicle";
 import JobDetails from "./components/userpage/Receptionist/JobDetails";
 import JobCreate from "./components/userpage/Receptionist/JobCreate";
 import RepairVehicles from "./components/userpage/Supervisor/ReapairVehicles";
-
+import CustomerAccounts from "./components/userpage/Admin/CustomerAccounts";
 
 function App() {
   return (
@@ -59,93 +59,50 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<AdminDashboard />} />
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
+                  <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
               {!UserService.isCustomer() ? (
                 <>
                   <Route path="/profile" element={<Navigate to="/" />} />
-                  <Route
-                    path="/update-user/:userId"
-                    element={<Navigate to="/profile" />}
-                  />
                 </>
               ) : (
                 <>
                   <Route path="/dashboard" element={<CustomerDashboard />} />
-                  <Route
-                    path="/admin/user-management"
-                    element={<Navigate to="/profile" />}
-                  />
-                  <Route
-                    path="/update-user/:userId"
-                    element={<Navigate to="/profile" />}
-                  />
+                  <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
+                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                 </>
               )}
               {!UserService.isSupervisor() ? (
                 <>
-                  {/* <Route path="/dashboard" element={<Navigate to="/" />} /> */}
-                  
+                  <Route path="/repairvehicles" element={<Navigate to="/" />} />
                 </>
               ) : (
                 <>
                   <Route path="/dashboard" element={<SupervisorDashboard />} />
-                  
-                  <Route
-                    path="/admin/user-management"
-                    element={<Navigate to="/profile" />}
-                  />
-                  <Route
-                    path="/update-user/:userId"
-                    element={<Navigate to="/profile" />}
-                  />
-                  
+                  <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
+                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
-                  
                 </>
               )}
               {!UserService.isReceptionist() ? (
                 <>
-                  <Route
-                    path="/jobmanagement"
-                    element={<Navigate to="/dashboard" />}
-                  />
-                  <Route
-                    path="/vehiclemanagement"
-                    element={<Navigate to="/dashboard" />}
-                  />
-                  <Route
-                    path="/bookingmanagement"
-                    element={<Navigate to="/dashboard" />}
-                  />
-                  <Route
-                    path="/billing"
-                    element={<Navigate to="/dashboard" />}
-                  />
-                  <Route
-                    path="/payments"
-                    element={<Navigate to="/dashboard" />}
-                  />
+                  <Route path="/jobmanagement" element={<Navigate to="/dashboard" />} />
+                  <Route path="/vehiclemanagement" element={<Navigate to="/dashboard" />} />
+                  <Route path="/bookingmanagement" element={<Navigate to="/dashboard" />} />
+                  <Route path="/billing" element={<Navigate to="/dashboard" />} />
+                  <Route path="/payments" element={<Navigate to="/dashboard" />} />
                 </>
               ) : (
                 <>
-                  <Route
-                    path="/dashboard"
-                    element={<ReceptionistDashboard />}
-                  />
+                  <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
                   <Route path="/jobcreate" element={<JobCreate />} />
                   <Route path="/jobdetails" element={<JobDetails />} />
-                  <Route
-                    path="/vehiclemanagement"
-                    element={<VehicleManagement />}
-                  />
+                  <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
                   <Route path="/editvehicle" element={<EditVehicle />} />
-                  <Route
-                    path="/bookingmanagement"
-                    element={<BookingManagement />}
-                  />
+                  <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
                   <Route path="/payments" element={<Payments />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />

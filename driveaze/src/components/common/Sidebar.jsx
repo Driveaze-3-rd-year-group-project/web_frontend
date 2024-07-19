@@ -3,13 +3,12 @@ import UserService from '../service/UserService';
 import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime, FaCarAlt, FaCalendarCheck, FaMoneyCheckAlt, FaRegClipboard, FaWarehouse, FaUserPlus, FaClipboardList, FaClipboardCheck, FaCar, FaMoneyCheck, FaWrench, FaCalendarAlt } from "react-icons/fa";
 
 function Sidebar() {
-    const isAuthenticated = UserService.isAuthenticated();
-    const isAdmin = UserService.isAdmin();
-    const isCustomer = UserService.isCustomer();
-    const isReceptionist = UserService.isReceptionist();
-    const isSupervisor = UserService.isSupervisor();
-    const userType = UserService.userType();
-
+    const [isAuthenticated, setIsAuthenticated] = useState(UserService.isAuthenticated());
+    const [isAdmin, setIsAdmin] = useState(UserService.isAdmin());
+    const [isCustomer, setIsCustomer] = useState(UserService.isCustomer());
+    const [isReceptionist, setIsReceptionist] = useState(UserService.isReceptionist());
+    const [isSupervisor, setIsSupervisor] = useState(UserService.isSupervisor());
+    
     const [profileInfo, setProfileInfo] = useState({});
 
     useEffect(() => {
@@ -31,6 +30,13 @@ function Sidebar() {
         const confirmDelete = window.confirm('Are you sure you want to logout this user?');
         if (confirmDelete) {
             UserService.logout();
+            setIsAuthenticated(false);
+            setIsAdmin(false);
+            setIsCustomer(false);
+            setIsReceptionist(false);
+            setIsSupervisor(false);
+            location.href = '/';
+            location.reload();
         }
     };
 
@@ -265,7 +271,7 @@ function Sidebar() {
                                             </div>
                                             <p className="flex-1">Settings</p>
                                         </a>
-                                        <a href="/logout" onClick={handleLogout} className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-driveazered active:bg-gray-100 duration-150">
+                                        <a href='/' onClick={handleLogout} className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-driveazered active:bg-gray-100 duration-150">
                                             <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                             <div className="flex-none">
                                                 <FaSignOutAlt />

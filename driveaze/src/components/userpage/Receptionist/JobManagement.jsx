@@ -82,7 +82,7 @@ const JobManagement = () => {
       </div>
       {/* End of updated header section */}
 
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-3">
         <div className="flex flex-col">
           <label className="font-medium mb-2">Filter Jobs</label>
           <select
@@ -103,7 +103,7 @@ const JobManagement = () => {
         </a>
       </div>
 
-      <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+      <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>

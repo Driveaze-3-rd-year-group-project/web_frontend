@@ -7,6 +7,7 @@ const JobDetails = () => {
     jobStartedDate: "2022-01-10",
     assignedSupervisor: "Kasun Perera",
     status: "Ongoing",
+    service: "Full service",
   };
 
   const jobDetails = [
@@ -88,6 +89,9 @@ const JobDetails = () => {
                 >
                   {job.status}
                 </span>
+              </p>
+              <p className="font-semibold text-gray-700">
+                <strong>Service Request(Details Given by Customer ):</strong> {job.service}
               </p>
             </div>
           </div>

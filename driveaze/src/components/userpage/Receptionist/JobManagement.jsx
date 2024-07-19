@@ -8,7 +8,7 @@ const JobManagement = () => {
   };
 
   const getStatusStyle = (status) => {
-    return status === "Completed" ? "text-green-600" : "text-blue-600";
+    return status === "Completed" ? "text-green-600" : "text-yellow-500";
   };
 
   const tableItems = [
@@ -47,7 +47,7 @@ const JobManagement = () => {
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       {/* Updated header section */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-1">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Job Management
         </h3>
@@ -84,7 +84,7 @@ const JobManagement = () => {
 
       <div className="flex justify-between items-center mb-3">
         <div className="flex flex-col">
-          <label className="font-medium mb-2">Filter Jobs</label>
+          <label className="font-medium mb-1">Filter Jobs</label>
           <select
             value={filter}
             onChange={handleFilterChange}
@@ -103,7 +103,7 @@ const JobManagement = () => {
         </a>
       </div>
 
-      <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
+      <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>

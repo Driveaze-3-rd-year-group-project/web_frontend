@@ -51,12 +51,6 @@ const CustomerDashboard = () => {
         buttonText="More Info"
       />
 
-      <Card
-        brand="Bajaj"
-        icon={PiMotorcycleFill} // Change the icon if desired
-        model="Discovery"
-        buttonText="More Info"
-      />
     </div>
   );
 };

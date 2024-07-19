@@ -19,18 +19,23 @@ const EditVehicle = () => {
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               />
             </div>
-            <div>
-              <label className="font-medium">Vehicle Model</label>
-              <select className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
-                <option>Honda Civic</option>
-                <option>Nissan Altima</option>
-                <option>Toyota Corolla</option>
-              </select>
-              {/* <input
-                type="text"
-                required
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-              /> */}
+            <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
+              <div>
+                <label className="font-medium">Vehicle Brand</label>
+                <select className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
+                  <option>Honda</option>
+                  <option>Nissan</option>
+                  <option>Toyota</option>
+                </select>
+              </div>
+              <div>
+                <label className="font-medium">Vehicle Model</label>
+                <select className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
+                  <option>Civic</option>
+                  <option>Altima</option>
+                  <option>Corolla</option>
+                </select>
+              </div>
             </div>
             <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
               <div>
@@ -62,7 +67,7 @@ const EditVehicle = () => {
               <label className="font-medium">Registered Phone No</label>
               <div className="relative mt-2">
                 <input
-                  type="number"
+                  type="text"
                   placeholder="071-5657589"
                   required
                   className="w-full pl-4 pr-3 py-2 appearance-none bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"

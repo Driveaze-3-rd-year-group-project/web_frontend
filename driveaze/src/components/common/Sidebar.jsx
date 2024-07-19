@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../service/UserService';
-import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime, FaCarAlt, FaCalendarCheck, FaMoneyCheckAlt, FaRegClipboard, FaShoppingCart, FaTools } from "react-icons/fa";
+import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime, FaCarAlt, FaCalendarCheck, FaMoneyCheckAlt, FaRegClipboard, FaWarehouse, FaUserPlus, FaClipboardList, FaClipboardCheck, FaCar, FaMoneyCheck, FaWrench, FaCalendarAlt } from "react-icons/fa";
 
 function Sidebar() {
     const isAuthenticated = UserService.isAuthenticated();
@@ -116,16 +116,37 @@ function Sidebar() {
                                     <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaAccessibleIcon />
+                                            <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/myvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaAccessibleIcon />
+                                            <FaCar />
                                         </div>
-                                        <p className="flex-1">Dashboard</p>
+                                        <p className="flex-1">My Vehicles</p>
+                                    </a>
+                                    <a href="/ongoingservices" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaWrench />
+                                        </div>
+                                        <p className="flex-1">Onging Services</p>
+                                    </a>
+                                    <a href="/upcomingservices" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaCalendarAlt />
+                                        </div>
+                                        <p className="flex-1">Upcoming Services</p>
+                                    </a>
+                                    <a href="/payments" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaMoneyCheckAlt />
+                                        </div>
+                                        <p className="flex-1">Payments & Billing</p>
                                     </a>
                                 </li>
                             )}
@@ -134,7 +155,7 @@ function Sidebar() {
                                     <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaAccessibleIcon />
+                                            <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
@@ -142,17 +163,40 @@ function Sidebar() {
                                     <a href="/repairvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaTools />
+                                            <FaClipboardList />
                                         </div>
-                                        <p className="flex-1">Vehicle repair</p>
+                                        <p className="flex-1">Assigned Jobs</p>
+                                    </a>
+
+                                    <a href="/completedjobs" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaClipboardCheck />
+                                        </div>
+                                        <p className="flex-1">Completed Jobs</p>
+                                    </a>
+
+                                    <a href="/vehiclehistory" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaCar />
+                                        </div>
+                                        <p className="flex-1">Vehicle History</p>
                                     </a>
 
                                     <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaShoppingCart />
+                                            <FaWarehouse />
                                         </div>
                                         <p className="flex-1">Inventory Management</p>
+                                    </a>
+                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaUserPlus />
+                                        </div>
+                                        <p className="flex-1">Add Technicians</p>
                                     </a>
                                 </li>
                             )}
@@ -193,12 +237,19 @@ function Sidebar() {
                                         </div>
                                         <p className="flex-1">Billing</p>
                                     </a>
-                                    <a href="/payments" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/customerpayments" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaMoneyCheckAlt />
                                         </div>
-                                        <p className="flex-1">Payments</p>
+                                        <p className="flex-1">Customer Payments</p>
+                                    </a>
+                                    <a href="/supplierpayments" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaMoneyCheck />
+                                        </div>
+                                        <p className="flex-1">Supplier Payments</p>
                                     </a>
                                 </li>
                             )}

@@ -18,7 +18,6 @@ function LoginPage() {
             if (userData.token) {
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-
                 location.href = '/dashboard';
                 
             } else {

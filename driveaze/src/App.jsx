@@ -24,10 +24,20 @@ import JobCreate from "./components/userpage/Receptionist/JobCreate";
 import RepairVehicles from "./components/userpage/Supervisor/ReapairVehicles";
 import CustomerAccounts from "./components/userpage/Admin/CustomerAccounts";
 import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
+import Navbar from "./components/common/Navbar";
 
 function App() {
   return (
     <BrowserRouter>
+      <div
+        className={`content ${
+          !UserService.isAuthenticated() ? "w-full" : "w-full"
+        }`}
+      >
+        <div>
+          <Navbar />
+        </div>
+      </div>
       <div className="App flex">
         {UserService.isAuthenticated() && (
           <div className="w-72">

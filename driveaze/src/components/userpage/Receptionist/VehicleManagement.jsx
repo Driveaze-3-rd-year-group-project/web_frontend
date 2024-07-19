@@ -86,7 +86,7 @@ const VehicleManagement = () => {
           </form>
         </div>
       </div>
-      <div className="flex justify-end mt-8">
+      <div className="flex justify-end mt-4">
         <a
           href="/addvehicle"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
@@ -94,7 +94,7 @@ const VehicleManagement = () => {
           Add Vehicle
         </a>
       </div>
-      <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
+      <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>

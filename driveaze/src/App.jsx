@@ -24,7 +24,10 @@ import JobCreate from "./components/userpage/Receptionist/JobCreate";
 import RepairVehicles from "./components/userpage/Supervisor/ReapairVehicles";
 import CustomerAccounts from "./components/userpage/Admin/CustomerAccounts";
 import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
+import CreateBill from "./components/userpage/Receptionist/CreateBill";
+import ViewBill from "./components/userpage/Receptionist/ViewBill";
 import Navbar from "./components/common/Navbar";
+
 
 function App() {
   return (
@@ -119,6 +122,8 @@ function App() {
                   <Route path="/billing" element={<Billing />} />
                   <Route path="/payments" element={<Payments />} />
                   <Route path="/addvehicle" element={<AddVehicle />} />
+                  <Route path="/createbill" element={<CreateBill />} />
+                  <Route path="/viewbill" element={<ViewBill />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

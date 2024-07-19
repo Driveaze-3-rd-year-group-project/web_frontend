@@ -1,60 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Billing = () => {
   const initialBills = [
     {
       id: 1,
-      brand: 'Toyota',
-      model: 'Camry',
-      vehicleNumber: 'XYZ 1234',
-      status: 'Ongoing',
-      image: 'TC'
+      brand: "Toyota",
+      model: "Camry",
+      vehicleNumber: "XYZ 1234",
+      status: "Ongoing",
+      image: "TC",
     },
     {
       id: 2,
-      brand: 'Honda',
-      model: 'Accord',
-      vehicleNumber: 'ABC 5678',
-      status: 'Ongoing',
-      image: 'HA'
+      brand: "Honda",
+      model: "Accord",
+      vehicleNumber: "ABC 5678",
+      status: "Ongoing",
+      image: "HA",
     },
     {
       id: 3,
-      brand: 'Ford',
-      model: 'Mustang',
-      vehicleNumber: 'LMN 9101',
-      status: 'Ongoing',
-      image: 'FM'
+      brand: "Ford",
+      model: "Mustang",
+      vehicleNumber: "LMN 9101",
+      status: "Ongoing",
+      image: "FM",
     },
     {
       id: 4,
-      brand: 'Chevrolet',
-      model: 'Camaro',
-      vehicleNumber: 'JKL 1213',
-      status: 'Ongoing',
-      image: 'CC'
+      brand: "Chevrolet",
+      model: "Camaro",
+      vehicleNumber: "JKL 1213",
+      status: "Ongoing",
+      image: "CC",
     },
     {
       id: 5,
-      brand: 'BMW',
-      model: '3 Series',
-      vehicleNumber: 'QRS 1415',
-      status: 'Ongoing',
-      image: 'B3S'
+      brand: "BMW",
+      model: "3 Series",
+      vehicleNumber: "QRS 1415",
+      status: "Ongoing",
+      image: "B3S",
     },
     {
       id: 6,
-      brand: 'Audi',
-      model: 'A4',
-      vehicleNumber: 'TUV 1617',
-      status: 'Ongoing',
-      image: 'AA4'
+      brand: "Audi",
+      model: "A4",
+      vehicleNumber: "TUV 1617",
+      status: "Ongoing",
+      image: "AA4",
     },
   ];
 
   const [bills, setBills] = useState(initialBills);
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [selectedModel, setSelectedModel] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
 
   const handleBrandChange = (e) => {
     setSelectedBrand(e.target.value);
@@ -64,13 +64,15 @@ const Billing = () => {
     setSelectedModel(e.target.value);
   };
 
-  const filteredBills = bills.filter(bill => {
-    return (selectedBrand ? bill.brand === selectedBrand : true) &&
-           (selectedModel ? bill.model === selectedModel : true);
+  const filteredBills = bills.filter((bill) => {
+    return (
+      (selectedBrand ? bill.brand === selectedBrand : true) &&
+      (selectedModel ? bill.model === selectedModel : true)
+    );
   });
 
-  const brands = [...new Set(initialBills.map(bill => bill.brand))];
-  const models = [...new Set(initialBills.map(bill => bill.model))];
+  const brands = [...new Set(initialBills.map((bill) => bill.brand))];
+  const models = [...new Set(initialBills.map((bill) => bill.model))];
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
@@ -145,17 +147,25 @@ const Billing = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         {filteredBills.map((bill) => (
-          <div key={bill.id} className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col items-start">
+          <div
+            key={bill.id}
+            className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col items-start"
+          >
             <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
               {bill.image}
             </div>
-            <h2 className="text-xl font-bold">{bill.brand} {bill.model}</h2>
+            <h2 className="text-xl font-bold">
+              {bill.brand} {bill.model}
+            </h2>
             <p className="text-gray-600">{bill.vehicleNumber}</p>
             <div className="flex justify-between items-center w-full mt-4">
               <span className="text-yellow-500">{bill.status}</span>
-              <button className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
+              <a
+                href="/viewbill"
+                className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+              >
                 View
-              </button>
+              </a>
             </div>
           </div>
         ))}

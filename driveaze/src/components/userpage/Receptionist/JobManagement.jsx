@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 const JobManagement = () => {
-  const [filter, setFilter] = React.useState("all");
+  const [filter, setFilter] = useState("all");
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
@@ -43,6 +43,13 @@ const JobManagement = () => {
       status: "Ongoing",
     },
   ];
+
+  const filteredItems = tableItems.filter((item) => {
+    if (filter === "all") return true;
+    if (filter === "ongoing") return item.status === "Ongoing";
+    if (filter === "completed") return item.status === "Completed";
+    return true;
+  });
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
@@ -115,7 +122,7 @@ const JobManagement = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {tableItems.map((item, index) => (
+            {filteredItems.map((item, index) => (
               <tr key={index} className="hover:bg-gray-100">
                 <td className="py-3 px-6 whitespace-nowrap">
                   {item.vehicleNumber}

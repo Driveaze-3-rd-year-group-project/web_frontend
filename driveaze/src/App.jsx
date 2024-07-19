@@ -74,6 +74,7 @@ function App() {
                   <Route path="/dashboard" element={<CustomerDashboard />} />
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
               {!UserService.isSupervisor() ? (
@@ -86,6 +87,7 @@ function App() {
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
               {!UserService.isReceptionist() ? (

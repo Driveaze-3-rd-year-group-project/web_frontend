@@ -99,13 +99,13 @@ const CreateBill = () => {
             <div className="flex justify-between items-center mt-6">
               <a
                 href="/billing"
-                className="px-8 py-3 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150"
+                className="px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150"
               >
                 Back
               </a>
               <button
                 type="submit"
-                className="px-8 py-3 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150"
+                className="px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150"
               >
                 Save Bill
               </button>

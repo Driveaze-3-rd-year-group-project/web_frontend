@@ -26,6 +26,8 @@ import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
 import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
 import CustomerPayments from "./components/userpage/Receptionist/CustomerPayments";
+import MakePayments from "./components/userpage/Receptionist/MakePayments";
+
 import Navbar from "./components/common/Navbar";
 
 
@@ -114,16 +116,18 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
-                  <Route path="/jobcreate" element={<JobCreate />} />
-                  <Route path="/jobdetails" element={<JobDetails />} />
+                  <Route path="/jobmanagement/createnewjob" element={<JobCreate />} />
+                  <Route path="/jobmanagement/details" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
-                  <Route path="/editvehicle" element={<EditVehicle />} />
+                  <Route path="/vehiclemanagement/addvehicle" element={<AddVehicle />} />
+                  <Route path="/vehiclemanagement/edit" element={<EditVehicle />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
-                  <Route path="/addvehicle" element={<AddVehicle />} />
-                  <Route path="/createbill" element={<CreateBill />} />
-                  <Route path="/viewbill" element={<ViewBill />} />
+                  <Route path="/billing/createbill" element={<CreateBill />} />
+                  <Route path="/billing/viewbill" element={<ViewBill />} />
                   <Route path="/customerpayments" element={<CustomerPayments />} />
+                  <Route path="/customerpayments/editbill" element={<ViewBill />} />
+                  <Route path="/customerpayments/payment" element={<MakePayments />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

@@ -158,7 +158,7 @@ const CustomerPayments = () => {
                 href="/viewbill"
                 className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
               >
-                View Bill
+                Edit Bill
               </a>
             </div>
           </div>

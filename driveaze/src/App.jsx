@@ -16,7 +16,6 @@ import ReceptionistDashboard from "./components/userpage/Receptionist/Receptioni
 import JobManagement from "./components/userpage/Receptionist/JobManagement";
 import VehicleManagement from "./components/userpage/Receptionist/VehicleManagement";
 import BookingManagement from "./components/userpage/Receptionist/BookingManagement";
-import Payments from "./components/userpage/Receptionist/Payments";
 import Billing from "./components/userpage/Receptionist/Billing";
 import EditVehicle from "./components/userpage/Receptionist/EditVehicle";
 import JobDetails from "./components/userpage/Receptionist/JobDetails";
@@ -26,6 +25,7 @@ import CustomerAccounts from "./components/userpage/Admin/CustomerAccounts";
 import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
 import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
+import CustomerPayments from "./components/userpage/Receptionist/CustomerPayments";
 
 function App() {
   return (
@@ -109,10 +109,10 @@ function App() {
                   <Route path="/editvehicle" element={<EditVehicle />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
-                  <Route path="/payments" element={<Payments />} />
                   <Route path="/addvehicle" element={<AddVehicle />} />
                   <Route path="/createbill" element={<CreateBill />} />
                   <Route path="/viewbill" element={<ViewBill />} />
+                  <Route path="/customerpayments" element={<CustomerPayments />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

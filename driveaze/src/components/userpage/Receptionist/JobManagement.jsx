@@ -8,7 +8,7 @@ const JobManagement = () => {
   };
 
   const getStatusStyle = (status) => {
-    return status === "Completed" ? "text-green-600" : "text-yellow-500";
+    return status === "Completed" ? "text-green-500" : "text-yellow-500";
   };
 
   const tableItems = [

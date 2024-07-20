@@ -1,85 +1,81 @@
 import React, { useState } from "react";
 
-const Billing = () => {
+const CustomerPayments = () => {
   const initialBills = [
     {
       id: 1,
       brand: "Toyota",
       model: "Camry",
       vehicleNumber: "XYZ 1234",
-      status: "Ongoing",
+      status: "Completed",
       image: "TC",
+      totalAmount: 1200,
     },
     {
       id: 2,
       brand: "Honda",
       model: "Accord",
       vehicleNumber: "ABC 5678",
-      status: "Ongoing",
+      status: "Pending",
       image: "HA",
+      totalAmount: 1500,
     },
     {
       id: 3,
       brand: "Ford",
       model: "Mustang",
       vehicleNumber: "LMN 9101",
-      status: "Ongoing",
+      status: "Pending",
       image: "FM",
+      totalAmount: 2000,
     },
     {
       id: 4,
       brand: "Chevrolet",
       model: "Camaro",
       vehicleNumber: "JKL 1213",
-      status: "Ongoing",
+      status: "Completed",
       image: "CC",
+      totalAmount: 1800,
     },
     {
       id: 5,
       brand: "BMW",
       model: "3 Series",
       vehicleNumber: "QRS 1415",
-      status: "Ongoing",
+      status: "Pending",
       image: "B3S",
+      totalAmount: 2200,
     },
     {
       id: 6,
       brand: "Audi",
       model: "A4",
       vehicleNumber: "TUV 1617",
-      status: "Ongoing",
+      status: "Pending",
       image: "AA4",
+      totalAmount: 2400,
     },
   ];
 
   const [bills, setBills] = useState(initialBills);
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
+  const [filter, setFilter] = useState("All");
 
-  const handleBrandChange = (e) => {
-    setSelectedBrand(e.target.value);
-  };
-
-  const handleModelChange = (e) => {
-    setSelectedModel(e.target.value);
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
   };
 
   const filteredBills = bills.filter((bill) => {
-    return (
-      (selectedBrand ? bill.brand === selectedBrand : true) &&
-      (selectedModel ? bill.model === selectedModel : true)
-    );
+    if (filter === "All") return true;
+    return bill.status === filter;
   });
-
-  const brands = [...new Set(initialBills.map((bill) => bill.brand))];
-  const models = [...new Set(initialBills.map((bill) => bill.model))];
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       <div className="flex items-start justify-between">
         <div className="max-w-lg">
           <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-            Billing
+            Customer Payments
           </h3>
         </div>
         <div className="mt-3 md:mt-0">
@@ -114,36 +110,15 @@ const Billing = () => {
       <div className="flex items-center justify-between mt-4 space-x-4">
         <div className="flex space-x-4">
           <select
-            value={selectedBrand}
-            onChange={handleBrandChange}
+            value={filter}
+            onChange={handleFilterChange}
             className="py-2 px-4 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
           >
-            <option value="">Select Brand</option>
-            {brands.map((brand) => (
-              <option key={brand} value={brand}>
-                {brand}
-              </option>
-            ))}
-          </select>
-          <select
-            value={selectedModel}
-            onChange={handleModelChange}
-            className="py-2 px-4 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-          >
-            <option value="">Select Model</option>
-            {models.map((model) => (
-              <option key={model} value={model}>
-                {model}
-              </option>
-            ))}
+            <option value="All">All</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
           </select>
         </div>
-        <a
-          href="/createbill"
-          className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2"
-        >
-          Create Bill
-        </a>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         {filteredBills.map((bill) => (
@@ -155,18 +130,35 @@ const Billing = () => {
               <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
                 {bill.image}
               </div>
-              <span className="text-yellow-500">{bill.status}</span>
+              <span
+                className={`${
+                  bill.status === "Completed"
+                    ? "bg-white text-green-500"
+                    : "bg-white text-yellow-500"
+                }`}
+              >
+                {bill.status}
+              </span>
             </div>
             <h2 className="text-xl font-bold">
               {bill.brand} {bill.model}
             </h2>
             <p className="text-gray-600">{bill.vehicleNumber}</p>
-            <div className="flex justify-end items-center w-full mt-4">
+            <p className="text-black font-bold mt-2">
+              Total Amount: LKR{bill.totalAmount}
+            </p>
+            <div className="flex justify-between items-center w-full mt-4">
+              <a
+                href="/payment"
+                className="py-2 px-4 text-white font-medium bg-green-600 hover:bg-green-500 active:bg-green-700 rounded-lg duration-150"
+              >
+                Payment
+              </a>
               <a
                 href="/viewbill"
                 className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
               >
-                View Bill
+                Edit Bill
               </a>
             </div>
           </div>
@@ -176,4 +168,4 @@ const Billing = () => {
   );
 };
 
-export default Billing;
+export default CustomerPayments;

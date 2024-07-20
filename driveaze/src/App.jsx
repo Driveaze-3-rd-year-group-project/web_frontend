@@ -26,10 +26,21 @@ import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
 import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
 import CustomerPayments from "./components/userpage/Receptionist/CustomerPayments";
+import Navbar from "./components/common/Navbar";
+
 
 function App() {
   return (
     <BrowserRouter>
+      <div
+        className={`content ${
+          !UserService.isAuthenticated() ? "w-full" : "w-full"
+        }`}
+      >
+        <div>
+          <Navbar />
+        </div>
+      </div>
       <div className="App flex">
         {UserService.isAuthenticated() && (
           <div className="w-72">

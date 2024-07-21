@@ -139,7 +139,7 @@ const Billing = () => {
           </select>
         </div>
         <a
-          href="/createbill"
+          href="/billing/createbill"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2"
         >
           Create Bill
@@ -151,20 +151,22 @@ const Billing = () => {
             key={bill.id}
             className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col items-start"
           >
-            <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
-              {bill.image}
+            <div className="flex justify-between items-center w-full">
+              <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
+                {bill.image}
+              </div>
+              <span className="text-yellow-500">{bill.status}</span>
             </div>
             <h2 className="text-xl font-bold">
               {bill.brand} {bill.model}
             </h2>
             <p className="text-gray-600">{bill.vehicleNumber}</p>
-            <div className="flex justify-between items-center w-full mt-4">
-              <span className="text-yellow-500">{bill.status}</span>
+            <div className="flex justify-end items-center w-full mt-4">
               <a
-                href="/viewbill"
+                href="/billing/viewbill"
                 className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
               >
-                View
+                View Bill
               </a>
             </div>
           </div>

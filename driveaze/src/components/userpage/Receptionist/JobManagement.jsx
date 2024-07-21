@@ -8,7 +8,7 @@ const JobManagement = () => {
   };
 
   const getStatusStyle = (status) => {
-    return status === "Completed" ? "text-green-600" : "text-yellow-500";
+    return status === "Completed" ? "text-green-500" : "text-yellow-500";
   };
 
   const tableItems = [
@@ -103,7 +103,7 @@ const JobManagement = () => {
           </select>
         </div>
         <a
-          href="/jobcreate"
+          href="/jobmanagement/createnewjob"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
           Create New Job
@@ -142,7 +142,7 @@ const JobManagement = () => {
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
                   <a
-                    href="/jobdetails"
+                    href="/jobmanagement/details"
                     className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
                   >
                     Details

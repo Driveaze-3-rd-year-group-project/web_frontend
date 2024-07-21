@@ -55,7 +55,7 @@ function RegistrationPage() {
             <div className="w-full space-y-6 text-gray-600 sm:max-w-md">
                 <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg min-w-full">
                     <div className="flex justify-end">
-                        <button className="text-gray-500 hover:text-gray-800" onClick={() => navigate('/')}>
+                        <button className="text-gray-500 hover:text-gray-800" onClick={() => location.href='/'}>
                             <FaArrowLeft />
                         </button>
                     </div>

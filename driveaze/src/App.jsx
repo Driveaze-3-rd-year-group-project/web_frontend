@@ -27,6 +27,7 @@ import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
 import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
 import Navbar from "./components/common/Navbar";
+import Footer from "./components/common/Footer";
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/" element={<Landingpage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegistrationPage />} />
+                <Route path="*" element={<Navigate to="/" />} />
               </>
             )}
 
@@ -128,9 +130,16 @@ function App() {
                 </>
               )}
             </Route>
-
-            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
+        </div>
+      </div>
+      <div
+        className={`content ${
+          !UserService.isAuthenticated() ? "w-full" : "w-full"
+        }`}
+      >
+        <div>
+          <Footer />
         </div>
       </div>
     </BrowserRouter>

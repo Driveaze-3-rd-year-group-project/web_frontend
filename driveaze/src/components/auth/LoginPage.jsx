@@ -18,7 +18,6 @@ function LoginPage() {
             if (userData.token) {
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-
                 location.href = '/dashboard';
                 
             } else {
@@ -39,7 +38,7 @@ function LoginPage() {
             <div className="w-full space-y-6 text-gray-600 sm:max-w-md">
                 <div className="bg-white shadow p-4 py-6  sm:p-6 sm:rounded-lg">
                     <div className="flex justify-end">
-                        <button className="text-gray-500 hover:text-gray-800" onClick={() => navigate('/')}>
+                        <button className="text-gray-500 hover:text-gray-800" onClick={() => location.href='/'}>
                             <FaArrowLeft />
                         </button>
                     </div>
@@ -62,7 +61,7 @@ function LoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border-gray-300 focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
                         <div>
@@ -74,7 +73,7 @@ function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border-gray-300 focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
                         <button
@@ -86,7 +85,7 @@ function LoginPage() {
                     </form>
                 </div>
                 <div className="text-center">
-                    <a href="javascript:void(0)" className="hover:text-indigo-600">Forgot password?</a>
+                    <a href="#" className="hover:text-indigo-600">Forgot password?</a>
                 </div>
             </div>
         </main>

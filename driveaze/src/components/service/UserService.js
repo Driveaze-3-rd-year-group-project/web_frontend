@@ -128,8 +128,6 @@ class UserService{
     static logout(){
         localStorage.removeItem('token');
         localStorage.removeItem('role');
-        // Navigate(`/`);
-        window.location.href = '/';
     }
 
     static isAuthenticated(){

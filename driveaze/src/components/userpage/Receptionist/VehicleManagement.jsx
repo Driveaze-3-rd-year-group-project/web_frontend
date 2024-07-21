@@ -86,15 +86,15 @@ const VehicleManagement = () => {
           </form>
         </div>
       </div>
-      <div className="flex justify-end mt-8">
+      <div className="flex justify-end mt-4">
         <a
-          href="/addvehicle"
+          href="/vehiclemanagement/addvehicle"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
           Add Vehicle
         </a>
       </div>
-      <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
+      <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
@@ -135,8 +135,8 @@ const VehicleManagement = () => {
                 </td>
                 <td className="text-left py-3 px-6 whitespace-nowrap">
                   <a
-                    href="/editvehicle"
-                    className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                    href="/vehiclemanagement/edit"
+                    className="py-2 px-4 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
                   >
                     Edit
                   </a>

@@ -16,7 +16,6 @@ import ReceptionistDashboard from "./components/userpage/Receptionist/Receptioni
 import JobManagement from "./components/userpage/Receptionist/JobManagement";
 import VehicleManagement from "./components/userpage/Receptionist/VehicleManagement";
 import BookingManagement from "./components/userpage/Receptionist/BookingManagement";
-import Payments from "./components/userpage/Receptionist/Payments";
 import Billing from "./components/userpage/Receptionist/Billing";
 import EditVehicle from "./components/userpage/Receptionist/EditVehicle";
 import JobDetails from "./components/userpage/Receptionist/JobDetails";
@@ -24,10 +23,27 @@ import JobCreate from "./components/userpage/Receptionist/JobCreate";
 import RepairVehicles from "./components/userpage/Supervisor/ReapairVehicles";
 import CustomerAccounts from "./components/userpage/Admin/CustomerAccounts";
 import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
+import CreateBill from "./components/userpage/Receptionist/CreateBill";
+import ViewBill from "./components/userpage/Receptionist/ViewBill";
+import CustomerPayments from "./components/userpage/Receptionist/CustomerPayments";
+import MakePayments from "./components/userpage/Receptionist/MakePayments";
+
+import Navbar from "./components/common/Navbar";
+import Footer from "./components/common/Footer";
+
 
 function App() {
   return (
     <BrowserRouter>
+      <div
+        className={`content ${
+          !UserService.isAuthenticated() ? "w-full" : "w-full"
+        }`}
+      >
+        <div>
+          <Navbar />
+        </div>
+      </div>
       <div className="App flex">
         {UserService.isAuthenticated() && (
           <div className="w-72">
@@ -45,6 +61,7 @@ function App() {
                 <Route path="/" element={<Landingpage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegistrationPage />} />
+                <Route path="*" element={<Navigate to="/" />} />
               </>
             )}
 
@@ -73,6 +90,7 @@ function App() {
                   <Route path="/dashboard" element={<CustomerDashboard />} />
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
               {!UserService.isSupervisor() ? (
@@ -85,6 +103,7 @@ function App() {
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
               {!UserService.isReceptionist() ? (
@@ -99,21 +118,32 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
-                  <Route path="/jobcreate" element={<JobCreate />} />
-                  <Route path="/jobdetails" element={<JobDetails />} />
+                  <Route path="/jobmanagement/createnewjob" element={<JobCreate />} />
+                  <Route path="/jobmanagement/details" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
-                  <Route path="/editvehicle" element={<EditVehicle />} />
+                  <Route path="/vehiclemanagement/addvehicle" element={<AddVehicle />} />
+                  <Route path="/vehiclemanagement/edit" element={<EditVehicle />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
-                  <Route path="/payments" element={<Payments />} />
-                  <Route path="/addvehicle" element={<AddVehicle />} />
+                  <Route path="/billing/createbill" element={<CreateBill />} />
+                  <Route path="/billing/viewbill" element={<ViewBill />} />
+                  <Route path="/customerpayments" element={<CustomerPayments />} />
+                  <Route path="/customerpayments/editbill" element={<ViewBill />} />
+                  <Route path="/customerpayments/payment" element={<MakePayments />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
             </Route>
-
-            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
+        </div>
+      </div>
+      <div
+        className={`content ${
+          !UserService.isAuthenticated() ? "w-full" : "w-full"
+        }`}
+      >
+        <div>
+          <Footer />
         </div>
       </div>
     </BrowserRouter>

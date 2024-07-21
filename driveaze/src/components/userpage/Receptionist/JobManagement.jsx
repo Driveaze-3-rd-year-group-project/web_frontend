@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 const JobManagement = () => {
-  const [filter, setFilter] = React.useState("all");
+  const [filter, setFilter] = useState("all");
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
   const getStatusStyle = (status) => {
-    return status === "Completed" ? "text-green-600" : "text-blue-600";
+    return status === "Completed" ? "text-green-500" : "text-yellow-500";
   };
 
   const tableItems = [
@@ -44,10 +44,17 @@ const JobManagement = () => {
     },
   ];
 
+  const filteredItems = tableItems.filter((item) => {
+    if (filter === "all") return true;
+    if (filter === "ongoing") return item.status === "Ongoing";
+    if (filter === "completed") return item.status === "Completed";
+    return true;
+  });
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       {/* Updated header section */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-1">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Job Management
         </h3>
@@ -84,7 +91,7 @@ const JobManagement = () => {
 
       <div className="flex justify-between items-center mb-3">
         <div className="flex flex-col">
-          <label className="font-medium mb-2">Filter Jobs</label>
+          <label className="font-medium mb-1">Filter Jobs</label>
           <select
             value={filter}
             onChange={handleFilterChange}
@@ -96,14 +103,14 @@ const JobManagement = () => {
           </select>
         </div>
         <a
-          href="/jobcreate"
+          href="/jobmanagement/createnewjob"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
           Create New Job
         </a>
       </div>
 
-      <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
+      <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
@@ -115,7 +122,7 @@ const JobManagement = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {tableItems.map((item, index) => (
+            {filteredItems.map((item, index) => (
               <tr key={index} className="hover:bg-gray-100">
                 <td className="py-3 px-6 whitespace-nowrap">
                   {item.vehicleNumber}
@@ -135,7 +142,7 @@ const JobManagement = () => {
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
                   <a
-                    href="/jobdetails"
+                    href="/jobmanagement/details"
                     className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
                   >
                     Details

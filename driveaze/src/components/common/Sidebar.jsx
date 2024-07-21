@@ -49,7 +49,7 @@ function Sidebar() {
         <>
             <nav
                 className="fixed top-0 left-0 w-full h-full border-r bg-deepblue space-y-8 sm:w-72 z-10">
-                <div class="flex flex-col h-full">
+                <div className="flex flex-col h-full">
                     <div className='h-20 flex items-center px-8'>
                         <a href='/dashboard' className='flex-none'>
                             <img src="./src/assets/driveazeheader3.svg" width={190} className="mx-auto mt-12" />

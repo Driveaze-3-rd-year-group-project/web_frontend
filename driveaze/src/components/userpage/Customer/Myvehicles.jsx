@@ -10,7 +10,7 @@ const Myvehicles = ({ brand, vehi_no }) => {
 
   const members = [
     {
-      logo: "https://image.similarpng.com/very-thumbnail/2020/09/Toyota-logo-icon-on-transparent-background-PNG.png",
+      logo: "https://cdn.iconscout.com/icon/free/png-512/free-toyota-1-202914.png?f=webp&w=256",
       brand: "Toyota-Corolla",
       vehi_no: "WP-8721",
       color:"white",
@@ -18,7 +18,7 @@ const Myvehicles = ({ brand, vehi_no }) => {
       registered_date:"01/01/2023"
     },
     {
-      logo: "https://image.similarpng.com/very-thumbnail/2020/06/Logo-bmw-vector-transparent-PNG.png",
+      logo: "https://cdn.iconscout.com/icon/free/png-512/free-bmw-4-202746.png?f=webp&w=256",
       brand: "BMW-X3",
       vehi_no: "CBH-1312",
       color:"blue",
@@ -26,7 +26,7 @@ const Myvehicles = ({ brand, vehi_no }) => {
       registered_date:"01/01/2023"
     },
     {
-      logo: "https://image.similarpng.com/very-thumbnail/2020/09/Nissan-logo-icon-on-transparent-background-PNG.png",
+      logo: "https://cdn.iconscout.com/icon/free/png-512/free-nissan-5-202859.png?f=webp&w=256",
       brand: "Nissan-Caravan",
       vehi_no: "NC-9033",
       color:"white",
@@ -47,7 +47,7 @@ const Myvehicles = ({ brand, vehi_no }) => {
         {members.map((item, idx) => (
           <li key={idx} className="py-5 flex items-start justify-between">
             <div className="flex gap-3">
-              <img src={item.logo} className="flex-none w-12 h-12 rounded-full" />
+              <img src={item.logo} className="flex-none w-12 h-12 rounded" />
               <div>
                 <span className="block text-sm text-gray-700 font-semibold">{item.brand}</span>
                 <span className="block text-sm text-gray-600">{item.vehi_no}</span>

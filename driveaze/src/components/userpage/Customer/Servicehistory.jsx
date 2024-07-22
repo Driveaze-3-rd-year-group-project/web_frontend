@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 const ServiceHistory = () => {
   const location = useLocation();
-  const { brand, model } = location.state || {}; // Make sure to use the correct keys
+  const { brand, vehi_no } = location.state || {}; // Make sure to use the correct keys
 
   const [expandedRows, setExpandedRows] = useState({}); // State to track expanded rows
 
@@ -35,10 +35,10 @@ const ServiceHistory = () => {
         <div>
           <h1 className="text-2xl font-bold">{brand}</h1>
           <p className="text-gray-600">
-            {model || "No model available."}
+            {vehi_no || "No vehi_no available."}
           </p>
         </div>
-        <button className="bg-deepblue hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
+        <button className="text-white bg-indigo-600 rounded duration-150 hover:bg-indigo-500 active:bg-indigo-700 font-bold py-2 px-4 rounded">
           Download service history
         </button>
       </div>
@@ -51,7 +51,7 @@ const ServiceHistory = () => {
               <tr>
                 <th className="text-deepblue bg-dered font-bold py-3 px-6">Service Number</th>
                 <th className="text-deepblue  bg-dered font-bold py-3 px-6">Date</th>
-                <th className="text-deepblue  bg-dered font-bold py-3 px-6">Title</th>
+                <th className="text-deepblue  bg-dered font-bold py-3 px-6">Summary</th>
                 <th className="text-deepblue  bg-dered font-bold py-3 px-6"></th>
               </tr>
             </thead>
@@ -59,12 +59,12 @@ const ServiceHistory = () => {
               {tableItems.map((item, idx) => (
                 <React.Fragment key={idx}>
                   <tr>
-                    <td className="bg-deepblue text-white px-6 py-4 whitespace-nowrap">{item.SN}</td>
-                    <td className="bg-deepblue text-white px-6 py-4 whitespace-nowrap">{item.Date}</td>
-                    <td className="bg-deepblue text-white px-6 py-4 whitespace-nowrap">{item.title}</td>
-                    <td className="bg-deepblue text-white px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap">{item.SN}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.Date}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.title}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <button
-                        className="bg-dered hover:bg-blue-700 px-3 py-1 rounded font-bold text-white"
+                        className="text-sm text-white duration-150 bg-indigo-600 rounded-full hover:bg-indigo-500 active:bg-indigo-700hover:bg-blue-700 px-3 py-1 rounded font-bold"
                         onClick={() => handleRowClick(idx)}
                       >
                         {expandedRows[idx] ? 'Collapse' : 'Details'}
@@ -74,7 +74,7 @@ const ServiceHistory = () => {
                   <tr>
                     <td colSpan="4" className="border-1  border-black px-6 py-0 whitespace-nowrap">
                       <div className={`transition-all duration-300 ease-in-out overflow-hidden ${expandedRows[idx] ? 'max-h-40' : 'max-h-0'}`}>
-                        <p className="text-deepblue p-4">{item.content}</p>
+                        <p className="text-deepblue font-bold  p-4">{item.content}</p>
                       </div>
                     </td>
                   </tr>

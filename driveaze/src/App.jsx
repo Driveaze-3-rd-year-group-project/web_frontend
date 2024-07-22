@@ -30,6 +30,13 @@ import MakePayments from "./components/userpage/Receptionist/MakePayments";
 
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
+import Myvehicles from "./components/userpage/Customer/Myvehicles";
+import VehicleInfo from "./components/userpage/Customer/Vehicleinfo";
+import ServiceHistory from "./components/userpage/Customer/Servicehistory";
+import Upcomingservices from "./components/userpage/Customer/upcomingservices";
+import NewService from "./components/userpage/Customer/newservice";
+import Billings from "./components/userpage/Customer/Billings";
+import Billinfo from "./components/userpage/Customer/Billinfo";
 
 
 function App() {
@@ -88,6 +95,13 @@ function App() {
               ) : (
                 <>
                   <Route path="/dashboard" element={<CustomerDashboard />} />
+                  <Route path="/myvehicles" element={<Myvehicles/>} />
+                  <Route path="/vehicleinfo" element={<VehicleInfo/>} />
+                  <Route path="/billings" element={<Billings/>} />
+                  <Route path="/newservice" element={<NewService/>} />
+                  <Route path="/billinfo" element={<Billinfo/>} />
+                  <Route path="/servicehistory" element={<ServiceHistory/>} />
+                  <Route path="/upcomingservices" element={<Upcomingservices/>} />
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />

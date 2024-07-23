@@ -21,7 +21,7 @@ class UserService{
         try{
 
             const response = await axios.post(`${UserService.BASE_URL}/auth/customer-register`, {
-                userData
+                userData //methana awla
             });
             return response.data;
             
@@ -33,8 +33,7 @@ class UserService{
     static async employeerRegister(userData, token){
         try{
 
-            const response = await axios.post(`${UserService.BASE_URL}/auth/register`, {
-                userData,
+            const response = await axios.post(`${UserService.BASE_URL}/auth/register`, userData, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             return response.data;
@@ -128,8 +127,6 @@ class UserService{
     static logout(){
         localStorage.removeItem('token');
         localStorage.removeItem('role');
-        // Navigate(`/`);
-        window.location.href = '/';
     }
 
     static isAuthenticated(){

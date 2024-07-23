@@ -2,8 +2,8 @@ import React from 'react'
 
 const CustomerDashboard = () => {
   return (
-    <div>CustomerDashboard</div>
-  )
-}
+   <div>Customer Dashborad</div>
+  );
+};
 
 export default CustomerDashboard

@@ -11,6 +11,7 @@ import AdminDashboard from './components/userpage/Admin/AdminDashboard';
 import StaffAccounts from './components/userpage/Admin/StaffAccounts';
 import SupervisorDashboard from './components/userpage/Supervisor/SupervisorDashboard';
 import RepairVehicles from './components/userpage/Supervisor/RepairVehicles';
+import VehicleHistory from './components/userpage/Supervisor/VehicleHistory';
 import CustomerDashboard from './components/userpage/Customer/CustomerDashboard';
 
 import ReceptionistDashboard from './components/userpage/Receptionist/ReceptionistDashboard';
@@ -81,6 +82,7 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<SupervisorDashboard />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
+                  <Route path="/vehiclehistory" element={<VehicleHistory />} />
                 </>
               )}
               {!UserService.isReceptionist() ? (
@@ -97,7 +99,7 @@ function App() {
                   <Route path="/jobmanagement" element={<JobManagement />} />
 
                   <Route path="/vehiclemanagement" element={<VehicleManagement />} />          
-=======
+
                   <Route path="/vehiclemanagement" element={<VehicleManagement />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />

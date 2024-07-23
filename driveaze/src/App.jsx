@@ -10,6 +10,7 @@ import Sidebar from "./components/common/Sidebar";
 import AdminDashboard from "./components/userpage/Admin/AdminDashboard";
 import StaffAccounts from "./components/userpage/Admin/StaffAccounts";
 import SupervisorDashboard from "./components/userpage/Supervisor/SupervisorDashboard";
+import VehicleHistory from './components/userpage/Supervisor/VehicleHistory';
 import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
 
 import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
@@ -119,6 +120,7 @@ function App() {
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
+                  <Route path="/vehiclehistory" element={<VehicleHistory />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

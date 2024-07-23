@@ -3,36 +3,26 @@ import React, { useState } from 'react'
 const RepairVehicles = () => {
   //
   const [searchTerm, setSearchTerm] = useState('');
-  const tableItems = [
+  const members = [
     {
-      vehicleID: "V001",
       numberPlate: "ABC-1234",
-      vehicleType: "Car",
-      owner: "Liam James"
+      vehicleModel: "Toyota Corolla"
     },
     {
-      vehicleID: "V002",
       numberPlate: "XYZ-5678",
-      vehicleType: "Motorbike",
-      owner: "Olivia Emma"
+      vehicleModel: "Honda CBR"
     },
     {
-      vehicleID: "V003",
       numberPlate: "LMN-2468",
-      vehicleType: "Truck",
-      owner: "William Benjamin"
+      vehicleModel: "Ford F-150"
     },
     {
-      vehicleID: "V004",
       numberPlate: "QRS-1357",
-      vehicleType: "Van",
-      owner: "Henry Theodore"
+      vehicleModel: "Mercedes Sprinter"
     },
     {
-      vehicleID: "V005",
       numberPlate: "TUV-9753",
-      vehicleType: "SUV",
-      owner: "Amelia Elijah"
+      vehicleModel: "BMW X5"
     },
 ]
 //
@@ -67,58 +57,33 @@ return (
 
                     </div>
                 </form>
-                
-              {/* <button
-                className="px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
-              >
-                Search
-              </button> */}
                   
             </div>
         </div>
-        <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
-            <table className="w-full table-auto text-sm text-left">
-                <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                    <tr>
-                        <th className="py-3 px-6">Vehicle ID</th>
-                        <th className="py-3 px-6">Number Plate</th>
-                        <th className="py-3 px-6">Vehicle Type</th>
-                        <th className="py-3 px-6">Owner</th>
-                        <th className="py-3 px-6">Action</th>
+          <ul className="mt-12 divide-y">
+              {
+                  members
+                  
+                  .filter((item) =>
+                    item.numberPlate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.vehicleModel.toLowerCase().includes(searchTerm.toLowerCase()) 
+                  )
+                  
+                  .map((item, idx) => (
+                    <li key={idx} className="px-4 py-3 flex items-start justify-between">
+                      <div className="flex flex-col gap-1">
+                        <span className="block text-lg text-gray-700 font-semibold">{item.numberPlate}</span>
+                        <span className="block text-md text-gray-600">{item.vehicleModel}</span>
+                      </div>
+                      
+                      {/* <a href="/edit-profile" className="text-gray-700 text-sm border rounded-lg px-2 py-2 duration-150 bg-white hover:bg-gray-100 mr-5">Update</a> */}
+                      <a href="/vehiclehistory" className="py-2 px-2 font-medium text-indigo-600 hover:text-indigo-500 border duration-150 hover:bg-gray-50 rounded-lg">Update</a>
+                    </li>
 
-                    </tr>
-                </thead>
-                <tbody className="text-gray-600 divide-y">
-                    {tableItems
-                    
-                    .filter((item) =>
-                      item.vehicleID.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                      item.numberPlate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                      item.vehicleType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                      item.owner.toLowerCase().includes(searchTerm.toLowerCase())
-                    )
-                    
-                    .map((item, idx) => (
-                            <tr key={idx}>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.vehicleID}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.numberPlate}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.vehicleType}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.owner}</td>
-                                <td className="text-left px-6 whitespace-nowrap">
-                                    <a href="javascript:void()" className="py-2 px-2 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
-                                        History
-                                    </a>
-                                    {/* <button href="javascript:void()" className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
-                                        Delete
-                                    </button> */}
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+                  ))
+              }
+          </ul>
         </div>
-    </div>
 )
 }
 

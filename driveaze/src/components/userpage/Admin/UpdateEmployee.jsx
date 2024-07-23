@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import UserService from '../../service/UserService';
-import { NULL } from 'sass';
 
-function AddEditEmployee() {
+function UpdateEmployee() {
     const navigate = useNavigate();
     const { userId } = useParams();
   
@@ -23,6 +22,7 @@ function AddEditEmployee() {
       try {
         const token = localStorage.getItem('token');
         const response = await UserService.getUserById(userId, token); // Pass userId to getUserById
+        console.log(response);
         const { name, email, role, city } = response.ourUsers;
         setUserData({ name, email, role, city });
       } catch (error) {
@@ -42,13 +42,13 @@ function AddEditEmployee() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const confirmDelete = window.confirm('Are you sure you want to delete this user?');
-        if (confirmDelete) {
+        const confirmUpdate = window.confirm('Are you sure you want to Update this user?');
+        if (confirmUpdate) {
           const token = localStorage.getItem('token');
           const res = await UserService.updateUser(userId, userData, token);
           console.log(res)
           // Redirect to profile page or display a success message
-          navigate("/admin/user-management")
+          navigate("/staffaccounts");
         }
   
       } catch (error) {
@@ -118,4 +118,4 @@ function AddEditEmployee() {
     );
   }
 
-export default AddEditEmployee;
+export default UpdateEmployee;

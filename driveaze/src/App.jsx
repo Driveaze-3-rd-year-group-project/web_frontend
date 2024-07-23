@@ -37,6 +37,7 @@ import Upcomingservices from "./components/userpage/Customer/upcomingservices";
 import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
+import AddEditEmployee from "./components/userpage/Admin/AddEditEmployee";
 
 
 function App() {
@@ -85,6 +86,7 @@ function App() {
                   <Route path="/dashboard" element={<AdminDashboard />} />
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
                   <Route path="/customeraccounts" element={<CustomerAccounts />} />
+                  <Route path="/update-user/:userId" element={<AddEditEmployee />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

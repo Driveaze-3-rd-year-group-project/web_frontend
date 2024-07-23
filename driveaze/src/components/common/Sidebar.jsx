@@ -29,14 +29,13 @@ function Sidebar() {
     const handleLogout = () => {
         const confirmDelete = window.confirm('Are you sure you want to logout this user?');
         if (confirmDelete) {
+            location.href = '/';
             UserService.logout();
             setIsAuthenticated(false);
             setIsAdmin(false);
             setIsCustomer(false);
             setIsReceptionist(false);
             setIsSupervisor(false);
-            location.href = '/';
-            location.reload();
         }
     };
 
@@ -271,7 +270,7 @@ function Sidebar() {
                                             </div>
                                             <p className="flex-1">Settings</p>
                                         </a>
-                                        <a href='/' onClick={handleLogout} className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-driveazered active:bg-gray-100 duration-150">
+                                        <a  onClick={handleLogout} className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-driveazered active:bg-gray-100 duration-150">
                                             <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                             <div className="flex-none">
                                                 <FaSignOutAlt />

@@ -2,52 +2,73 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import UserService from '../../service/UserService';
 
-function EmployeeRegister() {
+function RegisterEmployee() {
     const navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        role: '',
-        city: ''
+    const [error, setError] = useState('');
+  
+  
+    const [userData, setUserData] = useState({
+      name: '',
+      email: '',
+      role: '',
+      password: '',
     });
-
+  
+   
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+      const { name, value } = e.target;
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [name]: value
+      }));
     };
+  
+    // const handleSubmit = async (e) => {
+    //   e.preventDefault();
+    //   try {
+    //     const confirmUpdate = window.confirm('Are you sure you want to Update this user?');
+    //     if (confirmUpdate) {
+    //       const token = localStorage.getItem('token');
+    //       const res = await UserService.updateUser(userId, userData, token);
+    //       console.log(res)
+    //       // Redirect to profile page or display a success message
+    //       navigate("/staffaccounts");
+    //     }
+  
+    //   } catch (error) {
+    //     console.error('Error updating user profile:', error);
+    //     alert(error)
+    //   }
+    // };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            // Call the register method from UserService
-
-            const token = localStorage.getItem('token');
-            await UserService.register(formData, token);
-
-            // Clear the form fields after successful registration
-            setFormData({
-                name: '',
-                email: '',
-                password: '',
-                role: ''
-            });
-            alert('User registered successfully');
-            navigate('/admin/user-management');
-
-        } catch (error) {
-            console.error('Error registering user:', error);
-            alert('An error occurred while registering user');
+      e.preventDefault();
+     
+      try {
+        const token = localStorage.getItem('token');
+        const res = await UserService.employeeRegister(userData, token);
+        console.log(res);
+        
+        if (res.statusCode === 200) {
+            alert('Staff Account created successfully');
+            navigate("/staffaccounts");
+        } else {
+            setError(res.message);
         }
-    };
+    } catch (error) {
+        setError(error.message);
+        setTimeout(() => {
+            setError('');
+        }, 5000);
+    }
+  }
   
     return (
     <main className="py-14">
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
             <div className="max-w-lg mx-auto space-y-3 sm:text-center">
-            <h3 className="text-indigo-600 font-semibold">
-                Update User Details
+            <h3 className="text-indigo-600 font-semibold text-xl">
+                Create Staff Account
             </h3>
             </div>
             <div className="mt-12 max-w-lg mx-auto">
@@ -61,6 +82,7 @@ function EmployeeRegister() {
                             onChange={handleInputChange} 
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                            placeholder='Enter staff member Name'
                         />
                     </div>
                     <div className="form-group">
@@ -72,6 +94,7 @@ function EmployeeRegister() {
                             onChange={handleInputChange} 
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                            placeholder='Enter staff member Email'
                         />
                     </div>
                     <div className="form-group">
@@ -99,13 +122,25 @@ function EmployeeRegister() {
                             onChange={handleInputChange} 
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                            placeholder='Enter a password'
                         />
                     </div>
-                    <button 
-                        type="submit"
-                        className="px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150">
-                            Update
-                    </button>
+                    <div className="flex items-center justify-between mt-6">
+                        <a
+                            href="/staffaccounts"
+                            className="px-20 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 mt-6 rounded-lg duration-150"
+                        >
+                            Back
+                        </a>
+                        <button
+                            type="submit"
+                            className="px-20 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
+                        >
+                            Save
+                        </button>    
+                    </div>
+                    {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+                    
                 </form>
             </div>
         </div>
@@ -114,4 +149,4 @@ function EmployeeRegister() {
     );
   }
 
-export default EmployeeRegister;
+export default RegisterEmployee;

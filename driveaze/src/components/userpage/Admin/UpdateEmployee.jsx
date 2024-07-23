@@ -11,7 +11,7 @@ function UpdateEmployee() {
       name: '',
       email: '',
       role: '',
-      city: ''
+      password: '',
     });
   
     useEffect(() => {
@@ -23,8 +23,8 @@ function UpdateEmployee() {
         const token = localStorage.getItem('token');
         const response = await UserService.getUserById(userId, token); // Pass userId to getUserById
         console.log(response);
-        const { name, email, role, city } = response.ourUsers;
-        setUserData({ name, email, role, city });
+        const { name, email, role } = response.ourUsers;
+        setUserData({ name, email, role});
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -61,7 +61,7 @@ function UpdateEmployee() {
     <main className="py-14">
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
             <div className="max-w-lg mx-auto space-y-3 sm:text-center">
-            <h3 className="text-indigo-600 font-semibold">
+            <h3 className="text-indigo-600 font-semibold text-xl">
                 Update User Details
             </h3>
             </div>
@@ -76,6 +76,7 @@ function UpdateEmployee() {
                             onChange={handleInputChange} 
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                            placeholder='Enter staff member Name'
                         />
                     </div>
                     <div className="form-group">
@@ -87,6 +88,7 @@ function UpdateEmployee() {
                             onChange={handleInputChange} 
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                            placeholder='Enter staff member Email'
                         />
                     </div>
                     <div className="form-group">
@@ -105,11 +107,33 @@ function UpdateEmployee() {
                             <option value="RECEPTIONIST">RECEPTIONIST</option>
                         </select>
                     </div>
-                    <button 
-                        type="submit"
-                        className="px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150">
-                            Update
-                    </button>
+                    <div className="form-group">
+                        <label className="font-medium">Password:</label>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            value={userData.password} 
+                            onChange={handleInputChange} 
+                            required
+                            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                            placeholder='Enter a password'
+                        />
+                    </div>
+                    <div className="flex items-center justify-between mt-6">
+                        <a
+                            href="/staffaccounts"
+                            className="px-20 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 mt-6 rounded-lg duration-150"
+                        >
+                            Back
+                        </a>
+                        <button
+                            type="submit"
+                            className="px-20 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
+                        >
+                            Save
+                        </button>    
+                    </div>
+                    
                 </form>
             </div>
         </div>

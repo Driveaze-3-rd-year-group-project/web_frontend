@@ -11,6 +11,14 @@ function RegistrationPage() {
         password: '',
         contactNumber: ''
     });
+
+    // const [userData, setUserData] = useState({
+    //     name: '',
+    //     email: '',
+    //     password: '',
+    //     contactNumber: ''
+    //   });
+    
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [contactError, setContactError] = useState('');
@@ -34,13 +42,14 @@ function RegistrationPage() {
         e.preventDefault();
 
         try {
-            const userData = await UserService.login(email, password);
-            console.log(Response);
-            if (userData.token) {
+            const res = await UserService.customerRegister(formData);
+            console.log(res);
+            
+            if (res.statusCode === 200) {
                 alert('User registered successfully');
                 window.location.href = '/login';
             } else {
-                setError(userData.message);
+                setError(res.message);
             }
         } catch (error) {
             setError(error.message);
@@ -49,6 +58,24 @@ function RegistrationPage() {
             }, 5000);
         }
     }
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //       const confirmUpdate = window.confirm('Are you sure you want to Update this user?');
+    //       if (confirmUpdate) {
+    //         const token = localStorage.getItem('token');
+    //         const res = await UserService.updateUser(userId, userData, token);
+    //         console.log(res)
+    //         // Redirect to profile page or display a success message
+    //         navigate("/staffaccounts");
+    //       }
+    
+    //     } catch (error) {
+    //       console.error('Error updating user profile:', error);
+    //       alert(error)
+    //     }
+    //   };
 
     return (
         <main className="w-full h-screen flex flex-col items-center justify-center bg-gray-100 sm:px-4">

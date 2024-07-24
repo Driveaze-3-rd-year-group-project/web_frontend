@@ -59,11 +59,8 @@ const JobDetails = () => {
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Job Details
         </h3>
-        <button className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
-          Manage
-        </button>
       </div>
-      <div className="bg-white shadow-lg rounded-lg p-6">
+      <div className="bg-white">
         <div className="mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>

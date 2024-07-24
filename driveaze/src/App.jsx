@@ -38,6 +38,9 @@ import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
 import AddEditEmployee from "./components/userpage/Admin/AddEditEmployee";
+import SupplierPayments from "./components/userpage/Receptionist/SupplierPayments";
+import AddSupplier from "./components/userpage/Receptionist/AddSupplier";
+import ManageSupplier from "./components/userpage/Receptionist/ManageSupplier";
 
 
 function App() {
@@ -146,6 +149,9 @@ function App() {
                   <Route path="/customerpayments" element={<CustomerPayments />} />
                   <Route path="/customerpayments/editbill" element={<ViewBill />} />
                   <Route path="/customerpayments/payment" element={<MakePayments />} />
+                  <Route path="/supplierpayments" element={<SupplierPayments />} />
+                  <Route path="/supplierpayments/addsupplier" element={<AddSupplier />} />
+                  <Route path="/supplierpayments/manage" element={<ManageSupplier />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

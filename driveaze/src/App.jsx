@@ -10,6 +10,7 @@ import Sidebar from "./components/common/Sidebar";
 import AdminDashboard from "./components/userpage/Admin/AdminDashboard";
 import StaffAccounts from "./components/userpage/Admin/StaffAccounts";
 import SupervisorDashboard from "./components/userpage/Supervisor/SupervisorDashboard";
+import VehicleHistory from './components/userpage/Supervisor/VehicleHistory';
 import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
 
 import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
@@ -27,6 +28,10 @@ import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
 import CustomerPayments from "./components/userpage/Receptionist/CustomerPayments";
 import MakePayments from "./components/userpage/Receptionist/MakePayments";
+import SupplierPayments from "./components/userpage/Receptionist/SupplierPayments";
+import AddSupplier from "./components/userpage/Receptionist/AddSupplier";
+import ManageSupplier from "./components/userpage/Receptionist/ManageSupplier";
+
 
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
@@ -37,10 +42,11 @@ import Upcomingservices from "./components/userpage/Customer/upcomingservices";
 import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
+
 import AddEditEmployee from "./components/userpage/Admin/AddEditEmployee";
-import SupplierPayments from "./components/userpage/Receptionist/SupplierPayments";
-import AddSupplier from "./components/userpage/Receptionist/AddSupplier";
-import ManageSupplier from "./components/userpage/Receptionist/ManageSupplier";
+import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
+import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
+import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
 
 
 function App() {
@@ -89,7 +95,9 @@ function App() {
                   <Route path="/dashboard" element={<AdminDashboard />} />
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
                   <Route path="/customeraccounts" element={<CustomerAccounts />} />
-                  <Route path="/update-user/:userId" element={<AddEditEmployee />} />
+                  <Route path="/update-user/:userId" element={<UpdateEmployee />} />
+                  <Route path="/register-employee" element={<RegisterEmployee />} />
+                  <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -122,6 +130,7 @@ function App() {
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
+                  <Route path="/vehiclehistory" element={<VehicleHistory />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

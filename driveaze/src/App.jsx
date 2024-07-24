@@ -40,7 +40,8 @@ import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
 import EmployeeRegister from "./components/userpage/Admin/EmployeeRegister";
-
+import Ongoingjobs from "./components/userpage/Admin/OngoingJobs";
+import ManageOg from "./components/userpage/Admin/ManageOg";
 
 function App() {
   return (
@@ -90,6 +91,8 @@ function App() {
                   <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="/update-user/:userId" element={<UpdateEmployee />} />
                   <Route path="/employee-register" element={<EmployeeRegister />} />
+                  <Route path="/ongoingjobs" element={<Ongoingjobs />} />
+                  <Route path="/manageog" element={<ManageOg />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

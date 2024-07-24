@@ -46,7 +46,7 @@ function StaffAccounts() {
                       Staff Accounts
                   </h3>
                   <p className="text-gray-600 mt-2">
-                      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Edit details of staff members
                   </p>
               </div>
               <div className="mt-3 md:mt-0">

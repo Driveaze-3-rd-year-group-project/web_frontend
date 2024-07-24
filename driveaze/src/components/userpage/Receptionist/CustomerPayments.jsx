@@ -87,15 +87,26 @@ const CustomerPayments = () => {
   const [bills, setBills] = useState(initialBills);
   const [filter, setFilter] = useState("All");
   const [selectedBill, setSelectedBill] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
-  const filteredBills = bills.filter((bill) => {
-    if (filter === "All") return true;
-    return bill.status === filter;
-  });
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredBills = bills
+    .filter((bill) => {
+      if (filter !== "All" && bill.status !== filter) return false;
+      if (searchTerm && !(
+        bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.model.toLowerCase().includes(searchTerm.toLowerCase())
+      )) return false;
+      return true;
+    });
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
@@ -108,10 +119,7 @@ const CustomerPayments = () => {
               </h3>
             </div>
             <div className="mt-3 md:mt-0">
-              <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex max-w-md mx-auto"
-              >
+              <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
                 <div className="relative w-full">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -130,6 +138,8 @@ const CustomerPayments = () => {
                   <input
                     type="text"
                     placeholder="Search"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
                     className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
                   />
                 </div>

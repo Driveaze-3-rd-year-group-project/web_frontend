@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 const VehicleManagement = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   const tableItems = [
     {
       vehicleNumber: "ABC-1234",
@@ -49,6 +55,15 @@ const VehicleManagement = () => {
     },
   ];
 
+  // Filter table items based on search term
+  const filteredItems = tableItems.filter((item) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      item.vehicleNumber.toLowerCase().includes(term) ||
+      item.ownerName.toLowerCase().includes(term)
+    );
+  });
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       <div className="flex items-start justify-between">
@@ -58,10 +73,7 @@ const VehicleManagement = () => {
           </h3>
         </div>
         <div className="mt-3 md:mt-0">
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="flex max-w-md mx-auto"
-          >
+          <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
             <div className="relative w-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -80,6 +92,8 @@ const VehicleManagement = () => {
               <input
                 type="text"
                 placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
                 className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
               />
             </div>
@@ -108,7 +122,7 @@ const VehicleManagement = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {tableItems.map((item, idx) => (
+            {filteredItems.map((item, idx) => (
               <tr key={idx} className="hover:bg-gray-100">
                 <td className="py-3 px-6 whitespace-nowrap">
                   {item.vehicleNumber}

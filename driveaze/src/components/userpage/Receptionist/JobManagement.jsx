@@ -2,13 +2,41 @@ import React, { useState } from "react";
 
 const JobManagement = () => {
   const [filter, setFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   const getStatusStyle = (status) => {
     return status === "Completed" ? "text-green-500" : "text-yellow-500";
+  };
+
+  const vehicleData = {
+    "ABC-1234": {
+      model: "Toyota Corolla",
+      avatar: "https://via.placeholder.com/150?text=TC",
+    },
+    "DEF-5678": {
+      model: "Honda Civic",
+      avatar: "https://via.placeholder.com/150?text=HC",
+    },
+    "GHI-9101": {
+      model: "Ford Focus",
+      avatar: "https://via.placeholder.com/150?text=FF",
+    },
+    "JKL-1213": {
+      model: "Chevrolet Malibu",
+      avatar: "https://via.placeholder.com/150?text=CM",
+    },
+    "MNO-1415": {
+      model: "Nissan Altima",
+      avatar: "https://via.placeholder.com/150?text=NA",
+    },
   };
 
   const tableItems = [
@@ -45,15 +73,22 @@ const JobManagement = () => {
   ];
 
   const filteredItems = tableItems.filter((item) => {
-    if (filter === "all") return true;
-    if (filter === "ongoing") return item.status === "Ongoing";
-    if (filter === "completed") return item.status === "Completed";
-    return true;
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "ongoing" && item.status === "Ongoing") ||
+      (filter === "completed" && item.status === "Completed");
+
+    const matchesSearch =
+      item.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (vehicleData[item.vehicleNumber]?.model || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+
+    return matchesFilter && matchesSearch;
   });
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
-      {/* Updated header section */}
       <div className="flex justify-between items-center mb-1">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Job Management
@@ -81,13 +116,14 @@ const JobManagement = () => {
               <input
                 type="text"
                 placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
                 className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
               />
             </div>
           </form>
         </div>
       </div>
-      {/* End of updated header section */}
 
       <div className="flex justify-between items-center mb-3">
         <div className="flex flex-col">
@@ -115,6 +151,7 @@ const JobManagement = () => {
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
               <th className="py-3 px-6">Vehicle Number</th>
+              <th className="py-3 px-6">Vehicle Model</th>
               <th className="py-3 px-6">Job Started Date</th>
               <th className="py-3 px-6">Assigned Supervisor</th>
               <th className="py-3 px-6">Status</th>
@@ -122,34 +159,45 @@ const JobManagement = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {filteredItems.map((item, index) => (
-              <tr key={index} className="hover:bg-gray-100">
-                <td className="py-3 px-6 whitespace-nowrap">
-                  {item.vehicleNumber}
-                </td>
-                <td className="py-3 px-6 whitespace-nowrap">
-                  {item.jobStartedDate}
-                </td>
-                <td className="py-3 px-6 whitespace-nowrap">
-                  {item.assignedSupervisor}
-                </td>
-                <td
-                  className={`py-3 px-6 whitespace-nowrap ${getStatusStyle(
-                    item.status
-                  )}`}
-                >
-                  {item.status}
-                </td>
-                <td className="py-3 px-6 whitespace-nowrap">
-                  <a
-                    href="/jobmanagement/details"
-                    className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+            {filteredItems.map((item, index) => {
+              const vehicleInfo = vehicleData[item.vehicleNumber] || {};
+              return (
+                <tr key={index} className="hover:bg-gray-100">
+                  <td className="py-3 px-6 whitespace-nowrap">
+                    {item.vehicleNumber}
+                  </td>
+                  <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                    <img
+                      src={vehicleInfo.avatar}
+                      className="w-10 h-10 rounded-full"
+                      alt={vehicleInfo.model}
+                    />
+                    <span>{vehicleInfo.model}</span>
+                  </td>
+                  <td className="py-3 px-6 whitespace-nowrap">
+                    {item.jobStartedDate}
+                  </td>
+                  <td className="py-3 px-6 whitespace-nowrap">
+                    {item.assignedSupervisor}
+                  </td>
+                  <td
+                    className={`py-3 px-6 whitespace-nowrap ${getStatusStyle(
+                      item.status
+                    )}`}
                   >
-                    Details
-                  </a>
-                </td>
-              </tr>
-            ))}
+                    {item.status}
+                  </td>
+                  <td className="py-3 px-6 whitespace-nowrap">
+                    <a
+                      href="/jobmanagement/details"
+                      className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                    >
+                      Details
+                    </a>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

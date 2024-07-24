@@ -55,6 +55,7 @@ const Billing = () => {
   const [bills, setBills] = useState(initialBills);
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleBrandChange = (e) => {
     setSelectedBrand(e.target.value);
@@ -64,12 +65,22 @@ const Billing = () => {
     setSelectedModel(e.target.value);
   };
 
-  const filteredBills = bills.filter((bill) => {
-    return (
-      (selectedBrand ? bill.brand === selectedBrand : true) &&
-      (selectedModel ? bill.model === selectedModel : true)
-    );
-  });
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredBills = bills
+    .filter((bill) => {
+      return (
+        (selectedBrand ? bill.brand === selectedBrand : true) &&
+        (selectedModel ? bill.model === selectedModel : true) &&
+        (searchTerm
+          ? bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            bill.model.toLowerCase().includes(searchTerm.toLowerCase())
+          : true)
+      );
+    });
 
   const brands = [...new Set(initialBills.map((bill) => bill.brand))];
   const models = [...new Set(initialBills.map((bill) => bill.model))];
@@ -78,15 +89,10 @@ const Billing = () => {
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       <div className="flex items-start justify-between">
         <div className="max-w-lg">
-          <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-            Billing
-          </h3>
+          <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Billing</h3>
         </div>
         <div className="mt-3 md:mt-0">
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="flex max-w-md mx-auto"
-          >
+          <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
             <div className="relative w-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -105,6 +111,8 @@ const Billing = () => {
               <input
                 type="text"
                 placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
                 className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
               />
             </div>

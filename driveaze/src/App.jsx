@@ -28,6 +28,10 @@ import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
 import CustomerPayments from "./components/userpage/Receptionist/CustomerPayments";
 import MakePayments from "./components/userpage/Receptionist/MakePayments";
+import SupplierPayments from "./components/userpage/Receptionist/SupplierPayments";
+import AddSupplier from "./components/userpage/Receptionist/AddSupplier";
+import ManageSupplier from "./components/userpage/Receptionist/ManageSupplier";
+
 
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
@@ -38,6 +42,8 @@ import Upcomingservices from "./components/userpage/Customer/upcomingservices";
 import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
+
+import AddEditEmployee from "./components/userpage/Admin/AddEditEmployee";
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
 import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
 import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
@@ -152,6 +158,9 @@ function App() {
                   <Route path="/customerpayments" element={<CustomerPayments />} />
                   <Route path="/customerpayments/editbill" element={<ViewBill />} />
                   <Route path="/customerpayments/payment" element={<MakePayments />} />
+                  <Route path="/supplierpayments" element={<SupplierPayments />} />
+                  <Route path="/supplierpayments/addsupplier" element={<AddSupplier />} />
+                  <Route path="/supplierpayments/manage" element={<ManageSupplier />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

@@ -51,6 +51,14 @@ import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountD
 
 
 function App() {
+  const userRoleRedirect = () => {
+    if (UserService.isAdmin()) return "/dashboard";
+    if (UserService.isCustomer()) return "/dashboard";
+    if (UserService.isSupervisor()) return "/dashboard";
+    if (UserService.isReceptionist()) return "/dashboard";
+    return "/";
+  };
+  
   return (
     <BrowserRouter>
       <div
@@ -83,9 +91,13 @@ function App() {
               </>
             )}
 
+            {UserService.isAuthenticated() && (
+              <Route path="/" element={<Navigate to={userRoleRedirect()} />} />
+            )}
+
             <Route element={<ProtectedRoute />}>
-              <Route path="/login" element={<Navigate to="/" />} />
-              <Route path="/register" element={<Navigate to="/" />} />
+              <Route path="/login" element={<Navigate to={userRoleRedirect()} />} />
+              <Route path="/register" element={<Navigate to={userRoleRedirect()} />} />
 
               {!UserService.isAdmin() ? (
                 <>

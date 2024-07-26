@@ -1,9 +1,12 @@
 import React from "react";
+import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
-const JobDetails = () => {
+const UpdateRepairs = () => {
+  const { numberPlate } = useParams();
   // Dummy data for UI implementation
   const job = {
-    vehicleNumber: "ABC-1234",
+    vehicleNumber: numberPlate,
     jobStartedDate: "2022-01-10",
     assignedSupervisor: "Kasun Perera",
     status: "Ongoing",
@@ -57,10 +60,10 @@ const JobDetails = () => {
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-          Job Details
+          Job Details for {numberPlate}
         </h3>
       </div>
-      <div className="bg-white">
+      <div className="bg-white shadow-lg rounded-lg p-6">
         <div className="mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -107,6 +110,7 @@ const JobDetails = () => {
                 <th className="py-3 px-6 text-gray-600 font-medium text-left">
                   Mechanic
                 </th>
+                <th className="py-3 px-6"></th>
               </tr>
             </thead>
             <tbody className="text-gray-700 divide-y divide-gray-200">
@@ -115,6 +119,17 @@ const JobDetails = () => {
                   <td className="py-3 px-6">{detail.date}</td>
                   <td className="py-3 px-6">{detail.detail}</td>
                   <td className="py-3 px-6">{detail.mechanic}</td>
+
+                  <td className="text-right grayspace-nowrap flex gap-2 py-2">
+                    <a href="/vehiclehistory" className="py-2 px-3 font-medium text-white bg-indigo-600 hover:bg-indigo-500 duration-150 hover:bg-gray-50 rounded-lg flex items-center justify-center">
+                      <FaRegEdit className="text-lg text-white" />
+                    </a>
+
+                    <a href="/vehiclehistory" className="py-2 px-3 font-medium text-white bg-red-600 hover:bg-red-500 duration-150 hover:bg-gray-50 rounded-lg flex items-center justify-center">
+                      <FaRegTrashAlt className="text-lg text-white" />
+                    </a>
+                  </td>
+                  
                 </tr>
               ))}
             </tbody>
@@ -125,4 +140,5 @@ const JobDetails = () => {
   );
 };
 
-export default JobDetails;
+export default UpdateRepairs;
+

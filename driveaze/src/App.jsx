@@ -10,8 +10,9 @@ import Sidebar from "./components/common/Sidebar";
 import AdminDashboard from "./components/userpage/Admin/AdminDashboard";
 import StaffAccounts from "./components/userpage/Admin/StaffAccounts";
 import SupervisorDashboard from "./components/userpage/Supervisor/SupervisorDashboard";
-import VehicleHistory from './components/userpage/Supervisor/VehicleHistory';
+import UpdateRepairs from './components/userpage/Supervisor/UpdateRepairs.jsx';
 import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
+import CompletedJobs from "./components/userpage/Supervisor/CompletedJobs";
 
 import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
 import JobManagement from "./components/userpage/Receptionist/JobManagement";
@@ -28,6 +29,10 @@ import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
 import CustomerPayments from "./components/userpage/Receptionist/CustomerPayments";
 import MakePayments from "./components/userpage/Receptionist/MakePayments";
+import SupplierPayments from "./components/userpage/Receptionist/SupplierPayments";
+import AddSupplier from "./components/userpage/Receptionist/AddSupplier";
+import ManageSupplier from "./components/userpage/Receptionist/ManageSupplier";
+
 
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
@@ -38,6 +43,8 @@ import Upcomingservices from "./components/userpage/Customer/upcomingservices";
 import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
+
+import AddEditEmployee from "./components/userpage/Admin/AddEditEmployee";
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
 import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
 import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
@@ -136,7 +143,8 @@ function App() {
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
-                  <Route path="/vehiclehistory" element={<VehicleHistory />} />
+                  <Route path="/updaterepairs/:numberPlate" element={<UpdateRepairs />} />
+                  <Route path="/completedjobs" element={<CompletedJobs />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -164,6 +172,9 @@ function App() {
                   <Route path="/customerpayments" element={<CustomerPayments />} />
                   <Route path="/customerpayments/editbill" element={<ViewBill />} />
                   <Route path="/customerpayments/payment" element={<MakePayments />} />
+                  <Route path="/supplierpayments" element={<SupplierPayments />} />
+                  <Route path="/supplierpayments/addsupplier" element={<AddSupplier />} />
+                  <Route path="/supplierpayments/manage" element={<ManageSupplier />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

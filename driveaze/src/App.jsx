@@ -13,7 +13,10 @@ import SupervisorDashboard from "./components/userpage/Supervisor/SupervisorDash
 import UpdateRepairs from './components/userpage/Supervisor/UpdateRepairs.jsx';
 import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
 import CompletedJobs from "./components/userpage/Supervisor/CompletedJobs";
-import CompletedRepairs from "./components/userpage/Supervisor/CompletedRepairs.jsx"
+import CompletedRepairs from "./components/userpage/Supervisor/CompletedRepairs.jsx";
+import AddTechnicians from "./components/userpage/Supervisor/AddTechnicians.jsx";
+import VehicleHistory from "./components/userpage/Supervisor/VehicleHistory.jsx";
+import ViewHistory from "./components/userpage/Supervisor/ViewHistory.jsx";
 
 import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
 import JobManagement from "./components/userpage/Receptionist/JobManagement";
@@ -132,9 +135,12 @@ function App() {
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
-                  <Route path="/updaterepairs/:numberPlate" element={<UpdateRepairs />} />
+                  <Route path="/updaterepairs/:numberPlate" element={<UpdateRepairs />} /> 
                   <Route path="/completedjobs" element={<CompletedJobs />} />
                   <Route path="/completedrepairs/:numberPlate" element={<CompletedRepairs />} />
+                  <Route path="/addtechnicians" element={<AddTechnicians />} />
+                  <Route path="/vehiclehistory" element={<VehicleHistory />} />
+                  <Route path="/vehiclehistory/viewhistory/:vehicleNumber" element={<ViewHistory />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

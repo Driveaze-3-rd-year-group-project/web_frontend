@@ -44,7 +44,6 @@ import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
 
-import AddEditEmployee from "./components/userpage/Admin/AddEditEmployee";
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
 import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
 import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";

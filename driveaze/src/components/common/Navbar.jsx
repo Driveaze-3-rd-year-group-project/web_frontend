@@ -26,7 +26,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav className={`bg-white pb-5 md:text-sm -mt-2 -mb-6 ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""}`}>
+        <nav className={`bg-white h-24 pb-5 md:text-sm  ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""}`}>
                 <ul>
                     <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
                         <div className="flex items-center justify-between py-5 md:block">

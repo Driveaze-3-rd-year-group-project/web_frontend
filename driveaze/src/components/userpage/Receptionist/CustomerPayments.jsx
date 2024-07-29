@@ -172,8 +172,8 @@ const CustomerPayments = () => {
                   <span
                     className={`${
                       bill.status === "Completed"
-                        ? "bg-white text-green-500"
-                        : "bg-white text-yellow-500"
+                        ? "bg-white font-medium text-green-500"
+                        : "bg-white font-medium text-yellow-500"
                     }`}
                   >
                     {bill.status}
@@ -194,7 +194,7 @@ const CustomerPayments = () => {
                     Payment
                   </button>
                   <a
-                    href="/customerpayments/editbill"
+                    href="/editbill"
                     className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
                   >
                     Edit Bill

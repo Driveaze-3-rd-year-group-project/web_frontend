@@ -1,31 +1,31 @@
 import React from 'react'
-import UserService from '../service/UserService';
+import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
-    const isAuthenticated = UserService.isAuthenticated();
-
-
+    const location = useLocation();
+    
 
     const footerNavs = [
         {
-            href: 'javascript:void()',
+            href: '#',
             name: 'Terms'
         },
         {
-            href: 'javascript:void()',
+            href: '#',
             name: 'License'
         },
         {
-            href: 'javascript:void()',
+            href: '#',
             name: 'Privacy'
         },
         {
-            href: 'javascript:void()',
+            href: '#',
             name: 'About us'
         }
     ]
     
-    if (location.pathname !== '/') {
+    const includedRoutes = ['/']; 
+    if (!includedRoutes.includes(location.pathname)) {
         return null;
     }
 

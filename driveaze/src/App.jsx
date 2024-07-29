@@ -48,13 +48,21 @@ import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
 
-// import AddEditEmployee from "./components/userpage/Admin/AddEditEmployee";
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
 import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
 import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
+import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
 
 
 function App() {
+  const userRoleRedirect = () => {
+    if (UserService.isAdmin()) return "/dashboard";
+    if (UserService.isCustomer()) return "/dashboard";
+    if (UserService.isSupervisor()) return "/dashboard";
+    if (UserService.isReceptionist()) return "/dashboard";
+    return "/";
+  };
+  
   return (
     <BrowserRouter>
       <div
@@ -87,9 +95,13 @@ function App() {
               </>
             )}
 
+            {UserService.isAuthenticated() && (
+              <Route path="/" element={<Navigate to={userRoleRedirect()} />} />
+            )}
+
             <Route element={<ProtectedRoute />}>
-              <Route path="/login" element={<Navigate to="/" />} />
-              <Route path="/register" element={<Navigate to="/" />} />
+              <Route path="/login" element={<Navigate to={userRoleRedirect()} />} />
+              <Route path="/register" element={<Navigate to={userRoleRedirect()} />} />
 
               {!UserService.isAdmin() ? (
                 <>
@@ -156,21 +168,22 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
-                  <Route path="/jobmanagement/createnewjob" element={<JobCreate />} />
-                  <Route path="/jobmanagement/details" element={<JobDetails />} />
+                  <Route path="/createnewjob" element={<JobCreate />} />
+                  <Route path="/jobdetails" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
-                  <Route path="/vehiclemanagement/addvehicle" element={<AddVehicle />} />
-                  <Route path="/vehiclemanagement/edit" element={<EditVehicle />} />
+                  <Route path="/addvehicle" element={<AddVehicle />} />
+                  <Route path="/editvehicle" element={<EditVehicle />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
-                  <Route path="/billing/createbill" element={<CreateBill />} />
-                  <Route path="/billing/viewbill" element={<ViewBill />} />
+                  <Route path="/createbill" element={<CreateBill />} />
+                  <Route path="/viewbill" element={<ViewBill />} />
                   <Route path="/customerpayments" element={<CustomerPayments />} />
-                  <Route path="/customerpayments/editbill" element={<ViewBill />} />
-                  <Route path="/customerpayments/payment" element={<MakePayments />} />
+                  <Route path="/editbill" element={<ViewBill />} />
+                  <Route path="/payment" element={<MakePayments />} />
                   <Route path="/supplierpayments" element={<SupplierPayments />} />
-                  <Route path="/supplierpayments/addsupplier" element={<AddSupplier />} />
-                  <Route path="/supplierpayments/manage" element={<ManageSupplier />} />
+                  <Route path="/addsupplier" element={<AddSupplier />} />
+                  <Route path="/managesupplier" element={<ManageSupplier />} />
+                  <Route path="/addsupplierbill" element={<AddSupplierBill />} />  
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

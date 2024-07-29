@@ -60,7 +60,7 @@ const JobDetails = () => {
           Job Details
         </h3>
       </div>
-      <div className="bg-white">
+      <div className="bg-white p-6 rounded-lg shadow-md">
         <div className="mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>

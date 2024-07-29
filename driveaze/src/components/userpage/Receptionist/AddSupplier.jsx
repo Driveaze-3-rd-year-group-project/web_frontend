@@ -2,8 +2,7 @@ import React from "react";
 
 const AddSupplier = () => {
   return (
-    <main className="py-14">
-      <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
+      <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8 py-14">
         <div className="max-w-lg mx-auto space-y-3 sm:text-center">
           <h3 className="text-indigo-600 font-semibold">Create New Supplier</h3>
         </div>
@@ -64,7 +63,6 @@ const AddSupplier = () => {
           </form>
         </div>
       </div>
-    </main>
   );
 };
 

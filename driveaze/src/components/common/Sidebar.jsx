@@ -137,14 +137,14 @@ function Sidebar() {
                                         <div className="flex-none">
                                             <FaWrench />
                                         </div>
-                                        <p className="flex-1">Onging Services</p>
+                                        <p className="flex-1">Onging Repairs</p>
                                     </a>
-                                    <a href="/upcomingservices" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/servicebookings" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaCalendarAlt />
                                         </div>
-                                        <p className="flex-1">Upcoming Services</p>
+                                        <p className="flex-1">Service Bookings</p>
                                     </a>
                                     <a href="/billings" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />

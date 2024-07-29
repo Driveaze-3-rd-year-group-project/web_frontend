@@ -12,8 +12,8 @@ const Landingpage = () => {
         <section className="h-[calc(100vh-96px)] mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
             <div className="space-y-4 flex-1 sm:text-center lg:text-left">
                 <div>
-                    <h1 className='font-bold text-4xl xl:text-5xl'><span className="text-driveazered"> Samarasinghe </span><span className='text-deepblue'> Motors</span></h1> 
-                    <h2 className='text-deepblue font-bold text-3xl  xl:text-4xl'>The Name You Can Trust</h2>
+                    <h1 className='font-bold text-4xl xl:text-5xl'><span className="text-driveazered"> SAMARASINGHE </span><span className='text-deepblue'> Motors</span></h1> 
+                    <h2 className='text-black font-bold text-3xl  xl:text-4xl'>The name you can trust</h2>
                 </div>
                 <p className="text-black max-w-xl leading-relaxed sm:mx-auto lg:ml-0">
                 Samarasinghe Motors Ltd. is one of the pioneers and largest automobile service company in Southern Region of Sri Lanka based in Matara.

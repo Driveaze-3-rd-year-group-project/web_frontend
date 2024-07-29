@@ -102,7 +102,7 @@ const VehicleManagement = () => {
       </div>
       <div className="flex justify-end mt-4">
         <a
-          href="/vehiclemanagement/addvehicle"
+          href="/addvehicle"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
           Add Vehicle
@@ -149,8 +149,8 @@ const VehicleManagement = () => {
                 </td>
                 <td className="text-left py-3 px-6 whitespace-nowrap">
                   <a
-                    href="/vehiclemanagement/edit"
-                    className="py-2 px-4 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                    href="/editvehicle"
+                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-15"
                   >
                     Edit
                   </a>

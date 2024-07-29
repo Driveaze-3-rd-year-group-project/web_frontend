@@ -13,7 +13,7 @@ const JobManagement = () => {
   };
 
   const getStatusStyle = (status) => {
-    return status === "Completed" ? "text-green-500" : "text-yellow-500";
+    return status === "Completed" ? "font-medium text-green-500" : "font-medium text-yellow-500";
   };
 
   const vehicleData = {
@@ -139,7 +139,7 @@ const JobManagement = () => {
           </select>
         </div>
         <a
-          href="/jobmanagement/createnewjob"
+          href="/createnewjob"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
           Create New Job
@@ -154,7 +154,7 @@ const JobManagement = () => {
               <th className="py-3 px-6">Vehicle Model</th>
               <th className="py-3 px-6">Job Started Date</th>
               <th className="py-3 px-6">Assigned Supervisor</th>
-              <th className="py-3 px-6">Status</th>
+              <th className="py-3 px-6 ">Status</th>
               <th className="py-3 px-6">Actions</th>
             </tr>
           </thead>
@@ -189,8 +189,8 @@ const JobManagement = () => {
                   </td>
                   <td className="py-3 px-6 whitespace-nowrap">
                     <a
-                      href="/jobmanagement/details"
-                      className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                      href="/jobdetails"
+                      className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
                     >
                       Details
                     </a>

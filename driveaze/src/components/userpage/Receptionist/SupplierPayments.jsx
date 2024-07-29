@@ -111,7 +111,7 @@ const SupplierPayments = () => {
           </select>
         </div>
         <a
-          href="/supplierpayments/addsupplier"
+          href="/addsupplier"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
           Add New Supplier
@@ -166,8 +166,8 @@ const SupplierPayments = () => {
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
                   <a
-                    href="supplierpayments/manage"
-                    className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                    href="/managesupplier"
+                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-15g"
                   >
                     Manage
                   </a>

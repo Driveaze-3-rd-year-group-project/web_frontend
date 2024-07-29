@@ -47,6 +47,8 @@ import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
 import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
 import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
 import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
+import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
+
 
 
 function App() {
@@ -159,21 +161,22 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
-                  <Route path="/jobmanagement/createnewjob" element={<JobCreate />} />
-                  <Route path="/jobmanagement/details" element={<JobDetails />} />
+                  <Route path="/createnewjob" element={<JobCreate />} />
+                  <Route path="/jobdetails" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
-                  <Route path="/vehiclemanagement/addvehicle" element={<AddVehicle />} />
-                  <Route path="/vehiclemanagement/edit" element={<EditVehicle />} />
+                  <Route path="/addvehicle" element={<AddVehicle />} />
+                  <Route path="/editvehicle" element={<EditVehicle />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
-                  <Route path="/billing/createbill" element={<CreateBill />} />
-                  <Route path="/billing/viewbill" element={<ViewBill />} />
+                  <Route path="/createbill" element={<CreateBill />} />
+                  <Route path="/viewbill" element={<ViewBill />} />
                   <Route path="/customerpayments" element={<CustomerPayments />} />
-                  <Route path="/customerpayments/editbill" element={<ViewBill />} />
-                  <Route path="/customerpayments/payment" element={<MakePayments />} />
+                  <Route path="/editbill" element={<ViewBill />} />
+                  <Route path="/payment" element={<MakePayments />} />
                   <Route path="/supplierpayments" element={<SupplierPayments />} />
-                  <Route path="/supplierpayments/addsupplier" element={<AddSupplier />} />
-                  <Route path="/supplierpayments/manage" element={<ManageSupplier />} />
+                  <Route path="/addsupplier" element={<AddSupplier />} />
+                  <Route path="/managesupplier" element={<ManageSupplier />} />
+                  <Route path="/addsupplierbill" element={<AddSupplierBill />} />  
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

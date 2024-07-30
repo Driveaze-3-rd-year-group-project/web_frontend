@@ -11,6 +11,7 @@ const CustomerPayments = () => {
       status: "Completed",
       image: "TC",
       totalAmount: 1200,
+      customerName: "John Doe", // Added customer name
       services: [
         { id: 1, description: "Oil Change", cost: 200 },
         { id: 2, description: "Tire Rotation", cost: 100 },
@@ -25,6 +26,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "HA",
       totalAmount: 1500,
+      customerName: "Jane Smith", // Added customer name
       services: [
         { id: 1, description: "Battery Replacement", cost: 300 },
         { id: 2, description: "Engine Check", cost: 200 },
@@ -38,6 +40,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "FM",
       totalAmount: 2000,
+      customerName: "Alice Johnson", // Added customer name
       services: [
         { id: 1, description: "Transmission Repair", cost: 500 },
         { id: 2, description: "Wheel Alignment", cost: 150 },
@@ -51,6 +54,7 @@ const CustomerPayments = () => {
       status: "Completed",
       image: "CC",
       totalAmount: 1800,
+      customerName: "Bob Brown", // Added customer name
       services: [
         { id: 1, description: "Oil Change", cost: 200 },
         { id: 2, description: "Air Filter Replacement", cost: 100 },
@@ -64,6 +68,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "B3S",
       totalAmount: 2200,
+      customerName: "Eve Davis", // Added customer name
       services: [
         { id: 1, description: "Coolant Flush", cost: 250 },
         { id: 2, description: "Brake Pad Replacement", cost: 200 },
@@ -77,6 +82,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "AA4",
       totalAmount: 2400,
+      customerName: "Charlie Wilson", // Added customer name
       services: [
         { id: 1, description: "Spark Plug Replacement", cost: 300 },
         { id: 2, description: "Fuel System Cleaning", cost: 200 },
@@ -103,7 +109,8 @@ const CustomerPayments = () => {
       if (searchTerm && !(
         bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
         bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        bill.model.toLowerCase().includes(searchTerm.toLowerCase())
+        bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
       )) return false;
       return true;
     });
@@ -159,14 +166,14 @@ const CustomerPayments = () => {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
             {filteredBills.map((bill) => (
               <div
                 key={bill.id}
-                className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col items-start"
+                className="border border-gray-300 rounded-lg p-3 shadow-md flex flex-col items-start"
               >
                 <div className="flex justify-between items-center w-full">
-                  <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
+                  <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-2">
                     {bill.image}
                   </div>
                   <span
@@ -183,6 +190,9 @@ const CustomerPayments = () => {
                   {bill.brand} {bill.model}
                 </h2>
                 <p className="text-gray-600">{bill.vehicleNumber}</p>
+                <p className="text-gray-600 mt-2 font-bold">
+                  Customer: {bill.customerName} {/* Display customer name */}
+                </p>
                 <p className="text-black font-bold mt-2">
                   Total Amount: LKR{bill.totalAmount}
                 </p>
@@ -193,12 +203,14 @@ const CustomerPayments = () => {
                   >
                     Payment
                   </button>
-                  <a
-                    href="/editbill"
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                  >
-                    Edit Bill
-                  </a>
+                  {bill.status === "Pending" && (
+                    <a
+                      href="/editbill"
+                      className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+                    >
+                      Edit Bill
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

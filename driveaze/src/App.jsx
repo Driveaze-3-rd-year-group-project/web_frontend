@@ -44,15 +44,16 @@ import Footer from "./components/common/Footer";
 import Myvehicles from "./components/userpage/Customer/Myvehicles";
 import VehicleInfo from "./components/userpage/Customer/Vehicleinfo";
 import ServiceHistory from "./components/userpage/Customer/Servicehistory";
-import Upcomingservices from "./components/userpage/Customer/upcomingservices";
-import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
 
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
 import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
 import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
+import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
+import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
 import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
+
 
 
 function App() {
@@ -129,10 +130,10 @@ function App() {
                   <Route path="/myvehicles" element={<Myvehicles/>} />
                   <Route path="/vehicleinfo" element={<VehicleInfo/>} />
                   <Route path="/billings" element={<Billings/>} />
-                  <Route path="/newservice" element={<NewService/>} />
                   <Route path="/billinfo" element={<Billinfo/>} />
                   <Route path="/servicehistory" element={<ServiceHistory/>} />
-                  <Route path="/upcomingservices" element={<Upcomingservices/>} />
+                  <Route path="/booknewservice" element={<BookNewService/>} />
+                  <Route path="/servicebookings" element={<ServiceBookings/>} />
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />

@@ -179,8 +179,8 @@ const CustomerPayments = () => {
                   <span
                     className={`${
                       bill.status === "Completed"
-                        ? "bg-white font-medium text-green-500"
-                        : "bg-white font-medium text-yellow-500"
+                        ? "bg-white text-green-500"
+                        : "bg-white text-yellow-500"
                     }`}
                   >
                     {bill.status}

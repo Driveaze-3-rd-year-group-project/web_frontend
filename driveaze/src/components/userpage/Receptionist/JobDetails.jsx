@@ -59,6 +59,12 @@ const JobDetails = () => {
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Job Details
         </h3>
+        <a
+          href="/jobmanagement"
+          className="px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150"
+        >
+          Back
+        </a>
       </div>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <div className="mb-6">
@@ -88,7 +94,8 @@ const JobDetails = () => {
                 </span>
               </p>
               <p className="font-semibold text-gray-700">
-                <strong>Service Request(Details Given by Customer ):</strong> {job.service}
+                <strong>Service Request(Details Given by Customer ):</strong>{" "}
+                {job.service}
               </p>
             </div>
           </div>

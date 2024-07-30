@@ -9,6 +9,7 @@ const Billing = () => {
       vehicleNumber: "XYZ 1234",
       status: "Ongoing",
       image: "TC",
+      customerName: "John Doe", // Added customer name
     },
     {
       id: 2,
@@ -17,6 +18,7 @@ const Billing = () => {
       vehicleNumber: "ABC 5678",
       status: "Ongoing",
       image: "HA",
+      customerName: "Jane Smith", // Added customer name
     },
     {
       id: 3,
@@ -25,6 +27,7 @@ const Billing = () => {
       vehicleNumber: "LMN 9101",
       status: "Ongoing",
       image: "FM",
+      customerName: "Alice Johnson", // Added customer name
     },
     {
       id: 4,
@@ -33,6 +36,7 @@ const Billing = () => {
       vehicleNumber: "JKL 1213",
       status: "Ongoing",
       image: "CC",
+      customerName: "Bob Brown", // Added customer name
     },
     {
       id: 5,
@@ -41,6 +45,7 @@ const Billing = () => {
       vehicleNumber: "QRS 1415",
       status: "Ongoing",
       image: "B3S",
+      customerName: "Eve Davis", // Added customer name
     },
     {
       id: 6,
@@ -49,6 +54,7 @@ const Billing = () => {
       vehicleNumber: "TUV 1617",
       status: "Ongoing",
       image: "AA4",
+      customerName: "Charlie Wilson", // Added customer name
     },
   ];
 
@@ -77,7 +83,8 @@ const Billing = () => {
         (searchTerm
           ? bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
             bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            bill.model.toLowerCase().includes(searchTerm.toLowerCase())
+            bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
           : true)
       );
     });
@@ -169,6 +176,9 @@ const Billing = () => {
               {bill.brand} {bill.model}
             </h2>
             <p className="text-gray-600">{bill.vehicleNumber}</p>
+            <p className="text-gray-600 mt-2">
+              <strong>Customer: {bill.customerName}</strong> {/* Bold customer name */}
+            </p>
             <div className="flex justify-end items-center w-full mt-4">
               <a
                 href="/viewbill"

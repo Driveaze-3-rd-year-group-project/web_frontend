@@ -1,33 +1,69 @@
 import React, { useState } from "react";
 
-const ViewBill = ({ vehicle }) => {
-  // Provide default values to avoid undefined errors
-  const initialServices = vehicle?.initialServices || [];
-  const vehicleImage = vehicle?.image || "TC";
-  const vehicleBrand = vehicle?.brand || "Toyota";
-  const vehicleModel = vehicle?.model || "Camry";
-  const vehicleNumber = vehicle?.vehicleNumber || "XYZ 1234";
+// Dummy data
+const dummyVehicle = {
+  image: "TC",
+  brand: "Toyota",
+  model: "Camry",
+  vehicleNumber: "XYZ 1234",
+  initialServices: [
+    { id: 1, service: "Oil Change", cost: "3000" },
+    { id: 2, service: "Tire Replacement", cost: "12000" },
+  ],
+};
 
-  const [services, setServices] = useState(initialServices);
+const ViewBill = ({ vehicle = dummyVehicle }) => {
+  const [services, setServices] = useState(vehicle.initialServices);
+  const [modalType, setModalType] = useState(""); // "add", "edit", or "remove"
+  const [currentService, setCurrentService] = useState(null);
+  const [newService, setNewService] = useState({ service: "", cost: "" });
 
   const handleAddService = () => {
-    const service = prompt("Enter new service:");
-    const cost = parseFloat(prompt("Enter new cost:"));
-    if (service && !isNaN(cost)) {
-      setServices([...services, { id: services.length + 1, service, cost }]);
+    setModalType("add");
+  };
+
+  const handleEditService = (service) => {
+    setCurrentService(service);
+    setNewService({ service: service.service, cost: service.cost });
+    setModalType("edit");
+  };
+
+  const handleRemoveService = (service) => {
+    setCurrentService(service);
+    setModalType("remove");
+  };
+
+  const handleCloseModal = () => {
+    setModalType("");
+    setNewService({ service: "", cost: "" });
+    setCurrentService(null);
+  };
+
+  const handleSaveService = () => {
+    if (newService.service && !isNaN(parseFloat(newService.cost))) {
+      if (modalType === "add") {
+        setServices([
+          ...services,
+          { id: services.length + 1, ...newService, cost: parseFloat(newService.cost) },
+        ]);
+      } else if (modalType === "edit" && currentService) {
+        setServices(
+          services.map((service) =>
+            service.id === currentService.id ? { ...service, ...newService, cost: parseFloat(newService.cost) } : service
+          )
+        );
+      }
+      handleCloseModal();
+    } else {
+      alert("Please enter valid service details.");
     }
   };
 
-  const handleRemoveService = (id) => {
-    setServices(services.filter((service) => service.id !== id));
-  };
-
-  const handleEditService = (id, updatedService) => {
-    setServices(
-      services.map((service) =>
-        service.id === id ? updatedService : service
-      )
-    );
+  const handleConfirmRemove = () => {
+    if (currentService) {
+      setServices(services.filter((service) => service.id !== currentService.id));
+      handleCloseModal();
+    }
   };
 
   const totalCost = services.reduce((total, service) => total + parseFloat(service.cost), 0);
@@ -37,13 +73,13 @@ const ViewBill = ({ vehicle }) => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-4">
           <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full">
-            {vehicleImage}
+            {vehicle.image}
           </div>
           <div>
             <h2 className="text-2xl font-bold">
-              {vehicleBrand} {vehicleModel}
+              {vehicle.brand} {vehicle.model}
             </h2>
-            <p className="text-gray-600">{vehicleNumber}</p>
+            <p className="text-gray-600">{vehicle.vehicleNumber}</p>
           </div>
         </div>
         <button
@@ -53,6 +89,7 @@ const ViewBill = ({ vehicle }) => {
           Add Service/Product
         </button>
       </div>
+
       <div className="overflow-x-auto">
         <table className="w-full bg-white shadow-md rounded-lg">
           <thead>
@@ -69,20 +106,14 @@ const ViewBill = ({ vehicle }) => {
                 <td className="py-2 px-4 text-right">{service.cost}</td>
                 <td className="py-2 px-4 text-center">
                   <button
-                    onClick={() => handleRemoveService(service.id)}
-                    className="py-1 px-3 text-red-600 hover:text-red-800"
+                    onClick={() => handleRemoveService(service)}
+                    className="py-2 px-4 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150"
                   >
                     Remove
                   </button>
                   <button
-                    onClick={() =>
-                      handleEditService(service.id, {
-                        ...service,
-                        service: prompt("Enter new service:", service.service),
-                        cost: parseFloat(prompt("Enter new cost:", service.cost)),
-                      })
-                    }
-                    className="py-1 px-3 text-blue-600 hover:text-blue-800 ml-2"
+                    onClick={() => handleEditService(service)}
+                    className="ml-6 py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
                   >
                     Edit
                   </button>
@@ -101,14 +132,92 @@ const ViewBill = ({ vehicle }) => {
           </tfoot>
         </table>
       </div>
-      <div className="mt-4 flex justify-end space-x-4">
-        <button className="py-2 px-4 text-white font-medium bg-green-600 hover:bg-green-500 active:bg-green-600 rounded-lg duration-150">
-          Save
-        </button>
-        <button className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
-          Finalize Bill
-        </button>
+
+      <div className="mt-4 flex justify-between items-center">
+        <a
+          href="/billing"
+          className="px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150"
+        >
+          Back
+        </a>
+        <div className="space-x-4">
+          <button className="py-2 px-4 text-white font-medium bg-green-600 hover:bg-green-500 active:bg-green-600 rounded-lg duration-150">
+            Save
+          </button>
+          <button className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
+            Finalize Bill
+          </button>
+        </div>
       </div>
+
+      {/* Modal for adding/editing service */}
+      {(modalType === "add" || modalType === "edit") && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 className="text-lg font-semibold mb-4">
+              {modalType === "add" ? "Add Service/Product" : "Edit Service/Product"}
+            </h3>
+            <div className="mb-4">
+              <label className="font-medium">Service/Product</label>
+              <input
+                type="text"
+                value={newService.service}
+                onChange={(e) => setNewService({ ...newService, service: e.target.value })}
+                className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="font-medium">Cost (LKR)</label>
+              <input
+                type="number"
+                value={newService.cost}
+                onChange={(e) => setNewService({ ...newService, cost: e.target.value })}
+                className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg"
+                required
+              />
+            </div>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={handleCloseModal}
+                className="py-2 px-4 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveService}
+                className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal for removing service */}
+      {modalType === "remove" && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 className="text-lg font-semibold mb-4">Confirm Removal</h3>
+            <p>Are you sure you want to remove the service "{currentService?.service}"?</p>
+            <div className="flex justify-end space-x-4 mt-4">
+              <button
+                onClick={handleCloseModal}
+                className="py-2 px-4 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmRemove}
+                className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

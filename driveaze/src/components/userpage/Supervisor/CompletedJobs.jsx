@@ -80,7 +80,7 @@ return (
                         </div>
                       </div>
                       <Link
-                        to={`/vehiclehistory/${item.numberPlate}`}
+                        to={`/completedrepairs/${item.numberPlate}`}
                         className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2">
                           View
                       </Link>

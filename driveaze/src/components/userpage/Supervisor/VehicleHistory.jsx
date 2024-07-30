@@ -1,64 +1,53 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
-const Billing = () => {
-  const initialBills = [
+const VehicleHistory = () => {
+  const initialHistory = [
     {
       id: 1,
       brand: "Toyota",
       model: "Camry",
       vehicleNumber: "XYZ 1234",
-      status: "Ongoing",
       image: "TC",
-      customerName: "John Doe", // Added customer name
     },
     {
       id: 2,
       brand: "Honda",
       model: "Accord",
       vehicleNumber: "ABC 5678",
-      status: "Ongoing",
       image: "HA",
-      customerName: "Jane Smith", // Added customer name
     },
     {
       id: 3,
       brand: "Ford",
       model: "Mustang",
       vehicleNumber: "LMN 9101",
-      status: "Ongoing",
       image: "FM",
-      customerName: "Alice Johnson", // Added customer name
     },
     {
       id: 4,
       brand: "Chevrolet",
       model: "Camaro",
       vehicleNumber: "JKL 1213",
-      status: "Ongoing",
       image: "CC",
-      customerName: "Bob Brown", // Added customer name
     },
     {
       id: 5,
       brand: "BMW",
       model: "3 Series",
       vehicleNumber: "QRS 1415",
-      status: "Ongoing",
       image: "B3S",
-      customerName: "Eve Davis", // Added customer name
     },
     {
       id: 6,
       brand: "Audi",
       model: "A4",
       vehicleNumber: "TUV 1617",
-      status: "Ongoing",
       image: "AA4",
-      customerName: "Charlie Wilson", // Added customer name
     },
   ];
 
-  const [bills, setBills] = useState(initialBills);
+  const [history, setHistory] = useState(initialHistory);
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -75,28 +64,27 @@ const Billing = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredBills = bills
-    .filter((bill) => {
+  const filteredHistory = history
+    .filter((history) => {
       return (
-        (selectedBrand ? bill.brand === selectedBrand : true) &&
-        (selectedModel ? bill.model === selectedModel : true) &&
+        (selectedBrand ? history.brand === selectedBrand : true) &&
+        (selectedModel ? history.model === selectedModel : true) &&
         (searchTerm
-          ? bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
+          ? history.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            history.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            history.model.toLowerCase().includes(searchTerm.toLowerCase())
           : true)
       );
     });
 
-  const brands = [...new Set(initialBills.map((bill) => bill.brand))];
-  const models = [...new Set(initialBills.map((bill) => bill.model))];
+  const brands = [...new Set(initialHistory.map((history) => history.brand))];
+  const models = [...new Set(initialHistory.map((history) => history.model))];
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       <div className="flex items-start justify-between">
         <div className="max-w-lg">
-          <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Billing</h3>
+          <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">History</h3>
         </div>
         <div className="mt-3 md:mt-0">
           <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
@@ -153,39 +141,29 @@ const Billing = () => {
             ))}
           </select>
         </div>
-        <a
-          href="/createbill"
-          className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2"
-        >
-          Create Bill
-        </a>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-        {filteredBills.map((bill) => (
+        {filteredHistory.map((history) => (
           <div
-            key={bill.id}
+            key={history.id}
             className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col items-start"
           >
             <div className="flex justify-between items-center w-full">
               <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
-                {bill.image}
+                {history.image}
               </div>
-              <span className="text-yellow-500 font-medium">{bill.status}</span>
             </div>
             <h2 className="text-xl font-bold">
-              {bill.brand} {bill.model}
+              {history.brand} {history.model}
             </h2>
-            <p className="text-gray-600">{bill.vehicleNumber}</p>
-            <p className="text-gray-600 mt-2">
-              <strong>Customer: {bill.customerName}</strong> {/* Bold customer name */}
-            </p>
+            <p className="text-gray-600">{history.vehicleNumber}</p>
             <div className="flex justify-end items-center w-full mt-4">
-              <a
-                href="/viewbill"
+              <Link
+                to={`/vehiclehistory/viewhistory/${history.vehicleNumber}`}
                 className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
               >
-                View Bill
-              </a>
+                View History
+              </Link>
             </div>
           </div>
         ))}
@@ -194,4 +172,4 @@ const Billing = () => {
   );
 };
 
-export default Billing;
+export default VehicleHistory;

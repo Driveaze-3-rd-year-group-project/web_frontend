@@ -169,39 +169,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        {/* <div className="bg-white shadow-lg rounded-lg p-6">
-          <h4 className="text-gray-800 text-xl font-semibold mb-4">Jobs Completed This Week</h4>
-          <ul className="divide-y divide-gray-200">
-            {metrics.jobsCompletedThisWeek.map(job => (
-              <li key={job.id} className="py-2 flex justify-between items-center">
-                <div>
-                  <p className="text-gray-600 font-bold">{job.customerName}</p>
-                  <p className="text-gray-600">Vehicle Number: {job.vehicleNumber}</p>
-                  <p className="text-gray-600">Model: {job.model}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div> */}
-
-        {/* <div className="bg-white shadow-lg rounded-lg p-6">
-          <h4 className="text-gray-800 text-xl font-semibold mb-4">Pending Payments</h4>
-          <ul className="divide-y divide-gray-200">
-            {metrics.pendingPayments.map(payment => (
-              <li key={payment.id} className="py-2 flex justify-between items-center">
-                <div>
-                  <p className="text-gray-600 font-bold">{payment.customerName}</p>
-                  <p className="text-gray-600">Vehicle Number: {payment.vehicleNumber}</p>
-                  <p className="text-gray-600">Model: {payment.model}</p>
-                </div>
-                <p className="text-gray-600 font-bold">LKR {payment.amount}</p>
-              </li>
-            ))}
-          </ul>
-        </div> */}
-      </div>
     </div>
   );
 };

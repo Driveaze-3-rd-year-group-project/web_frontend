@@ -5,28 +5,33 @@ const OngoingRepairs = () => {
     const [searchTerm, setSearchTerm] = useState('');
   const members = [
     {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
       numberPlate: "ABC-1234",
-      vehicleModel: "Toyota Corolla"
+      vehicleModel: "Toyota Corolla",
+      startDate: "12/12/2024",
+      startTime: "10:00AM"
     },
     {
-        icon: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
+
+      icon: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
       numberPlate: "XYZ-5678",
-      vehicleModel: "Honda CBR"
+      vehicleModel: "Honda Civic",
+      startDate: "12/12/2024",
+      startTime: "12:00PM"
     },
     {
       icon: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
-    numberPlate: "CAK-5678",
-    vehicleModel: "Nissan Sentra"
-  },
-  {
-    icon: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
-  numberPlate: "EFD-1234",
-  vehicleModel: "Ford Mustang"
-},
+      numberPlate: "CAK-5678",
+      vehicleModel: "Nissan Sentra"
+    },
+    {
+      icon: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
+      numberPlate: "EFD-1234",
+      vehicleModel: "Ford Mustang"
+    },
     
 ]
-//
+
 const handleSearchChange = (e) => {
   setSearchTerm(e.target.value);
 };
@@ -52,7 +57,7 @@ return (
                         type="text"
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        placeholder="Search members..."
+                        placeholder="Search repairs"
                         className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
                         />
 
@@ -73,16 +78,30 @@ return (
                   .map((item, idx) => (
                     <li key={idx} className="py-5 flex items-start justify-between">
                       <div className="flex gap-3">
-                        <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
-                        <div>
-                          <span className="block text-sm text-gray-700 font-semibold">{item.numberPlate}</span>
-                          <span className="block text-sm text-gray-600">{item.vehicleModel}</span>
-                        </div>
+                          <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
+                          <div className='relative flex flex-row'>
+                            <div>
+                                <span className="block text-md text-gray-700 font-semibold">{item.numberPlate}</span>
+                                <span className="block text-sm text-gray-600">{item.vehicleModel}</span>
+                            </div> 
+                            <div className="absolute items-center ml-48">
+                              <span className="inline-flex items-center space-x-1 text-sm text-gray-600 whitespace-nowrap">
+                                <span>Started Date:</span>
+                                <span>{item.startDate}</span>
+                              </span>
+                            </div>
+                            <div className='absolute inline-flex ml-96'>
+                              <span className="inline-flex items-center space-x-1 text-sm text-gray-600 whitespace-nowrap">
+                                <span>Started Time:</span>
+                                <span>{item.startTime}</span>
+                              </span>
+                            </div>
+                          </div>
                       </div>
                       <Link
                         to={`/ongoingrepairs/repairdetails/${item.numberPlate}`}
                         className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2">
-                          Details
+                        Details
                       </Link>
                     </li>
 

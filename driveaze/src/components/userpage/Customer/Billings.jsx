@@ -91,6 +91,8 @@ const Billings = () => {
       description: "Routine Service",
       status: "Completed",
       cost:12000,
+      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      model: "Toyota-Premio",
     },
     {
       brand: "BMW-X3",
@@ -99,6 +101,8 @@ const Billings = () => {
       description: "Routine Service",
       status: "Completed",
       cost:12000,
+      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      model: "Toyota-Axio",
     },
     {
       brand: "Nissan-Caravan",
@@ -107,6 +111,8 @@ const Billings = () => {
       description: "Engine Replacement",
       status: "Pending",
       cost:402000,
+      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      model: "Toyota-Yaris",
     },
   ]
 
@@ -141,6 +147,7 @@ const Billings = () => {
                 <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                     <tr>
                         <th className="py-3 px-6">Vehicle Number</th>
+                        <th className="py-3 px-6">Vehicle Model</th>
                         <th className="py-3 px-6">Date</th>
                         <th className="py-3 px-6">Description</th>
                         <th className="py-3 px-6">Status</th>
@@ -154,6 +161,13 @@ const Billings = () => {
                         tableItems.map((item, idx) => (
                             <tr key={idx}>
                                 <td className="px-6 py-4 whitespace-nowrap">{item.vehi_no}</td>
+                                <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                                  <img
+                                    src={item.avatar}
+                                    className="w-10 h-10 rounded-full"
+                                  />
+                                  <span>{item.model}</span>
+                                </td>
                                 <td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">{item.description}</td>
                                 <td className={`py-2 px-3 rounded-full font-semibold text-xs ${labelColors[item?.status]?.color || ""}`}>{item.status}</td>

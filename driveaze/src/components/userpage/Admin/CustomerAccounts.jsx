@@ -78,81 +78,40 @@ function CustomerAccounts() {
           </form>
         </div>
       </div>
-      <div className="flex justify-end mt-2">
-        <Link
-          to="/register-customer"
-          className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-        >
-          Create Customer Account
-        </Link>
-      </div>
       <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
-          <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-            <tr>
-              <th className="py-3 px-6">Username</th>
-              <th className="py-3 px-6">Role</th>
-              <th className="py-3 px-6">Registered Date</th>
-              <th className="py-3 px-6">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-600 divide-y">
-            {filteredUsers.map(user => (
-              <tr key={user.id}>
-                <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                  <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-10 h-10 rounded-full" alt="User avatar" />
-                  <div>
-                    <span className="block text-gray-700 text-sm font-medium">{user.name}</span>
-                    <span className="block text-gray-700 text-xs">{user.email}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
-                <td className="px-6 py-4 whitespace-nowrap"></td>
-                <td className="items-start px-6 whitespace-nowrap">
-                  <Link 
-                    to={`/customer-details/${user.id}`}
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                  >
-                    Add User
-                  </Link>
-              </div> */}
-          </div>
-          <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
-              <table className="w-full table-auto text-sm text-left">
-                  <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                      <tr>
-                          <th className="py-3 px-6">Username</th>
-                          <th className="py-3 px-6">Role</th>
-                          <th className="py-3 px-6">Registered Date</th>
-                          <th className="py-3 px-6"></th>
-
-                      </tr>
-                  </thead>
-                  <tbody className="text-gray-600 divide-y">
-                      {users.map(user => (
-                        <tr key={user.id}>
-                          <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                              <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-10 h-10 rounded-full" />
-                              <div>
-                                  <span className="block text-gray-700 text-sm font-medium">{user.name}</span>
-                                  <span className="block text-gray-700 text-xs">{user.email}</span>
-                              </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
-                          <td className="px-6 py-4 whitespace-nowrap">2024/06/23</td>
-                          <td className="text-right px-6 whitespace-nowrap">
-                              <Link 
-                                to={`/customer-details/${user.id}`}
-                                className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
-                              >
-                                Details
-                              </Link>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-              </table>
-          </div>
+            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                <tr>
+                    <th className="py-3 px-6">Username</th>
+                    <th className="py-3 px-6">Role</th>
+                    <th className="py-3 px-6">Registered Date</th>
+                    <th className="py-3 px-6"></th>
+                </tr>
+            </thead>
+            <tbody className="text-gray-600 divide-y">
+                {users.map(user => (
+                  <tr key={user.id}>
+                    <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                        <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-10 h-10 rounded-full" />
+                        <div>
+                            <span className="block text-gray-700 text-sm font-medium">{user.name}</span>
+                            <span className="block text-gray-700 text-xs">{user.email}</span>
+                        </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">2024/06/23</td>
+                    <td className="text-right px-6 whitespace-nowrap">
+                        <Link 
+                          to={`/customer-details/${user.id}`}
+                          className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        >
+                          Details
+                        </Link>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+        </table>
       </div>
     </div>
   );

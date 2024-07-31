@@ -17,6 +17,8 @@ import CompletedRepairs from "./components/userpage/Supervisor/CompletedRepairs.
 import AddTechnicians from "./components/userpage/Supervisor/AddTechnicians.jsx";
 import VehicleHistory from "./components/userpage/Supervisor/VehicleHistory.jsx";
 import ViewHistory from "./components/userpage/Supervisor/ViewHistory.jsx";
+import InventoryManagement from "./components/userpage/Supervisor/InventoryManagement.jsx";
+import OngoingJobs from "./components/userpage/Admin/OngoingJobs.jsx";
 
 import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
 import JobManagement from "./components/userpage/Receptionist/JobManagement";
@@ -47,6 +49,15 @@ import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
 
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
+
+
+import OngoingJob from "./components/userpage/Admin/OngoingJob";
+import RegisteredVehicle from "./components/userpage/Admin/RegisteredVehicle";
+import CustomerComplaints from "./components/userpage/Admin/CustomerComplaints";
+import SiteAnnouncements from "./components/userpage/Admin/SiteAnnouncements";
+import ViewOngoingjob from "./components/userpage/Admin/ViewOngoingjob";
+import CustomerReports from "./components/userpage/Admin/CustomerReports";
+
 import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
 import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
 import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
@@ -54,6 +65,9 @@ import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
 import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
 import OngoingRepairs from "./components/userpage/Customer/OngoingRepairs.jsx"
 import RepairDetails from "./components/userpage/Customer/RepairDetails.jsx"
+import ForgetPassword from "./components/auth/ForgetPassword.jsx";
+import ReportsAnalytics from "./components/userpage/Admin/ReportsAnalytics.jsx";
+
 
 
 
@@ -94,6 +108,7 @@ function App() {
                 <Route path="/" element={<Landingpage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegistrationPage />} />
+                <Route path="/forgetpassword" element={<ForgetPassword />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </>
             )}
@@ -116,8 +131,15 @@ function App() {
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
                   <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="/update-user/:userId" element={<UpdateEmployee />} />
+                  <Route path="/ongoingjobs" element={<OngoingJob />} />
+                  <Route path="/registeredvehicles" element={<RegisteredVehicle />} />
+                  <Route path="/customercomplaints" element={<CustomerComplaints />} />
+                  <Route path="/siteannouncements" element={<SiteAnnouncements />} />
+                  <Route path="/viewongoingjob" element={<ViewOngoingjob />} />
+                  <Route path="/CustomerReports" element={<CustomerReports />} />
                   <Route path="/register-employee" element={<RegisterEmployee />} />
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
+                  <Route path="/reports" element={<ReportsAnalytics />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -158,6 +180,7 @@ function App() {
                   <Route path="/addtechnicians" element={<AddTechnicians />} />
                   <Route path="/vehiclehistory" element={<VehicleHistory />} />
                   <Route path="/vehiclehistory/viewhistory/:vehicleNumber" element={<ViewHistory />} />
+                  <Route path="/inventorymanagement" element={<InventoryManagement />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

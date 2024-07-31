@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const CompletedJobs = () => {
+const OngoingJobs = () => {
   //
   const [searchTerm, setSearchTerm] = useState('');
   const members = [
@@ -36,7 +36,7 @@ return (
         <div className="items-start justify-between md:flex">
             <div className="max-w-lg">
                 <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                    Completed Repairs
+                    Repairing Vehicle List
                 </h3>
             </div>
             <div className="mt-3 md:mt-0 flex items-center">
@@ -80,9 +80,9 @@ return (
                         </div>
                       </div>
                       <Link
-                        to={`/completedrepairs/${item.numberPlate}`}
+                        to={`/updaterepairs/${item.numberPlate}`}
                         className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2">
-                          View
+                          Update
                       </Link>
                     </li>
 
@@ -93,4 +93,4 @@ return (
 )
 }
 
-export default CompletedJobs
+export default OngoingJobs

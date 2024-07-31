@@ -37,6 +37,7 @@ const AddTechnicians = () => {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [currentDetail, setCurrentDetail] = useState({ avatar: '', name: '', contact: '', gender: '' });
+
     const [editingIndex, setEditingIndex] = useState(null);
     const [popupType, setPopupType] = useState('');
 
@@ -46,6 +47,7 @@ const AddTechnicians = () => {
             setEditingIndex(index);
         } else {
             setCurrentDetail({ avatar: '', name: '', contact: '', gender: '' });
+
         }
         setPopupType(type);
         setIsPopupOpen(true);
@@ -105,6 +107,7 @@ const AddTechnicians = () => {
                     <tbody className="text-gray-600 divide-y">
                         {tableItems.map((item, idx) => (
                             <tr key={idx}>
+
                                 <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                     <img src={item.avatar} className="w-10 h-10 rounded-full" alt={`${item.name} avatar`} />
                                     <div>
@@ -156,6 +159,7 @@ const AddTechnicians = () => {
                                         e.preventDefault();
                                         handleSave();
                                     }} className="space-y-5">
+
                                         <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
                                             <div>
                                                 <label className="font-medium">Name</label>

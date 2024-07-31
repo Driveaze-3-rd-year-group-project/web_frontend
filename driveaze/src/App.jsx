@@ -139,7 +139,9 @@ function App() {
                   <Route path="/CustomerReports" element={<CustomerReports />} />
                   <Route path="/register-employee" element={<RegisterEmployee />} />
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
+                  <Route path="/ongoingjobs" element={<OngoingJobs />} />
                   <Route path="/reports" element={<ReportsAnalytics />} />
+
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

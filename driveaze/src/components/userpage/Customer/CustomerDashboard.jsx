@@ -48,7 +48,7 @@ const Dashboard = () => {
       {
         label: 'Job Status',
         data: [metrics.jobStatusDistribution.completed, metrics.jobStatusDistribution.pending],
-        backgroundColor: ['#4caf50', '#ff5722'],
+        backgroundColor: ['#191970', '#696969'], // Light blue and dark blue
         borderColor: '#fff',
         borderWidth: 1,
       },
@@ -97,7 +97,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-5xl text-blue-500">
+          <div className="flex-shrink-0 text-4xl text-blue-500">
             <FaCar />
           </div>
           <div className="ml-4">
@@ -107,7 +107,7 @@ const Dashboard = () => {
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-5xl text-red-500">
+          <div className="flex-shrink-0 text-4xl text-red-500">
             <FaTools />
           </div>
           <div className="ml-4">
@@ -117,7 +117,7 @@ const Dashboard = () => {
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-5xl text-blue-500">
+          <div className="flex-shrink-0 text-4xl text-blue-500">
             <FaCalendarDay />
           </div>
           <div className="ml-4">

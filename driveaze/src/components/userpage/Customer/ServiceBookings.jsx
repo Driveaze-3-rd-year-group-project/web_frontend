@@ -65,11 +65,11 @@ const ServiceBookings = () => {
 
   return (
     <div className='flex flex-row'>
-      <div className='left-side w-2/3 mt-20'>
+      <div className='left-side w-2/3 mt-14'>
         <div className="max-w-2xl mx-auto px-4">
           <div className="items-start justify-between sm:flex">
             <div>
-              <h4 className="text-gray-800 text-3xl font-semibold">Service Bookings</h4>
+              <h4 className="text-gray-800 text-2xl font-bold">Service Bookings</h4>
             </div>
           </div>
           <div className="flex items-center justify-between mt-4">

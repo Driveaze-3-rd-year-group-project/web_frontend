@@ -84,7 +84,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-3xl text-blue-500">
+          <div className="flex-shrink-0 text-4xl text-blue-500">
             <FaCalendarDay />
           </div>
           <div className="ml-4">
@@ -94,7 +94,7 @@ const Dashboard = () => {
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-3xl text-green-500">
+          <div className="flex-shrink-0 text-4xl text-green-500">
             <FaMoneyCheckAlt />
           </div>
           <div className="ml-4">
@@ -104,7 +104,7 @@ const Dashboard = () => {
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-3xl text-red-500">
+          <div className="flex-shrink-0 text-4xl text-red-500">
             <FaTasks />
           </div>
           <div className="ml-4">

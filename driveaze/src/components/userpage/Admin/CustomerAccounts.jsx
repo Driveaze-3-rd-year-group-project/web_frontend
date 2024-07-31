@@ -103,7 +103,7 @@ function CustomerAccounts() {
                     <td className="text-center px-6 whitespace-nowrap">
                         <Link 
                           to={`/customer-details/${user.id}`}
-                          className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                          className="px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150"
                         >
                           Details
                         </Link>

@@ -141,11 +141,11 @@ function StaffAccounts() {
                     <td className="text-center px-6 whitespace-nowrap">
                         <Link 
                           to={`/update-user/${user.id}`}
-                          className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                          className="px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150"
                         >
                           Update
                         </Link>
-                        <button onClick={() => deleteUser(user.id)} className="delete-button py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
+                        <button onClick={() => deleteUser(user.id)} className="delete-button ml-4 px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150">
                           Delete
                         </button>
                     </td>

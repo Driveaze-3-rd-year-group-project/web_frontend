@@ -31,8 +31,8 @@ const AdminDashboard = () => {
       ],
   };
   return (
-    <div className='grow p-8'> 
-      <h2 className='text-2xl mb-4'>Admin Dashboard</h2>
+    <div className='grow p-8 mt-6'> 
+      <h2 className='text-2xl font-bold mb-4'>Admin Dashboard</h2>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6'>
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
           <div className="flex-shrink-0 text-3xl text-blue-500">

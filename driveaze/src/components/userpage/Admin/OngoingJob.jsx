@@ -10,24 +10,29 @@ function OngoingJob() {
       vehicleModel: "Toyota Corolla"
     },
     {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+        icon: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
       numberPlate: "XYZ-5678",
       vehicleModel: "Honda CBR"
     },
     {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+    numberPlate: "TUV-9753",
+    vehicleModel: "Toyota Primio"
+  },
+    {
+        icon: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
       numberPlate: "LMN-2468",
       vehicleModel: "Ford F-150"
     },
     {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+        icon: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
       numberPlate: "QRS-1357",
-      vehicleModel: "Mercedes Sprinter"
+      vehicleModel: "Nissan Caravan"
     },
     {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+        icon: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
       numberPlate: "TUV-9753",
-      vehicleModel: "BMW X5"
+      vehicleModel: "Honda Civic"
     },
 ]
 //
@@ -43,10 +48,10 @@ return (
                     Ongoing Jobs
                 </h3>
             </div>
-            <div className="mt-3 md:mt-0 flex items-center">
+            <div className=" md:mt-0 flex items-center">
                 <form
                     onSubmit={(e) => e.preventDefault()} 
-                    className="max-w-md px-4 mx-auto mt-12">
+                    className="max-w-md px-4 mx-auto">
                     <div className="relative">
                         <svg xmlns="http://www.w3.org/2000/svg" className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -65,7 +70,7 @@ return (
                   
             </div>
         </div>
-          <ul className="mt-12 divide-y">
+          <ul className="mt-6 divide-y">
               {
                   members
                   

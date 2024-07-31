@@ -17,42 +17,42 @@ const CompletedRepairs = () => {
     {
       date: "2022-01-12",
       detail: "Changed vehicle oil",
-      mechanic: "John Doe",
+      mechanic: "Ruwan Kumara",
     },
     {
       date: "2022-01-15",
       detail: "Serviced vehicle",
-      mechanic: "Jane Smith",
+      mechanic: "Saman Kumara",
     },
     {
       date: "2022-01-18",
       detail: "Replaced brake pads",
-      mechanic: "Michael Johnson",
+      mechanic: "Dasun Pathirana",
     },
     {
       date: "2022-01-20",
       detail: "Checked tire pressure",
-      mechanic: "Emily Davis",
+      mechanic: "Kamal Perera",
     },
     {
       date: "2022-01-22",
       detail: "Replaced air filter",
-      mechanic: "James Brown",
+      mechanic: "Ruwan Kumara",
     },
     {
       date: "2022-01-25",
       detail: "Checked battery health",
-      mechanic: "Jennifer Wilson",
+      mechanic: "Dasun Pathirana",
     },
     {
       date: "2022-01-28",
       detail: "Performed wheel alignment",
-      mechanic: "William Moore",
+      mechanic: "Ruwan Kumara",
     },
     {
       date: "2022-01-30",
       detail: "Cleaned fuel injectors",
-      mechanic: "Jessica Garcia",
+      mechanic: "Dasun Pathirana",
     },
   ];
 

@@ -88,8 +88,8 @@ const Dashboard = () => {
             <FaCalendarDay />
           </div>
           <div className="ml-4">
-            <h4 className="text-gray-800 text-xl font-semibold">Online Bookings Today</h4>
-            <p className="text-gray-600 text-2xl font-bold">{metrics.bookingsToday}</p>
+            <h4 className="text-gray-800 text-lg font-semibold">Online Bookings Today</h4>
+            <p className="text-gray-600 text-xl font-bold">{metrics.bookingsToday}</p>
           </div>
         </div>
 
@@ -98,8 +98,8 @@ const Dashboard = () => {
             <FaMoneyCheckAlt />
           </div>
           <div className="ml-4">
-            <h4 className="text-gray-800 text-xl font-semibold">Physical Payments Today</h4>
-            <p className="text-gray-600 text-2xl font-bold">LKR {metrics.physicalPaymentsToday}</p>
+            <h4 className="text-gray-800 text-lg font-semibold">Physical Payments Today</h4>
+            <p className="text-gray-600 text-xl font-bold">LKR {metrics.physicalPaymentsToday}</p>
           </div>
         </div>
 
@@ -108,8 +108,8 @@ const Dashboard = () => {
             <FaTasks />
           </div>
           <div className="ml-4">
-            <h4 className="text-gray-800 text-xl font-semibold">Ongoing Jobs</h4>
-            <p className="text-gray-600 text-2xl font-bold">{metrics.ongoingJobs}</p>
+            <h4 className="text-gray-800 text-lg font-semibold">Ongoing Jobs</h4>
+            <p className="text-gray-600 text-xl font-bold">{metrics.ongoingJobs}</p>
           </div>
         </div>
       </div>

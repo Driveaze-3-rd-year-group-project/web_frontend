@@ -19,31 +19,31 @@ const ViewHistory = () => {
     {
       date: "2022-01-10",
       details: "Oil change and tire rotation",
-      technician: "John Doe",
+      technician: "Saman Kumara",
       type: "service",
     },
     {
       date: "2022-03-14",
       details: "Brake inspection and replacement",
-      technician: "Jane Smith",
+      technician: "Kasun Perera",
       type: "repair",
     },
     {
       date: "2022-05-20",
       details: "Engine diagnostics and repair",
-      technician: "Mike Johnson",
+      technician: "Kasun Perera",
       type: "repair",
     },
     {
       date: "2022-07-25",
       details: "Transmission fluid replacement",
-      technician: "Sara Williams",
+      technician: "Kasun Perera",
       type: "service",
     },
     {
       date: "2022-09-30",
       details: "Battery replacement",
-      technician: "David Brown",
+      technician: "Saman Kumara",
       type: "service",
     },
   ];

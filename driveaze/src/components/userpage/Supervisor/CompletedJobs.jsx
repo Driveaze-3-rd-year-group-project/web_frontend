@@ -6,22 +6,27 @@ const CompletedJobs = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const members = [
     {
+      icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
       numberPlate: "ABC-1234",
       vehicleModel: "Toyota Corolla"
     },
     {
+      icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
       numberPlate: "XYZ-5678",
       vehicleModel: "Honda CBR"
     },
     {
+      icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
       numberPlate: "LMN-2468",
       vehicleModel: "Ford F-150"
     },
     {
+      icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
       numberPlate: "QRS-1357",
       vehicleModel: "Mercedes Sprinter"
     },
     {
+      icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
       numberPlate: "TUV-9753",
       vehicleModel: "BMW X5"
     },
@@ -73,7 +78,7 @@ return (
                   .map((item, idx) => (
                     <li key={idx} className="py-5 flex items-start justify-between">
                       <div className="flex gap-3">
-                        <img src={item.avatar} className="flex-none w-12 h-12 rounded-full" />
+                        <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
                         <div>
                           <span className="block text-sm text-gray-700 font-semibold">{item.numberPlate}</span>
                           <span className="block text-sm text-gray-600">{item.vehicleModel}</span>

@@ -4,25 +4,37 @@ import { FaRegTrashAlt, FaRegEdit, FaTimes } from "react-icons/fa";
 const InventoryManagement = () => {
     const [jobs, setJobs] = useState([
         {
-            title: "Screwdriver",
+            title: "Break Oil Can",
             initcount: 100,
             curentcount: 56,
             adjustCount: 0,
         },
         {
-            title: "Hammer",
+            title: "Break Pad",
             initcount: 10,
             curentcount: 5,
             adjustCount: 0,
         },
         {
-            title: "Wrench Set",
+            title: "Radiator Grille",
             initcount: 30,
             curentcount: 16,
             adjustCount: 0,
         },
         {
-            title: "Wrench Set",
+            title: "Air Vents",
+            initcount: 200,
+            curentcount: 80,
+            adjustCount: 0,
+        },
+        {
+            title: "Parking Sensors",
+            initcount: 30,
+            curentcount: 16,
+            adjustCount: 0,
+        },
+        {
+            title: "Air Filter",
             initcount: 200,
             curentcount: 80,
             adjustCount: 0,
@@ -274,6 +286,7 @@ const ServiceBookingDetails = ({ job, onSave, closePopup }) => {
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
+                        
                         <div className="flex items-center justify-between mt-6">
                             <button
                                 type="button"

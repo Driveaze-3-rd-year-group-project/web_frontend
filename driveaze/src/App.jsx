@@ -40,8 +40,12 @@ import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
 import EmployeeRegister from "./components/userpage/Admin/EmployeeRegister";
-import Ongoingjobs from "./components/userpage/Admin/OngoingJobs";
-import ManageOg from "./components/userpage/Admin/ManageOg";
+import OngoingJob from "./components/userpage/Admin/OngoingJob";
+import RegisteredVehicle from "./components/userpage/Admin/RegisteredVehicle";
+import CustomerComplaints from "./components/userpage/Admin/CustomerComplaints";
+import SiteAnnouncements from "./components/userpage/Admin/SiteAnnouncements";
+import ViewOngoingjob from "./components/userpage/Admin/ViewOngoingjob";
+import CustomerReports from "./components/userpage/Admin/CustomerReports";
 
 function App() {
   return (
@@ -91,8 +95,13 @@ function App() {
                   <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="/update-user/:userId" element={<UpdateEmployee />} />
                   <Route path="/employee-register" element={<EmployeeRegister />} />
-                  <Route path="/ongoingjobs" element={<Ongoingjobs />} />
-                  <Route path="/manageog" element={<ManageOg />} />
+                  <Route path="/ongoingjobs" element={<OngoingJob />} />
+                  <Route path="/registeredvehicles" element={<RegisteredVehicle />} />
+                  <Route path="/customercomplaints" element={<CustomerComplaints />} />
+                  <Route path="/siteannouncements" element={<SiteAnnouncements />} />
+                  <Route path="/viewongoingjob" element={<ViewOngoingjob />} />
+                  <Route path="/CustomerReports" element={<CustomerReports />} />
+               
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -153,7 +162,9 @@ function App() {
                   <Route path="/customerpayments" element={<CustomerPayments />} />
                   <Route path="/customerpayments/editbill" element={<ViewBill />} />
                   <Route path="/customerpayments/payment" element={<MakePayments />} />
-                  <Route path="*" element={<Navigate to="/dashboard" />} />
+                  <Route path="/customerpayments/payment" element={<MakePayments />} />
+
+                  
                 </>
               )}
             </Route>

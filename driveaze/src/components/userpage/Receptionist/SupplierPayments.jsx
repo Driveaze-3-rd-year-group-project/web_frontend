@@ -8,52 +8,74 @@ const SupplierPayments = () => {
     setFilter(e.target.value);
   };
 
-  const members = [
+  const suppliers = [
     {
-      avatar: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
-      name: "John Lorin",
-      email: "john@example.com",
+      logo: "https://via.placeholder.com/50x50/ff5722/ffffff?text=ABC+Corp",
+      name: "ABC Corporation",
+      email: "contact@abccorp.lk",
       lastPaymentDate: "2024-06-15",
       lastBillDate: "2024-06-10",
       paymentStatus: "Pending",
     },
     {
-      avatar: "https://randomuser.me/api/portraits/men/86.jpg",
-      name: "Chris Bondi",
-      email: "chrisbondi@example.com",
+      logo: "https://via.placeholder.com/50x50/4caf50/ffffff?text=XYZ+Ltd",
+      name: "XYZ Ltd",
+      email: "info@xyzltd.lk",
       lastPaymentDate: "2024-06-18",
       lastBillDate: "2024-06-12",
       paymentStatus: "Completed",
     },
     {
-      avatar:
-        "https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-      name: "Yasmine",
-      email: "yasmine@example.com",
+      logo: "https://via.placeholder.com/50x50/2196f3/ffffff?text=LMN+Inc",
+      name: "LMN Inc",
+      email: "contact@lmninc.lk",
       lastPaymentDate: "2024-06-20",
       lastBillDate: "2024-06-15",
       paymentStatus: "Pending",
     },
     {
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=a72ca28288878f8404a795f39642a46f",
-      name: "Joseph",
-      email: "joseph@example.com",
+      logo: "https://via.placeholder.com/50x50/9c27b0/ffffff?text=PQR+Group",
+      name: "PQR Group",
+      email: "info@pqrgroup.lk",
       lastPaymentDate: "2024-06-22",
       lastBillDate: "2024-06-18",
       paymentStatus: "Completed",
     },
+    {
+      logo: "https://via.placeholder.com/50x50/e91e63/ffffff?text=STU+Ltd",
+      name: "STU Ltd",
+      email: "contact@stuldt.lk",
+      lastPaymentDate: "2024-06-15",
+      lastBillDate: "2024-06-10",
+      paymentStatus: "Pending",
+    },
+    {
+      logo: "https://via.placeholder.com/50x50/ff9800/ffffff?text=GHI+Co",
+      name: "GHI Co",
+      email: "info@ghico.lk",
+      lastPaymentDate: "2024-06-25",
+      lastBillDate: "2024-06-20",
+      paymentStatus: "Completed",
+    },
+    {
+      logo: "https://via.placeholder.com/50x50/673ab7/ffffff?text=JKL+LLC",
+      name: "JKL LLC",
+      email: "contact@jklllc.lk",
+      lastPaymentDate: "2024-06-28",
+      lastBillDate: "2024-06-24",
+      paymentStatus: "Pending",
+    },
   ];
 
-  // Sort members by lastPaymentDate in descending order
-  const sortedMembers = [...members].sort(
+  // Sort suppliers by lastPaymentDate in descending order
+  const sortedSuppliers = [...suppliers].sort(
     (a, b) => new Date(b.lastPaymentDate) - new Date(a.lastPaymentDate)
   );
 
-  const filteredMembers = sortedMembers.filter((member) => {
+  const filteredSuppliers = sortedSuppliers.filter((supplier) => {
     const matchesFilter =
-      filter === "all" || filter === member.paymentStatus.toLowerCase();
-    const matchesSearch = member.name
+      filter === "all" || filter === supplier.paymentStatus.toLowerCase();
+    const matchesSearch = supplier.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     return matchesFilter && matchesSearch;
@@ -130,44 +152,44 @@ const SupplierPayments = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {filteredMembers.map((member, index) => (
+            {filteredSuppliers.map((supplier, index) => (
               <tr key={index} className="hover:bg-gray-100">
                 <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                   <img
-                    src={member.avatar}
+                    src={supplier.logo}
                     className="w-10 h-10 rounded-full"
-                    alt={member.name}
+                    alt={supplier.name}
                   />
                   <div>
                     <span className="block text-sm text-gray-700 font-semibold">
-                      {member.name}
+                      {supplier.name}
                     </span>
                     <span className="block text-xs text-gray-600">
-                      {member.email}
+                      {supplier.email}
                     </span>
                   </div>
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
-                  {member.lastBillDate}
+                  {supplier.lastBillDate}
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
-                  {member.lastPaymentDate}
+                  {supplier.lastPaymentDate}
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
                   <span
                     className={`font-medium ${
-                      member.paymentStatus === "Completed"
+                      supplier.paymentStatus === "Completed"
                         ? "text-green-500"
                         : "text-yellow-500"
                     }`}
                   >
-                    {member.paymentStatus}
+                    {supplier.paymentStatus}
                   </span>
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
                   <a
                     href="/managesupplier"
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-15g"
+                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
                   >
                     Manage
                   </a>

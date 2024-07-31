@@ -41,11 +41,13 @@ const SupervisorDashboard = () => {
   };
 
   return (
-    <div className="mt-10">
-      <div className="max-w-lg mb-4">
-        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl ml-4">
+    <div className="mt-14 max-w-screen-xl mx-auto px-4 md:px-8">
+      <div className="items-start justify-between md:flex">
+      <div className="max-w-lg">
+        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Dashboard
         </h3>
+      </div>
       </div>
       <main className="p-4">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">

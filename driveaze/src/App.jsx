@@ -18,6 +18,7 @@ import AddTechnicians from "./components/userpage/Supervisor/AddTechnicians.jsx"
 import VehicleHistory from "./components/userpage/Supervisor/VehicleHistory.jsx";
 import ViewHistory from "./components/userpage/Supervisor/ViewHistory.jsx";
 import InventoryManagement from "./components/userpage/Supervisor/InventoryManagement.jsx";
+import OngoingJobs from "./components/userpage/Admin/OngoingJobs.jsx";
 
 import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
 import JobManagement from "./components/userpage/Receptionist/JobManagement";
@@ -117,6 +118,7 @@ function App() {
                   <Route path="/update-user/:userId" element={<UpdateEmployee />} />
                   <Route path="/register-employee" element={<RegisterEmployee />} />
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
+                  <Route path="/ongoingjobs" element={<OngoingJobs />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

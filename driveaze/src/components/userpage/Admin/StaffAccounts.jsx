@@ -138,7 +138,7 @@ function StaffAccounts() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
                     <td className="px-6 py-4 whitespace-nowrap">2024/07/29</td>
-                    <td className="text-right px-6 whitespace-nowrap">
+                    <td className="text-center px-6 whitespace-nowrap">
                         <Link 
                           to={`/update-user/${user.id}`}
                           className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"

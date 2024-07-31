@@ -99,7 +99,7 @@ function StaffAccounts() {
             <select
               value={filter}
               onChange={handleFilterChange}
-              className="py-2 px-3 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="py-2 px-3 text-gray-500 bg-transparent outline-none w-60 border focus:border-indigo-600 shadow-sm rounded-lg"
             >
               <option value="all">All Roles</option>
               <option value="admin">Admin</option>

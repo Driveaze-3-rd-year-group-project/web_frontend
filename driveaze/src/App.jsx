@@ -54,6 +54,7 @@ import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountD
 import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
 import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
 import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
+import ReportsAnalytics from "./components/userpage/Admin/ReportsAnalytics.jsx";
 
 
 
@@ -119,6 +120,7 @@ function App() {
                   <Route path="/register-employee" element={<RegisterEmployee />} />
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
                   <Route path="/ongoingjobs" element={<OngoingJobs />} />
+                  <Route path="/reports" element={<ReportsAnalytics />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

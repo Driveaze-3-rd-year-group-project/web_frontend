@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 import { useLocation } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
-const ServiceHistory = () => {
+const ServiceHistory = () =>{
   const location = useLocation();
   const vehicle = location.state;
   const { brand, vehicle_number } = location.state || {}; // Make sure to use the correct keys
@@ -31,36 +33,41 @@ const ServiceHistory = () => {
   };
 
   return (
-    <div className='max-w-screen-xl px-4 ml-10 mr-10 md:px-8 mt-14'>
-       <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">{vehicle_number}</h1>
-          <p className="text-gray-600">
-            {brand || "No vehicle_number available."}
-          </p>
-        </div>
-         
+    <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+          {vehicle.vehicle_number} <span className='flex flex-col font-normal'>{vehicle.brand} {vehicle.model}</span>
+        </h3>
+       
         <button className="text-white bg-indigo-600 rounded duration-150 hover:bg-indigo-500 active:bg-indigo-700 font-bold py-2 px-4 rounded">
           Download Full History
         </button>
+
+          
       </div>
-    <div className="max-w-screen-xl mx-auto px-4 ml-5md:px-8 mt-14">
-     
-      <div className='mt-4 mb-2 flex justify-between'>
-            <div className='flex flex-col justify-between justify-items-center'>
-                <div className="text-sm text-gray-700 mb-1  font-semibold">Manufactured Year - <span className='font-normal'>{vehicle.manufactured_year}</span> </div>
-                <div className="text-sm text-gray-700 mb-1  font-semibold">Registered Date - <span className='font-normal'>{vehicle.registered_date}</span> </div>
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        <div className="mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p className="font-semibold text-gray-700">
+                <strong>Manufactured Year</strong> {vehicle.manufactured_year}
+              </p>
+              <p className="font-semibold text-gray-700">
+                <strong>Registered Date</strong> {vehicle.registered_date}
+              </p>
             </div>
-
-            <div  className='flex flex-col justify-between justify-items-center'>
-              <div className="text-sm text-gray-700 mb-2 font-semibold">Last service - <span className='font-normal'>7/16/2024</span></div>
-              <div className="text-sm text-gray-700 mb-2  font-semibold">Next service - <span className='font-normal'>7/16/2024</span></div>
-
+            <div>
+              <p className="font-semibold text-gray-700">
+                <strong>Last Service -</strong> 7/16/2024
+                
+              </p>
+              <p className="font-semibold text-gray-700">
+                <strong>Next Service</strong> 7/16/2024
+              </p>
             </div>
+          </div>
         </div>
-      <div className="h-px bg-gray-200 border-t border-gray-400 my-4"></div>
-     
-      <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="mt-12 shadow-sm border rounded-lg overflow-hidden">
           <table className="w-full table-auto text-sm text-left">
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
@@ -100,9 +107,11 @@ const ServiceHistory = () => {
           </table>
         </div>
       </div>
-    </div>
+      
+      </div>
     </div>
   );
 };
 
 export default ServiceHistory;
+

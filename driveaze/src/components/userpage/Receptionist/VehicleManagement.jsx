@@ -11,47 +11,65 @@ const VehicleManagement = () => {
     {
       vehicleNumber: "ABC-1234",
       vehicleModel: "Toyota Corolla",
-      ownerName: "Liam James",
-      ownerEmail: "LiamJames@gmail.com",
-      phoneNumber: "071-1234567",
+      ownerName: "Nimal Perera",
+      ownerEmail: "nimal.perera@example.lk",
+      phoneNumber: "071-2345678",
       registeredDate: "2022-01-01",
       avatar: "https://via.placeholder.com/150?text=TC",
     },
     {
       vehicleNumber: "DEF-5678",
       vehicleModel: "Honda Civic",
-      ownerName: "Olivia Emma",
-      ownerEmail: "OliviaEmma@gmail.com",
-      phoneNumber: "070-1234567",
+      ownerName: "Kumari Silva",
+      ownerEmail: "kumari.silva@example.lk",
+      phoneNumber: "070-2345678",
       registeredDate: "2022-02-15",
       avatar: "https://via.placeholder.com/150?text=HC",
     },
     {
       vehicleNumber: "GHI-9101",
       vehicleModel: "Ford Focus",
-      ownerName: "William Benjamin",
-      ownerEmail: "WilliamBenjamin@gmail.com",
-      phoneNumber: "077-1234567",
-      registeredDate: "2022-03-20",
+      ownerName: "Arjun Fernando",
+      ownerEmail: "arjun.fernando@example.lk",
+      phoneNumber: "077-2345678",
+      registeredDate: "2023-03-20",
       avatar: "https://via.placeholder.com/150?text=FF",
     },
     {
       vehicleNumber: "JKL-1123",
       vehicleModel: "Chevrolet Malibu",
-      ownerName: "Henry Theodore",
-      ownerEmail: "HenryTheodore@gmail.com",
-      phoneNumber: "076-1234567",
+      ownerName: "Anusha Rajapakse",
+      ownerEmail: "anusha.rajapakse@example.lk",
+      phoneNumber: "076-2345678",
       registeredDate: "2022-04-10",
       avatar: "https://via.placeholder.com/150?text=CM",
     },
     {
       vehicleNumber: "MNO-1456",
       vehicleModel: "Nissan Altima",
-      ownerName: "Amelia Elijah",
-      ownerEmail: "AmeliaElijah@gmail.com",
-      phoneNumber: "075-1234567",
-      registeredDate: "2022-05-30",
+      ownerName: "Kasun Bandara",
+      ownerEmail: "kasun.bandara@example.lk",
+      phoneNumber: "075-2345678",
+      registeredDate: "2024-05-30",
       avatar: "https://via.placeholder.com/150?text=NA",
+    },
+    {
+      vehicleNumber: "PQR-7890",
+      vehicleModel: "Suzuki Swift",
+      ownerName: "Samantha Perera",
+      ownerEmail: "samantha.perera@example.lk",
+      phoneNumber: "074-2345678",
+      registeredDate: "2024-06-15",
+      avatar: "https://via.placeholder.com/150?text=SS",
+    },
+    {
+      vehicleNumber: "VWX-6789",
+      vehicleModel: "Kia Forte",
+      ownerName: "Dilani Wijesinghe",
+      ownerEmail: "dilani.wijesinghe@example.lk",
+      phoneNumber: "072-2345678",
+      registeredDate: "2024-08-10",
+      avatar: "https://via.placeholder.com/150?text=KF",
     },
   ];
 
@@ -138,7 +156,7 @@ const VehicleManagement = () => {
                 <td className="py-3 px-6 whitespace-nowrap">
                   {item.ownerName}
                 </td>
-                <td className="py-3 px-6 whitespace-nowrap">
+                <td className="py-3 px-6 whitespace-nowrap text-ellipsis overflow-hidden max-w-xs">
                   {item.ownerEmail}
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
@@ -150,7 +168,7 @@ const VehicleManagement = () => {
                 <td className="text-left py-3 px-6 whitespace-nowrap">
                   <a
                     href="/editvehicle"
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-15"
+                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
                   >
                     Edit
                   </a>

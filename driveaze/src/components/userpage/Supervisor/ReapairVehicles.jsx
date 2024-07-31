@@ -32,7 +32,7 @@ const handleSearchChange = (e) => {
 };
 
 return (
-    <div className="mt-20 max-w-screen-xl mx-auto px-4 md:px-8">
+    <div className="mt-14 max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="items-start justify-between md:flex">
             <div className="max-w-lg">
                 <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">

@@ -4,35 +4,30 @@ import { FaRegTrashAlt, FaRegEdit, FaTimes } from "react-icons/fa";
 const AddTechnicians = () => {
     const [tableItems, setTableItems] = useState([
         {
-            id: "E001",
             avatar: "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
             name: "Liam James",
             contact: "+1 (555) 000-000",
             gender: "Male"
         },
         {
-            id: "E002",
             avatar: "https://randomuser.me/api/portraits/men/86.jpg",
             name: "Olivia Emma",
             contact: "+1 (555) 000-000",
             gender: "Female"
         },
         {
-            id: "E003",
             avatar: "https://randomuser.me/api/portraits/women/79.jpg",
             name: "William Benjamin",
             contact: "+1 (555) 000-000",
             gender: "Male"
         },
         {
-            id: "E004",
             avatar: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
             name: "Henry Theodore",
             contact: "+1 (555) 000-000",
             gender: "Male"
         },
         {
-            id: "E005",
             avatar: "https://images.unsplash.com/photo-1439911767590-c724b615299d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
             name: "Amelia Elijah",
             contact: "+1 (555) 000-000",
@@ -41,7 +36,8 @@ const AddTechnicians = () => {
     ]);
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [currentDetail, setCurrentDetail] = useState({ id: '', avatar: '', name: '', contact: '', gender: '' });
+    const [currentDetail, setCurrentDetail] = useState({ avatar: '', name: '', contact: '', gender: '' });
+
     const [editingIndex, setEditingIndex] = useState(null);
     const [popupType, setPopupType] = useState('');
 
@@ -50,7 +46,8 @@ const AddTechnicians = () => {
             setCurrentDetail(tableItems[index]);
             setEditingIndex(index);
         } else {
-            setCurrentDetail({ id: '', avatar: '', name: '', contact: '', gender: '' });
+            setCurrentDetail({ avatar: '', name: '', contact: '', gender: '' });
+
         }
         setPopupType(type);
         setIsPopupOpen(true);
@@ -58,7 +55,7 @@ const AddTechnicians = () => {
 
     const closePopup = () => {
         setIsPopupOpen(false);
-        setCurrentDetail({ id: '', avatar: '', name: '', contact: '', gender: '' });
+        setCurrentDetail({ avatar: '', name: '', contact: '', gender: '' });
         setEditingIndex(null);
     };
 
@@ -84,7 +81,7 @@ const AddTechnicians = () => {
             <div className="items-start justify-between md:flex">
                 <div className="max-w-lg">
                     <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                        Team members
+                        Technicians
                     </h3>
                 </div>
                 <div className="mt-3 md:mt-0">
@@ -100,7 +97,6 @@ const AddTechnicians = () => {
                 <table className="w-full table-auto text-sm text-left">
                     <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                         <tr>
-                            <th className="py-3 px-6">Employee ID</th>
                             <th className="py-3 px-6">Name</th>
                             <th className="py-3 px-6">Contact Number</th>
                             <th className="py-3 px-6">Gender</th>
@@ -110,7 +106,7 @@ const AddTechnicians = () => {
                     <tbody className="text-gray-600 divide-y">
                         {tableItems.map((item, idx) => (
                             <tr key={idx}>
-                                <td className="py-3 px-6 whitespace-nowrap">{item.id}</td>
+
                                 <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                     <img src={item.avatar} className="w-10 h-10 rounded-full" alt={`${item.name} avatar`} />
                                     <div>
@@ -162,16 +158,7 @@ const AddTechnicians = () => {
                                         e.preventDefault();
                                         handleSave();
                                     }} className="space-y-5">
-                                        <div>
-                                            <label className="font-medium">Employee ID</label>
-                                            <input
-                                                type="text"
-                                                value={currentDetail.id}
-                                                onChange={(e) => setCurrentDetail({ ...currentDetail, id: e.target.value })}
-                                                required
-                                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                                            />
-                                        </div>
+
                                         <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
                                             <div>
                                                 <label className="font-medium">Name</label>

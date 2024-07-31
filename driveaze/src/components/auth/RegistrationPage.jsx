@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserService from '../service/UserService';
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 
 function RegistrationPage() {
     const navigate = useNavigate();
+    const [isPasswordHidden, setPasswordHidden] = useState(true)
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
         contactNumber: ''
     });
-    const [showPassword, setShowPassword] = useState(false);
+
+    // const [userData, setUserData] = useState({
+    //     name: '',
+    //     email: '',
+    //     password: '',
+    //     contactNumber: ''
+    //   });
+    
+
     const [error, setError] = useState('');
     const [contactError, setContactError] = useState('');
 
@@ -34,13 +43,14 @@ function RegistrationPage() {
         e.preventDefault();
 
         try {
-            const userData = await UserService.login(email, password);
-            console.log(Response);
-            if (userData.token) {
+            const res = await UserService.customerRegister(formData);
+            console.log(res);
+            
+            if (res.statusCode === 200) {
                 alert('User registered successfully');
                 window.location.href = '/login';
             } else {
-                setError(userData.message);
+                setError(res.message);
             }
         } catch (error) {
             setError(error.message);
@@ -49,6 +59,24 @@ function RegistrationPage() {
             }, 5000);
         }
     }
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //       const confirmUpdate = window.confirm('Are you sure you want to Update this user?');
+    //       if (confirmUpdate) {
+    //         const token = localStorage.getItem('token');
+    //         const res = await UserService.updateUser(userId, userData, token);
+    //         console.log(res)
+    //         // Redirect to profile page or display a success message
+    //         navigate("/staffaccounts");
+    //       }
+    
+    //     } catch (error) {
+    //       console.error('Error updating user profile:', error);
+    //       alert(error)
+    //     }
+    //   };
 
     return (
         <main className="w-full h-screen flex flex-col items-center justify-center bg-gray-100 sm:px-4">
@@ -72,6 +100,7 @@ function RegistrationPage() {
                             <input
                                 type="text"
                                 name="name"
+                                placeholder='Enter Your Name'
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
@@ -83,6 +112,7 @@ function RegistrationPage() {
                             <input
                                 type="email"
                                 name="email"
+                                placeholder='Enter Your Email'
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
@@ -95,6 +125,7 @@ function RegistrationPage() {
                                 type="text"
                                 name="contactNumber"
                                 value={formData.contactNumber}
+                                placeholder='Enter Your Contact Number(only 10 numbers)'
                                 onChange={handleChange}
                                 required
                                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
@@ -102,19 +133,32 @@ function RegistrationPage() {
                             {contactError && <p className="text-red-500 text-sm mt-1">{contactError}</p>}
                         </div>
                         <div>
-                            <label className="font-medium">Password</label>
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                            />
-                            <button type="button" onClick={() => setShowPassword(!showPassword)}>
-                                {showPassword ? 'Hide' : 'Show'} Password
-                            </button>
-                        </div>
+                            <label className="font-medium">
+                                Password
+                            </label>
+                            <div className="relative">
+                                <a className="text-gray-400 absolute right-3 mt-5 inset-y-0 my-auto hover:text-gray-600"
+                                    onClick={() => setPasswordHidden(!isPasswordHidden)}
+                                >
+                                    {
+                                        isPasswordHidden ? (
+                                            <FaEye />
+                                        ) : (
+                                            <FaEyeSlash />
+                                        )
+                                    }
+                                </a>
+                                <input
+                                    type={isPasswordHidden ? "password" : "text"}
+                                    name="password"
+                                    value={formData.password}
+                                    placeholder='Enter Your Password'
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                />
+                            </div>
+                        </div >
 
                         <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150" type='submit'>
                             Sign Up

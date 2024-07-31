@@ -11,6 +11,7 @@ const CustomerPayments = () => {
       status: "Completed",
       image: "TC",
       totalAmount: 1200,
+      customerName: "Nimali Perera", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Oil Change", cost: 200 },
         { id: 2, description: "Tire Rotation", cost: 100 },
@@ -25,6 +26,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "HA",
       totalAmount: 1500,
+      customerName: "Kamal Silva", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Battery Replacement", cost: 300 },
         { id: 2, description: "Engine Check", cost: 200 },
@@ -38,6 +40,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "FM",
       totalAmount: 2000,
+      customerName: "Dilani Weerasinghe", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Transmission Repair", cost: 500 },
         { id: 2, description: "Wheel Alignment", cost: 150 },
@@ -51,6 +54,7 @@ const CustomerPayments = () => {
       status: "Completed",
       image: "CC",
       totalAmount: 1800,
+      customerName: "Ranjith Gunawardena", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Oil Change", cost: 200 },
         { id: 2, description: "Air Filter Replacement", cost: 100 },
@@ -64,6 +68,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "B3S",
       totalAmount: 2200,
+      customerName: "Samanthi Jayasuriya", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Coolant Flush", cost: 250 },
         { id: 2, description: "Brake Pad Replacement", cost: 200 },
@@ -77,6 +82,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "AA4",
       totalAmount: 2400,
+      customerName: "Chamara Perera", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Spark Plug Replacement", cost: 300 },
         { id: 2, description: "Fuel System Cleaning", cost: 200 },
@@ -87,15 +93,27 @@ const CustomerPayments = () => {
   const [bills, setBills] = useState(initialBills);
   const [filter, setFilter] = useState("All");
   const [selectedBill, setSelectedBill] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
-  const filteredBills = bills.filter((bill) => {
-    if (filter === "All") return true;
-    return bill.status === filter;
-  });
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredBills = bills
+    .filter((bill) => {
+      if (filter !== "All" && bill.status !== filter) return false;
+      if (searchTerm && !(
+        bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
+      )) return false;
+      return true;
+    });
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
@@ -108,10 +126,7 @@ const CustomerPayments = () => {
               </h3>
             </div>
             <div className="mt-3 md:mt-0">
-              <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex max-w-md mx-auto"
-              >
+              <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
                 <div className="relative w-full">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -130,18 +145,20 @@ const CustomerPayments = () => {
                   <input
                     type="text"
                     placeholder="Search"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
                     className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
                   />
                 </div>
               </form>
             </div>
           </div>
-          <div className="flex items-center justify-between mt-4 space-x-4">
+          <div className="flex items-center justify-between mt-2 space-x-4">
             <div className="flex space-x-4">
               <select
                 value={filter}
                 onChange={handleFilterChange}
-                className="py-2 px-4 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="py-2 px-4 mb-1 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
               >
                 <option value="All">All</option>
                 <option value="Completed">Completed</option>
@@ -149,14 +166,14 @@ const CustomerPayments = () => {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
             {filteredBills.map((bill) => (
               <div
                 key={bill.id}
-                className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col items-start"
+                className="border border-gray-300 rounded-lg p-3 shadow-md flex flex-col items-start"
               >
                 <div className="flex justify-between items-center w-full">
-                  <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
+                  <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-2">
                     {bill.image}
                   </div>
                   <span
@@ -173,6 +190,9 @@ const CustomerPayments = () => {
                   {bill.brand} {bill.model}
                 </h2>
                 <p className="text-gray-600">{bill.vehicleNumber}</p>
+                <p className="text-gray-600 mt-2 font-bold">
+                  Customer: {bill.customerName} {/* Display customer name */}
+                </p>
                 <p className="text-black font-bold mt-2">
                   Total Amount: LKR{bill.totalAmount}
                 </p>
@@ -183,12 +203,14 @@ const CustomerPayments = () => {
                   >
                     Payment
                   </button>
-                  <a
-                    href="/customerpayments/editbill"
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                  >
-                    Edit Bill
-                  </a>
+                  {bill.status === "Pending" && (
+                    <a
+                      href="/editbill"
+                      className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+                    >
+                      Edit Bill
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

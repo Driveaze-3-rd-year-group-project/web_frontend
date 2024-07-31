@@ -91,7 +91,7 @@ function EmployeeRegister() {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label className="font-medium">Email:</label>
+                        <label className="font-medium">Password:</label>
                         <input 
                             type="password" 
                             name="password" 

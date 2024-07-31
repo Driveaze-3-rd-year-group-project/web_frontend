@@ -20,9 +20,8 @@ class UserService{
     static async customerRegister(userData){
         try{
 
-            const response = await axios.post(`${UserService.BASE_URL}/auth/customer-register`, {
-                userData //methana awla
-            });
+            const response = await axios.post(`${UserService.BASE_URL}/auth/customer-register`, userData);
+
             return response.data;
             
         }catch(err){
@@ -30,10 +29,10 @@ class UserService{
         }
     }
 
-    static async employeerRegister(userData, token){
+    static async employeeRegister(userData, token){
         try{
 
-            const response = await axios.post(`${UserService.BASE_URL}/auth/register`, userData, {
+            const response = await axios.post(`${UserService.BASE_URL}/auth/employee-register`, userData, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             return response.data;

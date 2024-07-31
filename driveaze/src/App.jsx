@@ -10,8 +10,15 @@ import Sidebar from "./components/common/Sidebar";
 import AdminDashboard from "./components/userpage/Admin/AdminDashboard";
 import StaffAccounts from "./components/userpage/Admin/StaffAccounts";
 import SupervisorDashboard from "./components/userpage/Supervisor/SupervisorDashboard";
-import VehicleHistory from './components/userpage/Supervisor/VehicleHistory';
+import UpdateRepairs from './components/userpage/Supervisor/UpdateRepairs.jsx';
 import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
+import CompletedJobs from "./components/userpage/Supervisor/CompletedJobs";
+import CompletedRepairs from "./components/userpage/Supervisor/CompletedRepairs.jsx";
+import AddTechnicians from "./components/userpage/Supervisor/AddTechnicians.jsx";
+import VehicleHistory from "./components/userpage/Supervisor/VehicleHistory.jsx";
+import ViewHistory from "./components/userpage/Supervisor/ViewHistory.jsx";
+import InventoryManagement from "./components/userpage/Supervisor/InventoryManagement.jsx";
+import OngoingJobs from "./components/userpage/Admin/OngoingJobs.jsx";
 
 import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
 import JobManagement from "./components/userpage/Receptionist/JobManagement";
@@ -28,18 +35,22 @@ import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
 import CustomerPayments from "./components/userpage/Receptionist/CustomerPayments";
 import MakePayments from "./components/userpage/Receptionist/MakePayments";
+import SupplierPayments from "./components/userpage/Receptionist/SupplierPayments";
+import AddSupplier from "./components/userpage/Receptionist/AddSupplier";
+import ManageSupplier from "./components/userpage/Receptionist/ManageSupplier";
+
 
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 import Myvehicles from "./components/userpage/Customer/Myvehicles";
 import VehicleInfo from "./components/userpage/Customer/Vehicleinfo";
 import ServiceHistory from "./components/userpage/Customer/Servicehistory";
-import Upcomingservices from "./components/userpage/Customer/upcomingservices";
-import NewService from "./components/userpage/Customer/newservice";
 import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
+
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
-import EmployeeRegister from "./components/userpage/Admin/EmployeeRegister";
+
+
 import OngoingJob from "./components/userpage/Admin/OngoingJob";
 import RegisteredVehicle from "./components/userpage/Admin/RegisteredVehicle";
 import CustomerComplaints from "./components/userpage/Admin/CustomerComplaints";
@@ -47,7 +58,25 @@ import SiteAnnouncements from "./components/userpage/Admin/SiteAnnouncements";
 import ViewOngoingjob from "./components/userpage/Admin/ViewOngoingjob";
 import CustomerReports from "./components/userpage/Admin/CustomerReports";
 
+import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
+import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
+import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
+import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
+import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
+import ForgetPassword from "./components/auth/ForgetPassword.jsx";
+import ReportsAnalytics from "./components/userpage/Admin/ReportsAnalytics.jsx";
+
+
+
 function App() {
+  const userRoleRedirect = () => {
+    if (UserService.isAdmin()) return "/dashboard";
+    if (UserService.isCustomer()) return "/dashboard";
+    if (UserService.isSupervisor()) return "/dashboard";
+    if (UserService.isReceptionist()) return "/dashboard";
+    return "/";
+  };
+  
   return (
     <BrowserRouter>
       <div
@@ -76,13 +105,18 @@ function App() {
                 <Route path="/" element={<Landingpage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegistrationPage />} />
+                <Route path="/forgetpassword" element={<ForgetPassword />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </>
             )}
 
+            {UserService.isAuthenticated() && (
+              <Route path="/" element={<Navigate to={userRoleRedirect()} />} />
+            )}
+
             <Route element={<ProtectedRoute />}>
-              <Route path="/login" element={<Navigate to="/" />} />
-              <Route path="/register" element={<Navigate to="/" />} />
+              <Route path="/login" element={<Navigate to={userRoleRedirect()} />} />
+              <Route path="/register" element={<Navigate to={userRoleRedirect()} />} />
 
               {!UserService.isAdmin() ? (
                 <>
@@ -94,14 +128,15 @@ function App() {
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
                   <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="/update-user/:userId" element={<UpdateEmployee />} />
-                  <Route path="/employee-register" element={<EmployeeRegister />} />
                   <Route path="/ongoingjobs" element={<OngoingJob />} />
                   <Route path="/registeredvehicles" element={<RegisteredVehicle />} />
                   <Route path="/customercomplaints" element={<CustomerComplaints />} />
                   <Route path="/siteannouncements" element={<SiteAnnouncements />} />
                   <Route path="/viewongoingjob" element={<ViewOngoingjob />} />
                   <Route path="/CustomerReports" element={<CustomerReports />} />
-               
+                  <Route path="/register-employee" element={<RegisterEmployee />} />
+                  <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
+                  <Route path="/reports" element={<ReportsAnalytics />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -115,10 +150,10 @@ function App() {
                   <Route path="/myvehicles" element={<Myvehicles/>} />
                   <Route path="/vehicleinfo" element={<VehicleInfo/>} />
                   <Route path="/billings" element={<Billings/>} />
-                  <Route path="/newservice" element={<NewService/>} />
                   <Route path="/billinfo" element={<Billinfo/>} />
                   <Route path="/servicehistory" element={<ServiceHistory/>} />
-                  <Route path="/upcomingservices" element={<Upcomingservices/>} />
+                  <Route path="/booknewservice" element={<BookNewService/>} />
+                  <Route path="/servicebookings" element={<ServiceBookings/>} />
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
@@ -134,7 +169,13 @@ function App() {
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/repairvehicles" element={<RepairVehicles />} />
+                  <Route path="/updaterepairs/:numberPlate" element={<UpdateRepairs />} /> 
+                  <Route path="/completedjobs" element={<CompletedJobs />} />
+                  <Route path="/completedrepairs/:numberPlate" element={<CompletedRepairs />} />
+                  <Route path="/addtechnicians" element={<AddTechnicians />} />
                   <Route path="/vehiclehistory" element={<VehicleHistory />} />
+                  <Route path="/vehiclehistory/viewhistory/:vehicleNumber" element={<ViewHistory />} />
+                  <Route path="/inventorymanagement" element={<InventoryManagement />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -150,21 +191,23 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
-                  <Route path="/jobmanagement/createnewjob" element={<JobCreate />} />
-                  <Route path="/jobmanagement/details" element={<JobDetails />} />
+                  <Route path="/createnewjob" element={<JobCreate />} />
+                  <Route path="/jobdetails" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
-                  <Route path="/vehiclemanagement/addvehicle" element={<AddVehicle />} />
-                  <Route path="/vehiclemanagement/edit" element={<EditVehicle />} />
+                  <Route path="/addvehicle" element={<AddVehicle />} />
+                  <Route path="/editvehicle" element={<EditVehicle />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
-                  <Route path="/billing/createbill" element={<CreateBill />} />
-                  <Route path="/billing/viewbill" element={<ViewBill />} />
+                  <Route path="/createbill" element={<CreateBill />} />
+                  <Route path="/viewbill" element={<ViewBill />} />
                   <Route path="/customerpayments" element={<CustomerPayments />} />
-                  <Route path="/customerpayments/editbill" element={<ViewBill />} />
-                  <Route path="/customerpayments/payment" element={<MakePayments />} />
-                  <Route path="/customerpayments/payment" element={<MakePayments />} />
-
-                  
+                  <Route path="/editbill" element={<ViewBill />} />
+                  <Route path="/payment" element={<MakePayments />} />
+                  <Route path="/supplierpayments" element={<SupplierPayments />} />
+                  <Route path="/addsupplier" element={<AddSupplier />} />
+                  <Route path="/managesupplier" element={<ManageSupplier />} />
+                  <Route path="/addsupplierbill" element={<AddSupplierBill />} />  
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
             </Route>

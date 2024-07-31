@@ -2,87 +2,166 @@ import React, { useState } from 'react';
 
 function RegisteredVehicle() {
   // Dummy data for demonstration
-  const vehicles = [
-    { name: 'John Doe', vehicleType: 'SUV', licenseNumber: 'ABC123', contactNumber: '123-456-7890', registeredDate: '2022-01-10' },
-    { name: 'Jane Smith', vehicleType: 'Sedan', licenseNumber: 'XYZ456', contactNumber: '987-654-3210', registeredDate: '2022-01-15' },
-    { name: 'Michael Brown', vehicleType: 'Truck', licenseNumber: 'DEF789', contactNumber: '555-123-4567', registeredDate: '2022-02-20' },
-    { name: 'Emily Davis', vehicleType: 'Motorcycle', licenseNumber: 'GHI321', contactNumber: '777-888-9999', registeredDate: '2022-03-05' },
-  ];
-
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredVehicles = vehicles.filter((vehicle) =>
-    vehicle.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const tableItems = [
+    {
+      vehicleNumber: "ABC-1234",
+      vehicleModel: "Toyota Corolla",
+      ownerName: "Nimal Perera",
+      ownerEmail: "nimal.perera@example.lk",
+      phoneNumber: "071-2345678",
+      registeredDate: "2022-01-01",
+      avatar: "https://via.placeholder.com/150?text=TC",
+    },
+    {
+      vehicleNumber: "DEF-5678",
+      vehicleModel: "Honda Civic",
+      ownerName: "Kumari Silva",
+      ownerEmail: "kumari.silva@example.lk",
+      phoneNumber: "070-2345678",
+      registeredDate: "2022-02-15",
+      avatar: "https://via.placeholder.com/150?text=HC",
+    },
+    {
+      vehicleNumber: "GHI-9101",
+      vehicleModel: "Ford Focus",
+      ownerName: "Arjun Fernando",
+      ownerEmail: "arjun.fernando@example.lk",
+      phoneNumber: "077-2345678",
+      registeredDate: "2023-03-20",
+      avatar: "https://via.placeholder.com/150?text=FF",
+    },
+    {
+      vehicleNumber: "JKL-1123",
+      vehicleModel: "Chevrolet Malibu",
+      ownerName: "Anusha Rajapakse",
+      ownerEmail: "anusha.rajapakse@example.lk",
+      phoneNumber: "076-2345678",
+      registeredDate: "2022-04-10",
+      avatar: "https://via.placeholder.com/150?text=CM",
+    },
+    {
+      vehicleNumber: "MNO-1456",
+      vehicleModel: "Nissan Altima",
+      ownerName: "Kasun Bandara",
+      ownerEmail: "kasun.bandara@example.lk",
+      phoneNumber: "075-2345678",
+      registeredDate: "2024-05-30",
+      avatar: "https://via.placeholder.com/150?text=NA",
+    },
+    {
+      vehicleNumber: "PQR-7890",
+      vehicleModel: "Suzuki Swift",
+      ownerName: "Samantha Perera",
+      ownerEmail: "samantha.perera@example.lk",
+      phoneNumber: "074-2345678",
+      registeredDate: "2024-06-15",
+      avatar: "https://via.placeholder.com/150?text=SS",
+    },
+    {
+      vehicleNumber: "VWX-6789",
+      vehicleModel: "Kia Forte",
+      ownerName: "Dilani Wijesinghe",
+      ownerEmail: "dilani.wijesinghe@example.lk",
+      phoneNumber: "072-2345678",
+      registeredDate: "2024-08-10",
+      avatar: "https://via.placeholder.com/150?text=KF",
+    },
+  ];
 
-  const handleDelete = (name) => {
-    alert(`Delete vehicle for ${name}`);
-    // Implement your logic to delete vehicle
-  };
+  const filteredItems = tableItems.filter((item) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      item.vehicleNumber.toLowerCase().includes(term) ||
+      item.ownerName.toLowerCase().includes(term)
+    );
+  });
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-      <div className="max-w-full">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-              Registered Vehicles
-            </h3>
-            <p className="text-gray-600 mt-2">
-              List of registered vehicles with contact details.
-            </p>
-          </div>
-          <div className="flex items-center">
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="w-36 sm:w-48 py-3 pl-3 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
-            />
-            <button className="ml-2 py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
-              Search
-            </button>
-          </div>
+    <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
+      <div className="flex items-start justify-between">
+        <div className="max-w-lg">
+          <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+            Registered Vehicles
+          </h3>
         </div>
-
-        <div className="shadow-sm border rounded-lg overflow-x-auto">
-          <table className="w-full table-auto text-sm text-left">
-            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-              <tr>
-                <th className="py-3 px-6">Name</th>
-                <th className="py-3 px-6">Vehicle Type</th>
-                <th className="py-3 px-6">License Number</th>
-                <th className="py-3 px-6">Contact Number</th>
-                <th className="py-3 px-6">Registered Date</th>
-                <th className="py-3 px-6">Actions</th>
+        <div className="mt-3 md:mt-0">
+          <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
+            <div className="relative w-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto">
+        <table className="w-full table-auto text-sm text-left">
+          <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+            <tr>
+              <th className="py-3 px-6">Vehicle Number</th>
+              <th className="py-3 px-6">Vehicle Model</th>
+              <th className="py-3 px-6">Owner's Name</th>
+              <th className="py-3 px-6">Owner's Email</th>
+              <th className="py-3 px-6">Registered Phone No</th>
+              <th className="py-3 px-6">Registered Date</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-600 divide-y">
+            {filteredItems.map((item, idx) => (
+              <tr key={idx} className="hover:bg-gray-100">
+                <td className="py-3 px-6 whitespace-nowrap">
+                  {item.vehicleNumber}
+                </td>
+                <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                  <img
+                    src={item.avatar}
+                    className="w-10 h-10 rounded-full"
+                    alt={item.vehicleModel}
+                  />
+                  <span>{item.vehicleModel}</span>
+                </td>
+                <td className="py-3 px-6 whitespace-nowrap">
+                  {item.ownerName}
+                </td>
+                <td className="py-3 px-6 whitespace-nowrap text-ellipsis overflow-hidden max-w-xs">
+                  {item.ownerEmail}
+                </td>
+                <td className="py-3 px-6 whitespace-nowrap">
+                  {item.phoneNumber}
+                </td>
+                <td className="py-3 px-6 whitespace-nowrap">
+                  {item.registeredDate}
+                </td>
+                
               </tr>
-            </thead>
-            <tbody className="text-gray-600 divide-y">
-              {filteredVehicles.map((vehicle, idx) => (
-                <tr key={idx}>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.vehicleType}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.licenseNumber}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.contactNumber}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.registeredDate}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <button
-                      onClick={() => handleDelete(vehicle.name)}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

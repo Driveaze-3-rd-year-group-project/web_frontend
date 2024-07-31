@@ -9,7 +9,7 @@ const CustomerPayments = () => {
       model: "Camry",
       vehicleNumber: "XYZ 1234",
       status: "Completed",
-      image: "TC",
+      image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
       totalAmount: 1200,
       customerName: "Nimali Perera", // Updated to Sri Lankan name
       services: [
@@ -24,7 +24,7 @@ const CustomerPayments = () => {
       model: "Accord",
       vehicleNumber: "ABC 5678",
       status: "Pending",
-      image: "HA",
+      image: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
       totalAmount: 1500,
       customerName: "Kamal Silva", // Updated to Sri Lankan name
       services: [
@@ -38,7 +38,7 @@ const CustomerPayments = () => {
       model: "Mustang",
       vehicleNumber: "LMN 9101",
       status: "Pending",
-      image: "FM",
+      image: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
       totalAmount: 2000,
       customerName: "Dilani Weerasinghe", // Updated to Sri Lankan name
       services: [
@@ -52,7 +52,7 @@ const CustomerPayments = () => {
       model: "Camaro",
       vehicleNumber: "JKL 1213",
       status: "Completed",
-      image: "CC",
+      image: "https://img.icons8.com/?size=100&id=57661&format=png&color=000000",
       totalAmount: 1800,
       customerName: "Ranjith Gunawardena", // Updated to Sri Lankan name
       services: [
@@ -62,11 +62,11 @@ const CustomerPayments = () => {
     },
     {
       id: 5,
-      brand: "BMW",
-      model: "3 Series",
+      brand: "Nissan",
+      model: "Altima",
       vehicleNumber: "QRS 1415",
       status: "Pending",
-      image: "B3S",
+      image: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
       totalAmount: 2200,
       customerName: "Samanthi Jayasuriya", // Updated to Sri Lankan name
       services: [
@@ -76,11 +76,11 @@ const CustomerPayments = () => {
     },
     {
       id: 6,
-      brand: "Audi",
-      model: "A4",
+      brand: "Toyota",
+      model: "Corolla",
       vehicleNumber: "TUV 1617",
       status: "Pending",
-      image: "AA4",
+      image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
       totalAmount: 2400,
       customerName: "Chamara Perera", // Updated to Sri Lankan name
       services: [
@@ -174,7 +174,7 @@ const CustomerPayments = () => {
               >
                 <div className="flex justify-between items-center w-full">
                   <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-2">
-                    {bill.image}
+                  <img className="w-16 h-16 rounded-full" src={`${bill.image}`} alt={bill.brand} />
                   </div>
                   <span
                     className={`${

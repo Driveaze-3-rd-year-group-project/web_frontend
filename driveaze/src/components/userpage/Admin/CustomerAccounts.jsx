@@ -100,7 +100,7 @@ function CustomerAccounts() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
                     <td className="px-6 py-4 whitespace-nowrap">2024/06/23</td>
-                    <td className="text-right px-6 whitespace-nowrap">
+                    <td className="text-center px-6 whitespace-nowrap">
                         <Link 
                           to={`/customer-details/${user.id}`}
                           className="px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150"

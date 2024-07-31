@@ -19,7 +19,7 @@ const ServiceBookings = () => {
 
   const members = [
     {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+        icon: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
         brand: "Honda",
         model: "Civic",
         vehi_no: "CBH-1312",
@@ -29,13 +29,13 @@ const ServiceBookings = () => {
     }, {
         icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
         brand: "Toyota",
-        model: "Axio",
+        model: "corolla",
         vehi_no: "CBH-1312",
         status: "Upcoming",
         date: "4/16/2023",
         time: "10:00AM"
     }, {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+        icon: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
         brand: "Nissan",
         model: "Caravan",
         vehi_no: "CBH-1312",
@@ -43,9 +43,9 @@ const ServiceBookings = () => {
         date: "5/16/2023",
         time: "10:00AM"
     }, {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-        brand: "Toyota",
-        model: "Premio",
+        icon: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
+        brand: "Ford",
+        model: "Focus",
         vehi_no: "CBH-1312",
         status: "Completed",
         date: "6/16/2023",
@@ -65,11 +65,11 @@ const ServiceBookings = () => {
 
   return (
     <div className='flex flex-row'>
-      <div className='left-side w-2/3 mt-20'>
+      <div className='left-side w-2/3 mt-14'>
         <div className="max-w-2xl mx-auto px-4">
           <div className="items-start justify-between sm:flex">
             <div>
-              <h4 className="text-gray-800 text-3xl font-semibold">Service Bookings</h4>
+              <h4 className="text-gray-800 text-2xl font-bold">Service Bookings</h4>
             </div>
           </div>
           <div className="flex items-center justify-between mt-4">

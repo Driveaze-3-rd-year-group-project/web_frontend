@@ -15,7 +15,7 @@ const VehicleManagement = () => {
       ownerEmail: "nimal.perera@example.lk",
       phoneNumber: "071-2345678",
       registeredDate: "2022-01-01",
-      avatar: "https://via.placeholder.com/150?text=TC",
+      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
     },
     {
       vehicleNumber: "DEF-5678",
@@ -24,7 +24,7 @@ const VehicleManagement = () => {
       ownerEmail: "kumari.silva@example.lk",
       phoneNumber: "070-2345678",
       registeredDate: "2022-02-15",
-      avatar: "https://via.placeholder.com/150?text=HC",
+      avatar: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
     },
     {
       vehicleNumber: "GHI-9101",
@@ -33,7 +33,7 @@ const VehicleManagement = () => {
       ownerEmail: "arjun.fernando@example.lk",
       phoneNumber: "077-2345678",
       registeredDate: "2023-03-20",
-      avatar: "https://via.placeholder.com/150?text=FF",
+      avatar: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
     },
     {
       vehicleNumber: "JKL-1123",
@@ -42,7 +42,7 @@ const VehicleManagement = () => {
       ownerEmail: "anusha.rajapakse@example.lk",
       phoneNumber: "076-2345678",
       registeredDate: "2022-04-10",
-      avatar: "https://via.placeholder.com/150?text=CM",
+      avatar: "https://img.icons8.com/?size=100&id=57661&format=png&color=000000",
     },
     {
       vehicleNumber: "MNO-1456",
@@ -51,25 +51,25 @@ const VehicleManagement = () => {
       ownerEmail: "kasun.bandara@example.lk",
       phoneNumber: "075-2345678",
       registeredDate: "2024-05-30",
-      avatar: "https://via.placeholder.com/150?text=NA",
+      avatar: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
     },
     {
       vehicleNumber: "PQR-7890",
-      vehicleModel: "Suzuki Swift",
+      vehicleModel: "Honda Accord",
       ownerName: "Samantha Perera",
       ownerEmail: "samantha.perera@example.lk",
       phoneNumber: "074-2345678",
       registeredDate: "2024-06-15",
-      avatar: "https://via.placeholder.com/150?text=SS",
+      avatar: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
     },
     {
       vehicleNumber: "VWX-6789",
-      vehicleModel: "Kia Forte",
+      vehicleModel: "Toyota Camry",
       ownerName: "Dilani Wijesinghe",
       ownerEmail: "dilani.wijesinghe@example.lk",
       phoneNumber: "072-2345678",
       registeredDate: "2024-08-10",
-      avatar: "https://via.placeholder.com/150?text=KF",
+      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
     },
   ];
 

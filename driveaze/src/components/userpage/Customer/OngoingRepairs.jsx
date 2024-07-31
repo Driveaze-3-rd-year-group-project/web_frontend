@@ -10,10 +10,20 @@ const OngoingRepairs = () => {
       vehicleModel: "Toyota Corolla"
     },
     {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+        icon: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
       numberPlate: "XYZ-5678",
       vehicleModel: "Honda CBR"
     },
+    {
+      icon: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
+    numberPlate: "CAK-5678",
+    vehicleModel: "Nissan Sentra"
+  },
+  {
+    icon: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
+  numberPlate: "EFD-1234",
+  vehicleModel: "Ford Mustang"
+},
     
 ]
 //
@@ -22,17 +32,17 @@ const handleSearchChange = (e) => {
 };
 
 return (
-    <div className="mt-20 max-w-screen-xl mx-auto px-4 md:px-8">
+    <div className="mt-14 max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="items-start justify-between md:flex">
             <div className="max-w-lg">
                 <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
                     Repairing Vehicle List
                 </h3>
             </div>
-            <div className="mt-3 md:mt-0 flex items-center">
+            <div className="mt-0  flex items-center">
                 <form
                     onSubmit={(e) => e.preventDefault()} 
-                    className="max-w-md px-4 mx-auto mt-12">
+                    className="max-w-md px-4 mx-auto ">
                     <div className="relative">
                         <svg xmlns="http://www.w3.org/2000/svg" className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -51,7 +61,7 @@ return (
                   
             </div>
         </div>
-          <ul className="mt-12 divide-y">
+          <ul className="mt-4 divide-y">
               {
                   members
                   

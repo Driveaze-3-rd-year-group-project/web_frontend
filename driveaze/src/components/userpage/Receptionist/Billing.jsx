@@ -8,8 +8,8 @@ const Billing = () => {
       model: "Camry",
       vehicleNumber: "XYZ 1234",
       status: "Ongoing",
-      image: "TC",
-      customerName: "Nimali Perera", // Updated to Sri Lankan name
+      image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      customerName: "Nimali Perera", 
     },
     {
       id: 2,
@@ -17,17 +17,17 @@ const Billing = () => {
       model: "Accord",
       vehicleNumber: "ABC 5678",
       status: "Ongoing",
-      image: "HA",
-      customerName: "Kamal Silva", // Updated to Sri Lankan name
+      image: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
+      customerName: "Kamal Silva", 
     },
-    {
+   {
       id: 3,
       brand: "Ford",
       model: "Mustang",
       vehicleNumber: "LMN 9101",
       status: "Ongoing",
-      image: "FM",
-      customerName: "Dilani Weerasinghe", // Updated to Sri Lankan name
+      image: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
+      customerName: "Dilani Weerasinghe", 
     },
     {
       id: 4,
@@ -35,26 +35,26 @@ const Billing = () => {
       model: "Camaro",
       vehicleNumber: "JKL 1213",
       status: "Ongoing",
-      image: "CC",
-      customerName: "Ranjith Gunawardena", // Updated to Sri Lankan name
+      image: "https://img.icons8.com/?size=100&id=57661&format=png&color=000000",
+      customerName: "Ranjith Gunawardena", 
     },
     {
       id: 5,
-      brand: "BMW",
-      model: "3 Series",
+      brand: "Nissan",
+      model: "Sentra",
       vehicleNumber: "QRS 1415",
       status: "Ongoing",
-      image: "B3S",
-      customerName: "Samanthi Jayasuriya", // Updated to Sri Lankan name
+      image: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
+      customerName: "Samanthi Jayasuriya", 
     },
     {
       id: 6,
-      brand: "Audi",
-      model: "A4",
+      brand: "Toyota",
+      model: "Corolla",
       vehicleNumber: "TUV 1617",
       status: "Ongoing",
-      image: "AA4",
-      customerName: "Chamara Perera", // Updated to Sri Lankan name
+      image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      customerName: "Chamara Perera", 
     },
   ];
 
@@ -168,7 +168,7 @@ const Billing = () => {
           >
             <div className="flex justify-between items-center w-full">
               <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
-                {bill.image}
+                <img className="w-16 h-16 rounded-full" src={`${bill.image}`} alt={bill.brand} />
               </div>
               <span className="text-yellow-500 font-medium">{bill.status}</span>
             </div>

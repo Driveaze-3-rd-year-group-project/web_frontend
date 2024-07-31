@@ -19,31 +19,31 @@ const JobManagement = () => {
   const vehicleData = {
     "ABC-1234": {
       model: "Toyota Corolla",
-      avatar: "https://via.placeholder.com/150?text=TC",
+      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
     },
     "CDE-5678": {
       model: "Honda Civic",
-      avatar: "https://via.placeholder.com/150?text=HC",
+      avatar: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
     },
     "EFG-9101": {
       model: "Ford Focus",
-      avatar: "https://via.placeholder.com/150?text=FF",
+      avatar: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
     },
     "GHA-1213": {
       model: "Chevrolet Malibu",
-      avatar: "https://via.placeholder.com/150?text=CM",
+      avatar: "https://img.icons8.com/?size=100&id=57661&format=png&color=000000",
     },
     "IJK-1415": {
       model: "Nissan Altima",
-      avatar: "https://via.placeholder.com/150?text=NA",
+      avatar: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
     },
     "KLM-1617": {
-      model: "Suzuki Swift",
-      avatar: "https://via.placeholder.com/150?text=SS",
+      model: "Toyota Camry",
+      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
     },
     "MNA-1819": {
-      model: "Hyundai Elantra",
-      avatar: "https://via.placeholder.com/150?text=HE",
+      model: "Honda Civic",
+      avatar: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
     },
   };
 

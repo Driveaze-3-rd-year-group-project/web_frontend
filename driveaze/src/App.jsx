@@ -67,6 +67,7 @@ import OngoingRepairs from "./components/userpage/Customer/OngoingRepairs.jsx"
 import RepairDetails from "./components/userpage/Customer/RepairDetails.jsx"
 import ForgetPassword from "./components/auth/ForgetPassword.jsx";
 import ReportsAnalytics from "./components/userpage/Admin/ReportsAnalytics.jsx";
+import ViewOngoingjobs from "./components/userpage/Admin/ViewOngoingJobs.jsx";
 
 
 
@@ -143,6 +144,7 @@ function App() {
                   <Route path="/reports" element={<ReportsAnalytics />} />
 
                   <Route path="*" element={<Navigate to="/dashboard" />} />
+                  <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjobs/>} />
                 </>
               )}
               {!UserService.isCustomer() ? (

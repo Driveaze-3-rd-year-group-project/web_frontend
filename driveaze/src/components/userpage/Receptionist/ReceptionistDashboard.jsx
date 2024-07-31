@@ -84,32 +84,32 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-3xl text-blue-500">
+          <div className="flex-shrink-0 text-4xl text-blue-500">
             <FaCalendarDay />
           </div>
           <div className="ml-4">
-            <h4 className="text-gray-800 text-xl font-semibold">Online Bookings Today</h4>
-            <p className="text-gray-600 text-2xl font-bold">{metrics.bookingsToday}</p>
+            <h4 className="text-gray-800 text-lg font-semibold">Online Bookings Today</h4>
+            <p className="text-gray-600 text-xl font-bold">{metrics.bookingsToday}</p>
           </div>
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-3xl text-green-500">
+          <div className="flex-shrink-0 text-4xl text-green-500">
             <FaMoneyCheckAlt />
           </div>
           <div className="ml-4">
-            <h4 className="text-gray-800 text-xl font-semibold">Physical Payments Today</h4>
-            <p className="text-gray-600 text-2xl font-bold">LKR {metrics.physicalPaymentsToday}</p>
+            <h4 className="text-gray-800 text-lg font-semibold">Physical Payments Today</h4>
+            <p className="text-gray-600 text-xl font-bold">LKR {metrics.physicalPaymentsToday}</p>
           </div>
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-          <div className="flex-shrink-0 text-3xl text-red-500">
+          <div className="flex-shrink-0 text-4xl text-red-500">
             <FaTasks />
           </div>
           <div className="ml-4">
-            <h4 className="text-gray-800 text-xl font-semibold">Ongoing Jobs</h4>
-            <p className="text-gray-600 text-2xl font-bold">{metrics.ongoingJobs}</p>
+            <h4 className="text-gray-800 text-lg font-semibold">Ongoing Jobs</h4>
+            <p className="text-gray-600 text-xl font-bold">{metrics.ongoingJobs}</p>
           </div>
         </div>
       </div>

@@ -29,7 +29,7 @@ const Billinfo = ({ vehicle }) => {
         <table className="w-full bg-white shadow-md rounded-lg">
           <thead>
             <tr className="bg-gray-100 border-b">
-              <th className="py-2 px-4 text-left">Service/Product</th>
+              <th className="py-2 px-4 text-left">Service/Repair</th>
               <th className="py-2 px-4 text-right">Cost (LKR)</th>
             </tr>
           </thead>

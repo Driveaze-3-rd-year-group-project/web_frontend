@@ -154,27 +154,28 @@ const InventoryManagement = () => {
                                             {item.title}
                                         </h3>
                                         <p className="text-gray-700 mt-2 text-lg font-bold">
-                                            Initial Count: {item.initcount}
+                                            Current Count: {item.curentcount}
                                         </p>
                                         <p className="text-gray-700 mt-2 text-lg font-bold">
-                                            Current Count: {item.curentcount}
+                                            Initial Count: {item.initcount}
                                         </p>
                                     </div>
                                     <div className="flex items-center space-x-4">
                                         <input
                                             type="number"
-                                            className="w-16 border rounded-md text-center"
+                                            className="w-16 border rounded-md text-center px-2 py-1"
                                             value={item.adjustCount}
                                             onChange={(e) => handleAdjustChange(idx, e.target.value)}
                                         />
                                         <button
-                                            className="bg-gray-300 text-black px-2 py-1 rounded-md hover:bg-gray-400"
+                                            className="bg-gray-300 text-black px-3.5 py-1.5 text-lg rounded-md hover:bg-gray-400"
                                             onClick={() => handleApplyAdjustment(idx, false)}
                                         >
                                             -
                                         </button>
+
                                         <button
-                                            className="bg-gray-300 text-black px-2 py-1 rounded-md hover:bg-gray-400"
+                                            className="bg-gray-300 text-black px-3 py-2 rounded-md hover:bg-gray-400"
                                             onClick={() => handleApplyAdjustment(idx, true)}
                                         >
                                             +

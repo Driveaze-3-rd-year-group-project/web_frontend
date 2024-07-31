@@ -1,226 +1,306 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'; 
-import Calendar from '../Calender';
-import { FaTimes } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaRegTrashAlt, FaRegEdit, FaPlus, FaTimes } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
-const ServiceBookings = () => {
-  const location = useLocation();
-  const navigate = useNavigate(); 
-  const [showPopup, setShowPopup] = useState(false);
-
-  const handleClick = () => {
-    setShowPopup(true);
+const UpdateRepairs = () => {
+  const { numberPlate } = useParams();
+  const job = {
+    vehicleNumber: numberPlate,
+    jobStartedDate: "2022-01-10",
+    assignedSupervisor: "Kasun Perera",
+    status: "Ongoing",
+    service: "Full service",
   };
 
-  const closePopup = () => {
-    setShowPopup(false);
-  };
-
-  const members = [
+  const initialJobDetails = [
     {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-        brand: "Honda",
-        model: "Civic",
-        vehi_no: "CBH-1312",
-        status: "Completed",
-        date: "3/16/2023",
-        time: "10:00AM"
-    }, {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-        brand: "Toyota",
-        model: "Axio",
-        vehi_no: "CBH-1312",
-        status: "Upcoming",
-        date: "4/16/2023",
-        time: "10:00AM"
-    }, {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-        brand: "Nissan",
-        model: "Caravan",
-        vehi_no: "CBH-1312",
-        status: "Completed",
-        date: "5/16/2023",
-        time: "10:00AM"
-    }, {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-        brand: "Toyota",
-        model: "Premio",
-        vehi_no: "CBH-1312",
-        status: "Completed",
-        date: "6/16/2023",
-        time: "10:00AM"
+      date: "2022-01-12",
+      detail: "Changed vehicle oil",
+      mechanic: "John Doe",
     },
-  ]
- 
+    {
+      date: "2022-01-15",
+      detail: "Serviced vehicle",
+      mechanic: "Jane Smith",
+    },
+    {
+      date: "2022-01-18",
+      detail: "Replaced brake pads",
+      mechanic: "Michael Johnson",
+    },
+    {
+      date: "2022-01-20",
+      detail: "Checked tire pressure",
+      mechanic: "Emily Davis",
+    },
+    {
+      date: "2022-01-22",
+      detail: "Replaced air filter",
+      mechanic: "James Brown",
+    },
+    {
+      date: "2022-01-25",
+      detail: "Checked battery health",
+      mechanic: "Jennifer Wilson",
+    },
+    {
+      date: "2022-01-28",
+      detail: "Performed wheel alignment",
+      mechanic: "William Moore",
+    },
+    {
+      date: "2022-01-30",
+      detail: "Cleaned fuel injectors",
+      mechanic: "Jessica Garcia",
+    },
+  ];
 
-  const labelColors = {
-    "Completed": {
-        color: "text-green-600 bg-green-50",
-    },
-    "Upcoming": {
-        color: "text-red-600 bg-red-50",
-    },
-  }
+  const [jobDetails, setJobDetails] = useState(initialJobDetails);
+  const [isUpdatePopupOpen, setIsUpdatePopupOpen] = useState(false);
+  const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
+  const [currentDetail, setCurrentDetail] = useState(null);
+  const [newDetail, setNewDetail] = useState({
+    date: "",
+    detail: "",
+    mechanic: "",
+  });
+
+  const handleDelete = (index) => {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+      const newJobDetails = jobDetails.filter((_, i) => i !== index);
+      setJobDetails(newJobDetails);
+    }
+  };
+
+  const handleUpdate = (index) => {
+    setCurrentDetail({ ...jobDetails[index], index });
+    setIsUpdatePopupOpen(true);
+  };
+
+  const handleSaveUpdate = () => {
+    const updatedJobDetails = jobDetails.map((detail, index) =>
+      index === currentDetail.index ? currentDetail : detail
+    );
+    setJobDetails(updatedJobDetails);
+    setIsUpdatePopupOpen(false);
+    setCurrentDetail(null);
+  };
+
+  const handleAdd = () => {
+    setJobDetails([...jobDetails, newDetail]);
+    setIsAddPopupOpen(false);
+    setNewDetail({
+      date: "",
+      detail: "",
+      mechanic: "",
+    });
+  };
 
   return (
-    <div className='flex flex-row'>
-      <div className='left-side w-2/3 mt-20'>
-        <div className="max-w-2xl mx-auto px-4">
-          <div className="items-start justify-between sm:flex">
+    <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+          Job Details for {numberPlate}
+        </h3>
+        <a
+          href="/createnewjob"
+          className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+        >
+          Completed
+        </a>
+      </div>
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        <div className="mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <h4 className="text-gray-800 text-3xl font-semibold">Service Bookings</h4>
+              <p className="font-semibold text-gray-700">
+                <strong>Vehicle Number:</strong> {job.vehicleNumber}
+              </p>
+              <p className="font-semibold text-gray-700">
+                <strong>Job Started Date:</strong> {job.jobStartedDate}
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold text-gray-700">
+                <strong>Assigned Supervisor:</strong> {job.assignedSupervisor}
+              </p>
+              <p className="font-semibold text-gray-700">
+                <strong>Status:</strong>{" "}
+                <span
+                  className={
+                    job.status === "Completed"
+                      ? "text-green-600"
+                      : "text-blue-600"
+                  }
+                >
+                  {job.status}
+                </span>
+              </p>
+              <p className="font-semibold text-gray-700">
+                <strong>Service Request (Details Given by Customer):</strong> {job.service}
+              </p>
             </div>
           </div>
-          <div className="flex items-center justify-between mt-4">
-            <select
-              className="py-2 px-6 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-            >
-              <option value="all">All</option>
-              <option value="completed">Completed</option>
-              <option value="upcoming">Upcoming</option>
-            </select>
-            <a href="/booknewservice" className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-center text-white bg-green-600 hover:bg-green-500 active:bg-green-700 rounded-lg sm:mt-0">
-                Book a service date
-            </a>
-          </div>
-          <ul className="mt-12 divide-y">
-            {
-              members.map((item, idx) => (
-                <li key={idx} className="py-5 flex items-start justify-between">
-                    <div className="flex gap-3">
-                        <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
-                        <div className='relative flex flex-row'>
-                        <div>
-                            <span className="block text-md text-gray-700 font-semibold">{item.vehi_no}</span>
-                            <span className="block text-sm text-gray-600">{item.brand}-{item.model}</span>
-                        </div> 
-                        <div className='absolute ml-32'>
-                            <span className="block text-sm text-gray-600">{item.date}</span>
-                        </div>
-                        <div className='absolute ml-56'>
-                            <span className="block text-sm text-gray-600">{item.time}</span>
-                        </div>
-                        <div className='absolute ml-80'>
-                            <span className={`py-2 px-3 rounded-full font-semibold text-xs ${labelColors[item?.status]?.color || ""}`}>{item.status}</span>
-                        </div>   
-                        </div>
-                    </div>
+        </div>
+        <h4 className="text-gray-800 text-lg font-bold mb-4">Job Details</h4>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="py-3 pl-8 text-gray-600 font-medium text-left">
+                  Date
+                </th>
+                <th className="py-3 pl-8 text-gray-600 font-medium text-left">
+                  Detail
+                </th>
+                <th className="py-3 pl-8 text-gray-600 font-medium text-left">
+                  Mechanic
+                </th>
+                <th className="py-3 px-6"></th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-700 divide-y divide-gray-200">
+              {jobDetails.map((detail, index) => (
+                <tr key={index} className="hover:bg-gray-100">
+                  <td className="py-4 pl-8">{detail.date}</td>
+                  <td className="py-4 pl-8">{detail.detail}</td>
+                  <td className="py-4 pl-8">{detail.mechanic}</td>
+                  <td className="text-right whitespace-nowrap flex gap-2 py-2">
                     <button
-                        onClick={handleClick}
-                        className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg sm:mt-0"
+                      onClick={() => handleUpdate(index)}
+                      className="py-2 px-3 font-medium text-white bg-green-600 hover:bg-green-500 duration-150 rounded-lg flex items-center justify-center"
                     >
-                        Details
+                      <FaRegEdit className="text-lg text-white" />
                     </button>
-                </li>
-              ))
-            }
-          </ul>
+                    <button
+                      onClick={() => handleDelete(index)}
+                      className="py-2 px-3 font-medium text-white bg-red-600 hover:bg-red-500 duration-150 rounded-lg flex items-center justify-center"
+                    >
+                      <FaRegTrashAlt className="text-lg text-white" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button
+            onClick={() => setIsAddPopupOpen(true)}
+            className="mt-6 py-2 px-4 font-medium text-white bg-blue-600 hover:bg-blue-500 duration-150 rounded-lg flex items-center justify-center"
+          >
+            <FaPlus className="mr-2" /> Add Job Detail
+          </button>
         </div>
       </div>
-      <div className='right-side w-1/3 mt-36'>
-        <Calendar />
-      </div>
-
-      {showPopup && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
-                <div className="flex justify-between items-center pb-3 relative">
-                    <button 
-                        onClick={closePopup} 
-                        className="absolute top-0 right-0 text-gray-600 hover:text-gray-900"
-                    >
-                        <FaTimes />
-                    </button>
-                </div>
-                <ServiceBookingDetails closePopup={closePopup} />
+      {isUpdatePopupOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg">
+            <h3 className="text-gray-800 text-lg font-bold mb-4">Update Job Detail</h3>
+            <div className="mb-4">
+              <label className="block text-gray-700">Date</label>
+              <input
+                type="date"
+                value={currentDetail.date}
+                onChange={(e) =>
+                  setCurrentDetail({ ...currentDetail, date: e.target.value })
+                }
+                className="w-full mt-1 p-2 border rounded-lg"
+              />
             </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Detail</label>
+              <input
+                type="text"
+                value={currentDetail.detail}
+                onChange={(e) =>
+                  setCurrentDetail({ ...currentDetail, detail: e.target.value })
+                }
+                className="w-full mt-1 p-2 border rounded-lg"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Mechanic</label>
+              <input
+                type="text"
+                value={currentDetail.mechanic}
+                onChange={(e) =>
+                  setCurrentDetail({ ...currentDetail, mechanic: e.target.value })
+                }
+                className="w-full mt-1 p-2 border rounded-lg"
+              />
+            </div>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setIsUpdatePopupOpen(false)}
+                className="py-2 px-4 bg-gray-500 hover:bg-gray-400 text-white rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveUpdate}
+                className="py-2 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isAddPopupOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg">
+            <h3 className="text-gray-800 text-lg font-bold mb-4">Add Job Detail</h3>
+            <div className="mb-4">
+              <label className="block text-gray-700">Date</label>
+              <input
+                type="date"
+                value={newDetail.date}
+                onChange={(e) =>
+                  setNewDetail({ ...newDetail, date: e.target.value })
+                }
+                className="w-full mt-1 p-2 border rounded-lg"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Detail</label>
+              <input
+                type="text"
+                value={newDetail.detail}
+                onChange={(e) =>
+                  setNewDetail({ ...newDetail, detail: e.target.value })
+                }
+                className="w-full mt-1 p-2 border rounded-lg"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Mechanic</label>
+              <input
+                type="text"
+                value={newDetail.mechanic}
+                onChange={(e) =>
+                  setNewDetail({ ...newDetail, mechanic: e.target.value })
+                }
+                className="w-full mt-1 p-2 border rounded-lg"
+              />
+            </div>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setIsAddPopupOpen(false)}
+                className="py-2 px-4 bg-gray-500 hover:bg-gray-400 text-white rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAdd}
+                className="py-2 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg"
+              >
+                Add
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-const ServiceBookingDetails = ({ closePopup }) => {
-  return (
-    <main className="py-14">
-      <div className="max-w-screen-xl mx-auto my-auto px-4 text-gray-600 md:px-8">
-        <div className="max-w-lg mx-auto space-y-3 sm:text-center">
-          <h3 className="text-indigo-600 text-xl font-semibold">
-            Service Reservation Details
-          </h3>
-        </div>
-        <div className="mt-12 max-w-lg mx-auto">
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            closePopup();
-          }} className="space-y-5">
-            <div>
-              <label className="font-medium">Vehicle Number</label>
-              <input
-                type="text"
-                required
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-              />
-            </div>
-            <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
-              <div>
-                <label className="font-medium">Vehicle Brand</label>
-                <select className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
-                  <option>Honda</option>
-                  <option>Nissan</option>
-                  <option>Toyota</option>
-                </select>
-              </div>
-              <div>
-                <label className="font-medium">Vehicle Model</label>
-                <select className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
-                  <option>Civic</option>
-                  <option>Altima</option>
-                  <option>Corolla</option>
-                </select>
-              </div>
-            </div>
-            <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
-              <div>
-                <label className="font-medium">Preferred Date</label>
-                <input
-                  type="date"
-                  required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                />
-              </div>
-            </div>   
-            <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
-                <div>
-                    <label className="font-medium">Preferred Time</label>
-                    <input
-                        type="time"
-                        required
-                        className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                    />
-                </div>
-            </div>  
-            <div className="flex items-center justify-between mt-6">
-              <button
-                type="button"
-                onClick={closePopup}
-                className="w-40 h-12 flex items-center justify-center text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 mt-6 rounded-lg duration-150"
-              >
-                Back
-              </button>
-              <button
-                type="submit"
-                className="w-40 h-12 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
-              >
-                Cancel Reservation
-              </button>    
-            </div>
-          </form>
-        </div>
-      </div>
-    </main>
-  );
-};
-
-export default ServiceBookings;
+export default UpdateRepairs;

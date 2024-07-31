@@ -54,6 +54,7 @@ import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountD
 import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
 import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
 import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
+import ForgetPassword from "./components/auth/ForgetPassword.jsx";
 import ReportsAnalytics from "./components/userpage/Admin/ReportsAnalytics.jsx";
 
 
@@ -95,6 +96,7 @@ function App() {
                 <Route path="/" element={<Landingpage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegistrationPage />} />
+                <Route path="/forgetpassword" element={<ForgetPassword />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </>
             )}

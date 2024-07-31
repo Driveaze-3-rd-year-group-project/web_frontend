@@ -1,6 +1,5 @@
 import React from 'react'
-import Card from './DashboardComponents/Card'
-import { FaUsers, FaUsersCog, FaCar, FaToolbox } from "react-icons/fa";
+import { FaUsers, FaUsersCog, FaCar, FaToolbox} from "react-icons/fa";
 import { Line, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, BarElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
 ChartJS.register([LineElement, BarElement, PointElement, CategoryScale, LinearScale]);
@@ -35,10 +34,43 @@ const AdminDashboard = () => {
     <div className='grow p-8'> 
       <h2 className='text-2xl mb-4'>Admin Dashboard</h2>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6'>
-        <Card icon={<FaUsers />} title="Total Customers Registered" value="100" />
-        <Card icon={<FaUsersCog />} title="Total Staff Members" value="20" />
-        <Card icon={<FaCar />} title="Total Vehicles" value="180" />
-        <Card icon={<FaToolbox />} title="Ongoing Jobs" value="55" />
+        <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+          <div className="flex-shrink-0 text-3xl text-blue-500">
+            <FaUsers />
+          </div>
+          <div className="ml-4">
+            <h4 className="text-gray-800 text-xl font-semibold">Customer Accounts</h4>
+            <p className="text-gray-600 text-2xl font-bold">100</p>
+          </div>
+        </div>
+        <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+          <div className="flex-shrink-0 text-3xl text-red-500">
+            <FaUsersCog />
+          </div>
+          <div className="ml-4">
+            <h4 className="text-gray-800 text-xl font-semibold">Staff Accounts</h4>
+            <p className="text-gray-600 text-2xl font-bold">20</p>
+          </div>
+        </div>
+
+        <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+          <div className="flex-shrink-0 text-3xl text-green-500">
+            <FaCar />
+          </div>
+          <div className="ml-4">
+            <h4 className="text-gray-800 text-xl font-semibold">Total Vehicles</h4>
+            <p className="text-gray-600 text-2xl font-bold">180</p>
+          </div>
+        </div>
+        <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+          <div className="flex-shrink-0 text-3xl text-blue-500">
+            <FaToolbox />
+          </div>
+          <div className="ml-4">
+            <h4 className="text-gray-800 text-xl font-semibold">Ongoing Jobs</h4>
+            <p className="text-gray-600 text-2xl font-bold">55</p>
+          </div>
+        </div>
       </div>
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
         <div className='bg-white p-4 rounded-lg shadow-md'>

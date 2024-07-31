@@ -144,14 +144,47 @@ function StaffAccounts() {
                   >
                     Update
                   </Link>
-                  <button onClick={() => deleteUser(user.id)} className="ml-4 px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              </div>
+          </div>
+          <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+              <table className="w-full table-auto text-sm text-left">
+                  <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                      <tr>
+                          <th className="py-3 px-6">Username</th>
+                          <th className="py-3 px-6">Role</th>
+                          <th className="py-3 px-6">Registered Date</th>
+                          <th className="py-3 px-6"></th>
+
+                      </tr>
+                  </thead>
+                  <tbody className="text-gray-600 divide-y">
+                      {users.map(user => (
+                        <tr key={user.id}>
+                          <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                              <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-10 h-10 rounded-full" />
+                              <div>
+                                  <span className="block text-gray-700 text-sm font-medium">{user.name}</span>
+                                  <span className="block text-gray-700 text-xs">{user.email}</span>
+                              </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
+                          <td className="px-6 py-4 whitespace-nowrap">2024/07/29</td>
+                          <td className="text-right px-6 whitespace-nowrap">
+                              <Link 
+                                to={`/update-user/${user.id}`}
+                                className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                              >
+                                Update
+                              </Link>
+                              <button onClick={() => deleteUser(user.id)} className="delete-button py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg">
+                                  Delete
+                              </button>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+              </table>
+          </div>
       </div>
     </div>
   )

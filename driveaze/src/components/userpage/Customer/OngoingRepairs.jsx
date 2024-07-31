@@ -22,12 +22,16 @@ const OngoingRepairs = () => {
     {
       icon: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
       numberPlate: "CAK-5678",
-      vehicleModel: "Nissan Sentra"
+      vehicleModel: "Nissan Sentra",
+      startDate: "12/12/2024",
+      startTime: "12:00PM"
     },
     {
       icon: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
       numberPlate: "EFD-1234",
-      vehicleModel: "Ford Mustang"
+      vehicleModel: "Ford Mustang",
+      startDate: "12/12/2024",
+      startTime: "12:00PM"
     },
     
 ]

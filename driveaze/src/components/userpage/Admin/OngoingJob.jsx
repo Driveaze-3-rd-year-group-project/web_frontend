@@ -1,93 +1,98 @@
-import React from 'react';
-
-const tableItems = [
-    {
-        Customername: "Liam James",
-        vehicletype: "BMW",
-        Incomingdate: "2024/03/23",
-        amount: "$100K"
-    },
-    {
-        Customername: "Olivia Emma",
-        vehicletype: "Toyota",
-        Incomingdate: "2023/06/03",
-        amount: "$90K"
-    },
-    {
-        Customername: "a Emma",
-        vehicletype: "Benz",
-        Incomingdate: "2023/05/03",
-        amount: "$50K"
-    },
-    {
-        Customername: "Olma",
-        vehicletype: "Hyundai",
-        Incomingdate: "2023/06/05",
-        amount: "$10K"
-    },
-];
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function OngoingJob() {
-    const handleView = (customerName) => {
-        alert(`View details for ${customerName}`);
-        // Implement your logic to view details
-    };
+    const [searchTerm, setSearchTerm] = useState('');
+  const members = [
+    {
+        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      numberPlate: "ABC-1234",
+      vehicleModel: "Toyota Corolla"
+    },
+    {
+        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      numberPlate: "XYZ-5678",
+      vehicleModel: "Honda CBR"
+    },
+    {
+        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      numberPlate: "LMN-2468",
+      vehicleModel: "Ford F-150"
+    },
+    {
+        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      numberPlate: "QRS-1357",
+      vehicleModel: "Mercedes Sprinter"
+    },
+    {
+        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      numberPlate: "TUV-9753",
+      vehicleModel: "BMW X5"
+    },
+]
+//
+const handleSearchChange = (e) => {
+  setSearchTerm(e.target.value);
+};
 
-    return (
-        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-            <div className="text-center mb-8">
-                <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">
+return (
+    <div className="mt-14 max-w-screen-xl mx-auto px-4 md:px-8">
+        <div className="items-start justify-between md:flex">
+            <div className="max-w-lg">
+                <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
                     Ongoing Jobs
                 </h3>
-                <p className="text-gray-600 mt-2">
-                    Manage current jobs
-                </p>
             </div>
+            <div className="mt-3 md:mt-0 flex items-center">
+                <form
+                    onSubmit={(e) => e.preventDefault()} 
+                    className="max-w-md px-4 mx-auto mt-12">
+                    <div className="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
 
-            <div className="mb-6 flex justify-center">
-                <form onSubmit={(e) => e.preventDefault()} className="relative w-full max-w-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 right-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <input
+                        <input
                         type="text"
-                        placeholder="Search"
-                        className="w-full py-3 pl-10 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
-                    />
-                </form>
-            </div>
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="Search members..."
+                        className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
+                        />
 
-            <div className="shadow-sm border rounded-lg overflow-x-auto">
-                <table className="w-full table-auto text-sm text-left">
-                    <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                        <tr>
-                            <th className="py-3 px-6">Customer name</th>
-                            <th className="py-3 px-6">Vehicle Type</th>
-                            <th className="py-3 px-6">Incoming date</th>
-                            <th className="py-3 px-6">Amount</th>
-                            <th className="py-3 px-6">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-gray-600 divide-y">
-                        {tableItems.map((item, idx) => (
-                            <tr key={idx}>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.Customername}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.vehicletype}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.Incomingdate}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.amount}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <button
-                                        onClick={() => handleView(item.Customername)}
-                                        className="text-indigo-600 hover:text-indigo-900"
-                                    >
-                                        View
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                    </div>
+                </form>
+                  
             </div>
+        </div>
+          <ul className="mt-12 divide-y">
+              {
+                  members
+                  
+                  .filter((item) =>
+                    item.numberPlate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.vehicleModel.toLowerCase().includes(searchTerm.toLowerCase()) 
+                  )
+                  
+                  .map((item, idx) => (
+                    <li key={idx} className="py-5 flex items-start justify-between">
+                      <div className="flex gap-3">
+                        <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
+                        <div>
+                          <span className="block text-sm text-gray-700 font-semibold">{item.numberPlate}</span>
+                          <span className="block text-sm text-gray-600">{item.vehicleModel}</span>
+                        </div>
+                      </div>
+                      <Link
+                        to={`/viewongoingjobs/${item.numberPlate}`}
+                        className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2">
+                          View
+                      </Link>
+                    </li>
+
+                  ))
+              }
+          </ul>
         </div>
     );
 }

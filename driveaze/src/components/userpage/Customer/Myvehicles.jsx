@@ -59,7 +59,7 @@ const Myvehicles= () => {
   ];
 
   const handleViewDetails = (vehicle) => {
-    navigate('/Vehicleinfo', { state:vehicle  }); // Pass the entire vehicle object
+    navigate('/Servicehistory', { state:vehicle  }); // Pass the entire vehicle object
   };
   
 

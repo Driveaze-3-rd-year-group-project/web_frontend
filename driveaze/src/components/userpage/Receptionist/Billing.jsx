@@ -9,7 +9,7 @@ const Billing = () => {
       vehicleNumber: "XYZ 1234",
       status: "Ongoing",
       image: "TC",
-      customerName: "John Doe", // Added customer name
+      customerName: "Nimali Perera", // Updated to Sri Lankan name
     },
     {
       id: 2,
@@ -18,7 +18,7 @@ const Billing = () => {
       vehicleNumber: "ABC 5678",
       status: "Ongoing",
       image: "HA",
-      customerName: "Jane Smith", // Added customer name
+      customerName: "Kamal Silva", // Updated to Sri Lankan name
     },
     {
       id: 3,
@@ -27,7 +27,7 @@ const Billing = () => {
       vehicleNumber: "LMN 9101",
       status: "Ongoing",
       image: "FM",
-      customerName: "Alice Johnson", // Added customer name
+      customerName: "Dilani Weerasinghe", // Updated to Sri Lankan name
     },
     {
       id: 4,
@@ -36,7 +36,7 @@ const Billing = () => {
       vehicleNumber: "JKL 1213",
       status: "Ongoing",
       image: "CC",
-      customerName: "Bob Brown", // Added customer name
+      customerName: "Ranjith Gunawardena", // Updated to Sri Lankan name
     },
     {
       id: 5,
@@ -45,7 +45,7 @@ const Billing = () => {
       vehicleNumber: "QRS 1415",
       status: "Ongoing",
       image: "B3S",
-      customerName: "Eve Davis", // Added customer name
+      customerName: "Samanthi Jayasuriya", // Updated to Sri Lankan name
     },
     {
       id: 6,
@@ -54,7 +54,7 @@ const Billing = () => {
       vehicleNumber: "TUV 1617",
       status: "Ongoing",
       image: "AA4",
-      customerName: "Charlie Wilson", // Added customer name
+      customerName: "Chamara Perera", // Updated to Sri Lankan name
     },
   ];
 

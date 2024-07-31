@@ -11,7 +11,7 @@ const CustomerPayments = () => {
       status: "Completed",
       image: "TC",
       totalAmount: 1200,
-      customerName: "John Doe", // Added customer name
+      customerName: "Nimali Perera", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Oil Change", cost: 200 },
         { id: 2, description: "Tire Rotation", cost: 100 },
@@ -26,7 +26,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "HA",
       totalAmount: 1500,
-      customerName: "Jane Smith", // Added customer name
+      customerName: "Kamal Silva", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Battery Replacement", cost: 300 },
         { id: 2, description: "Engine Check", cost: 200 },
@@ -40,7 +40,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "FM",
       totalAmount: 2000,
-      customerName: "Alice Johnson", // Added customer name
+      customerName: "Dilani Weerasinghe", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Transmission Repair", cost: 500 },
         { id: 2, description: "Wheel Alignment", cost: 150 },
@@ -54,7 +54,7 @@ const CustomerPayments = () => {
       status: "Completed",
       image: "CC",
       totalAmount: 1800,
-      customerName: "Bob Brown", // Added customer name
+      customerName: "Ranjith Gunawardena", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Oil Change", cost: 200 },
         { id: 2, description: "Air Filter Replacement", cost: 100 },
@@ -68,7 +68,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "B3S",
       totalAmount: 2200,
-      customerName: "Eve Davis", // Added customer name
+      customerName: "Samanthi Jayasuriya", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Coolant Flush", cost: 250 },
         { id: 2, description: "Brake Pad Replacement", cost: 200 },
@@ -82,7 +82,7 @@ const CustomerPayments = () => {
       status: "Pending",
       image: "AA4",
       totalAmount: 2400,
-      customerName: "Charlie Wilson", // Added customer name
+      customerName: "Chamara Perera", // Updated to Sri Lankan name
       services: [
         { id: 1, description: "Spark Plug Replacement", cost: 300 },
         { id: 2, description: "Fuel System Cleaning", cost: 200 },
@@ -153,12 +153,12 @@ const CustomerPayments = () => {
               </form>
             </div>
           </div>
-          <div className="flex items-center justify-between mt-4 space-x-4">
+          <div className="flex items-center justify-between mt-2 space-x-4">
             <div className="flex space-x-4">
               <select
                 value={filter}
                 onChange={handleFilterChange}
-                className="py-2 px-4 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="py-2 px-4 mb-1 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
               >
                 <option value="All">All</option>
                 <option value="Completed">Completed</option>
@@ -179,8 +179,8 @@ const CustomerPayments = () => {
                   <span
                     className={`${
                       bill.status === "Completed"
-                        ? "bg-white font-medium text-green-500"
-                        : "bg-white font-medium text-yellow-500"
+                        ? "bg-white text-green-500"
+                        : "bg-white text-yellow-500"
                     }`}
                   >
                     {bill.status}

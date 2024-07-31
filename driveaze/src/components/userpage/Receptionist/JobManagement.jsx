@@ -21,53 +21,73 @@ const JobManagement = () => {
       model: "Toyota Corolla",
       avatar: "https://via.placeholder.com/150?text=TC",
     },
-    "DEF-5678": {
+    "CDE-5678": {
       model: "Honda Civic",
       avatar: "https://via.placeholder.com/150?text=HC",
     },
-    "GHI-9101": {
+    "EFG-9101": {
       model: "Ford Focus",
       avatar: "https://via.placeholder.com/150?text=FF",
     },
-    "JKL-1213": {
+    "GHA-1213": {
       model: "Chevrolet Malibu",
       avatar: "https://via.placeholder.com/150?text=CM",
     },
-    "MNO-1415": {
+    "IJK-1415": {
       model: "Nissan Altima",
       avatar: "https://via.placeholder.com/150?text=NA",
+    },
+    "KLM-1617": {
+      model: "Suzuki Swift",
+      avatar: "https://via.placeholder.com/150?text=SS",
+    },
+    "MNA-1819": {
+      model: "Hyundai Elantra",
+      avatar: "https://via.placeholder.com/150?text=HE",
     },
   };
 
   const tableItems = [
     {
       vehicleNumber: "ABC-1234",
-      jobStartedDate: "2022-01-10",
+      jobStartedDate: "2024-07-01",
       assignedSupervisor: "Kasun Perera",
       status: "Ongoing",
     },
     {
-      vehicleNumber: "DEF-5678",
-      jobStartedDate: "2022-03-14",
+      vehicleNumber: "CDE-5678",
+      jobStartedDate: "2024-07-03",
       assignedSupervisor: "Nimal Silva",
       status: "Completed",
     },
     {
-      vehicleNumber: "GHI-9101",
-      jobStartedDate: "2022-05-20",
+      vehicleNumber: "EFG-9101",
+      jobStartedDate: "2024-07-07",
       assignedSupervisor: "Amila Fernando",
       status: "Ongoing",
     },
     {
-      vehicleNumber: "JKL-1213",
-      jobStartedDate: "2022-07-25",
+      vehicleNumber: "GHA-1213",
+      jobStartedDate: "2024-07-10",
       assignedSupervisor: "Sunil Rajapaksha",
       status: "Completed",
     },
     {
-      vehicleNumber: "MNO-1415",
-      jobStartedDate: "2022-09-30",
+      vehicleNumber: "IJK-1415",
+      jobStartedDate: "2024-07-12",
       assignedSupervisor: "Tharindu Gamage",
+      status: "Ongoing",
+    },
+    {
+      vehicleNumber: "KLM-1617",
+      jobStartedDate: "2024-07-15",
+      assignedSupervisor: "Dhanushka Weerasinghe",
+      status: "Completed",
+    },
+    {
+      vehicleNumber: "MNA-1819",
+      jobStartedDate: "2024-07-18",
+      assignedSupervisor: "Chamilka Gunawardena",
       status: "Ongoing",
     },
   ];
@@ -89,7 +109,7 @@ const JobManagement = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
-      <div className="flex justify-between items-center mb-1">
+      <div className="flex justify-between items-center mb-4">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Job Management
         </h3>
@@ -127,7 +147,7 @@ const JobManagement = () => {
 
       <div className="flex justify-between items-center mb-3">
         <div className="flex flex-col">
-          <label className="font-medium mb-1">Filter Jobs</label>
+          {/* <label className="font-medium mb-1">Filter Jobs</label> */}
           <select
             value={filter}
             onChange={handleFilterChange}
@@ -154,7 +174,7 @@ const JobManagement = () => {
               <th className="py-3 px-6">Vehicle Model</th>
               <th className="py-3 px-6">Job Started Date</th>
               <th className="py-3 px-6">Assigned Supervisor</th>
-              <th className="py-3 px-6 ">Status</th>
+              <th className="py-3 px-6">Status</th>
               <th className="py-3 px-6">Actions</th>
             </tr>
           </thead>

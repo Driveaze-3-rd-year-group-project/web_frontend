@@ -64,9 +64,9 @@ function ReportsAnalytics() {
             <div className="flex justify-center mt-6">
               <button
                 type="submit"
-                className="px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150"
+                className="px-4 py-2 text-white font-medium bg-red-600 hover:bg-red-500 active:bg-red-700 rounded-lg duration-150"
               >
-                Generate Report
+                Download
               </button>
             </div>
           </form>

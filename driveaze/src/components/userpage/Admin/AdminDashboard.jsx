@@ -34,10 +34,6 @@ const AdminDashboard = () => {
     <div className='grow p-8'> 
       <h2 className='text-2xl mb-4'>Admin Dashboard</h2>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6'>
-        {/* <Card icon={<FaUsers />} title="Total Customers Registered" value="100" />
-        <Card icon={<FaUsersCog />} title="Total Staff Members" value="20" />
-        <Card icon={<FaCar />} title="Total Vehicles" value="180" />
-        <Card icon={<FaToolbox />} title="Ongoing Jobs" value="55" /> */}
         <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
           <div className="flex-shrink-0 text-3xl text-blue-500">
             <FaUsers />

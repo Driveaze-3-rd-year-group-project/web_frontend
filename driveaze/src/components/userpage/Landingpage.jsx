@@ -30,71 +30,70 @@ const Landingpage = () => {
 
     return (
         <>
-            <style>
-                {`
-                    body::-webkit-scrollbar {
-                        display: none;
-                    }
-                `}
-            </style>
-            <section className="h-[calc(100vh-96px)] mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
-                <div className="space-y-4 flex-1 sm:text-center lg:text-left">
-                    <div>
-                        <h1 className='font-bold text-4xl xl:text-5xl'>
-                            <span className="text-driveazered">SAMARASINGHE</span>
-                            <span className='text-deepblue'> MOTORS </span>
-                        </h1>
-                        <h2 className='text-black font-bold text-3xl xl:text-4xl'>The name you can trust</h2>
-                    </div>
-                    <p className="text-black max-w-xl leading-relaxed sm:mx-auto lg:ml-0 text-justify">
-                        Welcome to Samarasinghe Motors Pvt Ltd, the premier service station in Matara area over 65 years of trusted service, renowned for its excellence and large-scale operations. With a dedicated team of skilled professionals, we specialize in servicing all types of Japanese hybrid petrol and electric vehicles, ensuring top-notch care for your car. Join our extensive customer base and experience the superior service that has made us a trusted name in the industry.
-                    </p>
-                    <div className="pt-10 items-center justify-center space-y-3 sm:space-x-6 sm:space-y-0 sm:flex lg:justify-start">
-                        <a href="/login" className="px-7 py-3 w-full  text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 text-center rounded-md block sm:w-auto">
-                            Book your service
-                        </a>
-                    </div>
+        <style>
+            {`
+                body::-webkit-scrollbar {
+                    display: none;
+                }
+            `}
+        </style>
+        <section className="h-[calc(100vh-96px)] mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
+            <div className="space-y-4 flex-1 sm:text-center lg:text-left">
+                <div>
+                    <h1 className='font-bold text-4xl xl:text-5xl'>
+                        <span className="text-driveazered">SAMARASINGHE</span>
+                        <span className='text-deepblue'> MOTORS </span>
+                    </h1>
+                    <h2 className='text-black font-bold text-3xl xl:text-4xl'>The name you can trust</h2>
                 </div>
+                <p className="text-black max-w-xl leading-relaxed sm:mx-auto lg:ml-0 text-justify">
+                    Welcome to Samarasinghe Motors Pvt Ltd, the premier service station in Matara area over 65 years of trusted service, renowned for its excellence and large-scale operations. With a dedicated team of skilled professionals, we specialize in servicing all types of Japanese hybrid petrol and electric vehicles, ensuring top-notch care for your car. Join our extensive customer base and experience the superior service that has made us a trusted name in the industry.
+                </p>
+                <div className="pt-10 items-center justify-center space-y-3 sm:space-x-6 sm:space-y-0 sm:flex lg:justify-start">
+                    <a href="/login" className="px-7 py-3 w-full  text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 text-center rounded-md block sm:w-auto">
+                        Book your service
+                    </a>
+                </div>
+            </div>
 
-                <div className="overflow-hidden relative shadow-lg rounded-lg">
-                    <div
-                        className="flex transition-transform ease-in-out duration-500 w-120"
-                        style={{ transform: `translateX(-${curr * 100}%)` }}
+            <div className="overflow-hidden relative shadow-lg rounded-lg">
+                <div
+                    className="flex transition-transform ease-in-out duration-500 w-120"
+                    style={{ transform: `translateX(-${curr * 100}%)` }}
+                >
+                    {slides.map((slide, index) => (
+                        <img key={index} src={slide} alt={`Slide ${index}`} className="w-full" />
+                    ))}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-between p-4">
+                    <button
+                        onClick={prev}
+                        className="p-1 rounded-full shadow text-gray-800 hover:bg-white"
                     >
-                        {slides.map((slide, index) => (
-                            <img key={index} src={slide} alt={`Slide ${index}`} className="w-full" />
+                        <ChevronLeft size={40} />
+                    </button>
+                    <button
+                        onClick={next}
+                        className="p-1 rounded-full shadow  text-gray-800 hover:bg-white"
+                    >
+                        <ChevronRight size={40} />
+                    </button>
+                </div>
+                <div className="absolute bottom-4 right-0 left-0">
+                    <div className="flex items-center justify-center gap-2">
+                        {slides.map((_, i) => (
+                            <div
+                                key={i}
+                                className={`
+                                    transition-all w-3 h-3 bg-white rounded-full
+                                    ${curr === i ? "p-2" : "bg-opacity-50"}
+                                `}
+                            />
                         ))}
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-between p-4">
-                        <button
-                            onClick={prev}
-                            className="p-1 rounded-full shadow text-gray-800 hover:bg-white"
-                        >
-                            <ChevronLeft size={40} />
-                        </button>
-                        <button
-                            onClick={next}
-                            className="p-1 rounded-full shadow  text-gray-800 hover:bg-white"
-                        >
-                            <ChevronRight size={40} />
-                        </button>
-                    </div>
-                    <div className="absolute bottom-4 right-0 left-0">
-                        <div className="flex items-center justify-center gap-2">
-                            {slides.map((_, i) => (
-                                <div
-                                    key={i}
-                                    className={`
-                                        transition-all w-3 h-3 bg-white rounded-full
-                                        ${curr === i ? "p-2" : "bg-opacity-50"}
-                                    `}
-                                />
-                            ))}
-                        </div>
-                    </div>
                 </div>
-            </section>
-        
+            </div>
+        </section>
         <section class="bg-deepblue ">
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
                 <h2 class="mb-8 text-3xl font-extrabold tracking-tight leading-tight text-center text-gray-900 lg:mb-16 dark:text-white md:text-4xl">We are <span className="text-driveazered"> Authorized Dealers for spare parts</span> & <span className="text-indigo-400"> service partners for </span></h2>
@@ -155,6 +154,7 @@ const Landingpage = () => {
                 </div>
             </div>
         </section>
+
         <section class="bg-gray-50 dark:bg-gray-900 dark:bg-gray-800">
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                 <div class="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">

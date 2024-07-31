@@ -52,6 +52,8 @@ import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountD
 import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
 import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
 import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
+import OngoingRepairs from "./components/userpage/Customer/OngoingRepairs.jsx"
+import RepairDetails from "./components/userpage/Customer/RepairDetails.jsx"
 
 
 
@@ -135,6 +137,8 @@ function App() {
                   <Route path="/servicebookings" element={<ServiceBookings/>} />
                   <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
+                  <Route path="/ongoingrepairs" element={<OngoingRepairs/>} />
+                  <Route path="/ongoingrepairs/repairdetails/:numberPlate" element={<RepairDetails/>} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

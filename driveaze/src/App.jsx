@@ -49,6 +49,15 @@ import Billings from "./components/userpage/Customer/Billings";
 import Billinfo from "./components/userpage/Customer/Billinfo";
 
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
+
+
+import OngoingJob from "./components/userpage/Admin/OngoingJob";
+import RegisteredVehicle from "./components/userpage/Admin/RegisteredVehicle";
+import CustomerComplaints from "./components/userpage/Admin/CustomerComplaints";
+import SiteAnnouncements from "./components/userpage/Admin/SiteAnnouncements";
+import ViewOngoingjob from "./components/userpage/Admin/ViewOngoingjob";
+import CustomerReports from "./components/userpage/Admin/CustomerReports";
+
 import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
 import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
 import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
@@ -119,9 +128,14 @@ function App() {
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
                   <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="/update-user/:userId" element={<UpdateEmployee />} />
+                  <Route path="/ongoingjobs" element={<OngoingJob />} />
+                  <Route path="/registeredvehicles" element={<RegisteredVehicle />} />
+                  <Route path="/customercomplaints" element={<CustomerComplaints />} />
+                  <Route path="/siteannouncements" element={<SiteAnnouncements />} />
+                  <Route path="/viewongoingjob" element={<ViewOngoingjob />} />
+                  <Route path="/CustomerReports" element={<CustomerReports />} />
                   <Route path="/register-employee" element={<RegisterEmployee />} />
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
-                  <Route path="/ongoingjobs" element={<OngoingJobs />} />
                   <Route path="/reports" element={<ReportsAnalytics />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>

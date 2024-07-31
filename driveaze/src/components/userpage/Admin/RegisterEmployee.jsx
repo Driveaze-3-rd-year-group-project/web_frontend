@@ -127,18 +127,19 @@ function RegisterEmployee() {
                     </div>
                     
                     <div className="flex items-center justify-between">
-                      <button
-                          type="submit"
-                          className="w-2/5 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150 text-center"
-                      >
-                          Create Account
-                      </button>
-                      <a
-                          href="/staffaccounts"
-                          className="w-2/5 px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150 text-center"
-                      >
-                          Back
-                      </a>
+                        <a
+                            href="/staffaccounts"
+                            className="w-2/5 px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150 text-center"
+                        >
+                            Back
+                        </a>
+                        <button
+                            type="submit"
+                            className="w-2/5 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150 text-center"
+                        >
+                            Create Account
+                        </button>
+                      
                     </div>
                     {error && <p className="text-red-500 text-center mt-2">{error}</p>}
                     

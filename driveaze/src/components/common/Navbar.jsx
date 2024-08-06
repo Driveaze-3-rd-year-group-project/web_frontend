@@ -9,7 +9,7 @@ const Navbar = () => {
         { title: "About Us", path: "#about-us" },
         { title: "Brands", path: "#authorized-brands" },
         { title: "Services", path: "#services" },
-        { title: "Contacts", path: "#contacts" }
+        { title: "Contact Us", path: "#contacts" }
     ]
 
     useEffect(() => {

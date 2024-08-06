@@ -5,9 +5,12 @@ import { FaAccessibleIcon, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, 
 function Sidebar() {
     const [isAuthenticated, setIsAuthenticated] = useState(UserService.isAuthenticated());
     const [isAdmin, setIsAdmin] = useState(UserService.isAdmin());
+    const [isManager, setIsManager] = useState(UserService.isManager());
     const [isCustomer, setIsCustomer] = useState(UserService.isCustomer());
     const [isReceptionist, setIsReceptionist] = useState(UserService.isReceptionist());
     const [isSupervisor, setIsSupervisor] = useState(UserService.isSupervisor());
+    const [isTechnician, setIsTechnician] = useState(UserService.isTechnician());
+    const [isWarehouseKeeper, setIsWarehouseKeeper] = useState(UserService.isWarehouseKeeper());
     
     const [profileInfo, setProfileInfo] = useState({});
 
@@ -33,7 +36,10 @@ function Sidebar() {
             UserService.logout();
             setIsAuthenticated(false);
             setIsAdmin(false);
+            setIsManager(false);
             setIsCustomer(false);
+            setIsTechnician(false);
+            setIsWarehouseKeeper(false);
             setIsReceptionist(false);
             setIsSupervisor(false);
         }
@@ -58,7 +64,187 @@ function Sidebar() {
                         <ul className="px-4 text-lg font-medium flex-1">
                             {isAdmin && (
                                <li>
-                                    <a href="/admindashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full text-white scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaHome />
+                                        </div>
+                                        <p className="flex-1">Dashboard</p>
+                                    </a>
+                                    <a href="/staffaccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaUserTie />
+                                        </div>
+                                        <p className="flex-1">Staff Accounts</p>
+                                    </a>
+                                    <a href="/customeraccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaUsers />
+                                        </div>
+                                        <p className="flex-1">Customer Accounts</p>
+                                    </a>
+                                    <a href="/ongoingjobs" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaBusinessTime />
+                                        </div>
+                                        <p className="flex-1">Ongoing Jobs</p>
+                                    </a>
+                                    <a href="/registeredvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaCarAlt />
+                                        </div>
+                                        <p className="flex-1">Registered Vehicles</p>
+                                    </a>
+                                    <a href="/customercomplaints" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaRegFrown />
+                                        </div>
+                                        <p className="flex-1">Customer Complaints</p>
+                                    </a>
+                                    <a href="/reports" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaChartLine />
+                                        </div>
+                                        <p className="flex-1">Reports & Analytics</p>
+                                    </a>
+                                    <a href="/siteannouncements" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaBullhorn />
+                                        </div>
+                                        <p className="flex-1">Site Announcements</p>
+                                    </a>
+                                </li>
+                            )}
+                            {isManager && (
+                               <li>
+                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full text-white scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaHome />
+                                        </div>
+                                        <p className="flex-1">Dashboard</p>
+                                    </a>
+                                    <a href="/staffaccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaUserTie />
+                                        </div>
+                                        <p className="flex-1">Staff Accounts</p>
+                                    </a>
+                                    <a href="/customeraccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaUsers />
+                                        </div>
+                                        <p className="flex-1">Customer Accounts</p>
+                                    </a>
+                                    <a href="/ongoingjobs" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaBusinessTime />
+                                        </div>
+                                        <p className="flex-1">Ongoing Jobs</p>
+                                    </a>
+                                    <a href="/registeredvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaCarAlt />
+                                        </div>
+                                        <p className="flex-1">Registered Vehicles</p>
+                                    </a>
+                                    <a href="/customercomplaints" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaRegFrown />
+                                        </div>
+                                        <p className="flex-1">Customer Complaints</p>
+                                    </a>
+                                    <a href="/reports" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaChartLine />
+                                        </div>
+                                        <p className="flex-1">Reports & Analytics</p>
+                                    </a>
+                                    <a href="/siteannouncements" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaBullhorn />
+                                        </div>
+                                        <p className="flex-1">Site Announcements</p>
+                                    </a>
+                                </li>
+                            )}
+                            {isTechnician && (
+                               <li>
+                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full text-white scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaHome />
+                                        </div>
+                                        <p className="flex-1">Dashboard</p>
+                                    </a>
+                                    <a href="/staffaccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaUserTie />
+                                        </div>
+                                        <p className="flex-1">Staff Accounts</p>
+                                    </a>
+                                    <a href="/customeraccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaUsers />
+                                        </div>
+                                        <p className="flex-1">Customer Accounts</p>
+                                    </a>
+                                    <a href="/ongoingjobs" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaBusinessTime />
+                                        </div>
+                                        <p className="flex-1">Ongoing Jobs</p>
+                                    </a>
+                                    <a href="/registeredvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaCarAlt />
+                                        </div>
+                                        <p className="flex-1">Registered Vehicles</p>
+                                    </a>
+                                    <a href="/customercomplaints" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaRegFrown />
+                                        </div>
+                                        <p className="flex-1">Customer Complaints</p>
+                                    </a>
+                                    <a href="/reports" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaChartLine />
+                                        </div>
+                                        <p className="flex-1">Reports & Analytics</p>
+                                    </a>
+                                    <a href="/siteannouncements" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                        <div className="flex-none">
+                                            <FaBullhorn />
+                                        </div>
+                                        <p className="flex-1">Site Announcements</p>
+                                    </a>
+                                </li>
+                            )}
+                            {isWarehouseKeeper && (
+                               <li>
+                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full text-white scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaHome />

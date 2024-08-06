@@ -153,6 +153,21 @@ class UserService{
         return role === 'RECEPTIONIST';
     }
 
+    static isManager(){
+        const role = localStorage.getItem('role');
+        return role === 'MANAGER';
+    }
+
+    static isTechnician(){
+        const role = localStorage.getItem('role');
+        return role === 'TECHNICIAN';
+    }
+
+    static isWarehouseKeeper(){
+        const role = localStorage.getItem('role');
+        return role === 'WAREHOUSE_KEEPER';
+    }
+
     static userType(){
         const role = localStorage.getItem('role');
         return role;

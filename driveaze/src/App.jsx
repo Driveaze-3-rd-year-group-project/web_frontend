@@ -75,6 +75,7 @@ import ViewOngoingjobs from "./components/userpage/Admin/ViewOngoingJobs.jsx";
 function App() {
   const userRoleRedirect = () => {
     if (UserService.isAdmin()) return "/dashboard";
+    if (UserService.isManager()) return "/dashboard";
     if (UserService.isCustomer()) return "/dashboard";
     if (UserService.isSupervisor()) return "/dashboard";
     if (UserService.isReceptionist()) return "/dashboard";
@@ -123,6 +124,31 @@ function App() {
               <Route path="/register" element={<Navigate to={userRoleRedirect()} />} />
 
               {!UserService.isAdmin() ? (
+                <>
+                  <Route path="/staffaccounts" element={<Navigate to="/" />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/dashboard" element={<AdminDashboard />} />
+                  <Route path="/staffaccounts" element={<StaffAccounts />} />
+                  <Route path="/customeraccounts" element={<CustomerAccounts />} />
+                  <Route path="/update-user/:userId" element={<UpdateEmployee />} />
+                  <Route path="/ongoingjobs" element={<OngoingJob />} />
+                  <Route path="/registeredvehicles" element={<RegisteredVehicle />} />
+                  <Route path="/customercomplaints" element={<CustomerComplaints />} />
+                  <Route path="/siteannouncements" element={<SiteAnnouncements />} />
+                  <Route path="/viewongoingjob" element={<ViewOngoingjob />} />
+                  <Route path="/CustomerReports" element={<CustomerReports />} />
+                  <Route path="/register-employee" element={<RegisterEmployee />} />
+                  <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
+                  <Route path="/ongoingjobs" element={<OngoingJobs />} />
+                  <Route path="/reports" element={<ReportsAnalytics />} />
+
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
+                  <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjobs/>} />
+                </>
+              )}
+              {!UserService.isManager() ? (
                 <>
                   <Route path="/staffaccounts" element={<Navigate to="/" />} />
                 </>

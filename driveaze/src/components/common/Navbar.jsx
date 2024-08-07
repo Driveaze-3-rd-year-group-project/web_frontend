@@ -6,10 +6,10 @@ const Navbar = () => {
     const location = useLocation();
 
     const navigation = [
-        { title: "Features", path: "#" },
-        { title: "Integrations", path: "#" },
-        { title: "Customers", path: "#" },
-        { title: "Pricing", path: "#" }
+        { title: "About Us", path: "#about-us" },
+        { title: "Brands", path: "#authorized-brands" },
+        { title: "Services", path: "#services" },
+        { title: "Contact Us", path: "#contacts" }
     ]
 
     useEffect(() => {

@@ -103,8 +103,11 @@ function UpdateEmployee() {
                         >
                             <option value="" disabled hidden>Select a role</option>
                             <option value="ADMIN">ADMIN</option>
+                            <option value="MANAGER">MANAGER</option>
                             <option value="SUPERVISOR">SUPERVISOR</option>
                             <option value="RECEPTIONIST">RECEPTIONIST</option>
+                            <option value="WAREHOUSE_KEEPER">WAREHOUSE KEEPER</option>
+                            <option value="TECHNICIAN">TECHNICIAN</option>
                         </select>
                     </div>
                     <div className="form-group">

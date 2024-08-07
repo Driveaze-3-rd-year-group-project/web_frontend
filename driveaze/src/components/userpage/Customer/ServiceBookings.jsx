@@ -124,7 +124,7 @@ const ServiceBookings = () => {
 
       {showPopup && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
+            <div className="bg-white p-8 rounded-lg shadow-lg max-w-xl w-full">
                 <div className="flex justify-between items-center pb-3 relative">
                     <button 
                         onClick={closePopup} 

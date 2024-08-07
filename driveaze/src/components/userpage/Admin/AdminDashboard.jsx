@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaUsers, FaUsersCog, FaCar, FaToolbox} from "react-icons/fa";
-import { Line, Bar } from 'react-chartjs-2';
+import { Line, Bar, Pie  } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, BarElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
 ChartJS.register([LineElement, BarElement, PointElement, CategoryScale, LinearScale]);
 
@@ -30,6 +30,19 @@ const AdminDashboard = () => {
           },
       ],
   };
+
+  const dataPie = {
+      labels: ['Oil Change', 'Brake Repair', 'Tire Change', 'Engine Repair'],
+      datasets: [
+          {
+              data: [300, 50, 100, 150],
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+              hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+          },
+      ],
+  };
+
+  
   return (
     <div className='grow p-8 mt-6'> 
       <h2 className='text-2xl font-bold mb-4'>Admin Dashboard</h2>
@@ -81,10 +94,11 @@ const AdminDashboard = () => {
           <h3 className='text-lg font-semibold mb-4'>Newly Registered Vehicles</h3>
           <Bar data={dataBar} />
         </div>
-        <div className='bg-white p-4 rounded-lg shadow-md'> 
-          <h3 className='text-lg font-semibold mb-4'>Income & Payments</h3>
-          <Line data={dataBar} />
+        <div className='bg-white p-4 max-w-xl  rounded-lg shadow-md'>
+          <h3 className='text-lg font-semibold mb-4'>Service Types Distribution</h3>
+          <Pie data={dataPie} />
         </div>
+        
         
       </div>
       

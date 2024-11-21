@@ -3,33 +3,50 @@ import Landingpage from "./components/userpage/Landingpage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./components/auth/LoginPage";
+import ForgetPassword from "./components/auth/ForgetPassword.jsx";
 import RegistrationPage from "./components/auth/RegistrationPage";
+
 import UserService from "./components/service/UserService";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 import Sidebar from "./components/common/Sidebar";
-import AdminDashboard from "./components/userpage/Admin/AdminDashboard";
-import StaffAccounts from "./components/userpage/Admin/StaffAccounts";
+import Navbar from "./components/common/Navbar";
+import Footer from "./components/common/Footer";
+
 import SupervisorDashboard from "./components/userpage/Supervisor/SupervisorDashboard";
 import UpdateRepairs from './components/userpage/Supervisor/UpdateRepairs.jsx';
-import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
 import CompletedJobs from "./components/userpage/Supervisor/CompletedJobs";
 import CompletedRepairs from "./components/userpage/Supervisor/CompletedRepairs.jsx";
 import AddTechnicians from "./components/userpage/Supervisor/AddTechnicians.jsx";
 import VehicleHistory from "./components/userpage/Supervisor/VehicleHistory.jsx";
 import ViewHistory from "./components/userpage/Supervisor/ViewHistory.jsx";
 import InventoryManagement from "./components/userpage/Supervisor/InventoryManagement.jsx";
-import OngoingJobs from "./components/userpage/Admin/OngoingJobs.jsx";
-
-import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
-import JobManagement from "./components/userpage/Receptionist/JobManagement";
-import VehicleManagement from "./components/userpage/Receptionist/VehicleManagement";
-import BookingManagement from "./components/userpage/Receptionist/BookingManagement";
-import Billing from "./components/userpage/Receptionist/Billing";
-import EditVehicle from "./components/userpage/Receptionist/EditVehicle";
-import JobDetails from "./components/userpage/Receptionist/JobDetails";
-import JobCreate from "./components/userpage/Receptionist/JobCreate";
 import RepairVehicles from "./components/userpage/Supervisor/ReapairVehicles";
-import CustomerAccounts from "./components/userpage/Admin/CustomerAccounts";
+
+
+import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
+import SiteAnnouncements from "./components/userpage/Admin/SiteAnnouncements";
+import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
+import ReportsAnalytics from "./components/userpage/Admin/ReportsAnalytics.jsx";
+import AdminDashboard from "./components/userpage/Admin/AdminDashboard";
+import StaffAccounts from "./components/userpage/Admin/StaffAccounts";
+
+
+import Myvehicles from "./components/userpage/Customer/Myvehicles";
+import VehicleInfo from "./components/userpage/Customer/Vehicleinfo";
+import ServiceHistory from "./components/userpage/Customer/Servicehistory";
+import Billings from "./components/userpage/Customer/Billings";
+import Billinfo from "./components/userpage/Customer/Billinfo";
+import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
+import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
+import OngoingRepairs from "./components/userpage/Customer/OngoingRepairs.jsx"
+import RepairDetails from "./components/userpage/Customer/RepairDetails.jsx"
+import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
+
+import ManagerDashboard from "./components/userpage/Manager/ManagerDashboard.jsx";
+import MStaffAccounts from "./components/userpage/Manager/MStaffAccounts.jsx";
+
+import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
 import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
 import CreateBill from "./components/userpage/Receptionist/CreateBill";
 import ViewBill from "./components/userpage/Receptionist/ViewBill";
@@ -38,36 +55,24 @@ import MakePayments from "./components/userpage/Receptionist/MakePayments";
 import SupplierPayments from "./components/userpage/Receptionist/SupplierPayments";
 import AddSupplier from "./components/userpage/Receptionist/AddSupplier";
 import ManageSupplier from "./components/userpage/Receptionist/ManageSupplier";
-
-
-import Navbar from "./components/common/Navbar";
-import Footer from "./components/common/Footer";
-import Myvehicles from "./components/userpage/Customer/Myvehicles";
-import VehicleInfo from "./components/userpage/Customer/Vehicleinfo";
-import ServiceHistory from "./components/userpage/Customer/Servicehistory";
-import Billings from "./components/userpage/Customer/Billings";
-import Billinfo from "./components/userpage/Customer/Billinfo";
-
-import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
-
-
-import OngoingJob from "./components/userpage/Admin/OngoingJob";
-import RegisteredVehicle from "./components/userpage/Admin/RegisteredVehicle";
-import CustomerComplaints from "./components/userpage/Admin/CustomerComplaints";
-import SiteAnnouncements from "./components/userpage/Admin/SiteAnnouncements";
-import ViewOngoingjob from "./components/userpage/Admin/ViewOngoingjob";
-import CustomerReports from "./components/userpage/Admin/CustomerReports";
-
-import RegisterEmployee from "./components/userpage/Admin/RegisterEmployee";
-import CustomerAccountDetails from "./components/userpage/Admin/CustomerAccountDetails";
-import ServiceBookings from "./components/userpage/Customer/ServiceBookings.jsx";
-import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
-import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
-import OngoingRepairs from "./components/userpage/Customer/OngoingRepairs.jsx"
-import RepairDetails from "./components/userpage/Customer/RepairDetails.jsx"
-import ForgetPassword from "./components/auth/ForgetPassword.jsx";
-import ReportsAnalytics from "./components/userpage/Admin/ReportsAnalytics.jsx";
-import ViewOngoingjobs from "./components/userpage/Admin/ViewOngoingJobs.jsx";
+import ReceptionistDashboard from "./components/userpage/Receptionist/ReceptionistDashboard";
+import JobManagement from "./components/userpage/Receptionist/JobManagement";
+import VehicleManagement from "./components/userpage/Receptionist/VehicleManagement";
+import BookingManagement from "./components/userpage/Receptionist/BookingManagement";
+import Billing from "./components/userpage/Receptionist/Billing";
+import EditVehicle from "./components/userpage/Receptionist/EditVehicle";
+import JobDetails from "./components/userpage/Receptionist/JobDetails";
+import JobCreate from "./components/userpage/Receptionist/JobCreate";
+import CustomerAccounts from "./components/userpage/Manager/CustomerAccounts.jsx";
+import MUpdateEmployee from "./components/userpage/Manager/MUpdateEmployee.jsx";
+import OngoingJob from './components/userpage/Manager/OngoingJob';
+import ViewOngoingjob from './components/userpage/Manager/ViewOngoingjob';
+import RegisteredVehicle from './components/userpage/Manager/RegisteredVehicle';
+import CustomerComplaints from './components/userpage/Manager/CustomerComplaints';
+import CustomerReports from "./components/userpage/Manager/CustomerReports.jsx";
+import CustomerAccountDetails from "./components/userpage/Manager/CustomerAccountDetails.jsx";
+import OngoingJobs from './components/userpage/Manager/OngoingJobs';
+import MRegisterEmployee from "./components/userpage/Manager/MRegisterEmployee.jsx";
 
 
 
@@ -119,58 +124,53 @@ function App() {
               <Route path="/" element={<Navigate to={userRoleRedirect()} />} />
             )}
 
+            {!UserService.isSuperUser() && (
+              <Route path="/staffaccounts" element={<Navigate to="/" />} />
+            )}
+
             <Route element={<ProtectedRoute />}>
               <Route path="/login" element={<Navigate to={userRoleRedirect()} />} />
               <Route path="/register" element={<Navigate to={userRoleRedirect()} />} />
 
               {!UserService.isAdmin() ? (
                 <>
-                  <Route path="/staffaccounts" element={<Navigate to="/" />} />
+                  <Route path="/" element={<Navigate to="/" />} />
                 </>
               ) : (
                 <>
                   <Route path="/dashboard" element={<AdminDashboard />} />
                   <Route path="/staffaccounts" element={<StaffAccounts />} />
-                  <Route path="/customeraccounts" element={<CustomerAccounts />} />
                   <Route path="/update-user/:userId" element={<UpdateEmployee />} />
-                  <Route path="/ongoingjobs" element={<OngoingJob />} />
-                  <Route path="/registeredvehicles" element={<RegisteredVehicle />} />
-                  <Route path="/customercomplaints" element={<CustomerComplaints />} />
                   <Route path="/siteannouncements" element={<SiteAnnouncements />} />
-                  <Route path="/viewongoingjob" element={<ViewOngoingjob />} />
-                  <Route path="/CustomerReports" element={<CustomerReports />} />
                   <Route path="/register-employee" element={<RegisterEmployee />} />
-                  <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
-                  <Route path="/ongoingjobs" element={<OngoingJobs />} />
                   <Route path="/reports" element={<ReportsAnalytics />} />
 
                   <Route path="*" element={<Navigate to="/dashboard" />} />
-                  <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjobs/>} />
                 </>
               )}
               {!UserService.isManager() ? (
                 <>
-                  <Route path="/staffaccounts" element={<Navigate to="/" />} />
+                  <Route path="/customeraccounts" element={<Navigate to="/" />} />
                 </>
               ) : (
                 <>
-                  <Route path="/dashboard" element={<AdminDashboard />} />
-                  <Route path="/staffaccounts" element={<StaffAccounts />} />
+                  <Route path="/dashboard" element={<ManagerDashboard />} />
+                  <Route path="/staffaccounts" element={<MStaffAccounts />} />
                   <Route path="/customeraccounts" element={<CustomerAccounts />} />
-                  <Route path="/update-user/:userId" element={<UpdateEmployee />} />
+                  <Route path="/update-user/:userId" element={<MUpdateEmployee />} />
                   <Route path="/ongoingjobs" element={<OngoingJob />} />
                   <Route path="/registeredvehicles" element={<RegisteredVehicle />} />
                   <Route path="/customercomplaints" element={<CustomerComplaints />} />
                   <Route path="/siteannouncements" element={<SiteAnnouncements />} />
                   <Route path="/viewongoingjob" element={<ViewOngoingjob />} />
                   <Route path="/CustomerReports" element={<CustomerReports />} />
-                  <Route path="/register-employee" element={<RegisterEmployee />} />
+                  <Route path="/register-employee" element={<MRegisterEmployee />} />
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
                   <Route path="/ongoingjobs" element={<OngoingJobs />} />
                   <Route path="/reports" element={<ReportsAnalytics />} />
 
                   <Route path="*" element={<Navigate to="/dashboard" />} />
-                  <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjobs/>} />
+                  <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjob/>} />
                 </>
               )}
               {!UserService.isCustomer() ? (
@@ -242,6 +242,28 @@ function App() {
                   <Route path="/addsupplier" element={<AddSupplier />} />
                   <Route path="/managesupplier" element={<ManageSupplier />} />
                   <Route path="/addsupplierbill" element={<AddSupplierBill />} />  
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
+                </>
+              )}
+              {!UserService.isTechnician() ? (
+                <>
+                  <Route path="/profile" element={<Navigate to="/" />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/dashboard" element={<CustomerDashboard />} />
+                  <Route path="/assigned-jobs" element={<Myvehicles/>} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
+                </>
+              )}
+              {!UserService.isWarehouseKeeper() ? (
+                <>
+                  <Route path="/profile" element={<Navigate to="/" />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/dashboard" element={<CustomerDashboard />} />
+                  <Route path="/assigned-jobs" element={<Myvehicles/>} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

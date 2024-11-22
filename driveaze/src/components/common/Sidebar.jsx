@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../service/UserService';
 import { FaTrademark, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime, FaCarAlt, FaCalendarCheck, FaMoneyCheckAlt, FaRegClipboard, FaWarehouse, FaUserPlus, FaClipboardList, FaClipboardCheck, FaCar, FaMoneyCheck, FaWrench, FaCalendarAlt } from "react-icons/fa";
+import Swal from 'sweetalert2';
 
 function Sidebar() {
     const [isAuthenticated, setIsAuthenticated] = useState(UserService.isAuthenticated());
@@ -30,20 +31,32 @@ function Sidebar() {
     };
 
     const handleLogout = () => {
-        const confirmDelete = window.confirm('Are you sure you want to logout this user?');
-        if (confirmDelete) {
-            location.href = '/';
-            UserService.logout();
-            setIsAuthenticated(false);
-            setIsAdmin(false);
-            setIsManager(false);
-            setIsCustomer(false);
-            setIsTechnician(false);
-            setIsWarehouseKeeper(false);
-            setIsReceptionist(false);
-            setIsSupervisor(false);
-        }
-    };
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to logout this user?!',
+            // icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Logout',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                UserService.logout(); // Perform the logout
+                setIsAuthenticated(false);
+                setIsAdmin(false);
+                setIsManager(false);
+                setIsCustomer(false);
+                setIsTechnician(false);
+                setIsWarehouseKeeper(false);
+                setIsReceptionist(false);
+                setIsSupervisor(false);
+                location.href = '/';
+    
+                // Swal.fire('Logged Out!', 'You have been logged out successfully.', 'success');
+            }
+        });
+    } 
 
     //if not authenticated return null
     if (!isAuthenticated) {

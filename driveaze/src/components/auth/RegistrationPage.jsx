@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserService from '../service/UserService';
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function RegistrationPage() {
     const navigate = useNavigate();
@@ -37,8 +39,6 @@ function RegistrationPage() {
         }
     };
 
-    
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -47,10 +47,12 @@ function RegistrationPage() {
             console.log(res);
             
             if (res.statusCode === 200) {
-                alert('User registered successfully');
-                window.location.href = '/login';
+                toast.success("User registered successfully");
+                setTimeout(() => {
+                    location.href = '/login';
+                }, 1000);
             } else {
-                setError(res.message);
+                toast.error(res.message || "Registration failed!");
             }
         } catch (error) {
             setError(error.message);
@@ -59,24 +61,6 @@ function RegistrationPage() {
             }, 5000);
         }
     }
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //       const confirmUpdate = window.confirm('Are you sure you want to Update this user?');
-    //       if (confirmUpdate) {
-    //         const token = localStorage.getItem('token');
-    //         const res = await UserService.updateUser(userId, userData, token);
-    //         console.log(res)
-    //         // Redirect to profile page or display a success message
-    //         navigate("/staffaccounts");
-    //       }
-    
-    //     } catch (error) {
-    //       console.error('Error updating user profile:', error);
-    //       alert(error)
-    //     }
-    //   };
 
     return (
         <main className="w-full h-screen flex flex-col items-center justify-center bg-gray-100 sm:px-4">
@@ -163,10 +147,11 @@ function RegistrationPage() {
                         <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150" type='submit'>
                             Sign Up
                         </button>
-                        {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+                        {/* {error && <p className="text-red-500 text-center mt-2">{error}</p>} */}
                     </form>
                 </div>
             </div>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
         </main>
     );
 }

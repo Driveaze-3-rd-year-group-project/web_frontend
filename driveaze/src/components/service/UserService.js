@@ -45,7 +45,20 @@ class UserService{
     static async getAllEmployees(token){
         try{
 
-            const response = await axios.get(`${UserService.BASE_URL}/admin/get-all-employees`, {
+            const response = await axios.get(`${UserService.BASE_URL}/superuser/get-all-employees`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllStaff(token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/superuser/get-all-staff`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             return response.data;
@@ -58,7 +71,7 @@ class UserService{
     static async getAllCustomers(token){
         try{
 
-            const response = await axios.get(`${UserService.BASE_URL}/admin/get-all-customers`, {
+            const response = await axios.get(`${UserService.BASE_URL}/superuser/get-all-customers`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             return response.data;
@@ -85,7 +98,7 @@ class UserService{
     static async getUserById(userId, token){
         try{
 
-            const response = await axios.get(`${UserService.BASE_URL}/admin/get-user/${userId}`, {
+            const response = await axios.get(`${UserService.BASE_URL}/superuser/get-user/${userId}`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             return response.data;
@@ -98,7 +111,7 @@ class UserService{
     static async deleteUser(userId, token){
         try{
 
-            const response = await axios.delete(`${UserService.BASE_URL}/admin/delete/${userId}`, {
+            const response = await axios.delete(`${UserService.BASE_URL}/superuser/delete/${userId}`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             return response.data;
@@ -111,7 +124,7 @@ class UserService{
     static async updateUser(userId, userData, token){
         try{
 
-            const response = await axios.put(`${UserService.BASE_URL}/admin/update/${userId}`, userData,
+            const response = await axios.put(`${UserService.BASE_URL}/superuser/update/${userId}`, userData,
             {
                 headers: {Authorization: `Bearer ${token}`}
             });
@@ -136,6 +149,11 @@ class UserService{
     static isAdmin(){
         const role = localStorage.getItem('role');
         return role === 'ADMIN';
+    }
+
+    static isSuperUser(){
+        const role = localStorage.getItem('role');
+        return role === 'ADMIN' || role === 'MANAGER';
     }
 
     static isCustomer(){
@@ -180,6 +198,10 @@ class UserService{
 
     static adminOnly(){
         return this.isAuthenticated() && this.isAdmin();
+    }
+
+    static superUserOnly(){
+        return this.isAuthenticated() && this.isSuperUser();
     }
 }
 

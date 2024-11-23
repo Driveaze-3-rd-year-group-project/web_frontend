@@ -74,6 +74,7 @@ import CustomerAccountDetails from "./components/userpage/Manager/CustomerAccoun
 import OngoingJobs from './components/userpage/Manager/OngoingJobs';
 import MRegisterEmployee from "./components/userpage/Manager/MRegisterEmployee.jsx";
 
+import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/WarehouseKeeperDashboard"
 
 
 
@@ -84,6 +85,7 @@ function App() {
     if (UserService.isCustomer()) return "/dashboard";
     if (UserService.isSupervisor()) return "/dashboard";
     if (UserService.isReceptionist()) return "/dashboard";
+    if (UserService.isWarehouseKeeper()) return "/dashboard";
     return "/";
   };
   
@@ -262,7 +264,7 @@ function App() {
                 </>
               ) : (
                 <>
-                  <Route path="/dashboard" element={<CustomerDashboard />} />
+                  <Route path="/dashboard" element={<WarehouseKeeperDashboard />} />
                   <Route path="/assigned-jobs" element={<Myvehicles/>} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>

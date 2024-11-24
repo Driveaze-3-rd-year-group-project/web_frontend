@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaSearch } from 'react-icons/fa';
 
 const VehicleManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -84,41 +85,40 @@ const VehicleManagement = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between mb-3">
         <div className="max-w-lg">
           <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
             Vehicle Management
           </h3>
         </div>
-        <div className="mt-3 md:mt-0">
-          <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
-            <div className="relative w-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
-              />
-            </div>
-          </form>
-        </div>
       </div>
-      <div className="flex justify-end mt-4">
+
+      <div className="flex justify-between items-center mb-3">
+        {/* Left Section */}
+        <div className="flex space-x-4">
+          
+
+          {/* Search Input */}
+          <div className="flex flex-col">
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="flex"
+            >
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                />
+                {/* Search Icon */}
+                <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
+              </div>
+            </form>
+          </div>
+        </div>
+        {/* Right Section */}
         <a
           href="/addvehicle"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"

@@ -69,9 +69,14 @@ function Sidebar() {
                 className="fixed top-0 left-0 w-full h-full border-r bg-deepblue space-y-8 sm:w-72 z-10">
                 <div className="flex flex-col h-full">
                     <div className='h-20 flex items-center px-8'>
-                        <a href='/dashboard' className='flex-none'>
-                            <img src="./src/assets/driveazeheader3.svg" width={190} className="mx-auto mt-12" />
-                        </a>
+                    <a href="/dashboard" className="flex-none">
+                        <img
+                            src="/assets/driveazeheader3.svg"
+                            width={190}
+                            className="mx-auto mt-12"
+                            alt="Driveaze Header"
+                        />
+                    </a>
                     </div>
                     <div className="flex-1 flex flex-col h-full overflow-auto mt-10">
                         <ul className="px-4 text-lg font-medium flex-1">

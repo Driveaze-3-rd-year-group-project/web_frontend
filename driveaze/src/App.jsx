@@ -73,6 +73,7 @@ import CustomerReports from "./components/userpage/Manager/CustomerReports.jsx";
 import CustomerAccountDetails from "./components/userpage/Manager/CustomerAccountDetails.jsx";
 import OngoingJobs from './components/userpage/Manager/OngoingJobs';
 import MRegisterEmployee from "./components/userpage/Manager/MRegisterEmployee.jsx";
+import UpdateJob from "./components/userpage/Receptionist/UpdateJob.jsx";
 
 
 
@@ -227,7 +228,8 @@ function App() {
                   <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
                   <Route path="/createnewjob" element={<JobCreate />} />
-                  <Route path="/jobdetails" element={<JobDetails />} />
+                  <Route path="/update-job/:jobId" element={<UpdateJob />} />
+                  <Route path="/jobdetails/:jobId" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
                   <Route path="/addvehicle" element={<AddVehicle />} />
                   <Route path="/editvehicle" element={<EditVehicle />} />

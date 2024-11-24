@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import VehicleService from '../../service/VehicleService';
 
 function AddVehicle() {
   const navigate = useNavigate();

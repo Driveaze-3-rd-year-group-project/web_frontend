@@ -76,6 +76,7 @@ import MRegisterEmployee from "./components/userpage/Manager/MRegisterEmployee.j
 
 import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/WarehouseKeeperDashboard"
 import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
+import SendComplaint from "./components/userpage/Customer/SendComplaint.jsx";
 
 
 function App() {
@@ -193,6 +194,7 @@ function App() {
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/ongoingrepairs" element={<OngoingRepairs/>} />
                   <Route path="/ongoingrepairs/repairdetails/:numberPlate" element={<RepairDetails/>} />
+                  <Route path="/sendcomplaint" element={<SendComplaint/>}/>
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

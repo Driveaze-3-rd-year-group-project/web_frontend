@@ -5,10 +5,15 @@ import { FaTimes } from 'react-icons/fa';
 
 const SendComplaint = () => {
     const navigate = useNavigate();
-    const [complaint, setComplaint] = useState({ description: '' });
+    const [complaint, setComplaint] = useState({
+        description: '',
+        date: new Date().toISOString(),
+        status: 0,
+    });
     const [showPopup, setShowPopup] = useState(false);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleClick = () => {
         setShowPopup(true);
@@ -16,6 +21,8 @@ const SendComplaint = () => {
 
     const closePopup = () => {
         setShowPopup(false);
+        setError('');
+        setMessage('');
     };
 
     const handleChange = (e) => {
@@ -24,12 +31,16 @@ const SendComplaint = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const token = localStorage.getItem('token');
-            console.log(complaint);
-            const res = await CustomerComplaintService.sendComplaintData(complaint, token);
+        const currentDate = new Date().toISOString();
+        const updatedComplaint = { ...complaint, date: currentDate };
 
-            if (res.statusCode === 200) {
+        try {
+            setIsLoading(true);
+            const token = localStorage.getItem('token');
+            console.log("Submitting complaint:", updatedComplaint);
+            const res = await CustomerComplaintService.sendComplaintData(updatedComplaint, token);
+
+            if (res.status === 200) {
                 setMessage('Complaint successfully sent!');
                 closePopup();
                 navigate('/dashboard');
@@ -37,7 +48,9 @@ const SendComplaint = () => {
                 setError(res.message || 'Failed to send complaint.');
             }
         } catch (error) {
-            setError(error.message || 'An error occurred.');
+            setError(error.response?.data?.message || error.message || 'An error occurred.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -47,16 +60,11 @@ const SendComplaint = () => {
                 <h4 className="text-gray-800 text-3xl font-semibold">Site Announcements</h4>
             </div>
             <div className="flex items-center justify-between mt-4">
-                <select className="py-2 px-6 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                    <option value="all">All</option>
-                    <option value="customers">Customers</option>
-                    <option value="employees">Employees</option>
-                </select>
                 <button
                     onClick={handleClick}
                     className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-white bg-green-600 hover:bg-green-500 active:bg-green-700 rounded-lg sm:mt-0"
                 >
-                    Send a complaint
+                    Send a Complaint
                 </button>
             </div>
 
@@ -76,6 +84,7 @@ const SendComplaint = () => {
                             handleChange={handleChange}
                             complaint={complaint}
                             handleSubmit={handleSubmit}
+                            isLoading={isLoading}
                         />
                     </div>
                 </div>
@@ -87,7 +96,7 @@ const SendComplaint = () => {
     );
 };
 
-const ServiceBookingDetails = ({ handleChange, complaint, handleSubmit }) => {
+const ServiceBookingDetails = ({ handleChange, complaint, handleSubmit, isLoading }) => {
     return (
         <form onSubmit={handleSubmit} className="space-y-5">
             <div>
@@ -103,9 +112,10 @@ const ServiceBookingDetails = ({ handleChange, complaint, handleSubmit }) => {
             <div className="flex justify-center">
                 <button
                     type="submit"
-                    className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+                    className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+                    disabled={isLoading}
                 >
-                    Submit Complaint
+                    {isLoading ? 'Submitting...' : 'Submit Complaint'}
                 </button>
             </div>
         </form>

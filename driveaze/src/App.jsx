@@ -75,7 +75,7 @@ import OngoingJobs from './components/userpage/Manager/OngoingJobs';
 import MRegisterEmployee from "./components/userpage/Manager/MRegisterEmployee.jsx";
 
 import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/WarehouseKeeperDashboard"
-
+import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
 
 
 function App() {
@@ -260,11 +260,12 @@ function App() {
               )}
               {!UserService.isWarehouseKeeper() ? (
                 <>
-                  <Route path="/profile" element={<Navigate to="/" />} />
+                  <Route path="/profile" element={<Navigate to="/" />} /> 
                 </>
               ) : (
                 <>
                   <Route path="/dashboard" element={<WarehouseKeeperDashboard />} />
+                  <Route path="/inventory" element={<Inventory />} />
                   <Route path="/assigned-jobs" element={<Myvehicles/>} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>

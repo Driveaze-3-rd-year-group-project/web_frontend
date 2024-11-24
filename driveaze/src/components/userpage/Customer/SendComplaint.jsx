@@ -40,15 +40,17 @@ const SendComplaint = () => {
             console.log("Submitting complaint:", updatedComplaint);
             const res = await CustomerComplaintService.sendComplaintData(updatedComplaint, token);
 
-            if (res.status === 200) {
-                setMessage('Complaint successfully sent!');
+            if (res.success) { 
+                setMessage(res.message);
+                alert(res.message);
                 closePopup();
-                navigate('/dashboard');
             } else {
                 setError(res.message || 'Failed to send complaint.');
+                alert(res.message);
             }
         } catch (error) {
-            setError(error.response?.data?.message || error.message || 'An error occurred.');
+            setError(error.message || 'An error occurred.');
+            alert(res.message);
         } finally {
             setIsLoading(false);
         }

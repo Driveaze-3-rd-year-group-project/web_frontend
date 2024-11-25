@@ -391,12 +391,16 @@ function Sidebar() {
                                     <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-12 h-12 rounded-full" />
                                     <div>
                                         <span className="block text-white text-lg font-semibold">{profileInfo.name}</span>
-                                        <a
-                                            href="#"
-                                            className="block mt-px text-white hover:text-indigo-600 text-sm"
-                                        >
-                                            View profile
-                                        </a>
+                                        <span className="block mt-px text-red-600 text-sm">
+                                            {profileInfo.role === "ADMIN" && "Admin Account"}
+                                            {profileInfo.role === "RECEPTIONIST" && "Receptionist Account"}
+                                            {profileInfo.role === "MANAGER" && "Manager Account"}
+                                            {profileInfo.role === "CUSTOMER" && "Customer Account"}
+                                            {profileInfo.role === "TECHNICIAN" && "Technician Account"}
+                                            {profileInfo.role === "WAREHOUSE_KEEPER" && "Warehouse Keeper Account"}
+                                            {profileInfo.role === "SUPERVISOR" && "Supervisor Account"}
+                                        </span>
+                                        
                                     </div>
                                 </div>
                             </div>

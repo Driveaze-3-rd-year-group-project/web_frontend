@@ -22,7 +22,7 @@ class InventoryService{
             const response = await axios.post(`${InventoryService.BASE_URL}/inventory/add`, currentDetail,{
                 headers: {Authorization: `Bearer ${token}`}
             });
-            console.log(response);
+            // console.log(response);
             return response.data;
             
         }catch(err){
@@ -36,7 +36,7 @@ class InventoryService{
             const response = await axios.put(`${InventoryService.BASE_URL}/inventory/update`, currentDetail,{
                 headers: {Authorization: `Bearer ${token}`}
             });
-            console.log(response);
+            // console.log(response);
             return response.data;
             
         }catch(err){
@@ -71,6 +71,20 @@ class InventoryService{
             throw err;
         }
     }
+
+    static async getStatistic(token){
+        try{
+            const response = await axios.get(`${InventoryService.BASE_URL}/inventory/statistic`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+   
 }
 
 export default InventoryService;

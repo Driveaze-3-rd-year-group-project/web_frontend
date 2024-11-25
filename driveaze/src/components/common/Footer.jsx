@@ -14,7 +14,7 @@ const Footer = () => {
         <footer className="pt-10">
             <div className="max-w-screen-3xl mx-auto px-4 text-white md:px-8 bg-deepblue">
                 <div className="space-y-6 sm:max-w-md sm:mx-auto sm:text-center">
-                    <img src="./src/assets/driveazeheader3.svg" className="w-32 sm:mx-auto" />
+                    <img src="/assets/driveazeheader3.svg" className="w-32 sm:mx-auto" />
                     <p>
                         Book your next service appointment online with Samarasinghe Motors Pvt Ltd. Our certified technicians are ready to help you with all your vehicle needs.
                     </p>

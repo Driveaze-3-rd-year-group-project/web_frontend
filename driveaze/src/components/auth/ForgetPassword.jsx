@@ -44,7 +44,7 @@ function ForgetPassword() {
                         </button>
                     </div>
                     <div className="text-center">
-                        <img src="./src/assets/driveazeheader.svg" width={150} className="mx-auto" />
+                        <img src="/assets/driveazeheader.svg" width={150} className="mx-auto" />
                         <div className="mt-5 space-y-2">
                             <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Reset your password</h3>
                             {/* <p className="">Don't have an account? <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a></p> */}

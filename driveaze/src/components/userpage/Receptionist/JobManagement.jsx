@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt  } from 'react-icons/fa';
 import UserService from "../../service/UserService";
+import Swal from 'sweetalert2';
 
 const JobManagement = () => {
   const [filter, setFilter] = useState("all");
@@ -85,16 +86,28 @@ const JobManagement = () => {
   
   const deleteJobs = async (jobId) => {
     try {
-      const confirmDelete = window.confirm('Are you sure you want to delete this job?');
-      const token = localStorage.getItem('token');
-      if (confirmDelete) {
-        await UserService.deleteJob(jobId, token);
-        fetchJobs();
-      }
+        // Show the confirmation dialog
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to delete this job?!',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel',
+        });
+
+        // If confirmed, delete the job and fetch the updated list of jobs
+        if (result.isConfirmed) {
+            const token = localStorage.getItem('token');
+            await UserService.deleteJob(jobId, token);
+            await fetchJobs();
+        }
     } catch (error) {
-      console.error('Error deleting Job:', error);
+        console.error('Error deleting job:', error);
     }
-  };
+};
+
   
 
   const handleFilterChange = (e) => {

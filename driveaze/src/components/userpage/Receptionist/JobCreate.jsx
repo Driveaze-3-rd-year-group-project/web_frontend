@@ -14,6 +14,7 @@ function JobCreate() {
   const [selectedSupervisor, setSelectedSupervisor] = useState(null);
   const [selectedServiceType, setSelectedServiceType] = useState('');
   const [serviceTypes, setServiceTypes] = useState([]);
+  const [vehicleMilage, setVehicleMilage] = useState('');
   const [error, setError] = useState('');
 
   const [jobData, setJobData] = useState({
@@ -33,6 +34,7 @@ function JobCreate() {
         try {
           const token = localStorage.getItem('token');
           const vehicles = await UserService.searchVehicles(searchQuery, token);
+          console.log('Fetched vehicles:', vehicles);
           setVehicleSuggestions(vehicles);
         } catch (error) {
           console.error(error);
@@ -47,6 +49,25 @@ function JobCreate() {
     return () => clearTimeout(debounceTimeout);
   }, [searchQuery, selectedVehicle]); // Add selectedVehicle to prevent further search
 
+  useEffect(() => {
+    if (selectedVehicle) {
+      // Set the mileage from the selected vehicle
+      setVehicleMilage(selectedVehicle.vehicleMilage || ''); // Default to an empty string if no mileage
+      setJobData((prev) => ({
+        ...prev,
+        vehicleMilage: selectedVehicle.vehicleMilage || '', // Sync with jobData
+      }));
+    }
+  }, [selectedVehicle]);
+
+  const handleMilageChange = (e) => {
+    const updatedMilage = e.target.value;
+    setVehicleMilage(updatedMilage); // Update the input field
+    setJobData((prev) => ({
+      ...prev,
+      vehicleMilage: updatedMilage, // Sync with jobData
+    }));
+  };
 
   const handleVehicleSelect = (vehicle) => {
     setJobData((prev) => ({
@@ -84,7 +105,7 @@ function JobCreate() {
         [name]: value,
       }));
     }
-  };
+  };  
 
 
 
@@ -186,6 +207,7 @@ function JobCreate() {
     // Set jobData with the current time and date
     const updatedJobData = {
       ...jobData,
+      vehicleMilage,
       startedDate,  // Current date
       startTime,    // Current time
     };
@@ -230,7 +252,7 @@ function JobCreate() {
                 onChange={handleInputChange}
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                placeholder="Enter the Vehicle Number"
+                placeholder="Enter the Vehicle Number (XXX0000)"
               />
               
               {vehicleSuggestions.length > 0 ? (
@@ -287,7 +309,8 @@ function JobCreate() {
               <input
                 type="number"
                 name="vehicleMilage"
-                onChange={handleInputChange}
+                onChange={handleMilageChange}
+                value={vehicleMilage}
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg appearance-none [appearance:textfield] [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden"
                 placeholder="Vehicle Milage(As shown in the Meter)"

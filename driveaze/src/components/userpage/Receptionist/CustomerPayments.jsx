@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import MakePayments from "./MakePayments"; // Correct import path
+import { FaSearch } from "react-icons/fa";
 
 const CustomerPayments = () => {
   const initialBills = [
@@ -125,33 +126,6 @@ const CustomerPayments = () => {
                 Customer Payments
               </h3>
             </div>
-            <div className="mt-3 md:mt-0">
-              <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
-                <div className="relative w-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
-                  />
-                </div>
-              </form>
-            </div>
           </div>
           <div className="flex items-center justify-between mt-2 space-x-4">
             <div className="flex space-x-4">
@@ -164,6 +138,20 @@ const CustomerPayments = () => {
                 <option value="Completed">Completed</option>
                 <option value="Pending">Pending</option>
               </select>
+
+              <form onSubmit={(e) => e.preventDefault()} className="flex">
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
+              <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
+            </div>
+          </form>
+          
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">

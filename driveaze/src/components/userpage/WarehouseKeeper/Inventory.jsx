@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaRegTrashAlt, FaEdit, FaSearch, FaPlusCircle } from "react-icons/fa";
 import InventoryService from "../../service/InventoryService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Inventory = () => {
     const [tableItems, setTableItems] = useState([]);
@@ -67,16 +69,39 @@ const Inventory = () => {
         try {
             const token = localStorage.getItem('token');
             if (popupType === 'update') {
-                await InventoryService.updateItem(currentDetail, token);
+                const res = await InventoryService.updateItem(currentDetail, token);
+                console.log("response", res);
+                if (res.statusCode === 200) {
+                    toast.success("Job Created successfully!");
+                    setTimeout(() => {
+                        fetchInventory();
+                        closePopup();
+                    }, 1000);
+                  } else {
+                    setError(res.message);
+                    toast.error(res.message || 'Failed to create job');
+                  }
             } else if (popupType === 'refill') {
                 await InventoryService.refillItem(currentDetail.itemId, parseInt(refillQuantity), token);
             } else {
-                await InventoryService.addItem(currentDetail, token);
+                const res = await InventoryService.addItem(currentDetail, token);
+                console.log("response", res);
+                if (res.statusCode === 200) {
+                    toast.success("Job Created successfully!");
+                    setTimeout(() => {
+                        fetchInventory();
+                        closePopup();
+                    }, 1000);
+                  } else {
+                    setError(res.message);
+                    toast.error(res.message || 'Failed to create job');
+                  }
             }
-            fetchInventory();
-            closePopup();
+            // fetchInventory();
+            // closePopup();
         } catch (error) {
             console.error('Error saving inventory item:', error);
+            toast.error('An unexpected error occurred!');
         }
     };
 
@@ -265,6 +290,7 @@ const Inventory = () => {
                     </div>
                 </div>
             )}
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
         </div>
     );
 };

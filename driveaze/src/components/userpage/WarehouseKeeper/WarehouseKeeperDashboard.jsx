@@ -20,7 +20,6 @@ const Dashboard = () => {
         },
     };
 
-    // Data for weekly inventory changes line chart
     const inventoryData = {
         labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], // Week days
         datasets: [

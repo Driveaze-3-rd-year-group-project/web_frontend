@@ -82,6 +82,10 @@ const Inventory = () => {
                     toast.error(res.message || 'Failed to update item!');
                   }
             } else if (popupType === 'refill') {
+                if(parseInt(refillQuantity) <= 0){
+                    setError(res.message);
+                    toast.error(res.message || 'Failed to refill item');
+                }
                 const res = await InventoryService.refillItem(currentDetail.itemId, parseInt(refillQuantity), token);
                 console.log("response", res);
                 if (res.statusCode === 200) {
@@ -254,8 +258,8 @@ const Inventory = () => {
                     <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                         <tr>
                             <th className="py-3 px-6">Name</th>
-                            <th className="py-3 px-6">Initial Count</th>
                             <th className="py-3 px-6">Current Count</th>
+                            <th className="py-3 px-6">Initial Count</th>
                             <th className="py-3 px-6">Selling Price (Rs)</th>
                             <th className="py-3 px-6">Actions</th>
                         </tr>
@@ -264,8 +268,8 @@ const Inventory = () => {
                         {filteredItems.map((item, index) => (
                             <tr key={item.itemId}>
                                 <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{item.initialCount}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">{item.count}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">{item.initialCount}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">{item.sellingPrice}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center space-x-4">

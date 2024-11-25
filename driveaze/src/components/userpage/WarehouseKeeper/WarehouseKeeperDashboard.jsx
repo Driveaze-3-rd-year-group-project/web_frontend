@@ -76,7 +76,7 @@ const Dashboard = ({ token }) => {
                     metrics.inventoryStatusDistribution.normal,
                     metrics.inventoryStatusDistribution.overstock,
                 ],
-                backgroundColor: ['#ff5722','#191970', '#696969'],
+                backgroundColor: ['#d53300','#191970', '#008921'],
                 borderColor: '#fff',
                 borderWidth: 1,
             },
@@ -117,7 +117,7 @@ const Dashboard = ({ token }) => {
                 </div>
 
                 <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
-                    <div className="flex-shrink-0 text-4xl text-orange-500">
+                    <div className="flex-shrink-0 text-4xl text-red-500">
                         <FaExclamationCircle />
                     </div>
                     <div className="ml-4">

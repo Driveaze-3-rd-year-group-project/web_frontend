@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
 const Billing = () => {
   const initialBills = [
@@ -9,7 +10,7 @@ const Billing = () => {
       vehicleNumber: "XYZ 1234",
       status: "Ongoing",
       image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-      customerName: "Nimali Perera", 
+      customerName: "Nimali Perera",
     },
     {
       id: 2,
@@ -18,16 +19,16 @@ const Billing = () => {
       vehicleNumber: "ABC 5678",
       status: "Ongoing",
       image: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
-      customerName: "Kamal Silva", 
+      customerName: "Kamal Silva",
     },
-   {
+    {
       id: 3,
       brand: "Ford",
       model: "Mustang",
       vehicleNumber: "LMN 9101",
       status: "Ongoing",
       image: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
-      customerName: "Dilani Weerasinghe", 
+      customerName: "Dilani Weerasinghe",
     },
     {
       id: 4,
@@ -36,7 +37,7 @@ const Billing = () => {
       vehicleNumber: "JKL 1213",
       status: "Ongoing",
       image: "https://img.icons8.com/?size=100&id=57661&format=png&color=000000",
-      customerName: "Ranjith Gunawardena", 
+      customerName: "Ranjith Gunawardena",
     },
     {
       id: 5,
@@ -45,7 +46,7 @@ const Billing = () => {
       vehicleNumber: "QRS 1415",
       status: "Ongoing",
       image: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
-      customerName: "Samanthi Jayasuriya", 
+      customerName: "Samanthi Jayasuriya",
     },
     {
       id: 6,
@@ -54,7 +55,7 @@ const Billing = () => {
       vehicleNumber: "TUV 1617",
       status: "Ongoing",
       image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-      customerName: "Chamara Perera", 
+      customerName: "Chamara Perera",
     },
   ];
 
@@ -76,18 +77,18 @@ const Billing = () => {
   };
 
   const filteredBills = bills
-    .filter((bill) => {
-      return (
-        (selectedBrand ? bill.brand === selectedBrand : true) &&
-        (selectedModel ? bill.model === selectedModel : true) &&
-        (searchTerm
-          ? bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
-          : true)
-      );
-    });
+  .filter((bill) => {
+    return (
+      (selectedBrand ? bill.brand === selectedBrand : true) &&
+      (selectedModel ? bill.model === selectedModel : true) &&
+      (searchTerm
+        ? bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
+        : true)
+    );
+  });
 
   const brands = [...new Set(initialBills.map((bill) => bill.brand))];
   const models = [...new Set(initialBills.map((bill) => bill.model))];
@@ -98,36 +99,9 @@ const Billing = () => {
         <div className="max-w-lg">
           <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Billing</h3>
         </div>
-        <div className="mt-3 md:mt-0">
-          <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
-            <div className="relative w-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
-              />
-            </div>
-          </form>
-        </div>
       </div>
       <div className="flex items-center justify-between mt-4 space-x-4">
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 items-center">
           <select
             value={selectedBrand}
             onChange={handleBrandChange}
@@ -152,6 +126,19 @@ const Billing = () => {
               </option>
             ))}
           </select>
+
+          <form onSubmit={(e) => e.preventDefault()} className="flex">
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
+              <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
+            </div>
+          </form>
         </div>
         <a
           href="/createbill"

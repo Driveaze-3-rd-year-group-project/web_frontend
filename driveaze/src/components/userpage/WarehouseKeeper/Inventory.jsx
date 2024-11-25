@@ -72,29 +72,40 @@ const Inventory = () => {
                 const res = await InventoryService.updateItem(currentDetail, token);
                 console.log("response", res);
                 if (res.statusCode === 200) {
-                    toast.success("Job Created successfully!");
+                    toast.success("Item Updated successfully!");
                     setTimeout(() => {
                         fetchInventory();
                         closePopup();
                     }, 1000);
                   } else {
                     setError(res.message);
-                    toast.error(res.message || 'Failed to create job');
+                    toast.error(res.message || 'Failed to update item!');
                   }
             } else if (popupType === 'refill') {
-                await InventoryService.refillItem(currentDetail.itemId, parseInt(refillQuantity), token);
+                const res = await InventoryService.refillItem(currentDetail.itemId, parseInt(refillQuantity), token);
+                console.log("response", res);
+                if (res.statusCode === 200) {
+                    toast.success("Item Refilled successfully!");
+                    setTimeout(() => {
+                        fetchInventory();
+                        closePopup();
+                    }, 1000);
+                  } else {
+                    setError(res.message);
+                    toast.error(res.message || 'Failed to refill item');
+                  }
             } else {
                 const res = await InventoryService.addItem(currentDetail, token);
                 console.log("response", res);
                 if (res.statusCode === 200) {
-                    toast.success("Job Created successfully!");
+                    toast.success("Item Added successfully!");
                     setTimeout(() => {
                         fetchInventory();
                         closePopup();
                     }, 1000);
                   } else {
                     setError(res.message);
-                    toast.error(res.message || 'Failed to create job');
+                    toast.error(res.message || 'Failed to add item');
                   }
             }
             // fetchInventory();

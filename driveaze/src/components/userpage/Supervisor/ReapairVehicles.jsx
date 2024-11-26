@@ -20,7 +20,8 @@ const RepairVehicles = () => {
           numberPlate: vehicle.vehicleNo,
           vehicleModel: `${vehicle.vehicleBrand} ${vehicle.vehicleModel}`,
           jobDetails: job,
-          serviceType: serviceType.serviceName
+          vehicle: vehicle,
+          serviceTypeDetails: serviceType,
         }));
 
         setJobs(vehicleJobs);
@@ -93,6 +94,11 @@ const RepairVehicles = () => {
               </div>
               <Link
                 to={`/updaterepairs/${item.numberPlate}`}
+                state={{ 
+                  jobDetails: item.jobDetails, 
+                  vehicle: item.vehicle,
+                  serviceTypeDetails: item.serviceTypeDetails 
+                }}
                 className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2"
               >
                 View

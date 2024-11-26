@@ -52,6 +52,7 @@ function RegistrationPage() {
                     location.href = '/login';
                 }, 1000);
             } else {
+                // console.log(res.message);
                 toast.error(res.message || "Registration failed!");
             }
         } catch (error) {

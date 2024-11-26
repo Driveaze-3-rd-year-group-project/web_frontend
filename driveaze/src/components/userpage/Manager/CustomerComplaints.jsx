@@ -1,46 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import RetrieveComplaintService from "../../service/RetrieveComplaintService";
 
 const CustomerComplaints = () => {
+  const [complaints, setComplaints] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [selectedComplaint, setSelectedComplaint] = useState(null); // For popup details
 
-  const complaints = [
-    {
-      name: "Ayesha Perera",
-      email: "ayesha.perera@example.com",
-      complaintDate: "2024-07-15",
-      details: "Complaint about delayed service.",
-      avatar: "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-    },
-    {
-      name: "Dilani Wickramasinghe",
-      email: "dilani.wickramasinghe@example.com",
-      complaintDate: "2024-07-20",
-      details: "Issues with the car repair.",
-      avatar: "https://randomuser.me/api/portraits/women/79.jpg",
-    },
-    {
-      name: "Samantha Silva",
-      email: "samantha.silva@example.com",
-      complaintDate: "2024-07-22",
-      details: "Unresolved billing issue.",
-      avatar: "https://randomuser.me/api/portraits/men/86.jpg",
-    },
-    {
-      name: "Kasun Jayasinghe",
-      email: "kasun.jayasinghe@example.com",
-      complaintDate: "2024-07-25",
-      details: "Complaint regarding customer service.",
-      avatar: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
-    },
-    {
-      name: "Nimali Jayasinghe",
-      email: "nimali.jayasinghe@example.com",
-      complaintDate: "2024-07-25",
-      details: "Complaint regarding booking service.",
-      avatar: "https://images.unsplash.com/photo-1439911767590-c724b615299d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-    },
-  ];
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      setIsLoading(true);
+      setError("");
+
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("User not authenticated. Token missing.");
+        }
+
+        const response = await RetrieveComplaintService.retrieveComplaintData(token);
+        if (response.success) {
+          setComplaints(response.message); // Assuming the backend sends the data in the 'message' field
+        } else {
+          setError(response.message || "Failed to fetch complaints.");
+        }
+      } catch (err) {
+        setError(err.message || "An error occurred while fetching complaints.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchComplaints();
+  }, []);
+
+  const filteredComplaints = complaints.filter((complaint) =>
+    (complaint.customerEmail || "Unknown").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    complaint.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleViewClick = (complaint) => {
     setSelectedComplaint(complaint);
@@ -50,16 +48,10 @@ const CustomerComplaints = () => {
     setSelectedComplaint(null);
   };
 
-  const filteredComplaints = complaints.filter((complaint) =>
-    complaint.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-          Customer Complaints
-        </h3>
+        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Customer Complaints</h3>
         <div className="mt-3 md:mt-0">
           <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
             <div className="relative w-full">
@@ -89,43 +81,52 @@ const CustomerComplaints = () => {
         </div>
       </div>
 
-      <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
-        <table className="w-full table-auto text-sm text-left">
-          <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-            <tr>
-              <th className="py-3 px-6">Customer</th>
-              <th className="py-3 px-6">Complaint Date</th>
-              <th className="py-3 px-6">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-600 divide-y">
-            {filteredComplaints.map((complaint, index) => (
-              <tr key={index} className="hover:bg-gray-100">
-                <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                  <img
-                    src={complaint.avatar}
-                    className="w-12 h-12 rounded-full"
-                    alt={`${complaint.name} avatar`}
-                  />
-                  <div>
-                    <span className="block text-gray-700 text-sm font-medium">{complaint.name}</span>
-                    <span className="block text-gray-600 text-xs">{complaint.email}</span>
-                  </div>
-                </td>
-                <td className="py-3 px-6 whitespace-nowrap">{complaint.complaintDate}</td>
-                <td className="py-3 px-6 whitespace-nowrap">
-                  <button
-                    onClick={() => handleViewClick(complaint)}
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                  >
-                    View
-                  </button>
-                </td>
+      {isLoading ? (
+        <p>Loading complaints...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
+      ) : filteredComplaints.length === 0 ? (
+        <p>No complaints found.</p>
+      ) : (
+        <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
+          <table className="w-full table-auto text-sm text-left">
+            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+              <tr>
+                <th className="py-3 px-6">Customer</th>
+                <th className="py-3 px-6">Complaint Date</th>
+                <th className="py-3 px-6">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="text-gray-600 divide-y">
+              {filteredComplaints.map((complaint) => (
+                <tr key={complaint.complaintId} className="hover:bg-gray-100">
+                  <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                    <img
+                      src={complaint.avatar || "https://via.placeholder.com/50"} // Default avatar
+                      className="w-12 h-12 rounded-full"
+                      alt={`${complaint.customerEmail || "Unknown"} avatar`}
+                    />
+                    <div>
+                      <span className="block text-gray-700 text-sm font-medium">
+                        {complaint.customerEmail || "Unknown"}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-6 whitespace-nowrap">{complaint.date}</td>
+                  <td className="py-3 px-6 whitespace-nowrap">
+                    <button
+                      onClick={() => handleViewClick(complaint)}
+                      className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {selectedComplaint && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -133,17 +134,34 @@ const CustomerComplaints = () => {
             <h4 className="text-gray-800 text-xl font-bold mb-4">Complaint Details</h4>
             <div className="flex items-center gap-x-3 mb-4">
               <img
-                src={selectedComplaint.avatar}
+                src={selectedComplaint.avatar || "https://via.placeholder.com/50"}
                 className="w-16 h-16 rounded-full"
-                alt={`${selectedComplaint.name} avatar`}
+                alt={`${selectedComplaint.customerEmail || "Unknown"} avatar`}
               />
               <div>
-                <h5 className="text-gray-700 text-lg font-medium">{selectedComplaint.name}</h5>
-                <p className="text-gray-600">{selectedComplaint.email}</p>
+                <h5 className="text-gray-700 text-lg font-medium">
+                  {selectedComplaint.customerEmail || "Unknown"}
+                </h5>
               </div>
             </div>
-            <p className="text-gray-800 mb-4"><strong>Complaint Date:</strong> {selectedComplaint.complaintDate}</p>
-            <p className="text-gray-800 mb-4"><strong>Details:</strong> {selectedComplaint.details}</p>
+            <p className="text-gray-800 mb-4">
+              <strong>Complaint Date:</strong> {selectedComplaint.date}
+            </p>
+            <p className="text-gray-800 mb-4">
+              <strong>Details:</strong> {selectedComplaint.description}
+            </p>
+            <p className="text-gray-800 mb-4">
+              <strong>Status:</strong>{" "}
+              <span
+                className={
+                  selectedComplaint.status === 0
+                    ? "text-orange-500 font-bold" // Pending (orange)
+                    : "text-green-500 font-bold" // Resolved (green)
+                }
+              >
+                {selectedComplaint.status === 0 ? "Pending" : "Resolved"}
+              </span>
+            </p>
             <button
               onClick={handleClosePopup}
               className="py-2 px-4 text-white font-medium bg-red-600 hover:bg-red-500 active:bg-red-600 rounded-lg duration-150"

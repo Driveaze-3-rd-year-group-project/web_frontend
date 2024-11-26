@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt  } from 'react-icons/fa';
+import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt, FaArrowLeft, FaArrowRight  } from 'react-icons/fa';
 import UserService from "../../service/UserService";
 import Swal from 'sweetalert2';
 
@@ -7,36 +7,25 @@ const JobManagement = () => {
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [jobs, setJobs] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0); // 0-based indexing
 
   useEffect(() => {
-    fetchJobs();
-  }, []);
+    fetchJobs(currentPage);
+  }, [currentPage]);
 
-  // const fetchJobs = async () => {
-  //   try {
-  //     const token = localStorage.getItem('token'); // Retrieve the token from localStorage
-  //     const response = await UserService.getAllJobs(token);
-  
-  //     console.log('Fetched jobs:', response); // Log the response for debugging
-  
-  //     // Extract jobRegistryList from the response
-  //     const jobsData = response?.jobRegistryList || [];
-      
-  //     setJobs(jobsData); // Ensure it's an array
-  //   } catch (error) {
-  //     console.error('Error fetching jobs:', error);
-  //     setJobs([]); // Set an empty array if there's an error
-  //   }
-  // };
-  const fetchJobs = async () => {
+
+  const fetchJobs = async (page) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await UserService.getAllJobs(token);
+      const token = localStorage.getItem("token");
+      const response = await UserService.getAllJobsWithPagination(page, token);
+
+      console.log('Fetched paginated jobs:', response);
   
-      console.log('Fetched jobs:', response);
-  
-      const jobsData = response?.jobRegistryList || [];
-  
+
+      // Assuming the response includes 'content' for jobs and 'totalPages' for pagination info
+      const jobsData = response?.content || [];
+
       // Fetch supervisor names and vehicle details and append to job data
       const updatedJobs = await Promise.all(
         jobsData.map(async (job) => {
@@ -69,20 +58,46 @@ const JobManagement = () => {
           }
         })
       );
-  
-      // Sort jobs by date and time (latest first)
-      const sortedJobs = updatedJobs.sort((a, b) => {
-        const dateTimeA = new Date(`${a.startedDate}T${a.startTime}`);
-        const dateTimeB = new Date(`${b.startedDate}T${b.startTime}`);
-        return dateTimeB - dateTimeA; // Descending order
-      });
-  
-      setJobs(sortedJobs);
+
+
+      setJobs(updatedJobs);
+      setTotalPages(response?.totalPages || 1);
     } catch (error) {
-      console.error('Error fetching jobs:', error);
+      console.error("Error fetching jobs:", error);
       setJobs([]);
     }
   };
+
+  const handlePageChange = (page) => {
+    if (page >= 0 && page < totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  
+   // Function to generate page numbers with "..." where necessary
+   const getPages = (totalPages, currentPage) => {
+    const pages = [];
+    const maxPagesToShow = 5; // Show up to 5 page numbers including "..."
+    const startPage = Math.max(0, currentPage - 2);
+    const endPage = Math.min(totalPages - 1, currentPage + 2);
+
+    if (startPage > 0) {
+      pages.push(0); // Add the first page
+      if (startPage > 1) pages.push("..."); // Add "..." if there is a gap
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    if (endPage < totalPages - 1) {
+      if (endPage < totalPages - 2) pages.push("..."); // Add "..." if there is a gap
+      pages.push(totalPages - 1); // Add the last page
+    }
+
+    return pages;
+  };
+  
   
   const deleteJobs = async (jobId) => {
     try {
@@ -101,7 +116,7 @@ const JobManagement = () => {
         if (result.isConfirmed) {
             const token = localStorage.getItem('token');
             await UserService.deleteJob(jobId, token);
-            await fetchJobs();
+            fetchJobs(currentPage);
         }
     } catch (error) {
         console.error('Error deleting job:', error);
@@ -171,13 +186,13 @@ const JobManagement = () => {
         </a>
       </div>
 
-      <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
-        <table className="w-full table-auto text-sm text-left">
+      <div className="mt-6 shadow-sm border rounded-lg">
+        <table className="w-full table-auto text-sm text-left overflow-hidden">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
               <th className="py-3 px-6">Job ID</th>
               <th className="py-3 px-6">Vehicle Number</th>
-              <th className="py-3 px-6">Vehicle Brand&Model</th>
+              <th className="py-3 px-6">Vehicle Brand & Model</th>
               <th className="py-3 px-6">Job Started Date</th>
               <th className="py-3 px-6">Assigned Supervisor</th>
               <th className="py-3 px-6">Status</th>
@@ -186,15 +201,21 @@ const JobManagement = () => {
           </thead>
           <tbody className="text-gray-600 divide-y">
             {Array.isArray(jobs) && jobs.length > 0 ? (
-              jobs.map(job => (
+              jobs.map((job) => (
                 <tr key={job.jobId}>
                   <td className="px-6 py-4 whitespace-nowrap">{job.jobId}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{job.vehicleNo}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{job.vehicleBrand}-{job.vehicleModel}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {job.vehicleBrand}-{job.vehicleModel}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">{job.startedDate}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{job.supervisorName}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={getStatusStyle(job.jobStatus === 0 ? "Ongoing" : "Completed")}>
+                    <span
+                      className={getStatusStyle(
+                        job.jobStatus === 0 ? "Ongoing" : "Completed"
+                      )}
+                    >
                       {job.jobStatus === 0 ? "Ongoing" : "Completed"}
                     </span>
                   </td>
@@ -202,7 +223,10 @@ const JobManagement = () => {
                     <div className="flex justify-between items-center space-x-2 relative">
                       {/* Info Icon with Tooltip */}
                       <div className="relative group">
-                        <a href={`/jobdetails/${job.jobId}`} className="text-green-500 hover:text-green-700 text-xl">
+                        <a
+                          href={`/jobdetails/${job.jobId}`}
+                          className="text-green-500 hover:text-green-700 text-xl"
+                        >
                           <FaInfoCircle />
                         </a>
                         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -212,7 +236,10 @@ const JobManagement = () => {
 
                       {/* Edit Icon with Tooltip */}
                       <div className="relative group">
-                        <a href={`/update-job/${job.jobId}`} className="text-indigo-600 hover:text-indigo-800 text-xl">
+                        <a
+                          href={`/update-job/${job.jobId}`}
+                          className="text-indigo-600 hover:text-indigo-800 text-xl"
+                        >
                           <FaEdit />
                         </a>
                         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -222,7 +249,10 @@ const JobManagement = () => {
 
                       {/* Delete Icon with Tooltip */}
                       <div className="relative group">
-                        <a onClick={() => deleteJobs(job.jobId)} className="text-red-500 hover:text-red-800 text-xl">
+                        <a
+                          onClick={() => deleteJobs(job.jobId)}
+                          className="text-red-500 hover:text-red-800 text-xl"
+                        >
                           <FaRegTrashAlt />
                         </a>
                         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -231,21 +261,113 @@ const JobManagement = () => {
                       </div>
                     </div>
                   </td>
-
-
-
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="text-center py-4">No jobs found</td>
+                <td colSpan="7" className="text-center py-4">
+                  No jobs found
+                </td>
               </tr>
             )}
           </tbody>
-
         </table>
       </div>
+
+      {/* Pagination */}
+      <div className="max-w-screen-xl mx-auto mt-12 px-4 text-gray-600 md:px-8">
+        <div className="flex items-center justify-between text-sm text-gray-600 font-medium mt-4">
+          <button
+            disabled={currentPage === 0}
+            onClick={() => handlePageChange(currentPage - 1)}
+            className={`px-4 py-2 border rounded-lg duration-150 hover:text-indigo-600 flex items-center gap-x-2 ${
+              currentPage === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"
+            }`}
+          >
+            <FaArrowLeft />
+            Previous
+          </button>
+          <div>
+            {/* Page {currentPage + 1} of {totalPages} */}
+            <ul className="flex items-center gap-1">
+              {getPages(totalPages, currentPage).map((item, idx) => (
+                <li key={idx} className="text-sm">
+                  {item === "..." ? (
+                    <div className="px-3 py-2">...</div>
+                  ) : (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => handlePageChange(item)}
+                      aria-current={currentPage === item ? "page" : undefined}
+                      className={`px-3 py-2 rounded-lg duration-150 hover:text-indigo-600 hover:bg-indigo-50 ${
+                        currentPage === item ? "bg-indigo-50 text-indigo-600 font-medium" : ""
+                      }`}
+                    >
+                      {item + 1} {/* Display 1-based page index */}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <button
+            disabled={currentPage === totalPages - 1}
+            onClick={() => handlePageChange(currentPage + 1)}
+            className={`px-4 py-2 border rounded-lg duration-150 hover:text-indigo-600 flex items-center gap-x-2 ${
+              currentPage === totalPages - 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"
+            }`}
+          >
+            Next
+            <FaArrowRight />
+          </button>
+        </div>
+      </div>
+      
     </div>
+
+
+// {/* //pagination */}
+// <div className="max-w-screen-xl mx-auto mt-12 px-4 text-gray-600 md:px-8">
+// <div className="flex items-center justify-between sm:flex" aria-label="Pagination">
+  // <button
+  //   onClick={() => handlePageChange(currentPage - 1)}
+  //   disabled={currentPage === 1}
+  //   className={`px-4 py-2 border rounded-lg duration-150 ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-50'}`}
+  // >
+  //   <FaArrowLeft /> Previous
+  // </button>
+
+//   <ul className="flex items-center gap-1">
+//     {Array.from({ length: pages }, (_, index) => (
+//       <li key={index + 1}>
+//         <button
+//           onClick={() => handlePageChange(index + 1)}
+//           className={`px-3 py-2 rounded-lg duration-150 hover:bg-indigo-50 ${currentPage === index + 1 ? 'bg-indigo-50 text-indigo-600 font-medium' : ''}`}
+//         >
+//           {index + 1}
+//         </button>
+//       </li>
+//     ))}
+//   </ul>
+
+//   <button
+//     onClick={() => handlePageChange(currentPage + 1)}
+//     disabled={currentPage === pages}
+//     className={`px-4 py-2 border rounded-lg duration-150 ${currentPage === pages ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-50'}`}
+//   >
+//     Next <FaArrowRight />
+//   </button>
+// </div>
+
+//     {/* On mobile version */}
+//     <div className="flex items-center justify-between text-sm text-gray-600 font-medium sm:hidden">
+//         <a href="javascript:void(0)" className="px-4 py-2 border rounded-lg duration-150 hover:bg-gray-50">Previous</a>
+//         <div className="font-medium">
+//             Page {currentPage} of {pages.length}
+//         </div>
+//         <a href="javascript:void(0)" className="px-4 py-2 border rounded-lg duration-150 hover:bg-gray-50">Next</a>
+//     </div>
+// </div>
   );
 };
 

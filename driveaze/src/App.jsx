@@ -78,6 +78,8 @@ import UpdateJob from "./components/userpage/Receptionist/UpdateJob.jsx";
 import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/WarehouseKeeperDashboard"
 import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
 import UserProfile from "./components/common/UserProfile.jsx";
+import TechnicianDashboard from "./components/userpage/Technician/TechnicianDashboard.jsx";
+import AssignedJobs from "./components/userpage/Technician/AssignedJobs.jsx";
 
 
 function App() {
@@ -259,8 +261,8 @@ function App() {
                 </>
               ) : (
                 <>
-                  <Route path="/dashboard" element={<CustomerDashboard />} />
-                  <Route path="/assigned-jobs" element={<Myvehicles/>} />
+                  <Route path="/dashboard" element={<TechnicianDashboard />} />
+                  <Route path="/assigned-jobs" element={<AssignedJobs/>} />
                   <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>

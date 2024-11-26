@@ -3,9 +3,9 @@ import axios from 'axios';
 class SupervisorService {
     static BASE_URL = 'http://localhost:8082';
 
-    static async getAllJobs(token){
+    static async getJobs(token){
         try{
-            const response = await axios.get(`${SupervisorService.BASE_URL}/job-registry/get-all-jobs`, {
+            const response = await axios.get(`${SupervisorService.BASE_URL}/job-registry/get-jobs`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             // console.log(response);

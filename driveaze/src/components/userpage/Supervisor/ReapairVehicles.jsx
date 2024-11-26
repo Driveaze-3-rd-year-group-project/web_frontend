@@ -12,7 +12,7 @@ const RepairVehicles = () => {
     const fetchJobs = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await SupervisorService.getAllJobs(token);
+        const response = await SupervisorService.getJobs(token);
         
         // Map complex response structure to component needs
         const vehicleJobs = response.details.filter(([job]) => job.jobStatus === 0).map(([job, vehicle, serviceType]) => ({

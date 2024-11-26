@@ -134,6 +134,20 @@ class UserService{
         }
     }
 
+    static async updateCustomerAccount(userId, userData, token){
+        try{
+
+            const response = await axios.put(`${UserService.BASE_URL}/customer/update-account/${userId}`, userData,
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
     static async updateUser(userId, userData, token){
         try{
 

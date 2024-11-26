@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCloudUploadAlt, FaRegTrashAlt, FaEdit, FaLock } from "react-icons/fa";
 import UserService from "../service/UserService";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,34 +10,42 @@ function UserProfile() {
     const [user, setUser] = useState({
         name: "",
         email: "",
-        phone: "",
         address: "",
-        profilePicture: "", // Default profile picture will be updated
+        contactNumber: "",
+        // profilePicture: "", // Default profile picture will be updated
     });
+
+    const [formData, setFormData] = useState({});
+
+    const token = localStorage.getItem("token"); // Token for API calls
 
     // Fetch user profile data from the backend
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                const userProfile = await UserService.getYourProfile(token);
-                console.log("user profile",userProfile.ourUsers);
-                setUser({
+        fetchUserProfile();
+    }, []); // Re-fetch if the token changes
+
+    const fetchUserProfile = async () => {
+        try {
+            const userProfile = await UserService.getYourProfile(token);
+            console.log("user profile", userProfile.ourUsers);
+            setUser({
                 name: userProfile.ourUsers.name,
                 email: userProfile.ourUsers.email,
                 role: userProfile.ourUsers.role,
-                phone: userProfile.ourUsers.phone,
+                contactNumber: userProfile.ourUsers.contactNumber,
                 id: userProfile.ourUsers.id,
-                address: userProfile.ourUsers.address,
-                profilePicture: userProfile.ourUsers.profilePicture || "https://via.placeholder.com/150", // Default placeholder if no picture
-                });
-            } catch (error) {
-                console.error("Error fetching user profile:", error);
-            }
-        };
+                // profilePicture: userProfile.ourUsers.profilePicture || "https://via.placeholder.com/150", // Default placeholder if no picture
+            });
 
-        fetchUserProfile();
-    }, []); // Re-fetch if the token changes
+            setFormData({
+                name: userProfile.ourUsers.name,
+                email: userProfile.ourUsers.email,
+                contactNumber: userProfile.ourUsers.contactNumber,
+            });
+        } catch (error) {
+            console.error("Error fetching user profile:", error);
+        }
+    };
 
     const deleteUser = async (userId) => {
         try {
@@ -54,7 +62,6 @@ function UserProfile() {
 
             // If confirmed, delete the job and fetch the updated list of jobs
             if (result.isConfirmed) {
-                const token = localStorage.getItem('token');
                 await UserService.deleteCustomerAccount(userId, token);
                 toast.success("Account Deleted successfully!");
                 setTimeout(() => {
@@ -63,16 +70,18 @@ function UserProfile() {
                 }, 1000);
             }
         } catch (error) {
-          console.error('Error deleting user:', error);
-          toast.error(error.message || 'Failed to Delete Account');
+            console.error('Error deleting user:', error);
+            toast.error(error.message || 'Failed to Delete Account');
         }
-      };
+    };
 
     // Handler to open modal
     const openModal = () => setIsModalOpen(true);
 
-    // Handler to close modal
-    const closeModal = () => setIsModalOpen(false);
+    const closeModal = () => {
+        setIsModalOpen(false);
+        fetchUserProfile(); // Re-fetch user data
+    };
 
     // Handler to handle form input changes
     const handleChange = (e) => {
@@ -84,105 +93,128 @@ function UserProfile() {
     const handlePictureChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-        setUser((prevUser) => ({ ...prevUser, profilePicture: URL.createObjectURL(file) }));
+            setUser((prevUser) => ({ ...prevUser, profilePicture: URL.createObjectURL(file) }));
         }
     };
 
-     // Handler to handle form submission
+    // Handler to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-        await UserService.updateUser(user.id, user, token); // Assuming user object has an id
-        alert("Profile updated successfully!");
-        closeModal();
+            console.log("submitting user", user);
+    
+            let res;
+            if (user.role === 'CUSTOMER') {
+                res = await UserService.updateCustomerAccount(user.id, user, token); // Use customer-specific method
+            } else {
+                res = await UserService.updateUser(user.id, user, token); // Use general method
+            }
+    
+            console.log('API Response:', res);
+    
+            if (res.statusCode === 200) {
+                toast.success("Profile updated successfully!");
+                setTimeout(() => {
+                    closeModal();
+                }, 1000);
+            } else {
+                toast.error(res.message || 'Failed to Update user');
+            }
         } catch (error) {
-        console.error("Error updating profile:", error);
+            console.error("Error updating profile:", error);
+            toast.error("Error updating profile!");
         }
     };
+    
 
     return (
-    <div className="flex items-center justify-center min-h-screen">
-        <div className="w-[60%] max-w-2xl bg-white shadow-lg rounded-lg p-6 border border-gray-300">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-            Profile Settings
-        </h2>
-        <div className="flex items-center gap-6">
-            {/* Profile Picture */}
-            <div className="flex-shrink-0">
-            <img
-                className="w-36 h-36 rounded-full object-cover border-4 border-gray-300"
-                src={user.profilePicture}
-                alt={`${user.name}'s profile`}
-            />
-            </div>
-            {/* Profile Details */}
-            <div className="flex flex-col gap-4 flex-grow">
-                <div className="flex justify-between text-lg">
-                    <span className="text-gray-600 font-medium">Name:</span>
-                    <span className="text-gray-900">{user.name}</span>
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="w-[60%] max-w-2xl bg-white shadow-lg rounded-lg p-6 border border-gray-300">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+                    Profile Settings
+                </h2>
+                <div className="flex items-center gap-6">
+                    {/* Profile Picture */}
+                    <div className="flex-shrink-0">
+                        <img
+                            className="w-36 h-36 rounded-full object-cover border-4 border-gray-300"
+                            // src={user.profilePicture}
+                            src="https://via.placeholder.com/150"
+                            alt={`${user.name}'s profile`}
+                        />
+                    </div>
+                    {/* Profile Details */}
+                    <div className="flex flex-col gap-4 flex-grow">
+                        <div className="flex justify-between text-lg">
+                            <span className="text-gray-600 font-medium">Name:</span>
+                            <span className="text-gray-900">{user.name}</span>
+                        </div>
+                        <div className="flex justify-between text-lg">
+                            <span className="text-gray-600 font-medium">Account Type:</span>
+                            <span className="text-gray-900">
+                                {user.role === "ADMIN" && "Admin Account"}
+                                {user.role === "RECEPTIONIST" && "Receptionist Account"}
+                                {user.role === "MANAGER" && "Manager Account"}
+                                {user.role === "CUSTOMER" && "Customer Account"}
+                                {user.role === "TECHNICIAN" && "Technician Account"}
+                                {user.role === "WAREHOUSE_KEEPER" && "Warehouse Keeper Account"}
+                                {user.role === "SUPERVISOR" && "Supervisor Account"}
+                            </span>
+                        </div>
+                        <div className="flex justify-between text-lg">
+                            <span className="text-gray-600 font-medium">Email Address:</span>
+                            <span className="text-gray-900">{user.email}</span>
+                        </div>
+                        
+                        {user.role === "CUSTOMER" && (
+                            <div className="flex justify-between text-lg">
+                                <span className="text-gray-600 font-medium">Contact Number:</span>
+                                <span className="text-gray-900">
+                                    {user.contactNumber ? user.contactNumber : "Please enter your contact details"}
+                                </span>
+                            </div>
+                        )}
+                            
+                    </div>
                 </div>
-                <div className="flex justify-between text-lg">
-                    <span className="text-gray-600 font-medium">Account Type:</span>
-                    <span className="text-gray-900">
-                        {user.role === "ADMIN" && "Admin Account"}
-                        {user.role === "RECEPTIONIST" && "Receptionist Account"}
-                        {user.role === "MANAGER" && "Manager Account"}
-                        {user.role === "CUSTOMER" && "Customer Account"}
-                        {user.role === "TECHNICIAN" && "Technician Account"}
-                        {user.role === "WAREHOUSE_KEEPER" && "Warehouse Keeper Account"}
-                        {user.role === "SUPERVISOR" && "Supervisor Account"}
-                    </span>
-                </div>
-                <div className="flex justify-between text-lg">
-                    <span className="text-gray-600 font-medium">Email Address:</span>
-                    <span className="text-gray-900">{user.email}</span>
-                </div>
-                <div className="flex justify-between text-lg">
-                    <span className="text-gray-600 font-medium">Contact Number:</span>
-                    <span className="text-gray-900">
-                        {user.phone ? user.phone : "Please enter your contact details"}
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div className="flex items-center justify-between mt-6">
-                   
-                <button
-                    type="submit"
-                    onClick={openModal}
-                    className="w-40 h-12 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
-                >
-                    Update Password
-                    <FaLock className="ml-2"/>
-                </button>
-                <button
-                    type="submit"
-                    onClick={openModal}
-                    className="w-40 h-12 flex items-center justify-center text-white font-medium bg-green-600 hover:bg-green-500 active:bg-green-700 mt-6 rounded-lg duration-150"
-                >
-                    Update Details
-                    <FaEdit className="ml-2"/>
-                </button> 
-                {user.role === "CUSTOMER" && (
-                    <button
-                        onClick={() => deleteUser(user.id)}
-                        type="button"
-                        className="w-40 h-12 flex items-center justify-center text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 mt-6 rounded-lg duration-150"
-                    >
-                        Delete Account
-                        <FaRegTrashAlt className="ml-2" />
-                    </button>
-                )}
-            </div>
-            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
-        </div>
 
-        {/* Modal (Popup Form) */}
-        {isModalOpen && (
-            <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-8 w-130">
-                <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Update Profile</h3>
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="flex items-center justify-between mt-6">
+                    <button
+                        type="button"
+                        onClick={openModal}
+                        className="w-40 h-12 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
+                    >
+                        Update Password
+                        <FaLock className="ml-2" />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={openModal}
+                        className="w-40 h-12 flex items-center justify-center text-white font-medium bg-green-600 hover:bg-green-500 active:bg-green-700 mt-6 rounded-lg duration-150"
+                    >
+                        Update Details
+                        <FaEdit className="ml-2" />
+                    </button>
+                    {user.role === "CUSTOMER" && (
+                        <button
+                            onClick={() => deleteUser(user.id)}
+                            type="button"
+                            className="w-40 h-12 flex items-center justify-center text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 mt-6 rounded-lg duration-150"
+                        >
+                            Delete Account
+                            <FaRegTrashAlt className="ml-2" />
+                        </button>
+                    )}
+                </div>
+                <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
+            </div>
+
+            {/* Modal (Popup Form) */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-8 w-130">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Update Profile</h3>
+                        <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
                             <label className="font-medium">Profile Picture</label>
                             <div className="max-w-md h-40 rounded-lg border-2 border-dashed flex items-center justify-center mb-4">
@@ -199,32 +231,33 @@ function UserProfile() {
                             <label className="font-medium">User Name</label>
                             <input
                                 type="text"
+                                name="name"
+                                value={user.name}
+                                onChange={handleChange}
                                 required
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
-                        <div>
-                            <label className="font-medium">Email Address</label>
-                            <input
-                                type="email"
-                                required
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                            />
-                        </div>
-                        <div>
-                            <label className="font-medium">Contact Number</label>
-                            <input
-                                type="text"
-                                required
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                            />
-                        </div>
+                        {user.role === "CUSTOMER" && (
+                            <div>
+                                <label className="font-medium">Contact Number</label>
+                                <input
+                                    type="text"
+                                    name="contactNumber"
+                                    value={user.contactNumber}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                />
+                            </div>
+                        )}
+                        
                         {/* <div>
                             <label className="font-medium">Password</label>
                             <input
                                 type="password"
                                 required
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div> */}
                         <div className="flex items-center justify-between mt-6">
@@ -243,11 +276,11 @@ function UserProfile() {
                             </button>    
                         </div>
                     </form>
+                    </div>
                 </div>
-            </div>
-        )}
-    </div>
+            )}
+        </div>
     );
 }
 
-export default UserProfile
+export default UserProfile;

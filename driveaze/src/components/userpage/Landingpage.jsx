@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "react-feather";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClipboardCheck } from "react-icons/fa";
 
-import img1 from "../../assets/LandingPageCarousel/1.svg";
-import img2 from "../../assets/LandingPageCarousel/2.svg";
-import img3 from "../../assets/LandingPageCarousel/3.svg";
-import img4 from "../../assets/LandingPageCarousel/4.svg";
+import img1 from "/assets/LandingPageCarousel/1.svg";
+import img2 from "/assets/LandingPageCarousel/2.svg";
+import img3 from "/assets/LandingPageCarousel/3.svg";
+import img4 from "/assets/LandingPageCarousel/4.svg";
 
 const Landingpage = () => {
     const [curr, setCurr] = useState(0);
@@ -101,42 +101,42 @@ const Landingpage = () => {
                 <div class="flex overflow-hidden space-x-16 group">
                     <div class="flex animate-loop-scroll space-x-16 group-hover:paused">
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/nissan.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/nissan.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/mitsubishi.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/mitsubishi.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/toyota.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/toyota.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/kia.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/kia.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/ford.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/ford.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/isuzu.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/isuzu.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                     </div>
                     <div class="flex animate-loop-scroll space-x-16 group-hover:paused" aria-hidden="true">
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/nissan.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/nissan.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/mitsubishi.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/mitsubishi.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/toyota.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/toyota.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/kia.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/kia.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/ford.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/ford.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                         <div class="flex justify-center items-center">
-                            <img src='./src/assets/LandingPageVehicleLogos/isuzu.svg' alt="logo" class="h-28 max-w-none" />                    
+                            <img src='/assets/LandingPageVehicleLogos/isuzu.svg' alt="logo" class="h-28 max-w-none" />                    
                         </div>
                     </div>
                 </div>
@@ -150,8 +150,8 @@ const Landingpage = () => {
                     <p class="mb-4 max-w-xl leading-relaxed sm:mx-auto lg:ml-0 text-justify">The company offers a wide range of services for almost all purposes, since the year 1955. Over the years we have built our reputation through extending trustworthiness and high quality services to our clients. Our prominence on high quality and customer satisfaction service has placed us with the high growth of clients.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-4 mt-8">
-                    <img src="./src/assets/LandingPageAboutUs/about_us1.svg" class="w-full rounded-lg"  alt="office content 1"/>
-                    <img class="mt-4 w-full rounded-lg lg:mt-10" src="./src/assets/LandingPageAboutUs/about_us2.svg" alt="office content 2"/>
+                    <img src="/assets/LandingPageAboutUs/about_us1.svg" class="w-full rounded-lg"  alt="office content 1"/>
+                    <img class="mt-4 w-full rounded-lg lg:mt-10" src="/assets/LandingPageAboutUs/about_us2.svg" alt="office content 2"/>
                 </div>
             </div>
         </section>

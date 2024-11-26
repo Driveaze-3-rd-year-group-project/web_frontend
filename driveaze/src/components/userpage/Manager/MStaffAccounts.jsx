@@ -16,7 +16,7 @@ function MStaffAccounts() {
     try {
       const token = localStorage.getItem('token'); // Retrieve the token from localStorage
       const response = await UserService.getAllStaff(token);
-      //   console.log(response);
+      console.log(response);
       setUsers(response.ourUsersList); // Assuming the list of users is under the key 'ourUsersList'
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -137,7 +137,7 @@ function MStaffAccounts() {
                         </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">2024/07/29</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.registeredDate}</td>
                     <td className="text-center px-6 whitespace-nowrap">
                         <Link 
                           to={`/update-user/${user.id}`}

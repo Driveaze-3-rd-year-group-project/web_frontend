@@ -99,7 +99,7 @@ function CustomerAccounts() {
                         </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">2024/06/23</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.registeredDate}</td>
                     <td className="text-center px-6 whitespace-nowrap">
                         <Link 
                           to={`/customer-details/${user.id}`}

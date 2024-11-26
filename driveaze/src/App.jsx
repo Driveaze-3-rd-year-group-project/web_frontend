@@ -78,6 +78,7 @@ import UpdateJob from "./components/userpage/Receptionist/UpdateJob.jsx";
 import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/WarehouseKeeperDashboard"
 import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
 import SendComplaint from "./components/userpage/Customer/SendComplaint.jsx";
+import UserProfile from "./components/common/UserProfile.jsx";
 
 
 function App() {
@@ -148,7 +149,7 @@ function App() {
                   <Route path="/siteannouncements" element={<SiteAnnouncements />} />
                   <Route path="/register-employee" element={<RegisterEmployee />} />
                   <Route path="/reports" element={<ReportsAnalytics />} />
-
+                  <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -172,7 +173,7 @@ function App() {
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
                   <Route path="/ongoingjobs" element={<OngoingJobs />} />
                   <Route path="/reports" element={<ReportsAnalytics />} />
-
+                  <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                   <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjob/>} />
                 </>
@@ -196,6 +197,7 @@ function App() {
                   <Route path="/ongoingrepairs" element={<OngoingRepairs/>} />
                   <Route path="/ongoingrepairs/repairdetails/:numberPlate" element={<RepairDetails/>} />
                   <Route path="/sendcomplaint" element={<SendComplaint/>}/>
+                  <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -216,6 +218,7 @@ function App() {
                   <Route path="/vehiclehistory" element={<VehicleHistory />} />
                   <Route path="/vehiclehistory/viewhistory/:vehicleNumber" element={<ViewHistory />} />
                   <Route path="/inventorymanagement" element={<InventoryManagement />} />
+                  <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -247,6 +250,7 @@ function App() {
                   <Route path="/supplierpayments" element={<SupplierPayments />} />
                   <Route path="/addsupplier" element={<AddSupplier />} />
                   <Route path="/managesupplier" element={<ManageSupplier />} />
+                  <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="/addsupplierbill" element={<AddSupplierBill />} />  
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
@@ -259,6 +263,7 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<CustomerDashboard />} />
                   <Route path="/assigned-jobs" element={<Myvehicles/>} />
+                  <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -271,6 +276,7 @@ function App() {
                   <Route path="/dashboard" element={<WarehouseKeeperDashboard />} />
                   <Route path="/inventory" element={<Inventory />} />
                   <Route path="/assigned-jobs" element={<Myvehicles/>} />
+                  <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

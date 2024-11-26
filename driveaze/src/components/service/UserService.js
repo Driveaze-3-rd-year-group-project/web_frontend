@@ -121,6 +121,33 @@ class UserService{
         }
     }
 
+    static async deleteCustomerAccount(userId, token){
+        try{
+
+            const response = await axios.delete(`${UserService.BASE_URL}/customer/delete-account/${userId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async updateCustomerAccount(userId, userData, token){
+        try{
+
+            const response = await axios.put(`${UserService.BASE_URL}/customer/update-account/${userId}`, userData,
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
     static async updateUser(userId, userData, token){
         try{
 
@@ -204,6 +231,20 @@ class UserService{
         try{
 
             const response = await axios.get(`${UserService.BASE_URL}/job-registry/get-all-jobs`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllJobsWithPagination(offset, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/job-registry/paginationAndSort/${offset}`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             // console.log(response);

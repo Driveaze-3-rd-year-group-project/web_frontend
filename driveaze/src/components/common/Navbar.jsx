@@ -32,7 +32,7 @@ const Navbar = () => {
                         <div className="flex items-center justify-between py-5 md:block">
                             <a href="/">
                                 <img
-                                    src="./src/assets/driveazeheader.svg"
+                                    src="/assets/driveazeheader.svg"
                                     width={140}
                                     height={80}
                                     alt="SML Logo"

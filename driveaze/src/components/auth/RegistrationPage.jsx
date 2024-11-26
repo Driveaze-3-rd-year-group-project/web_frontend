@@ -52,6 +52,7 @@ function RegistrationPage() {
                     location.href = '/login';
                 }, 1000);
             } else {
+                // console.log(res.message);
                 toast.error(res.message || "Registration failed!");
             }
         } catch (error) {
@@ -72,7 +73,7 @@ function RegistrationPage() {
                         </button>
                     </div>
                     <div className="text-center">
-                        <img src="./src/assets/driveazeheader.svg" width={150} className="mx-auto" />
+                        <img src="/assets/driveazeheader.svg" width={150} className="mx-auto" />
                         <div className="mt-5 space-y-2">
                             <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Create an account</h3>
                             <p className="">Already have an account?<a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500"> Login</a></p>

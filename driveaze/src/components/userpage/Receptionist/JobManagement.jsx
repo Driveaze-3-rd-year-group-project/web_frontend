@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt, FaArrowLeft, FaArrowRight  } from 'react-icons/fa';
 import UserService from "../../service/UserService";
 import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const JobManagement = () => {
   const [filter, setFilter] = useState("all");
@@ -71,7 +73,6 @@ const JobManagement = () => {
   const handlePageChange = (page) => {
     if (page >= 0 && page < totalPages) {
       setCurrentPage(page);
-      onPageChange(page); 
     }
   };
   
@@ -140,12 +141,27 @@ const JobManagement = () => {
 
         // If confirmed, delete the job and fetch the updated list of jobs
         if (result.isConfirmed) {
-            const token = localStorage.getItem('token');
-            await UserService.deleteJob(jobId, token);
-            fetchJobs(currentPage);
+          const token = localStorage.getItem('token');
+          try {
+              const res =await UserService.deleteJob(jobId, token); 
+              console.log('API Response for deleting job:', res);
+
+              if (res.statusCode === 200) {
+                toast.success("Job Deleted successfully!");
+                fetchJobs(currentPage);
+              } else {
+                // setError(res.message);
+                toast.error(res.message || 'Failed to Delete job');
+              }
+          } catch (error) {
+              console.error('Error deleting job:', error);
+              toast.error('Error Deleting job');
+          }
         }
+      
     } catch (error) {
         console.error('Error deleting job:', error);
+        toast.error('Failed to delete job' + error.message);
     }
 };
 
@@ -348,6 +364,7 @@ const JobManagement = () => {
           </button>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
       
     </div>
 

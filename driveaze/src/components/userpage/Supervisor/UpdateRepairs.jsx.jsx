@@ -44,6 +44,7 @@ const UpdateRepairs = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await SupervisorService.getAllEntiesOfJobs(jobDetails.jobId, token);
+      console.log(response);
       if (response.details && response.details.length > 0) {
         const transformedEntries = response.details.map(entry => ({
           jobEntryId: entry[0].jobEntryId,

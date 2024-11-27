@@ -66,7 +66,7 @@ const JobDetails = () => {
           Back
         </a>
       </div>
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      
         <div className="mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -100,23 +100,22 @@ const JobDetails = () => {
             </div>
           </div>
         </div>
-        <h4 className="text-gray-800 text-lg font-bold mb-4">Job Details</h4>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border">
-            <thead className="bg-gray-50">
+        <div className="mt-6 shadow-sm border rounded-lg">
+          <table className="w-full table-auto text-sm text-left overflow-hidden">
+            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr>
                 <th className="py-3 px-6 text-gray-600 font-medium text-left">
                   Date
                 </th>
                 <th className="py-3 px-6 text-gray-600 font-medium text-left">
-                  Detail
+                  Details
                 </th>
                 <th className="py-3 px-6 text-gray-600 font-medium text-left">
-                  Mechanic
+                  Technician Name
                 </th>
               </tr>
             </thead>
-            <tbody className="text-gray-700 divide-y divide-gray-200">
+            <tbody className="text-gray-600 divide-y">
               {jobDetails.map((detail, index) => (
                 <tr key={index} className="hover:bg-gray-100">
                   <td className="py-3 px-6">{detail.date}</td>
@@ -128,7 +127,7 @@ const JobDetails = () => {
           </table>
         </div>
       </div>
-    </div>
+    
   );
 };
 

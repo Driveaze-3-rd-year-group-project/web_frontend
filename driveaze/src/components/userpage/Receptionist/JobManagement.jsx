@@ -71,28 +71,54 @@ const JobManagement = () => {
   const handlePageChange = (page) => {
     if (page >= 0 && page < totalPages) {
       setCurrentPage(page);
+      onPageChange(page); 
     }
   };
   
-   // Function to generate page numbers with "..." where necessary
-   const getPages = (totalPages, currentPage) => {
+  // Function to generate page numbers with "..." where necessary
+  const getPages = (totalPages, currentPage) => {
     const pages = [];
     const maxPagesToShow = 5; // Show up to 5 page numbers including "..."
-    const startPage = Math.max(0, currentPage - 2);
-    const endPage = Math.min(totalPages - 1, currentPage + 2);
+    const half = Math.floor(maxPagesToShow / 2);
 
-    if (startPage > 0) {
-      pages.push(0); // Add the first page
-      if (startPage > 1) pages.push("..."); // Add "..." if there is a gap
+    // If total pages are less than or equal to maxPagesToShow, show all pages
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 0; i < totalPages; i++) {
+        pages.push(i);
+      }
+      return pages;
     }
 
+    // Calculate start and end page indices around currentPage
+    let startPage = Math.max(0, currentPage - half);
+    let endPage = Math.min(totalPages - 1, currentPage + half);
+
+    // Adjust start and end to ensure maxPagesToShow pages are displayed
+    if (currentPage - half < 0) {
+      endPage = Math.min(totalPages - 1, endPage + (half - currentPage));
+    } else if (currentPage + half >= totalPages) {
+      startPage = Math.max(0, startPage - (currentPage + half - totalPages + 1));
+    }
+
+    // Add the first page and "..." if there's a gap
+    if (startPage > 0) {
+      pages.push(0);
+      if (startPage > 1) {
+        pages.push("...");
+      }
+    }
+
+    // Add pages in the current range
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
 
+    // Add "..." and the last page if there's a gap
     if (endPage < totalPages - 1) {
-      if (endPage < totalPages - 2) pages.push("..."); // Add "..." if there is a gap
-      pages.push(totalPages - 1); // Add the last page
+      if (endPage < totalPages - 2) {
+        pages.push("...");
+      }
+      pages.push(totalPages - 1);
     }
 
     return pages;
@@ -287,8 +313,8 @@ const JobManagement = () => {
             <FaArrowLeft />
             Previous
           </button>
+          {/* Page Numbers */}
           <div>
-            {/* Page {currentPage + 1} of {totalPages} */}
             <ul className="flex items-center gap-1">
               {getPages(totalPages, currentPage).map((item, idx) => (
                 <li key={idx} className="text-sm">

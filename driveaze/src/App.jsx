@@ -234,7 +234,7 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
-                  <Route path="/createnewjob" element={<JobCreate />} />
+                  <Route path="/create-job" element={<JobCreate />} />
                   <Route path="/update-job/:jobId" element={<UpdateJob />} />
                   <Route path="/jobdetails/:jobId" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />

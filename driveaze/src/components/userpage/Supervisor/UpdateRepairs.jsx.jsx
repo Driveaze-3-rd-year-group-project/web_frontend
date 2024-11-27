@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import SupervisorService from '../../service/SupervisorService';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Swal from 'sweetalert2';
 
 const UpdateRepairs = () => {
   const navigate = useNavigate();
@@ -43,17 +44,22 @@ const UpdateRepairs = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await SupervisorService.getAllEntiesOfJobs(jobDetails.jobId, token);
-      const transformedEntries = response.details.map(entry => ({
-        jobEntryId: entry[0].jobEntryId,
-        date: entry[0].entryDate,
-        time: entry[0].time,
-        details: entry[0].details,
-        technicianName: entry[1],
-        manHours: entry[0].manHours,
-        price: entry[0].price
-      }));
-
-      setJobEntries(transformedEntries);
+      if (response.details && response.details.length > 0) {
+        const transformedEntries = response.details.map(entry => ({
+          jobEntryId: entry[0].jobEntryId,
+          date: entry[0].entryDate,
+          time: entry[0].time,
+          details: entry[0].details,
+          technicianName: entry[1],
+          manHours: entry[0].manHours,
+          technicianId: entry[0].technicianId
+        }));
+      
+        setJobEntries(transformedEntries);
+      } else {
+        setJobEntries([]);
+        console.log('No job entries found');
+      }
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -85,8 +91,8 @@ const UpdateRepairs = () => {
   const openPopup = (type, index = null) => {
     if (type === 'update' && index !== null) {
       setCurrentDetail(jobEntries[index]);
+      setSelectedTechnician(jobEntries[index].technicianId);
       setEditingIndex(index);
-      setSelectedTechnician(jobEntries[index].technicianName); // Set the technician for editing
     } else {
       setCurrentDetail({ details: '', manHours: '' });
       setSelectedTechnician('');
@@ -114,7 +120,28 @@ const UpdateRepairs = () => {
 
       const updatedItems = [...jobEntries];
       if (popupType === 'update') {
-        updatedItems[editingIndex] = { ...currentDetail, technicianName: selectedTechnician }; //   Add technician name
+        const payload = {
+          jobEntryId: currentDetail.jobEntryId,
+          jobRegistry: jobDetails,
+          details: currentDetail.details,
+          manHours: currentDetail.manHours,
+          technicianId: selectedTechnician,
+          entryDate: currentDetail.date,
+          time: currentDetail.time,
+          inventoryItemList: selectedInventoryItems
+        };
+        // console.log(payload);
+        const res = await SupervisorService.updateEntry(currentDetail.jobEntryId,payload, token);
+        if (res.statusCode === 200) {
+            toast.success("Entry updated successfully!");
+            setTimeout(() => {
+              fetchJobEntries();
+              closePopup();
+            }, 1000);
+        } else {
+          setError(res.message);
+          toast.error(res.message || 'Failed to update Entry');
+        }
       } else {
         let validity =true;
         for(let i=0; i<selectedInventoryItems.length; i++){
@@ -129,16 +156,17 @@ const UpdateRepairs = () => {
           }
         }
         if (validity==true) {
+        const now = new Date(Date.now() + (330 * 60000));
         const payload = {
           jobRegistry: jobDetails,
           details: currentDetail.details,
           manHours: currentDetail.manHours,
           technicianId: selectedTechnician,
-          entryDate: new Date().toISOString().split('T')[0],
-          time: new Date().toISOString().split('T')[1].split('.')[0],
+          entryDate: now.toISOString().split('T')[0],
+          time: now.toISOString().split('T')[1].split('.')[0],
           inventoryItemList: selectedInventoryItems
         };
-        console.log(payload);
+        // console.log(payload);
         const res = await SupervisorService.addEntry(payload, token);
         if (res.statusCode === 200) {
             toast.success("Entry Added successfully!");
@@ -180,19 +208,62 @@ const UpdateRepairs = () => {
     try { 
       const token = localStorage.getItem('token');
       
-      // TODO: Implement backend method to mark job as completed
-      // await SupervisorService.completeJob(jobDetails.jobId, token);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to update job as completed?!',
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Update',
+        cancelButtonText: 'Cancel',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const now = new Date(Date.now() + (330 * 60000));
+          const payload = {
+            jobId: jobDetails.jobId,
+            vehicleId: jobDetails.vehicleId,
+            startedDate: jobDetails.startedDate,
+            startTime: jobDetails.startTime,
+            finishedDate: now.toISOString().split('T')[0],
+            supervisorId: jobDetails.supervisorId,
+            serviceTypeId: jobDetails.serviceTypeId,
+            vehicleMilage: jobDetails.ehicleMilage,
+            jobStatus: 1,
+            jobDescription: jobDetails.jobDescription
+          };
+
+          const res = await SupervisorService.completeJob(jobDetails.jobId,payload, token);
+          if (res.statusCode === 200) {
+              toast.success("Job completed successfully!");
+              setTimeout(() => {
+                navigate('/RepairVehicles');
+              }, 1000);
+          } else {
+            setError(res.message);
+            toast.error(res.message || 'Failed to add Entry');
+          }
+            // UserService.logout(); // Perform the logout
+            // location.href = '/RepairVehicles';
+            
+
+            // Swal.fire('Logged Out!', 'You have been logged out successfully.', 'success');
+        }
+      });
       
-      navigate('/repairs');
+      // navigate('/RepairVehicles');
     } catch (err) {
       console.error('Error completing job:', err);
       // Handle error (e.g., show error message)
     }
   };
-
+  const filteredEntry = jobEntries
+        .sort((a, b) => a.jobEntryId - b.jobEntryId);
+        // .filter(entry => entry.details.toLowerCase().includes(searchTerm.toLowerCase()));
+  // console.log(filteredEntry);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading job entries: {error.message}</div>;
-  if (!jobDetails) return <div>No job details found</div>;
+  if (!jobEntries) return <div>No job details found</div>;
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
@@ -257,7 +328,7 @@ const UpdateRepairs = () => {
               </tr>
             </thead>
             <tbody className="text-gray-700 divide-y divide-gray-200">
-              {jobEntries.map((entry, index) => (
+              {filteredEntry.map((entry, index) => (
                 <tr key={entry.jobEntryId} className="hover:bg-gray-100">
                   <td className="py-4 pl-8">{entry.date}</td>
                   <td className="py-4 pl-8">{entry.time}</td>
@@ -336,6 +407,7 @@ const UpdateRepairs = () => {
                   ))}
                 </select>
               </div>
+              {popupType === 'add' && (
               <div>
                 <label className="font-medium">Used Inventory Items</label>
                 <div className="flex flex-col">
@@ -387,6 +459,7 @@ const UpdateRepairs = () => {
                   </button>
                 </div>
               </div>
+              )}
               <div className="flex items-center justify-between mt-6">
                 <button
                   type="button"

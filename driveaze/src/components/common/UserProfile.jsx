@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { FaCloudUploadAlt, FaRegTrashAlt, FaEdit, FaLock } from "react-icons/fa";
+import { FaCloudUploadAlt, FaRegTrashAlt, FaEdit, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import UserService from "../service/UserService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from 'sweetalert2';
 
 function UserProfile() {
-    const [isModalOpen, setIsModalOpen] = useState(false); // State for controlling modal visibility
+    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
     const [user, setUser] = useState({
         name: "",
         email: "",
@@ -16,6 +17,14 @@ function UserProfile() {
     });
 
     const [formData, setFormData] = useState({});
+    const [isPasswordHidden, setPasswordHidden] = useState(true);
+    const [contactError, setContactError] = useState('');
+
+    const [passwordForm, setPasswordForm] = useState({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+    });
 
     const token = localStorage.getItem("token"); // Token for API calls
 
@@ -83,10 +92,52 @@ function UserProfile() {
         fetchUserProfile(); // Re-fetch user data
     };
 
+    const openPasswordModal = () => setIsPasswordModalOpen(true);
+    const closePasswordModal = () => setIsPasswordModalOpen(false);
+
+    const handlePasswordChange = (e) => {
+        const { name, value } = e.target;
+        setPasswordForm((prevForm) => ({ ...prevForm, [name]: value }));
+    };
+
+    const updatePassword = async (e) => {
+        e.preventDefault();
+        if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+            toast.error("Passwords do not match!");
+            return;
+        }
+
+        try {
+            const res = await UserService.updatePassword(user.id, {
+                currentPassword: passwordForm.currentPassword,
+                newPassword: passwordForm.newPassword,
+            }, token);
+
+            if (res.statusCode === 200) {
+                toast.success("Password updated successfully!");
+                setTimeout(() => {
+                    closePasswordModal();
+                    window.location.reload();
+                }, 1000);
+                
+            } else {
+                toast.error(res.message || "Failed to update password!");
+            }
+        } catch (error) {
+            console.error("Error updating password:", error);
+            toast.error("Error updating password!");
+        }
+    };
+
     // Handler to handle form input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({ ...prevUser, [name]: value }));
+
+        if (name === 'contactNumber') {
+            const phonePattern = /^\d{10}$/;
+            setContactError(!phonePattern.test(value) ? 'Invalid contact number' : '');
+        }
     };
 
     // Handler to handle profile picture change
@@ -107,7 +158,7 @@ function UserProfile() {
             if (user.role === 'CUSTOMER') {
                 res = await UserService.updateCustomerAccount(user.id, user, token); // Use customer-specific method
             } else {
-                res = await UserService.updateUser(user.id, user, token); // Use general method
+                res = await UserService.updateEmployees(user.id, user, token); // Use general method
             }
     
             console.log('API Response:', res);
@@ -116,6 +167,7 @@ function UserProfile() {
                 toast.success("Profile updated successfully!");
                 setTimeout(() => {
                     closeModal();
+                    window.location.reload();
                 }, 1000);
             } else {
                 toast.error(res.message || 'Failed to Update user');
@@ -181,7 +233,7 @@ function UserProfile() {
                 <div className="flex items-center justify-between mt-6">
                     <button
                         type="button"
-                        onClick={openModal}
+                        onClick={openPasswordModal}
                         className="w-40 h-12 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
                     >
                         Update Password
@@ -249,6 +301,7 @@ function UserProfile() {
                                     required
                                     className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                                 />
+                                {contactError && <p className="text-red-500 text-sm mt-1">{contactError}</p>}
                             </div>
                         )}
                         
@@ -276,6 +329,88 @@ function UserProfile() {
                             </button>    
                         </div>
                     </form>
+                    </div>
+                </div>
+            )}
+
+            {isPasswordModalOpen && (
+                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-8 w-110">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Update Password</h3>
+                        <form onSubmit={updatePassword} className="space-y-5">
+                            <div>
+                                <label className="font-medium">Current Password</label>
+                                <div className="relative">
+                                    <a className="text-gray-700 absolute right-3 mt-5 inset-y-0 my-auto hover:text-gray-600"
+                                        onClick={() => setPasswordHidden(!isPasswordHidden)}
+                                    >
+                                        {isPasswordHidden ? <FaEye /> : <FaEyeSlash />}
+                                    </a>
+                                    <input
+                                        type={isPasswordHidden ? "password" : "text"}
+                                        name="currentPassword"
+                                        value={passwordForm.currentPassword}
+                                        placeholder='Enter Current Password'
+                                        onChange={handlePasswordChange}
+                                        required
+                                        className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="font-medium">New Password</label>
+                                <div className="relative">
+                                    <a className="text-gray-700 absolute right-3 mt-5 inset-y-0 my-auto hover:text-gray-600"
+                                        onClick={() => setPasswordHidden(!isPasswordHidden)}
+                                    >
+                                        {isPasswordHidden ? <FaEye /> : <FaEyeSlash />}
+                                    </a>
+                                    <input
+                                        type={isPasswordHidden ? "password" : "text"}
+                                        name="newPassword"
+                                        value={passwordForm.newPassword}
+                                        placeholder='Enter new Password'
+                                        onChange={handlePasswordChange}
+                                        required
+                                        className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="font-medium">Confirm New Password</label>
+                                <div className="relative">
+                                    <a className="text-gray-700 absolute right-3 mt-5 inset-y-0 my-auto hover:text-gray-600"
+                                        onClick={() => setPasswordHidden(!isPasswordHidden)}
+                                    >
+                                        {isPasswordHidden ? <FaEye /> : <FaEyeSlash />}
+                                    </a>
+                                    <input
+                                        type={isPasswordHidden ? "password" : "text"}
+                                        name="confirmPassword"
+                                        value={passwordForm.confirmPassword}
+                                        placeholder='Confirm new Password'
+                                        onChange={handlePasswordChange}
+                                        required
+                                        className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-between mt-6">
+                                <button
+                                    type="button"
+                                    onClick={closePasswordModal}
+                                    className="w-40 h-12 flex items-center justify-center text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 mt-6 rounded-lg duration-150"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="w-40 h-12 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
+                                >
+                                    Update
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

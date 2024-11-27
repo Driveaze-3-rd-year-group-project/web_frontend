@@ -79,6 +79,8 @@ import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/Ware
 import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
 import SendComplaint from "./components/userpage/Customer/SendComplaint.jsx";
 import UserProfile from "./components/common/UserProfile.jsx";
+import TechnicianDashboard from "./components/userpage/Technician/TechnicianDashboard.jsx";
+import AssignedJobs from "./components/userpage/Technician/AssignedJobs.jsx";
 
 
 function App() {
@@ -234,7 +236,7 @@ function App() {
                 <>
                   <Route path="/dashboard" element={<ReceptionistDashboard />}/>
                   <Route path="/jobmanagement" element={<JobManagement />} />
-                  <Route path="/createnewjob" element={<JobCreate />} />
+                  <Route path="/create-job" element={<JobCreate />} />
                   <Route path="/update-job/:jobId" element={<UpdateJob />} />
                   <Route path="/jobdetails/:jobId" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
@@ -261,8 +263,8 @@ function App() {
                 </>
               ) : (
                 <>
-                  <Route path="/dashboard" element={<CustomerDashboard />} />
-                  <Route path="/assigned-jobs" element={<Myvehicles/>} />
+                  <Route path="/dashboard" element={<TechnicianDashboard />} />
+                  <Route path="/assigned-jobs" element={<AssignedJobs/>} />
                   <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>

@@ -269,6 +269,9 @@ class UserService{
         }
     }
 
+    /***Job Entries */
+    
+
     /***CustomerVehicle */
     static async addCustomerVehicle(vehicleData, token){
         try{

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import RetrieveComplaintService from "../../service/RetrieveComplaintService";
+import UpdateComplaintService from "../../service/UpdateComplaintService";
 
 const CustomerComplaints = () => {
   const [complaints, setComplaints] = useState([]);
@@ -34,6 +35,28 @@ const CustomerComplaints = () => {
 
     fetchComplaints();
   }, []);
+
+  const handleMarkAsResolved = async (complaint) => {
+    try {
+      const token = localStorage.getItem("token");
+      const updatedComplaint = { ...complaint, status: 1 }; // Update status to "Resolved"
+      const response = await UpdateComplaintService.updateComplaintStatus(updatedComplaint, token);
+
+      if (response.success) {
+        // Update the local state to reflect the change
+        setComplaints((prevComplaints) =>
+          prevComplaints.map((c) =>
+            c.complaintId === complaint.complaintId ? { ...c, status: 1 } : c
+          )
+        );
+        setSelectedComplaint(null); // Close the popup
+      } else {
+        alert(response.message || "Failed to update complaint status.");
+      }
+    } catch (err) {
+      alert(err.message || "An error occurred while updating the complaint status.");
+    }
+  };
 
   const filteredComplaints = complaints.filter((complaint) =>
     (complaint.customerEmail || "Unknown").toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -94,6 +117,7 @@ const CustomerComplaints = () => {
               <tr>
                 <th className="py-3 px-6">Customer</th>
                 <th className="py-3 px-6">Complaint Date</th>
+                <th className="py-3 px-6">Status</th>
                 <th className="py-3 px-6">Actions</th>
               </tr>
             </thead>
@@ -113,6 +137,16 @@ const CustomerComplaints = () => {
                     </div>
                   </td>
                   <td className="py-3 px-6 whitespace-nowrap">{complaint.date}</td>
+                  <td className="py-3 px-6 whitespace-nowrap"><span
+                    className={
+                      complaint.status === 0
+                        ? "text-orange-500 font-bold" // Pending (orange)
+                        : "text-green-500 font-bold" // Resolved (green)
+                    }
+                  >
+                    {complaint.status === 0 ? "Pending" : "Resolved"}
+                  </span>
+                </td>
                   <td className="py-3 px-6 whitespace-nowrap">
                     <button
                       onClick={() => handleViewClick(complaint)}
@@ -162,12 +196,20 @@ const CustomerComplaints = () => {
                 {selectedComplaint.status === 0 ? "Pending" : "Resolved"}
               </span>
             </p>
-            <button
-              onClick={handleClosePopup}
-              className="py-2 px-4 text-white font-medium bg-red-600 hover:bg-red-500 active:bg-red-600 rounded-lg duration-150"
-            >
-              Close
-            </button>
+            <div class="flex justify-between">
+              <button
+                onClick={() => handleMarkAsResolved(selectedComplaint)}
+                className="py-2 px-4 text-white font-medium bg-blue-600 hover:bg-green-500 active:bg-red-600 rounded-lg duration-150"
+              >
+                Mark as resolved
+              </button>
+              <button
+                onClick={handleClosePopup}
+                className="py-2 px-4 text-white font-medium bg-red-600 hover:bg-red-500 active:bg-red-600 rounded-lg duration-150"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

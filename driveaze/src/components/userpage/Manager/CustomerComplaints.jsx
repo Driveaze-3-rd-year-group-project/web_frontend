@@ -6,6 +6,7 @@ const CustomerComplaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reply, setReply] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedComplaint, setSelectedComplaint] = useState(null); // For popup details
 
@@ -39,14 +40,14 @@ const CustomerComplaints = () => {
   const handleMarkAsResolved = async (complaint) => {
     try {
       const token = localStorage.getItem("token");
-      const updatedComplaint = { ...complaint, status: 1 }; // Update status to "Resolved"
+      const updatedComplaint = { ...complaint, status: 1, reply }; // Update status to "Resolved"
       const response = await UpdateComplaintService.updateComplaintStatus(updatedComplaint, token);
 
       if (response.success) {
         // Update the local state to reflect the change
         setComplaints((prevComplaints) =>
           prevComplaints.map((c) =>
-            c.complaintId === complaint.complaintId ? { ...c, status: 1 } : c
+            c.complaintId === complaint.complaintId ? { ...c, status: 1, reply } : c
           )
         );
         setSelectedComplaint(null); // Close the popup
@@ -65,10 +66,12 @@ const CustomerComplaints = () => {
 
   const handleViewClick = (complaint) => {
     setSelectedComplaint(complaint);
+    setReply(complaint.reply || ""); // Pre-fill the reply field if there's an existing reply
   };
 
   const handleClosePopup = () => {
     setSelectedComplaint(null);
+    setReply("");
   };
 
   return (
@@ -137,16 +140,17 @@ const CustomerComplaints = () => {
                     </div>
                   </td>
                   <td className="py-3 px-6 whitespace-nowrap">{complaint.date}</td>
-                  <td className="py-3 px-6 whitespace-nowrap"><span
-                    className={
-                      complaint.status === 0
-                        ? "text-orange-500 font-bold" // Pending (orange)
-                        : "text-green-500 font-bold" // Resolved (green)
-                    }
-                  >
-                    {complaint.status === 0 ? "Pending" : "Resolved"}
-                  </span>
-                </td>
+                  <td className="py-3 px-6 whitespace-nowrap">
+                    <span
+                      className={
+                        complaint.status === 0
+                          ? "text-orange-500 font-bold" // Pending (orange)
+                          : "text-green-500 font-bold" // Resolved (green)
+                      }
+                    >
+                      {complaint.status === 0 ? "Pending" : "Resolved"}
+                    </span>
+                  </td>
                   <td className="py-3 px-6 whitespace-nowrap">
                     <button
                       onClick={() => handleViewClick(complaint)}
@@ -164,55 +168,92 @@ const CustomerComplaints = () => {
 
       {selectedComplaint && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
-            <h4 className="text-gray-800 text-xl font-bold mb-4">Complaint Details</h4>
-            <div className="flex items-center gap-x-3 mb-4">
-              <img
-                src={selectedComplaint.avatar || "https://via.placeholder.com/50"}
-                className="w-16 h-16 rounded-full"
-                alt={`${selectedComplaint.customerEmail || "Unknown"} avatar`}
-              />
-              <div>
-                <h5 className="text-gray-700 text-lg font-medium">
-                  {selectedComplaint.customerEmail || "Unknown"}
-                </h5>
+          <div className="bg-white w-1/2 h-5/6 p-4 rounded-lg shadow-lg flex flex-col">
+            {/* Header Section */}
+            <div className="flex justify-between items-center mb-4">
+              <h4 className="text-gray-800 text-xl font-bold">Complaint Details</h4>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleMarkAsResolved(selectedComplaint)}
+                  className="py-2 px-4 text-white font-medium bg-blue-600 hover:bg-green-500 rounded-lg duration-150"
+                >
+                  Mark as Resolved
+                </button>
+                <button
+                  onClick={handleClosePopup}
+                  className="py-2 px-4 text-white font-medium bg-red-600 hover:bg-red-500 rounded-lg duration-150"
+                >
+                  Close
+                </button>
               </div>
             </div>
-            <p className="text-gray-800 mb-4">
-              <strong>Complaint Date:</strong> {selectedComplaint.date}
-            </p>
-            <p className="text-gray-800 mb-4">
-              <strong>Details:</strong> {selectedComplaint.description}
-            </p>
-            <p className="text-gray-800 mb-4">
-              <strong>Status:</strong>{" "}
-              <span
-                className={
-                  selectedComplaint.status === 0
-                    ? "text-orange-500 font-bold" // Pending (orange)
-                    : "text-green-500 font-bold" // Resolved (green)
-                }
-              >
-                {selectedComplaint.status === 0 ? "Pending" : "Resolved"}
-              </span>
-            </p>
-            <div class="flex justify-between">
-              <button
-                onClick={() => handleMarkAsResolved(selectedComplaint)}
-                className="py-2 px-4 text-white font-medium bg-blue-600 hover:bg-green-500 active:bg-red-600 rounded-lg duration-150"
-              >
-                Mark as resolved
-              </button>
-              <button
-                onClick={handleClosePopup}
-                className="py-2 px-4 text-white font-medium bg-red-600 hover:bg-red-500 active:bg-red-600 rounded-lg duration-150"
-              >
-                Close
-              </button>
+
+            {/* Main Content Section */}
+            <div className="flex-1 overflow-auto">
+              {/* User Details */}
+              <div className="flex items-center gap-x-3 mb-4">
+                <img
+                  src={selectedComplaint.avatar || "https://via.placeholder.com/50"}
+                  className="w-16 h-16 rounded-full"
+                  alt={`${selectedComplaint.customerEmail || "Unknown"} avatar`}
+                />
+                <div className="flex flex-col flex-grow">
+                  <h5 className="text-gray-700 text-lg font-medium">
+                    {selectedComplaint.customerEmail || "Unknown"}
+                  </h5>
+                  <p className="text-gray-800">
+                    <strong>Status:</strong>{" "}
+                    <span
+                      className={
+                        selectedComplaint.status === 0
+                          ? "text-orange-500 font-bold"
+                          : "text-green-500 font-bold"
+                      }
+                    >
+                      {selectedComplaint.status === 0 ? "Pending" : "Resolved"}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Complaint Details */}
+              <p className="text-gray-800 mb-4">
+                <strong>Complaint Date:</strong> {selectedComplaint.date}
+              </p>
+              <div className="mb-4">
+                <p className="text-center py-0.5 bg-slate-200 rounded-md font-bold mb-2">
+                  Description
+                </p>
+                <div className="p-4 bg-slate-100 rounded-lg border  overflow-auto">
+                  {selectedComplaint.description}
+                </div>
+              </div>
+
+              {/* Reply Section */}
+              <div className="mb-4">
+                <p className="text-center py-0.5 text-white bg-blue-950 rounded-md font-bold mb-2">
+                  Reply
+                </p>
+                {selectedComplaint.reply ? (
+                  <div className="p-4 bg-slate-600 min-h-52 text-white rounded-lg w-full h-full border overflow-auto">
+                    {selectedComplaint.reply}
+                  </div>
+                ) : (
+                  <textarea
+                    value={reply}
+                    onChange={(e) => setReply(e.target.value)}
+                    className="w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Type your reply here..."
+                  />
+                )}
+              </div>
             </div>
+
           </div>
         </div>
       )}
+
+
     </div>
   );
 };

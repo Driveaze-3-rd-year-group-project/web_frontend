@@ -77,6 +77,7 @@ import UpdateJob from "./components/userpage/Receptionist/UpdateJob.jsx";
 
 import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/WarehouseKeeperDashboard"
 import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
+import SendComplaint from "./components/userpage/Customer/SendComplaint.jsx";
 import UserProfile from "./components/common/UserProfile.jsx";
 import TechnicianDashboard from "./components/userpage/Technician/TechnicianDashboard.jsx";
 import AssignedJobs from "./components/userpage/Technician/AssignedJobs.jsx";
@@ -197,6 +198,7 @@ function App() {
                   <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
                   <Route path="/ongoingrepairs" element={<OngoingRepairs/>} />
                   <Route path="/ongoingrepairs/repairdetails/:numberPlate" element={<RepairDetails/>} />
+                  <Route path="/sendcomplaint" element={<SendComplaint/>}/>
                   <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>

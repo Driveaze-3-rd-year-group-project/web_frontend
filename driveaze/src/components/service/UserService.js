@@ -351,6 +351,20 @@ class UserService{
         }
     }
 
+    static async getAllVehiclesWithPagination(offset, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/customer-vehicle/paginationAndSort/${offset}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
     /***SERVICE TYPES */
     static async addNewServiceType(serviceTypeData, token){
         try{
@@ -417,6 +431,142 @@ class UserService{
             throw err;
         }
     }
+
+    /**Vehicle Brands */
+    static async addNewVehicleBrand(brandData, token){
+        try{
+
+            const response = await axios.post(`${UserService.BASE_URL}/vehicle-brand/save`, brandData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async updateVehicleBrand(brandId, brandData, token){
+        try{
+
+            const response = await axios.put(`${UserService.BASE_URL}/vehicle-brand/update/${brandId}`, brandData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async deleteVehicleBrand(brandId, token){
+        try{
+
+            const response = await axios.delete(`${UserService.BASE_URL}/vehicle-brand/delete/${brandId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getVehicleBrandById(brandId, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/vehicle-brand/get-vehicle-brand/${brandId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllVehicleBrands(token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/vehicle-brand/get-all-vehicle-brands`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    /**Vehicle Models */
+    static async addNewVehicleModel(modelData, token){
+        try{
+
+            const response = await axios.post(`${UserService.BASE_URL}/vehicle-model/save`, modelData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async updateVehicleModel(modelId, modelData, token){
+        try{
+
+            const response = await axios.put(`${UserService.BASE_URL}/vehicle-model/update/${modelId}`, modelData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async deleteVehicleModel(modelId, token){
+        try{
+
+            const response = await axios.delete(`${UserService.BASE_URL}/vehicle-model/delete/${modelId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getVehicleModelById(modelId, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/vehicle-model/get-vehicle-model/${modelId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllVehicleBrands(token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/vehicle-model/get-all-vehicle-models`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+
 
     /**AUTHENTICATION CHECKER */
     static logout(){

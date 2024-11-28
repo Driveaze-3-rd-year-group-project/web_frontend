@@ -1,87 +1,116 @@
-import React, { useState } from "react";
-import { FaSearch } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt, FaArrowLeft, FaArrowRight  } from 'react-icons/fa';
+import UserService from '../../service/UserService';
 
-const VehicleManagement = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+function VehicleManagement() {
+  const [vehicles, setVehicles] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0); // 0-based indexing
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+  console.log('Vehicles:', vehicles);
+
+  useEffect(() => {
+    fetchVehicles(currentPage);
+  }, [currentPage]);
+
+  const fetchVehicles = async (page) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserService.getAllVehiclesWithPagination(page, token);
+
+      // console.log('Fetched paginated vehicles:', response);
+  
+      const vehiclesData = response?.content || [];
+
+      const updatedVehicles = await Promise.all(
+        vehiclesData.map(async (vehicle) => {
+          try {
+            // Fetch Brand Details
+            const brandResponse = await UserService.getVehicleBrandById(vehicle.vehicleBrandId, token);
+            const brandName = brandResponse?.vehicleBrand?.brandName || "Unknown Brand";
+  
+            // Fetch Model Details
+            const modelResponse = await UserService.getVehicleModelById(vehicle.vehicleModelId, token);
+            const modelName = modelResponse?.vehicleModel?.modelName || "Unknown Model";
+  
+            return {
+              ...vehicle,
+              brandName,
+              modelName,
+            };
+          } catch (error) {
+            console.error(`Error fetching details for vehicle ID ${vehicle.vehicleId}:`, error);
+            return {
+              ...vehicle,
+              brandName: "Unknown Brand",
+              modelName: "Unknown Model",
+            };
+          }
+        })
+      );
+
+      setVehicles(vehiclesData);
+      setTotalPages(response?.totalPages || 1);
+    } catch (error) {
+      console.error("Error fetching vehicles:", error);
+      setVehicles([]);
+    }
   };
 
-  const tableItems = [
-    {
-      vehicleNumber: "ABC-1234",
-      vehicleModel: "Toyota Corolla",
-      ownerName: "Nimal Perera",
-      ownerEmail: "nimal.perera@example.lk",
-      phoneNumber: "071-2345678",
-      registeredDate: "2022-01-01",
-      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-    },
-    {
-      vehicleNumber: "DEF-5678",
-      vehicleModel: "Honda Civic",
-      ownerName: "Kumari Silva",
-      ownerEmail: "kumari.silva@example.lk",
-      phoneNumber: "070-2345678",
-      registeredDate: "2022-02-15",
-      avatar: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
-    },
-    {
-      vehicleNumber: "GHI-9101",
-      vehicleModel: "Ford Focus",
-      ownerName: "Arjun Fernando",
-      ownerEmail: "arjun.fernando@example.lk",
-      phoneNumber: "077-2345678",
-      registeredDate: "2023-03-20",
-      avatar: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
-    },
-    {
-      vehicleNumber: "JKL-1123",
-      vehicleModel: "Chevrolet Malibu",
-      ownerName: "Anusha Rajapakse",
-      ownerEmail: "anusha.rajapakse@example.lk",
-      phoneNumber: "076-2345678",
-      registeredDate: "2022-04-10",
-      avatar: "https://img.icons8.com/?size=100&id=57661&format=png&color=000000",
-    },
-    {
-      vehicleNumber: "MNO-1456",
-      vehicleModel: "Nissan Altima",
-      ownerName: "Kasun Bandara",
-      ownerEmail: "kasun.bandara@example.lk",
-      phoneNumber: "075-2345678",
-      registeredDate: "2024-05-30",
-      avatar: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
-    },
-    {
-      vehicleNumber: "PQR-7890",
-      vehicleModel: "Honda Accord",
-      ownerName: "Samantha Perera",
-      ownerEmail: "samantha.perera@example.lk",
-      phoneNumber: "074-2345678",
-      registeredDate: "2024-06-15",
-      avatar: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
-    },
-    {
-      vehicleNumber: "VWX-6789",
-      vehicleModel: "Toyota Camry",
-      ownerName: "Dilani Wijesinghe",
-      ownerEmail: "dilani.wijesinghe@example.lk",
-      phoneNumber: "072-2345678",
-      registeredDate: "2024-08-10",
-      avatar: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-    },
-  ];
+  const handlePageChange = (page) => {
+    if (page >= 0 && page < totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
-  // Filter table items based on search term
-  const filteredItems = tableItems.filter((item) => {
-    const term = searchTerm.toLowerCase();
-    return (
-      item.vehicleNumber.toLowerCase().includes(term) ||
-      item.ownerName.toLowerCase().includes(term)
-    );
-  });
+  // Function to generate page numbers with "..." where necessary
+  const getPages = (totalPages, currentPage) => {
+    const pages = [];
+    const maxPagesToShow = 5; // Show up to 5 page numbers including "..."
+    const half = Math.floor(maxPagesToShow / 2);
+
+    // If total pages are less than or equal to maxPagesToShow, show all pages
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 0; i < totalPages; i++) {
+        pages.push(i);
+      }
+      return pages;
+    }
+
+    // Calculate start and end page indices around currentPage
+    let startPage = Math.max(0, currentPage - half);
+    let endPage = Math.min(totalPages - 1, currentPage + half);
+
+    // Adjust start and end to ensure maxPagesToShow pages are displayed
+    if (currentPage - half < 0) {
+      endPage = Math.min(totalPages - 1, endPage + (half - currentPage));
+    } else if (currentPage + half >= totalPages) {
+      startPage = Math.max(0, startPage - (currentPage + half - totalPages + 1));
+    }
+
+    // Add the first page and "..." if there's a gap
+    if (startPage > 0) {
+      pages.push(0);
+      if (startPage > 1) {
+        pages.push("...");
+      }
+    }
+
+    // Add pages in the current range
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    // Add "..." and the last page if there's a gap
+    if (endPage < totalPages - 1) {
+      if (endPage < totalPages - 2) {
+        pages.push("...");
+      }
+      pages.push(totalPages - 1);
+    }
+
+    return pages;
+  };
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
@@ -108,8 +137,8 @@ const VehicleManagement = () => {
                 <input
                   type="text"
                   placeholder="Search"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
+                  // value={searchTerm}
+                  // onChange={handleSearchChange}
                   className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
                 {/* Search Icon */}
@@ -140,46 +169,72 @@ const VehicleManagement = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {filteredItems.map((item, idx) => (
-              <tr key={idx} className="hover:bg-gray-100">
-                <td className="py-3 px-6 whitespace-nowrap">
-                  {item.vehicleNumber}
-                </td>
-                <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                  <img
-                    src={item.avatar}
-                    className="w-10 h-10 rounded-full"
-                    alt={item.vehicleModel}
-                  />
-                  <span>{item.vehicleModel}</span>
-                </td>
-                <td className="py-3 px-6 whitespace-nowrap">
-                  {item.ownerName}
-                </td>
-                <td className="py-3 px-6 whitespace-nowrap text-ellipsis overflow-hidden max-w-xs">
-                  {item.ownerEmail}
-                </td>
-                <td className="py-3 px-6 whitespace-nowrap">
-                  {item.phoneNumber}
-                </td>
-                <td className="py-3 px-6 whitespace-nowrap">
-                  {item.registeredDate}
-                </td>
-                <td className="text-left py-3 px-6 whitespace-nowrap">
-                  <a
-                    href="/editvehicle"
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                  >
-                    Edit
-                  </a>
+            {Array.isArray(vehicles) && vehicles.length > 0 ? (
+              vehicles.map((vehicle) => (
+                <tr key={vehicle.vehicleId}>
+                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.vehicleNo}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.vehicleNo}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {vehicle.vehicleBrand}-{vehicle.vehicleModel}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.startedDate}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.supervisorName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex justify-between items-center space-x-2 relative">
+                      {/* Info Icon with Tooltip */}
+                      <div className="relative group">
+                        <a
+                          href={`/jobdetails/${vehicle.jobId}`}
+                          className="text-green-500 hover:text-green-700 text-xl"
+                        >
+                          <FaInfoCircle />
+                        </a>
+                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          View Job
+                        </div>
+                      </div>
+
+                      {/* Edit Icon with Tooltip */}
+                      <div className="relative group">
+                        <a
+                          href={`/update-job/${vehicle.jobId}`}
+                          className="text-indigo-600 hover:text-indigo-800 text-xl"
+                        >
+                          <FaEdit />
+                        </a>
+                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          Edit Job
+                        </div>
+                      </div>
+
+                      {/* Delete Icon with Tooltip */}
+                      <div className="relative group">
+                        <a
+                          onClick={() => deleteJobs(vehicle.jobId)}
+                          className="text-red-500 hover:text-red-800 text-xl"
+                        >
+                          <FaRegTrashAlt />
+                        </a>
+                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          Delete Job
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="text-center py-4">
+                  No jobs found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
     </div>
   );
-};
+}
 
-export default VehicleManagement;
+export default VehicleManagement

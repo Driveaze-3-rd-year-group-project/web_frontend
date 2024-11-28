@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserService from '../../service/UserService';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 function UpdateJob() {
   const navigate = useNavigate();
   const { jobId } = useParams(); // Get jobId from the route
@@ -10,8 +14,11 @@ function UpdateJob() {
   const [searchQuery1, setSearchQuery1] = useState('');
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [selectedSupervisor, setSelectedSupervisor] = useState(null);
+  const [selectedServiceType, setSelectedServiceType] = useState('');
   const [serviceTypes, setServiceTypes] = useState([]);
+  const [vehicleMilage, setVehicleMilage] = useState('');
   const [error, setError] = useState('');
+  
   const [jobData, setJobData] = useState({
     vehicleId: '',
     supervisorId: '',
@@ -20,41 +27,76 @@ function UpdateJob() {
     vehicleMilage: '',
   });
 
-  // Fetch existing job data for editing
   useEffect(() => {
-    const fetchJobDetails = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await UserService.getJobById(jobId, token);
-        if (response.statusCode === 200) {
-          const job = response.jobDetails; // Adjust based on your API response
-          setJobData({
-            vehicleId: job.vehicleId,
-            supervisorId: job.supervisorId,
-            jobDescription: job.jobDescription,
-            serviceTypeId: job.serviceTypeId,
-            vehicleMilage: job.vehicleMilage,
-          });
-          setSearchQuery(job.vehicleNumber || ''); // Populate vehicle search field
-          setSearchQuery1(job.supervisorName || ''); // Populate supervisor search field
-          setSelectedVehicle({
-            vehicleId: job.vehicleId,
-            vehicleNo: job.vehicleNumber,
-            vehicleBrand: job.vehicleBrand,
-            vehicleModel: job.vehicleModel,
-          });
-          setSelectedSupervisor({ id: job.supervisorId, name: job.supervisorName });
-        } else {
-          setError('Failed to fetch job details');
-        }
-      } catch (err) {
-        console.error(err);
-        setError('An error occurred while fetching job details');
-      }
-    };
-
-    fetchJobDetails();
+    fetchJobDataById(jobId); // Pass the userId to fetchUserDataById
   }, [jobId]);
+
+  const fetchJobDataById = async (jobId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await UserService.getJobById(jobId, token); // Pass userId to getUserById
+      // console.log(response);
+      // console.log(response.jobRegistry);
+      const fetchedJob = response.jobRegistry;
+      setJobData({
+        vehicleId: fetchedJob.vehicleId,
+        supervisorId: fetchedJob.supervisorId,
+        jobDescription: fetchedJob.jobDescription,
+        serviceTypeId: fetchedJob.serviceTypeId,
+        vehicleMilage: fetchedJob.vehicleMilage,
+      });
+      const vehicle = await UserService.getCustomerVehicleById(fetchedJob.vehicleId, token);
+      // console.log("Fetched Vehicle:", vehicle);
+      handleVehicleSelect(vehicle.customerVehicle);
+
+      const supervisor = await UserService.getUserById(fetchedJob.supervisorId, token);
+      // console.log("Fetched Supervisor:", supervisor);
+      handleSupervisorSelect(supervisor.ourUsers);
+
+      handleMilageChange({ target: { value: fetchedJob.vehicleMilage } });
+
+    } catch (error) {
+      console.error('Error fetching job data:', error);
+    }
+  };
+
+  const handleVehicleSelect = (vehicle) => {
+    setJobData((prev) => ({
+      ...prev,
+      vehicleId: vehicle.vehicleId, // Store only vehicleId in jobData
+    }));
+    setSearchQuery(vehicle.vehicleNo); // Set the vehicle number in the input field
+    setSelectedVehicle(vehicle); // Set the selected vehicle
+    setVehicleSuggestions([]); // Clear the suggestions dropdown
+  };
+
+  const handleSupervisorSelect = (supervisor) => {
+    setSearchQuery1(supervisor.name);
+    setJobData((prev) => ({ ...prev, supervisorId: supervisor.id }));
+    setSelectedSupervisor(supervisor);
+    setSupervisorSuggestions([]);
+  };
+
+  const handleMilageChange = (e) => {
+    // console.log("In Handle Mi C.: ",e.target.value);
+    const updatedMilage = e.target.value;
+    setVehicleMilage(updatedMilage); // Update the input field
+    setJobData((prev) => ({
+      ...prev,
+      vehicleMilage: updatedMilage, // Sync with jobData
+    }));
+  };
+
+  useEffect(() => {
+    if (selectedVehicle) {
+      // Set the mileage from the selected vehicle
+      setVehicleMilage(selectedVehicle.vehicleMilage || ''); // Default to an empty string if no mileage
+      setJobData((prev) => ({
+        ...prev,
+        vehicleMilage: selectedVehicle.vehicleMilage || '', // Sync with jobData
+      }));
+    }
+  }, [selectedVehicle]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -82,6 +124,17 @@ function UpdateJob() {
     }
   };
 
+  const handleInputChange2 = (e) => {
+    const selectedId = e.target.value;
+    const selectedType = serviceTypes.find((type) => type.id === selectedId);
+  
+    setSelectedServiceType(selectedType ? selectedType.serviceName : '');
+    setJobData((prev) => ({
+      ...prev,
+      serviceTypeId: selectedId, // Update the serviceTypeId in jobData
+    }));
+  };
+
   useEffect(() => {
     const fetchVehicles = async () => {
       if (searchQuery.length >= 2 && !selectedVehicle) {
@@ -102,12 +155,6 @@ function UpdateJob() {
     return () => clearTimeout(debounceTimeout);
   }, [searchQuery, selectedVehicle]);
 
-  const handleVehicleSelect = (vehicle) => {
-    setJobData((prev) => ({ ...prev, vehicleId: vehicle.vehicleId }));
-    setSearchQuery(vehicle.vehicleNo);
-    setSelectedVehicle(vehicle);
-    setVehicleSuggestions([]);
-  };
 
   useEffect(() => {
     const fetchServiceTypes = async () => {
@@ -144,34 +191,33 @@ function UpdateJob() {
     return () => clearTimeout(debounceTimeout);
   }, [searchQuery1, selectedSupervisor]);
 
-  const handleSupervisorSelect = (supervisor) => {
-    setSearchQuery1(supervisor.name);
-    setJobData((prev) => ({ ...prev, supervisorId: supervisor.id }));
-    setSelectedSupervisor(supervisor);
-    setSupervisorSuggestions([]);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!selectedSupervisor) {
       setError('Please select a supervisor from the suggestions list.');
+      toast.error('Supervisor not selected');
       return;
     }
 
     try {
       const token = localStorage.getItem('token');
+      console.log("Job Data: ", jobData);
       const res = await UserService.updateJob(jobId, jobData, token);
 
       if (res.statusCode === 200) {
-        alert('Job updated successfully');
-        navigate('/jobmanagement');
+        toast.success("Job Updated successfully!");
+        setTimeout(() => {
+          navigate('/jobmanagement');
+        }, 1000);
       } else {
         setError(res.message);
+        toast.error(res.message || 'Failed to Update job');
       }
     } catch (err) {
       console.error(err);
       setError(err.message);
+      toast.error('Error Updating job');
     }
   };
 
@@ -247,7 +293,8 @@ function UpdateJob() {
               <input
                 type="number"
                 name="vehicleMilage"
-                onChange={handleInputChange}
+                onChange={handleMilageChange}
+                value={vehicleMilage}
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg appearance-none [appearance:textfield] [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden"
                 placeholder="Vehicle Milage(As shown in the Meter)"
@@ -257,7 +304,7 @@ function UpdateJob() {
               <label className="font-medium">Service Type</label>
               <select
                 name="serviceTypeId"
-                onChange={handleInputChange}
+                onChange={handleInputChange2}
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 required
                 value={jobData.serviceTypeId}
@@ -269,7 +316,7 @@ function UpdateJob() {
 
                 {/* Service types fetched from state */}
                 {serviceTypes.map((type) => (
-                  <option key={type.id} value={type.id}>
+                  <option key={type.id} value={type.serviceId}>
                     {type.serviceName}
                   </option>
                 ))}
@@ -337,6 +384,7 @@ function UpdateJob() {
           </form>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
     </main>
   );
 }

@@ -80,6 +80,45 @@ class SupervisorService {
             throw err;
         }
     }
+
+    static async updateEntry(jobEntryId, payload, token){
+        try{
+            const response = await axios.put(`${SupervisorService.BASE_URL}/job-entry/update/${jobEntryId}`,payload, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllJobsEntriesWithPagination(jobId, offset, token){
+        try{
+            const response = await axios.get(`${SupervisorService.BASE_URL}/job-entry/paginationAndSort/${jobId}/${offset}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async completeJob(jobId, payload, token){
+        try{
+            const response = await axios.put(`${SupervisorService.BASE_URL}/job-registry/update/${jobId}`,payload, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
     
 }
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt, FaArrowLeft, FaArrowRight  } from 'react-icons/fa';
 import UserService from "../../service/UserService";
 import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const JobManagement = () => {
   const [filter, setFilter] = useState("all");
@@ -74,25 +76,50 @@ const JobManagement = () => {
     }
   };
   
-   // Function to generate page numbers with "..." where necessary
-   const getPages = (totalPages, currentPage) => {
+  // Function to generate page numbers with "..." where necessary
+  const getPages = (totalPages, currentPage) => {
     const pages = [];
     const maxPagesToShow = 5; // Show up to 5 page numbers including "..."
-    const startPage = Math.max(0, currentPage - 2);
-    const endPage = Math.min(totalPages - 1, currentPage + 2);
+    const half = Math.floor(maxPagesToShow / 2);
 
-    if (startPage > 0) {
-      pages.push(0); // Add the first page
-      if (startPage > 1) pages.push("..."); // Add "..." if there is a gap
+    // If total pages are less than or equal to maxPagesToShow, show all pages
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 0; i < totalPages; i++) {
+        pages.push(i);
+      }
+      return pages;
     }
 
+    // Calculate start and end page indices around currentPage
+    let startPage = Math.max(0, currentPage - half);
+    let endPage = Math.min(totalPages - 1, currentPage + half);
+
+    // Adjust start and end to ensure maxPagesToShow pages are displayed
+    if (currentPage - half < 0) {
+      endPage = Math.min(totalPages - 1, endPage + (half - currentPage));
+    } else if (currentPage + half >= totalPages) {
+      startPage = Math.max(0, startPage - (currentPage + half - totalPages + 1));
+    }
+
+    // Add the first page and "..." if there's a gap
+    if (startPage > 0) {
+      pages.push(0);
+      if (startPage > 1) {
+        pages.push("...");
+      }
+    }
+
+    // Add pages in the current range
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
 
+    // Add "..." and the last page if there's a gap
     if (endPage < totalPages - 1) {
-      if (endPage < totalPages - 2) pages.push("..."); // Add "..." if there is a gap
-      pages.push(totalPages - 1); // Add the last page
+      if (endPage < totalPages - 2) {
+        pages.push("...");
+      }
+      pages.push(totalPages - 1);
     }
 
     return pages;
@@ -114,12 +141,27 @@ const JobManagement = () => {
 
         // If confirmed, delete the job and fetch the updated list of jobs
         if (result.isConfirmed) {
-            const token = localStorage.getItem('token');
-            await UserService.deleteJob(jobId, token);
-            fetchJobs(currentPage);
+          const token = localStorage.getItem('token');
+          try {
+              const res =await UserService.deleteJob(jobId, token); 
+              console.log('API Response for deleting job:', res);
+
+              if (res.statusCode === 200) {
+                toast.success("Job Deleted successfully!");
+                fetchJobs(currentPage);
+              } else {
+                // setError(res.message);
+                toast.error(res.message || 'Failed to Delete job');
+              }
+          } catch (error) {
+              console.error('Error deleting job:', error);
+              toast.error('Error Deleting job');
+          }
         }
+      
     } catch (error) {
         console.error('Error deleting job:', error);
+        toast.error('Failed to delete job' + error.message);
     }
 };
 
@@ -287,8 +329,8 @@ const JobManagement = () => {
             <FaArrowLeft />
             Previous
           </button>
+          {/* Page Numbers */}
           <div>
-            {/* Page {currentPage + 1} of {totalPages} */}
             <ul className="flex items-center gap-1">
               {getPages(totalPages, currentPage).map((item, idx) => (
                 <li key={idx} className="text-sm">
@@ -322,6 +364,7 @@ const JobManagement = () => {
           </button>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
       
     </div>
 

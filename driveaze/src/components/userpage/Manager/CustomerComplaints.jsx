@@ -8,7 +8,7 @@ const CustomerComplaints = () => {
   const [error, setError] = useState("");
   const [reply, setReply] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedComplaint, setSelectedComplaint] = useState(null); // For popup details
+  const [selectedComplaint, setSelectedComplaint] = useState(null); 
 
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -23,7 +23,7 @@ const CustomerComplaints = () => {
 
         const response = await RetrieveComplaintService.retrieveComplaintData(token);
         if (response.success) {
-          setComplaints(response.message); // Assuming the backend sends the data in the 'message' field
+          setComplaints(response.message); 
         } else {
           setError(response.message || "Failed to fetch complaints.");
         }
@@ -40,17 +40,16 @@ const CustomerComplaints = () => {
   const handleMarkAsResolved = async (complaint) => {
     try {
       const token = localStorage.getItem("token");
-      const updatedComplaint = { ...complaint, status: 1, reply }; // Update status to "Resolved"
+      const updatedComplaint = { ...complaint, status: 1, reply }; 
       const response = await UpdateComplaintService.updateComplaintStatus(updatedComplaint, token);
 
       if (response.success) {
-        // Update the local state to reflect the change
         setComplaints((prevComplaints) =>
           prevComplaints.map((c) =>
             c.complaintId === complaint.complaintId ? { ...c, status: 1, reply } : c
           )
         );
-        setSelectedComplaint(null); // Close the popup
+        setSelectedComplaint(null); 
       } else {
         alert(response.message || "Failed to update complaint status.");
       }
@@ -129,8 +128,7 @@ const CustomerComplaints = () => {
                 <tr key={complaint.complaintId} className="hover:bg-gray-100">
                   <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                     <img
-                      src={complaint.avatar || "https://via.placeholder.com/50"} // Default avatar
-                      className="w-12 h-12 rounded-full"
+                      src={complaint.avatar || "https://via.placeholder.com/50"} 
                       alt={`${complaint.customerEmail || "Unknown"} avatar`}
                     />
                     <div>
@@ -169,29 +167,10 @@ const CustomerComplaints = () => {
       {selectedComplaint && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white w-1/2 h-5/6 p-4 rounded-lg shadow-lg flex flex-col">
-            {/* Header Section */}
             <div className="flex justify-between items-center mb-4">
               <h4 className="text-gray-800 text-xl font-bold">Complaint Details</h4>
-              <div className="flex space-x-2">
-                {!selectedComplaint.reply ?(
-                <button
-                  onClick={() => handleMarkAsResolved(selectedComplaint)}
-                  className="py-2 px-4 text-white font-medium bg-blue-600 hover:bg-green-500 rounded-lg duration-150"
-                >
-                  Mark as Resolved
-                </button>):""}
-                <button
-                  onClick={handleClosePopup}
-                  className="py-2 px-4 text-white font-medium bg-red-600 hover:bg-red-500 rounded-lg duration-150"
-                >
-                  Close
-                </button>
-              </div>
             </div>
-
-            {/* Main Content Section */}
             <div className="flex-1 overflow-auto">
-              {/* User Details */}
               <div className="flex items-center gap-x-3 mb-4">
                 <img
                   src={selectedComplaint.avatar || "https://via.placeholder.com/50"}
@@ -249,6 +228,34 @@ const CustomerComplaints = () => {
                 )}
               </div>
             </div>
+            <div className="flex justify-between">
+            {!selectedComplaint.reply ? (
+              !reply.trim() ? (
+                <button
+                  onClick={() => handleMarkAsResolved(selectedComplaint)}
+                  className="py-2 px-4 font-medium rounded-lg duration-150 bg-gray-400 cursor-not-allowed"
+                  disabled
+                >
+                  Mark as Resolved
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleMarkAsResolved(selectedComplaint)}
+                  className="py-2 px-4 text-white font-medium rounded-lg duration-150 bg-blue-600 hover:bg-green-500"
+                >
+                  Mark as Resolved
+                </button>
+              )
+            ) : null}
+
+            <button
+              onClick={handleClosePopup}
+              className="py-2 px-4 mx-1 mt-2 text-sm w-36 text-white font-medium bg-red-600 hover:bg-red-500 rounded-lg duration-150"
+            >
+              Close
+            </button>
+          </div>
+
 
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RetrieveComplaintService from "../../service/RetrieveComplaintService";
 import UpdateComplaintService from "../../service/UpdateComplaintService";
+import Swal from "sweetalert2";
 
 const CustomerComplaints = () => {
   const [complaints, setComplaints] = useState([]);
@@ -23,6 +24,7 @@ const CustomerComplaints = () => {
 
         const response = await RetrieveComplaintService.retrieveComplaintData(token);
         if (response.success) {
+          
           setComplaints(response.message); 
         } else {
           setError(response.message || "Failed to fetch complaints.");
@@ -49,12 +51,30 @@ const CustomerComplaints = () => {
             c.complaintId === complaint.complaintId ? { ...c, status: 1, reply } : c
           )
         );
-        setSelectedComplaint(null); 
+        Swal.fire({
+          title: "Success!",
+          text: "The complaint has been marked as resolved.",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          setSelectedComplaint(null);
+          setReply("");
+        });
       } else {
-        alert(response.message || "Failed to update complaint status.");
+        Swal.fire({
+          title: "Error",
+          text: response.message || "Failed to update complaint status.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     } catch (err) {
-      alert(err.message || "An error occurred while updating the complaint status.");
+      Swal.fire({
+        title: "Error",
+        text: err.message || "An error occurred while updating the complaint status.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -193,6 +213,7 @@ const CustomerComplaints = () => {
                       {selectedComplaint.status === 0 ? "Pending" : "Resolved"}
                     </span>
                   </p>
+                  <p className="text-gray-700 text-lg font-medium"><strong>Name:</strong>{selectedComplaint.complaintHolder}</p>
                 </div>
               </div>
 

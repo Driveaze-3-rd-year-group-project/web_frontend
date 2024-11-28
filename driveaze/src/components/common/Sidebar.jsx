@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../service/UserService';
-import { FaTrademark, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime, FaCarAlt, FaCalendarCheck, FaMoneyCheckAlt, FaRegClipboard, FaWarehouse, FaUserPlus, FaClipboardList, FaClipboardCheck, FaCar, FaMoneyCheck, FaWrench, FaCalendarAlt } from "react-icons/fa";
+import { FaTrademark, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime, FaCarAlt, FaCalendarCheck, FaMoneyCheckAlt, FaRegClipboard, FaWarehouse, FaUserPlus, FaClipboardList, FaClipboardCheck, FaCar, FaMoneyCheck, FaWrench, FaCalendarAlt, FaCommentDots  } from "react-icons/fa";
 import Swal from 'sweetalert2';
 
 function Sidebar() {
@@ -367,6 +367,15 @@ function Sidebar() {
                         </ul>
                         <div>
                             <ul className="px-4 pb-4 text-lg font-medium">
+                                {isCustomer && (
+                                        <a href="/sendComplaint" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                            <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
+                                            <div className="flex-none">
+                                                <FaCommentDots/>
+                                            </div>
+                                            <p className="flex-1">Report an issue</p>
+                                        </a>
+                                )}
                                 {isAuthenticated && (
                                     <li>
                                         <a href="/userProfile" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
@@ -376,6 +385,7 @@ function Sidebar() {
                                             </div>
                                             <p className="flex-1">Settings</p>
                                         </a>
+                                        
                                         <a  onClick={handleLogout} className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-driveazered active:bg-gray-100 duration-150">
                                             <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                             <div className="flex-none">

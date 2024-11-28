@@ -243,6 +243,7 @@ const CustomerComplaints = () => {
                   <textarea
                     value={reply}
                     onChange={(e) => setReply(e.target.value)}
+                    maxlength="1000"
                     className="w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Type your reply here..."
                   />

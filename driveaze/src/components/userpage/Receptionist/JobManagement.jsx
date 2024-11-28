@@ -38,8 +38,17 @@ const JobManagement = () => {
   
             // Fetch vehicle details
             const vehicleResponse = await UserService.getCustomerVehicleById(job.vehicleId, token);
-            const vehicleData = vehicleResponse?.customerVehicle || {};
-            const { vehicleNo, vehicleBrand, vehicleModel } = vehicleData;
+            // console.log("Fetched Vehicle", vehicleResponse);
+            const vehicleNo = vehicleResponse?.customerVehicle?.vehicleNo || "Not Available";
+
+            const vehicleBrandId = vehicleResponse.customerVehicle.vehicleBrandId;
+            const vehicleModelId = vehicleResponse.customerVehicle.vehicleModelId;
+
+            const vehicleBrandResponse = await UserService.getVehicleBrandById(vehicleBrandId, token);
+            const vehicleBrand = vehicleBrandResponse?.vehicleBrand?.brandName || "Unknown Brand";
+
+            const vehicleModelResponse = await UserService.getVehicleModelById(vehicleModelId, token);
+            const vehicleModel = vehicleModelResponse?.vehicleModel?.modelName || "Unknown Model";
   
             return {
               ...job,
@@ -233,8 +242,7 @@ const JobManagement = () => {
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
               <th className="py-3 px-6">Job ID</th>
-              <th className="py-3 px-6">Vehicle Number</th>
-              <th className="py-3 px-6">Vehicle Brand & Model</th>
+              <th className="py-3 px-6">Vehicle Number & Model</th>
               <th className="py-3 px-6">Job Started Date</th>
               <th className="py-3 px-6">Assigned Supervisor</th>
               <th className="py-3 px-6">Status</th>
@@ -246,9 +254,12 @@ const JobManagement = () => {
               jobs.map((job) => (
                 <tr key={job.jobId}>
                   <td className="px-6 py-4 whitespace-nowrap">{job.jobId}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{job.vehicleNo}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {job.vehicleBrand}-{job.vehicleModel}
+                  <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                    <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-10 h-10 rounded-full" />
+                    <div>
+                      <span className="block text-gray-700 text-sm font-medium">{job.vehicleNo}</span>
+                      <span className="block text-gray-700 text-xs">{job.vehicleBrand}-{job.vehicleModel}</span>   
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{job.startedDate}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{job.supervisorName}</td>
@@ -317,7 +328,7 @@ const JobManagement = () => {
       </div>
 
       {/* Pagination */}
-      <div className="max-w-screen-xl mx-auto mt-12 px-4 text-gray-600 md:px-8">
+      <div className="max-w-screen-xl mx-auto mt-12 px-4 text-gray-600 md:px-8 mb-8">
         <div className="flex items-center justify-between text-sm text-gray-600 font-medium mt-4">
           <button
             disabled={currentPage === 0}

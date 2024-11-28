@@ -45,7 +45,17 @@ function JobDetails() {
       const fetchedJob = response.jobRegistry;
 
       const vehicle = await UserService.getCustomerVehicleById(fetchedJob.vehicleId, token);
-      
+      console.log('Fetched vehicle:', vehicle);
+
+      const vehicleBrandId = vehicle.customerVehicle.vehicleBrandId;
+      const vehicleModelId = vehicle.customerVehicle.vehicleModelId;
+
+      const vehicleBrandResponse = await UserService.getVehicleBrandById(vehicleBrandId, token);
+      const vehicleBrand = vehicleBrandResponse?.vehicleBrand?.brandName || "Unknown Brand";
+
+      const vehicleModelResponse = await UserService.getVehicleModelById(vehicleModelId, token);
+      const vehicleModel = vehicleModelResponse?.vehicleModel?.modelName || "Unknown Model";
+
       const supervisor = await UserService.getUserById(fetchedJob.supervisorId, token);
       
       const serviceType = await UserService.getServiceTypeById(fetchedJob.serviceTypeId, token);
@@ -53,8 +63,8 @@ function JobDetails() {
 
       setJobData({
         vehicleNumber: vehicle.customerVehicle.vehicleNo,
-        vehicleBrand: vehicle.customerVehicle.vehicleBrand,
-        vehicleModel: vehicle.customerVehicle.vehicleModel,
+        vehicleBrand: vehicleBrand,
+        vehicleModel: vehicleModel,
         startedDate: fetchedJob.startedDate,
         startTime: fetchedJob.startTime,
         jobDescription: fetchedJob.jobDescription,

@@ -173,12 +173,13 @@ const CustomerComplaints = () => {
             <div className="flex justify-between items-center mb-4">
               <h4 className="text-gray-800 text-xl font-bold">Complaint Details</h4>
               <div className="flex space-x-2">
+                {!selectedComplaint.reply ?(
                 <button
                   onClick={() => handleMarkAsResolved(selectedComplaint)}
                   className="py-2 px-4 text-white font-medium bg-blue-600 hover:bg-green-500 rounded-lg duration-150"
                 >
                   Mark as Resolved
-                </button>
+                </button>):""}
                 <button
                   onClick={handleClosePopup}
                   className="py-2 px-4 text-white font-medium bg-red-600 hover:bg-red-500 rounded-lg duration-150"

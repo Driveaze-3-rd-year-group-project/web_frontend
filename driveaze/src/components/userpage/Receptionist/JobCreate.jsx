@@ -35,7 +35,37 @@ function JobCreate() {
           const token = localStorage.getItem('token');
           const vehicles = await UserService.searchVehicles(searchQuery, token);
           console.log('Fetched vehicles:', vehicles);
-          setVehicleSuggestions(vehicles);
+
+          const updatedVehicles = await Promise.all(
+            vehicles.map(async (vehicle) => {
+              try {
+                const vehicleBrandId = vehicle.vehicleBrandId;
+                const vehicleModelId = vehicle.vehicleModelId;
+    
+                const vehicleBrandResponse = await UserService.getVehicleBrandById(vehicleBrandId, token);
+                const vehicleBrand = vehicleBrandResponse?.vehicleBrand?.brandName || "Unknown Brand";
+    
+                const vehicleModelResponse = await UserService.getVehicleModelById(vehicleModelId, token);
+                const vehicleModel = vehicleModelResponse?.vehicleModel?.modelName || "Unknown Model";
+      
+                return {
+                  ...vehicle,
+                  vehicleBrand,
+                  vehicleModel,
+                };
+              } catch (error) {
+                console.error(`Error fetching details for vehicle ID ${vehicle.vehicleId}:`, error);
+                return {
+                  ...vehicle,
+                  vehicleBrand: "Unknown Brand",
+                  vehicleModel: "Unknown Model",
+                };
+              }
+            })
+          );
+
+
+          setVehicleSuggestions(updatedVehicles);
         } catch (error) {
           console.error(error);
           setVehicleSuggestions([]);

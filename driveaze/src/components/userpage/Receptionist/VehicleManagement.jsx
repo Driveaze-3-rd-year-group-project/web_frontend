@@ -49,7 +49,7 @@ function VehicleManagement() {
         })
       );
 
-      setVehicles(vehiclesData);
+      setVehicles(updatedVehicles);
       setTotalPages(response?.totalPages || 1);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
@@ -156,11 +156,10 @@ function VehicleManagement() {
         </a>
       </div>
       <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto">
-        <table className="w-full table-auto text-sm text-left">
+        <table className="w-full table-auto text-sm text-left overflow-hidden">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
-              <th className="py-3 px-6">Vehicle Number</th>
-              <th className="py-3 px-6">Vehicle Model</th>
+              <th className="py-3 px-6">Vehicle Number & Model</th>
               <th className="py-3 px-6">Owner's Name</th>
               <th className="py-3 px-6">Owner's Email</th>
               <th className="py-3 px-6">Registered Phone No</th>
@@ -172,27 +171,21 @@ function VehicleManagement() {
             {Array.isArray(vehicles) && vehicles.length > 0 ? (
               vehicles.map((vehicle) => (
                 <tr key={vehicle.vehicleId}>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.vehicleNo}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.vehicleNo}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {vehicle.vehicleBrand}-{vehicle.vehicleModel}
+                  <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                    <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-10 h-10 rounded-full" />
+                    <div>
+                      <span className="block text-gray-700 text-sm font-medium">{vehicle.vehicleNo}</span>
+                      <span className="block text-gray-700 text-xs">{vehicle.brandName}-{vehicle.modelName}</span>   
+                    </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.startedDate}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.supervisorName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.ownerName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {vehicle.ownerEmail ? vehicle.ownerEmail : "Email Not Available"}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.ownerPhone}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{vehicle.registeredDate}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex justify-between items-center space-x-2 relative">
-                      {/* Info Icon with Tooltip */}
-                      <div className="relative group">
-                        <a
-                          href={`/jobdetails/${vehicle.jobId}`}
-                          className="text-green-500 hover:text-green-700 text-xl"
-                        >
-                          <FaInfoCircle />
-                        </a>
-                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          View Job
-                        </div>
-                      </div>
 
                       {/* Edit Icon with Tooltip */}
                       <div className="relative group">

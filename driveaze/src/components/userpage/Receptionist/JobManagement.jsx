@@ -140,7 +140,7 @@ const JobManagement = () => {
         // Show the confirmation dialog
         const result = await Swal.fire({
             title: 'Are you sure?',
-            text: 'Do you want to delete this job?!',
+            text: 'Do you want to delete this job?',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -172,7 +172,7 @@ const JobManagement = () => {
         console.error('Error deleting job:', error);
         toast.error('Failed to delete job' + error.message);
     }
-};
+  };
 
   
 
@@ -378,50 +378,6 @@ const JobManagement = () => {
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
       
     </div>
-
-
-// {/* //pagination */}
-// <div className="max-w-screen-xl mx-auto mt-12 px-4 text-gray-600 md:px-8">
-// <div className="flex items-center justify-between sm:flex" aria-label="Pagination">
-  // <button
-  //   onClick={() => handlePageChange(currentPage - 1)}
-  //   disabled={currentPage === 1}
-  //   className={`px-4 py-2 border rounded-lg duration-150 ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-50'}`}
-  // >
-  //   <FaArrowLeft /> Previous
-  // </button>
-
-//   <ul className="flex items-center gap-1">
-//     {Array.from({ length: pages }, (_, index) => (
-//       <li key={index + 1}>
-//         <button
-//           onClick={() => handlePageChange(index + 1)}
-//           className={`px-3 py-2 rounded-lg duration-150 hover:bg-indigo-50 ${currentPage === index + 1 ? 'bg-indigo-50 text-indigo-600 font-medium' : ''}`}
-//         >
-//           {index + 1}
-//         </button>
-//       </li>
-//     ))}
-//   </ul>
-
-//   <button
-//     onClick={() => handlePageChange(currentPage + 1)}
-//     disabled={currentPage === pages}
-//     className={`px-4 py-2 border rounded-lg duration-150 ${currentPage === pages ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-50'}`}
-//   >
-//     Next <FaArrowRight />
-//   </button>
-// </div>
-
-//     {/* On mobile version */}
-//     <div className="flex items-center justify-between text-sm text-gray-600 font-medium sm:hidden">
-//         <a href="javascript:void(0)" className="px-4 py-2 border rounded-lg duration-150 hover:bg-gray-50">Previous</a>
-//         <div className="font-medium">
-//             Page {currentPage} of {pages.length}
-//         </div>
-//         <a href="javascript:void(0)" className="px-4 py-2 border rounded-lg duration-150 hover:bg-gray-50">Next</a>
-//     </div>
-// </div>
   );
 };
 

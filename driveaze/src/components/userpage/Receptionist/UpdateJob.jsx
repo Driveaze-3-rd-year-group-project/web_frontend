@@ -15,6 +15,7 @@ function UpdateJob() {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [selectedSupervisor, setSelectedSupervisor] = useState(null);
   const [selectedServiceType, setSelectedServiceType] = useState('');
+  const [updatedVehicleData, setUpdatedVehicleData] = useState('');
   const [serviceTypes, setServiceTypes] = useState([]);
   const [vehicleMilage, setVehicleMilage] = useState('');
   const [error, setError] = useState('');
@@ -33,11 +34,11 @@ function UpdateJob() {
 
   const fetchJobDataById = async (jobId) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await UserService.getJobById(jobId, token); // Pass userId to getUserById
-      // console.log(response);
-      // console.log(response.jobRegistry);
+      const token = localStorage.getItem("token");
+      const response = await UserService.getJobById(jobId, token);
       const fetchedJob = response.jobRegistry;
+  
+      // Set job data
       setJobData({
         vehicleId: fetchedJob.vehicleId,
         supervisorId: fetchedJob.supervisorId,
@@ -45,20 +46,52 @@ function UpdateJob() {
         serviceTypeId: fetchedJob.serviceTypeId,
         vehicleMilage: fetchedJob.vehicleMilage,
       });
+  
+      // Fetch vehicle details
       const vehicle = await UserService.getCustomerVehicleById(fetchedJob.vehicleId, token);
-      // console.log("Fetched Vehicle:", vehicle);
-      handleVehicleSelect(vehicle.customerVehicle);
-
+  
+      // Fetch vehicle brand and model
+      const vehicleBrandId = vehicle.customerVehicle.vehicleBrandId;
+      const vehicleBrandData = await UserService.getVehicleBrandById(vehicleBrandId, token);
+      const vehicleBrand = vehicleBrandData.vehicleBrand.brandName;
+  
+      const vehicleModelId = vehicle.customerVehicle.vehicleModelId;
+      const vehicleModelData = await UserService.getVehicleModelById(vehicleModelId, token);
+      const vehicleModel = vehicleModelData.vehicleModel.modelName;
+  
+      // Update vehicle data with new fields
+      setUpdatedVehicleData((prev) => ({
+        ...prev, // Preserve previous data
+        ...vehicle.customerVehicle, // Include all data from vehicle.customerVehicle
+        vehicleBrand, // Add vehicleBrand
+        vehicleModel, // Add vehicleModel
+      }));
+  
+      // Log updated vehicle data
+      console.log("Updated vehicle data", {
+        ...vehicle.customerVehicle,
+        vehicleBrand,
+        vehicleModel,
+      });
+  
+      // Handle vehicle selection
+      handleVehicleSelect({
+        ...vehicle.customerVehicle,
+        vehicleBrand,
+        vehicleModel,
+      });
+  
+      // Fetch supervisor details
       const supervisor = await UserService.getUserById(fetchedJob.supervisorId, token);
-      // console.log("Fetched Supervisor:", supervisor);
       handleSupervisorSelect(supervisor.ourUsers);
-
+  
+      // Handle mileage change
       handleMilageChange({ target: { value: fetchedJob.vehicleMilage } });
-
     } catch (error) {
-      console.error('Error fetching job data:', error);
+      console.error("Error fetching job data:", error);
     }
   };
+  
 
   const handleVehicleSelect = (vehicle) => {
     setJobData((prev) => ({

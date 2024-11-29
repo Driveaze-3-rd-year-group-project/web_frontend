@@ -1,100 +1,72 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 function AssignedJobs() {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filter, setFilter] = useState("all");
-  
-    const handleFilterChange = (e) => {
-      setFilter(e.target.value);
-    };
-  
-    const jobs = [
-        {
-          jobId: "J001",
-          vehicleNo: "AB1234",
-          vehicleBrand: "Toyota",
-          vehicleModel: "Corolla",
-          status: "Completed",
-          actions: "View Details",
-        },
-        {
-          jobId: "J002",
-          vehicleNo: "BC2345",
-          vehicleBrand: "Honda",
-          vehicleModel: "Civic",
-          status: "Pending",
-          actions: "View Details",
-        },
-        {
-          jobId: "J003",
-          vehicleNo: "CD3456",
-          vehicleBrand: "Nissan",
-          vehicleModel: "Altima",
-          status: "Completed",
-          actions: "View Details",
-        },
-        {
-          jobId: "J004",
-          vehicleNo: "DE4567",
-          vehicleBrand: "Ford",
-          vehicleModel: "Focus",
-          status: "Pending",
-          actions: "View Details",
-        },
-        {
-          jobId: "J005",
-          vehicleNo: "EF5678",
-          vehicleBrand: "Chevrolet",
-          vehicleModel: "Malibu",
-          status: "Completed",
-          actions: "View Details",
-        },
-        {
-          jobId: "J006",
-          vehicleNo: "FG6789",
-          vehicleBrand: "BMW",
-          vehicleModel: "3 Series",
-          status: "Pending",
-          actions: "View Details",
-        },
-        {
-          jobId: "J007",
-          vehicleNo: "GH7890",
-          vehicleBrand: "Mercedes-Benz",
-          vehicleModel: "C-Class",
-          status: "Completed",
-          actions: "View Details",
-        },
-        {
-          jobId: "J008",
-          vehicleNo: "HI8901",
-          vehicleBrand: "Audi",
-          vehicleModel: "A4",
-          status: "Pending",
-          actions: "View Details",
-        },
-        {
-          jobId: "J009",
-          vehicleNo: "IJ9012",
-          vehicleBrand: "Hyundai",
-          vehicleModel: "Elantra",
-          status: "Completed",
-          actions: "View Details",
-        },
-        {
-          jobId: "J010",
-          vehicleNo: "JK0123",
-          vehicleBrand: "Kia",
-          vehicleModel: "Optima",
-          status: "Pending",
-          actions: "View Details",
-        },
-      ];
-      
-      
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
 
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
 
-  
+  const jobs = [
+    {
+      jobId: "J001",
+      vehicleNo: "AB1234",
+      vehicleBrand: "Toyota",
+      vehicleModel: "Corolla",
+      status: "Completed",
+      actions: "View Details",
+      customerProblem: "Engine noise when starting",
+    },
+    {
+      jobId: "J002",
+      vehicleNo: "BC2345",
+      vehicleBrand: "Honda",
+      vehicleModel: "Civic",
+      status: "Pending",
+      actions: "View Details",
+      customerProblem: "Brakes are making squeaky sound",
+    },
+    {
+      jobId: "J003",
+      vehicleNo: "CD3456",
+      vehicleBrand: "Nissan",
+      vehicleModel: "Altima",
+      status: "Completed",
+      actions: "View Details",
+      customerProblem: "Air conditioning not working",
+    },
+    {
+      jobId: "J004",
+      vehicleNo: "DE4567",
+      vehicleBrand: "Ford",
+      vehicleModel: "Focus",
+      status: "Pending",
+      actions: "View Details",
+      customerProblem: "Flat tire",
+    },
+    {
+      jobId: "J005",
+      vehicleNo: "EF5678",
+      vehicleBrand: "Chevrolet",
+      vehicleModel: "Malibu",
+      status: "Completed",
+      actions: "View Details",
+      customerProblem: "Battery draining too fast",
+    },
+  ];
+
+  const handleViewDetails = (job) => {
+    setSelectedJob(job);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedJob(null);
+  };
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
@@ -148,51 +120,74 @@ function AssignedJobs() {
           </select>
         </div>
       </div>
+
       <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
-            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+          <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
-                <th className="py-3 px-6">Job ID</th>
-                <th className="py-3 px-6">Vehicle No</th>
-                <th className="py-3 px-6">Vehicle Brand</th>
-                <th className="py-3 px-6">Vehicle Model</th>
-                <th className="py-3 px-6">Job Status</th>
-                <th className="py-3 px-6">Actions</th>
+              <th className="py-3 px-6">Job ID</th>
+              <th className="py-3 px-6">Vehicle No</th>
+              <th className="py-3 px-6">Vehicle Brand</th>
+              <th className="py-3 px-6">Vehicle Model</th>
+              <th className="py-3 px-6">Job Status</th>
+              <th className="py-3 px-6">Actions</th>
             </tr>
-            </thead>
-            <tbody className="text-gray-600 divide-y">
+          </thead>
+          <tbody className="text-gray-600 divide-y">
             {jobs.map((job, index) => (
-                <tr key={index} className="hover:bg-gray-100">
+              <tr key={index} className="hover:bg-gray-100">
                 <td className="py-3 px-6 whitespace-nowrap">{job.jobId}</td>
                 <td className="py-3 px-6 whitespace-nowrap">{job.vehicleNo}</td>
                 <td className="py-3 px-6 whitespace-nowrap">{job.vehicleBrand}</td>
                 <td className="py-3 px-6 whitespace-nowrap">{job.vehicleModel}</td>
                 <td className="py-3 px-6 whitespace-nowrap">
-                    <span
+                  <span
                     className={`font-medium ${
-                        job.status === "Completed" ? "text-green-500" : "text-yellow-500"
+                      job.status === "Completed" ? "text-green-500" : "text-yellow-500"
                     }`}
-                    >
+                  >
                     {job.status}
-                    </span>
+                  </span>
                 </td>
                 <td className="py-3 px-6 whitespace-nowrap">
-                    <a
-                    href="#"
+                  <button
+                    onClick={() => handleViewDetails(job)}
                     className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                    >
+                  >
                     View
-                    </a>
+                  </button>
                 </td>
-                </tr>
+              </tr>
             ))}
-            </tbody>
+          </tbody>
         </table>
+      </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <h3 className="text-xl font-semibold text-gray-800">Job Details</h3>
+            <div className="mt-4">
+              <p className="font-medium">Job ID: {selectedJob.jobId}</p>
+              <p className="font-medium">Vehicle No: {selectedJob.vehicleNo}</p>
+              <p className="font-medium">Vehicle Brand: {selectedJob.vehicleBrand}</p>
+              <p className="font-medium">Vehicle Model: {selectedJob.vehicleModel}</p>
+              <p className="font-medium">Status: {selectedJob.status}</p>
+              <p className="mt-2 text-gray-700">Customer's Problem: {selectedJob.customerProblem}</p>
+            </div>
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={handleCloseModal}
+                className="py-2 px-4 text-white bg-red-500 hover:bg-red-400 rounded-lg"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
-
-
+      )}
     </div>
-  )
+  );
 }
 
-export default AssignedJobs
+export default AssignedJobs;

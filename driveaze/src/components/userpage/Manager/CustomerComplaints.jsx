@@ -255,7 +255,7 @@ const CustomerComplaints = () => {
               !reply.trim() ? (
                 <button
                   onClick={() => handleMarkAsResolved(selectedComplaint)}
-                  className="py-2 px-4 font-medium rounded-lg duration-150 bg-gray-400 cursor-not-allowed"
+                  className="py-2 px-4  mx-1 mt-2 font-medium  text-sm rounded-lg duration-150 bg-gray-400 cursor-not-allowed"
                   disabled
                 >
                   Mark as Resolved
@@ -263,7 +263,7 @@ const CustomerComplaints = () => {
               ) : (
                 <button
                   onClick={() => handleMarkAsResolved(selectedComplaint)}
-                  className="py-2 px-4 text-white font-medium rounded-lg duration-150 bg-blue-600 hover:bg-green-500"
+                  className="py-2 px-4  mx-1 mt-2 text-white  text-sm font-medium rounded-lg duration-150 bg-blue-600 hover:bg-green-500"
                 >
                   Mark as Resolved
                 </button>

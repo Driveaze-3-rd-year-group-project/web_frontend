@@ -117,6 +117,12 @@ const SendComplaint = () => {
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Your Filings</h3>
+                <button
+                    onClick={handleClick}
+                    className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-white bg-green-600 hover:bg-green-500 active:bg-green-700 rounded-lg sm:mt-0"
+                >
+                    Send a complaint
+                </button>
             </div>
 
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
@@ -140,7 +146,7 @@ const SendComplaint = () => {
                                                 : 'text-green-500 font-bold'
                                         }
                                     >
-                                        {item.status === 0 ? 'Pending' : 'Received'}
+                                        {item.status === 0 ? 'Pending' : 'Addressed'}
                                     </span>
                                 </td>
                                 <td className="py-3 px-6 whitespace-nowrap">
@@ -158,12 +164,6 @@ const SendComplaint = () => {
             </div>
 
             <div className="flex items-center justify-between mt-4">
-                <button
-                    onClick={handleClick}
-                    className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-white bg-green-600 hover:bg-green-500 active:bg-green-700 rounded-lg sm:mt-0"
-                >
-                    Send a Complaint
-                </button>
             </div>
 
             {showPopup && (
@@ -199,7 +199,7 @@ const SendComplaint = () => {
                           : "text-green-500 font-bold"
                       }
                     >
-                      {selectedComplaint.status === 0 ? "Pending" : "Resolved"}
+                      {selectedComplaint.status === 0 ? "pending" : "addressed"}
                     </span>
                   </p>
                 </div>

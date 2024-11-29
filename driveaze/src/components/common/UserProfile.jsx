@@ -153,6 +153,11 @@ function UserProfile() {
         e.preventDefault();
         try {
             console.log("submitting user", user);
+
+            if (contactError) {
+                toast.error('Please fix the contact number error before submitting.');
+                return;
+            }
     
             let res;
             if (user.role === 'CUSTOMER') {

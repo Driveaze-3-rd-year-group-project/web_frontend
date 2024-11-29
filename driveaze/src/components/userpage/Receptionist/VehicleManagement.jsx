@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt, FaArrowLeft, FaArrowRight  } from 'react-icons/fa';
 import UserService from '../../service/UserService';
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function VehicleManagement() {
   const [vehicles, setVehicles] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(0); // 0-based indexing
 
-  console.log('Vehicles:', vehicles);
+  // console.log('Vehicles:', vehicles);
 
   useEffect(() => {
     fetchVehicles(currentPage);
@@ -112,6 +115,34 @@ function VehicleManagement() {
     return pages;
   };
 
+  const deleteVehicles = (vehicleId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete this job?",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Delete",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = localStorage.getItem("token");
+          const res = await UserService.deleteCustomerVehicle(vehicleId, token);
+
+          if (res.statusCode === 200) {
+            toast.success("Vehicle Deleted successfully!");
+            fetchVehicles(currentPage);
+          } else {
+            toast.error(res.message || 'Failed to Delete Vehicle');
+          }
+        } catch (error) {
+          console.error("Error deleting vehicle:", error);
+          toast.error("Failed to delete vehicle");
+        }
+      }
+    });
+  }
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       <div className="flex items-start justify-between mb-3">
@@ -190,26 +221,26 @@ function VehicleManagement() {
                       {/* Edit Icon with Tooltip */}
                       <div className="relative group">
                         <a
-                          href={`/update-job/${vehicle.jobId}`}
+                          href={`/editvehicle/${vehicle.vehicleId}`}
                           className="text-indigo-600 hover:text-indigo-800 text-xl"
                         >
                           <FaEdit />
                         </a>
                         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          Edit Job
+                          Edit Vehicle
                         </div>
                       </div>
 
                       {/* Delete Icon with Tooltip */}
                       <div className="relative group">
                         <a
-                          onClick={() => deleteJobs(vehicle.jobId)}
+                          onClick={() => deleteVehicles(vehicle.vehicleId)}
                           className="text-red-500 hover:text-red-800 text-xl"
                         >
                           <FaRegTrashAlt />
                         </a>
                         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          Delete Job
+                          Delete Vehicle
                         </div>
                       </div>
                     </div>
@@ -226,6 +257,56 @@ function VehicleManagement() {
           </tbody>
         </table>
       </div>
+      {/* Pagination */}
+      <div className="max-w-screen-xl mx-auto mt-12 px-4 text-gray-600 md:px-8 mb-8">
+        <div className="flex items-center justify-between text-sm text-gray-600 font-medium mt-4">
+          <button
+            disabled={currentPage === 0}
+            onClick={() => handlePageChange(currentPage - 1)}
+            className={`px-4 py-2 border rounded-lg duration-150 hover:text-indigo-600 flex items-center gap-x-2 ${
+              currentPage === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"
+            }`}
+          >
+            <FaArrowLeft />
+            Previous
+          </button>
+          {/* Page Numbers */}
+          <div>
+            <ul className="flex items-center gap-1">
+              {getPages(totalPages, currentPage).map((item, idx) => (
+                <li key={idx} className="text-sm">
+                  {item === "..." ? (
+                    <div className="px-3 py-2">...</div>
+                  ) : (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => handlePageChange(item)}
+                      aria-current={currentPage === item ? "page" : undefined}
+                      className={`px-3 py-2 rounded-lg duration-150 hover:text-indigo-600 hover:bg-indigo-50 ${
+                        currentPage === item ? "bg-indigo-50 text-indigo-600 font-medium" : ""
+                      }`}
+                    >
+                      {item + 1} {/* Display 1-based page index */}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <button
+            disabled={currentPage === totalPages - 1}
+            onClick={() => handlePageChange(currentPage + 1)}
+            className={`px-4 py-2 border rounded-lg duration-150 hover:text-indigo-600 flex items-center gap-x-2 ${
+              currentPage === totalPages - 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"
+            }`}
+          >
+            Next
+            <FaArrowRight />
+          </button>
+        </div>
+      </div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
+      
     </div>
   );
 }

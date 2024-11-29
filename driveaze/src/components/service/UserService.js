@@ -552,7 +552,7 @@ class UserService{
         }
     }
 
-    static async getAllVehicleBrands(token){
+    static async getAllVehicleModels(token){
         try{
 
             const response = await axios.get(`${UserService.BASE_URL}/vehicle-model/get-all-vehicle-models`, {
@@ -565,6 +565,22 @@ class UserService{
             throw err;
         }
     }
+
+    static async getAllVehicleModelsWithVehicleBrandId(brandId, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/vehicle-model/get-all-vehicle-models-with-brand-id/${brandId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+
 
 
 

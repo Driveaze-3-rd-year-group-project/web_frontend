@@ -335,7 +335,7 @@ function JobCreate() {
               </div>
             </div>
             <div>
-              <label className="font-medium">Vehicle Milage</label>
+              <label className="font-medium">Vehicle Milage(km)</label>
               <input
                 type="number"
                 name="vehicleMilage"

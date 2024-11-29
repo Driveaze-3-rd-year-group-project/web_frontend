@@ -241,7 +241,7 @@ function App() {
                   <Route path="/jobdetails/:jobId" element={<JobDetails />} />
                   <Route path="/vehiclemanagement"  element={<VehicleManagement />} />
                   <Route path="/addvehicle" element={<AddVehicle />} />
-                  <Route path="/editvehicle" element={<EditVehicle />} />
+                  <Route path="/editvehicle/:vehicleId" element={<EditVehicle />} />
                   <Route path="/bookingmanagement" element={<BookingManagement />} />
                   <Route path="/billing" element={<Billing />} />
                   <Route path="/createbill" element={<CreateBill />} />

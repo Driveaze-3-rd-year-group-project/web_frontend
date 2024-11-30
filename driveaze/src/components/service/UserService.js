@@ -365,6 +365,95 @@ class UserService{
         }
     }
 
+     /***Bills */
+     static async addNewBill(billData, token){
+        try{
+
+            const response = await axios.post(`${UserService.BASE_URL}/bill/save`, billData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async updateBill(billId, billData, token){
+        try{
+
+            const response = await axios.put(`${UserService.BASE_URL}/bill/update/${billId}`, billData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async deleteBill(billId, token){
+        try{
+
+            const response = await axios.delete(`${UserService.BASE_URL}/bill/delete/${billId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getBillById(billId, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/bill/get-bill/${billId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllBills(token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/bill/get-all-bills`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllBillsWithPaginationAndStatuses(statuses, offset, token) {
+        try {
+            const params = new URLSearchParams();
+            statuses.forEach(status => params.append("statuses", status)); // Add statuses as query params
+    
+            const response = await axios.get(
+                `${UserService.BASE_URL}/bill/paginationAndSort/${offset}?${params.toString()}`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
+            return response.data;
+        } catch (err) {
+            throw err;
+        }
+    }
+    
+    
+
     /***SERVICE TYPES */
     static async addNewServiceType(serviceTypeData, token){
         try{

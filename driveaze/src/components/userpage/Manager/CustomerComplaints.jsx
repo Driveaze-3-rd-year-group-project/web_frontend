@@ -244,7 +244,8 @@ const CustomerComplaints = () => {
                     value={reply}
                     onChange={(e) => setReply(e.target.value)}
                     maxlength="1000"
-                    className="w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  invalid:border-red-500 invalid:text-red-600
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500"
                     placeholder="Type your reply here..."
                   />
                 )}

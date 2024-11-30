@@ -18,6 +18,15 @@ const SendComplaint = () => {
     const [selectedComplaint, setSelectedComplaint] = useState(null);
     const [reply, setReply] = useState('');
 
+    const [isValid, setIsValid] = useState(true); // Track validity
+
+    const Validation = (e) => {
+        const value = e.target.value;
+        setDescription(value);
+        setIsValid(value.trim() !== ''); // Check if the field is not empty
+    };
+
+
     const handleClick = () => setShowPopup(true);
 
     const closePopup = () => {
@@ -272,12 +281,14 @@ const Popup = ({ closePopup, complaint, handleChange, handleSubmit, isLoading })
 
 const ServiceBookingDetails = ({ handleChange, complaint, handleSubmit, isLoading }) => (
     <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
+         <div>
             <textarea
-                value={complaint.description}
-                maxlength="1000"
-                onChange={handleChange}
-                className="w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={description}
+                maxLength="1000"
+                onChange={Validation}
+                className={`w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    isValid ? 'border-gray-300' : 'border-red-600'
+                }`}
                 placeholder="Type your message here..."
                 required
             />

@@ -1,75 +1,341 @@
-import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+// import React, { useState } from "react";
+// import { FaSearch } from "react-icons/fa";
+
+// const Billing = () => {
+//   const initialBills = [
+//     {
+//       id: 1,
+//       brand: "Toyota",
+//       model: "Camry",
+//       vehicleNumber: "XYZ 1234",
+//       status: "Ongoing",
+//       image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+//       customerName: "Nimali Perera",
+//     },
+//     {
+//       id: 2,
+//       brand: "Honda",
+//       model: "Accord",
+//       vehicleNumber: "ABC 5678",
+//       status: "Ongoing",
+//       image: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
+//       customerName: "Kamal Silva",
+//     },
+//     {
+//       id: 3,
+//       brand: "Ford",
+//       model: "Mustang",
+//       vehicleNumber: "LMN 9101",
+//       status: "Ongoing",
+//       image: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
+//       customerName: "Dilani Weerasinghe",
+//     },
+//     {
+//       id: 4,
+//       brand: "Chevrolet",
+//       model: "Camaro",
+//       vehicleNumber: "JKL 1213",
+//       status: "Ongoing",
+//       image: "https://img.icons8.com/?size=100&id=57661&format=png&color=000000",
+//       customerName: "Ranjith Gunawardena",
+//     },
+//     {
+//       id: 5,
+//       brand: "Nissan",
+//       model: "Sentra",
+//       vehicleNumber: "QRS 1415",
+//       status: "Ongoing",
+//       image: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
+//       customerName: "Samanthi Jayasuriya",
+//     },
+//     {
+//       id: 6,
+//       brand: "Toyota",
+//       model: "Corolla",
+//       vehicleNumber: "TUV 1617",
+//       status: "Ongoing",
+//       image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+//       customerName: "Chamara Perera",
+//     },
+//   ];
+
+//   const [bills, setBills] = useState(initialBills);
+//   const [selectedBrand, setSelectedBrand] = useState("");
+//   const [selectedModel, setSelectedModel] = useState("");
+//   const [searchTerm, setSearchTerm] = useState("");
+
+//   const handleBrandChange = (e) => {
+//     setSelectedBrand(e.target.value);
+//   };
+
+//   const handleModelChange = (e) => {
+//     setSelectedModel(e.target.value);
+//   };
+
+//   const handleSearchChange = (e) => {
+//     setSearchTerm(e.target.value);
+//   };
+
+//   const filteredBills = bills
+//   .filter((bill) => {
+//     return (
+//       (selectedBrand ? bill.brand === selectedBrand : true) &&
+//       (selectedModel ? bill.model === selectedModel : true) &&
+//       (searchTerm
+//         ? bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//           bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//           bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//           bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
+//         : true)
+//     );
+//   });
+
+//   const brands = [...new Set(initialBills.map((bill) => bill.brand))];
+//   const models = [...new Set(initialBills.map((bill) => bill.model))];
+
+//   return (
+//     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
+//       <div className="flex items-start justify-between">
+//         <div className="max-w-lg">
+//           <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Billing</h3>
+//         </div>
+//       </div>
+//       <div className="flex items-center justify-between mt-4 space-x-4">
+//         <div className="flex space-x-4 items-center">
+//           <select
+//             value={selectedBrand}
+//             onChange={handleBrandChange}
+//             className="py-2 px-4 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+//           >
+//             <option value="">Select Brand</option>
+//             {brands.map((brand) => (
+//               <option key={brand} value={brand}>
+//                 {brand}
+//               </option>
+//             ))}
+//           </select>
+//           <select
+//             value={selectedModel}
+//             onChange={handleModelChange}
+//             className="py-2 px-4 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+//           >
+//             <option value="">Select Model</option>
+//             {models.map((model) => (
+//               <option key={model} value={model}>
+//                 {model}
+//               </option>
+//             ))}
+//           </select>
+
+//           <form onSubmit={(e) => e.preventDefault()} className="flex">
+//             <div className="relative w-full">
+//               <input
+//                 type="text"
+//                 placeholder="Search"
+//                 value={searchTerm}
+//                 onChange={handleSearchChange}
+//                 className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+//               />
+//               <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
+//             </div>
+//           </form>
+//         </div>
+//         <a
+//           href="/createbill"
+//           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2"
+//         >
+//           Create Bill
+//         </a>
+//       </div>
+//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+//         {filteredBills.map((bill) => (
+//           <div
+//             key={bill.id}
+//             className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col items-start"
+//           >
+//             <div className="flex justify-between items-center w-full">
+//               <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
+//                 <img className="w-16 h-16 rounded-full" src={`${bill.image}`} alt={bill.brand} />
+//               </div>
+//               <span className="text-yellow-500 font-medium">{bill.status}</span>
+//             </div>
+//             <h2 className="text-xl font-bold">
+//               {bill.brand} {bill.model}
+//             </h2>
+//             <p className="text-gray-600">{bill.vehicleNumber}</p>
+//             <p className="text-gray-600 mt-2">
+//               <strong>Customer: {bill.customerName}</strong> {/* Bold customer name */}
+//             </p>
+//             <div className="flex justify-end items-center w-full mt-4">
+//               <a
+//                 href="/viewbill"
+//                 className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+//               >
+//                 View Bill
+//               </a>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Billing;
+import React, { useState, useEffect } from "react";
+import MakePayments from "./MakePayments"; // Correct import path
+import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt, FaArrowLeft, FaArrowRight  } from 'react-icons/fa';
+import UserService from "../../service/UserService";
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Billing = () => {
-  const initialBills = [
-    {
-      id: 1,
-      brand: "Toyota",
-      model: "Camry",
-      vehicleNumber: "XYZ 1234",
-      status: "Ongoing",
-      image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-      customerName: "Nimali Perera",
-    },
-    {
-      id: 2,
-      brand: "Honda",
-      model: "Accord",
-      vehicleNumber: "ABC 5678",
-      status: "Ongoing",
-      image: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
-      customerName: "Kamal Silva",
-    },
-    {
-      id: 3,
-      brand: "Ford",
-      model: "Mustang",
-      vehicleNumber: "LMN 9101",
-      status: "Ongoing",
-      image: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
-      customerName: "Dilani Weerasinghe",
-    },
-    {
-      id: 4,
-      brand: "Chevrolet",
-      model: "Camaro",
-      vehicleNumber: "JKL 1213",
-      status: "Ongoing",
-      image: "https://img.icons8.com/?size=100&id=57661&format=png&color=000000",
-      customerName: "Ranjith Gunawardena",
-    },
-    {
-      id: 5,
-      brand: "Nissan",
-      model: "Sentra",
-      vehicleNumber: "QRS 1415",
-      status: "Ongoing",
-      image: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
-      customerName: "Samanthi Jayasuriya",
-    },
-    {
-      id: 6,
-      brand: "Toyota",
-      model: "Corolla",
-      vehicleNumber: "TUV 1617",
-      status: "Ongoing",
-      image: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-      customerName: "Chamara Perera",
-    },
-  ];
+  const [currentPage, setCurrentPage] = useState(0); // 0-based indexing
+  const [totalPages, setTotalPages] = useState(1);
+  const [bills, setBills] = useState([]);
 
-  const [bills, setBills] = useState(initialBills);
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  useEffect(() => {
+    fetchJobs(currentPage);
+  }, [currentPage]);
 
-  const handleBrandChange = (e) => {
-    setSelectedBrand(e.target.value);
+  const fetchJobs = async (page) => {
+    try {
+      const statuses = [0]; // Status 1 and 2
+      const token = localStorage.getItem("token");
+      const response = await UserService.getAllBillsWithPaginationAndStatuses(statuses, page, token);
+
+      // console.log('Fetched paginated bills:', response);
+  
+      const billsData = response?.content || [];
+
+      const updatedBills = await Promise.all(
+        billsData.map(async (bill) => {
+          try {
+            // Fetch supervisor name
+            const vehicleResponse = await UserService.getCustomerVehicleById(bill.jobRegistry.vehicleId , token);
+            // console.log("Fetched Vehicle", vehicleResponse);
+
+            const ownerName = vehicleResponse.customerVehicle.ownerName;
+
+            const vehicleNo = vehicleResponse?.customerVehicle?.vehicleNo || "Not Available";
+
+            const vehicleBrandId = vehicleResponse.customerVehicle.vehicleBrandId;
+            const vehicleModelId = vehicleResponse.customerVehicle.vehicleModelId;
+
+            const vehicleBrandResponse = await UserService.getVehicleBrandById(vehicleBrandId, token);
+            const vehicleBrand = vehicleBrandResponse?.vehicleBrand?.brandName || "Unknown Brand";
+            // console.log("Fetched Vehicle Brand", vehicleBrand);
+
+            const vehicleModelResponse = await UserService.getVehicleModelById(vehicleModelId, token);
+            const vehicleModel = vehicleModelResponse?.vehicleModel?.modelName || "Unknown Model";
+            // console.log("Fetched Vehicle Model", vehicleModel);
+
+            const entries = bill.entries; // Get the entries of the bill
+            
+            // Calculate the total sum of totalPrice for the entries
+            const totalAmount = entries.reduce((sum, entry) => {
+              return sum + (entry.totalPrice || 0); // Add the totalPrice if it exists, otherwise add 0
+            }, 0);
+            
+            // console.log("Total Sum of all entries' total prices for bill ID", bill.billId, ":", totalAmount);
+            
+
+            return {
+              ...bill,
+              vehicleNo,
+              vehicleBrand,
+              vehicleModel,
+              ownerName,
+              totalAmount,
+            };
+          } catch (error) {
+            console.error(`Error fetching details for bill ID ${bill.billId}:`, error);
+            return {
+              ...bill,
+              vehicleNo: "Unknown Vehicle",
+              vehicleBrand: "Unknown Brand",
+              vehicleModel : "Unknown Model",
+              ownerName: "Unknown Owner",
+              totalAmount: 0,
+            };
+          }
+        })
+      );
+
+      // console.log("Updated bills:", updatedBills);
+
+      setBills(updatedBills);
+      setTotalPages(response?.totalPages || 1);
+    } catch (error) {
+      console.error("Error fetching bills:", error);
+      setJobs([]);
+    }
   };
 
-  const handleModelChange = (e) => {
-    setSelectedModel(e.target.value);
+  const handlePageChange = (page) => {
+    if (page >= 0 && page < totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+   // Function to generate page numbers with "..." where necessary
+   const getPages = (totalPages, currentPage) => {
+    const pages = [];
+    const maxPagesToShow = 5; // Show up to 5 page numbers including "..."
+    const half = Math.floor(maxPagesToShow / 2);
+
+    // If total pages are less than or equal to maxPagesToShow, show all pages
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 0; i < totalPages; i++) {
+        pages.push(i);
+      }
+      return pages;
+    }
+
+    // Calculate start and end page indices around currentPage
+    let startPage = Math.max(0, currentPage - half);
+    let endPage = Math.min(totalPages - 1, currentPage + half);
+
+    // Adjust start and end to ensure maxPagesToShow pages are displayed
+    if (currentPage - half < 0) {
+      endPage = Math.min(totalPages - 1, endPage + (half - currentPage));
+    } else if (currentPage + half >= totalPages) {
+      startPage = Math.max(0, startPage - (currentPage + half - totalPages + 1));
+    }
+
+    // Add the first page and "..." if there's a gap
+    if (startPage > 0) {
+      pages.push(0);
+      if (startPage > 1) {
+        pages.push("...");
+      }
+    }
+
+    // Add pages in the current range
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    // Add "..." and the last page if there's a gap
+    if (endPage < totalPages - 1) {
+      if (endPage < totalPages - 2) {
+        pages.push("...");
+      }
+      pages.push(totalPages - 1);
+    }
+
+    return pages;
+  };
+
+
+  // const [bills, setBills] = useState(initialBills);
+  const [filter, setFilter] = useState("All");
+  const [selectedBill, setSelectedBill] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
   };
 
   const handleSearchChange = (e) => {
@@ -77,106 +343,159 @@ const Billing = () => {
   };
 
   const filteredBills = bills
-  .filter((bill) => {
-    return (
-      (selectedBrand ? bill.brand === selectedBrand : true) &&
-      (selectedModel ? bill.model === selectedModel : true) &&
-      (searchTerm
-        ? bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
-        : true)
-    );
+    .filter((bill) => {
+      if (filter !== "All" && bill.status !== filter) return false;
+      if (searchTerm && !(
+        bill.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.customerName.toLowerCase().includes(searchTerm.toLowerCase()) // Include customer name in search
+      )) return false;
+      return true;
   });
-
-  const brands = [...new Set(initialBills.map((bill) => bill.brand))];
-  const models = [...new Set(initialBills.map((bill) => bill.model))];
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
       <div className="flex items-start justify-between">
-        <div className="max-w-lg">
-          <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Billing</h3>
-        </div>
-      </div>
-      <div className="flex items-center justify-between mt-4 space-x-4">
-        <div className="flex space-x-4 items-center">
-          <select
-            value={selectedBrand}
-            onChange={handleBrandChange}
-            className="py-2 px-4 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-          >
-            <option value="">Select Brand</option>
-            {brands.map((brand) => (
-              <option key={brand} value={brand}>
-                {brand}
-              </option>
-            ))}
-          </select>
-          <select
-            value={selectedModel}
-            onChange={handleModelChange}
-            className="py-2 px-4 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-          >
-            <option value="">Select Model</option>
-            {models.map((model) => (
-              <option key={model} value={model}>
-                {model}
-              </option>
-            ))}
-          </select>
-
-          <form onSubmit={(e) => e.preventDefault()} className="flex">
-            <div className="relative w-full">
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-              />
-              <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
-            </div>
-          </form>
-        </div>
-        <a
-          href="/createbill"
-          className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2"
-        >
-          Create Bill
-        </a>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-        {filteredBills.map((bill) => (
-          <div
-            key={bill.id}
-            className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col items-start"
-          >
-            <div className="flex justify-between items-center w-full">
-              <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-4">
-                <img className="w-16 h-16 rounded-full" src={`${bill.image}`} alt={bill.brand} />
-              </div>
-              <span className="text-yellow-500 font-medium">{bill.status}</span>
-            </div>
-            <h2 className="text-xl font-bold">
-              {bill.brand} {bill.model}
-            </h2>
-            <p className="text-gray-600">{bill.vehicleNumber}</p>
-            <p className="text-gray-600 mt-2">
-              <strong>Customer: {bill.customerName}</strong> {/* Bold customer name */}
-            </p>
-            <div className="flex justify-end items-center w-full mt-4">
-              <a
-                href="/viewbill"
-                className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-              >
-                View Bill
-              </a>
+            <div className="max-w-lg">
+              <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+                Billing section
+              </h3>
             </div>
           </div>
-        ))}
-      </div>
+          <div className="flex items-center justify-between mt-2 space-x-4">
+            <div className="flex space-x-4">
+
+              <form onSubmit={(e) => e.preventDefault()} className="flex">
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  />
+                  <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
+                </div>
+              </form>
+          
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-7">
+            {Array.isArray(bills) && bills.length > 0 ? (
+              filteredBills.map((bill) => (
+                <div
+                  key={bill.id}
+                  className="border border-gray-300 rounded-lg p-3 shadow-md flex flex-col items-start"
+                >
+                  <div className="flex justify-between items-center w-full">
+                    <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-2">
+                      <img className="w-16 h-16 rounded-full" src={`${bill.image}`} alt={bill.brand} />
+                    </div>
+                    <span
+                      className={`${
+                        bill.billStatus === 0 
+                          ? "bg-white text-yellow-500"
+                          : "bg-white text-green-500"
+                      }`}
+                    >
+                      {bill.billStatus === 0 ? "Ongoing" : "Payment Completed"}
+                    </span>
+                  </div>
+                  <h2 className="text-xl font-bold">
+                    {bill.vehicleNo} - {bill.vehicleBrand} {bill.vehicleModel}
+                  </h2>
+                  <p className="text-gray-600 mt-2 font-bold">
+                    Job ID: {bill.jobRegistry.jobId} {/* Display customer name */}
+                  </p>
+                  <p className="text-gray-600 mt-2 font-bold">
+                    Customer: {bill.ownerName} {/* Display customer name */}
+                  </p>
+                  <p className="text-black font-bold mt-2">
+                    Total Amount: LKR{bill.totalAmount}
+                  </p>
+                  <div className="flex justify-between items-center w-full mt-4">
+                    
+                    {bill.billStatus === 1 && (
+                       <div className="flex justify-start items-center w-full">
+                        <a
+                          href="/editbill"
+                          className="py-2 px-4 text-white font-medium bg-green-600 hover:bg-green-500 active:bg-indigo-600 rounded-lg duration-150"
+                        >
+                          Edit Bill
+                        </a>
+                      </div>
+                    )}
+                    <div className="flex justify-end items-center w-full">
+                      <a
+                        href={`/editbill/${bill.billId}`}
+                        className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-green-700 rounded-lg duration-150"
+                      >
+                        View & Edit Bill
+                      </a>
+                    </div>
+                    
+                    
+                  </div>
+                </div>
+            ))
+          ) : (
+            <div className="flex justify-center">
+              <span className="py-4 text-center">No bills found</span>
+            </div>
+          )}
+        </div>
+        {/* Pagination */}
+        {totalPages > 1 ? (
+          <div className="max-w-screen-xl mx-auto mt-12 px-4 text-gray-600 md:px-8 mb-8">
+            <div className="flex items-center justify-between text-sm text-gray-600 font-medium mt-4">
+              <button
+                disabled={currentPage === 0}
+                onClick={() => handlePageChange(currentPage - 1)}
+                className={`px-4 py-2 border rounded-lg duration-150 hover:text-indigo-600 flex items-center gap-x-2 ${
+                  currentPage === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"
+                }`}
+              >
+                <FaArrowLeft />
+                Previous
+              </button>
+              {/* Page Numbers */}
+              <div>
+                <ul className="flex items-center gap-1">
+                  {getPages(totalPages, currentPage).map((item, idx) => (
+                    <li key={idx} className="text-sm">
+                      {item === "..." ? (
+                        <div className="px-3 py-2">...</div>
+                      ) : (
+                        <a
+                          href="javascript:void(0)"
+                          onClick={() => handlePageChange(item)}
+                          aria-current={currentPage === item ? "page" : undefined}
+                          className={`px-3 py-2 rounded-lg duration-150 hover:text-indigo-600 hover:bg-indigo-50 ${
+                            currentPage === item ? "bg-indigo-50 text-indigo-600 font-medium" : ""
+                          }`}
+                        >
+                          {item + 1} {/* Display 1-based page index */}
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                disabled={currentPage === totalPages - 1}
+                onClick={() => handlePageChange(currentPage + 1)}
+                className={`px-4 py-2 border rounded-lg duration-150 hover:text-indigo-600 flex items-center gap-x-2 ${
+                  currentPage === totalPages - 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"
+                }`}
+              >
+                Next
+                <FaArrowRight />
+              </button>
+            </div>
+          </div>
+        ) : null}
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
     </div>
   );
 };

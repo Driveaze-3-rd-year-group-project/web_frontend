@@ -392,6 +392,25 @@ class UserService{
         }
     }
 
+    static async updateBillStatus(billId, status, token) {
+        try {
+            const response = await axios.put(
+                `${UserService.BASE_URL}/bill/updatebillstatus/${billId}`,
+                status,  // Send the status as a plain integer (no object)
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',  // Correct content type
+                    },
+                }
+            );
+            return response.data;
+        } catch (err) {
+            throw err;
+        }
+    }
+    
+
     static async deleteBill(billId, token){
         try{
 
@@ -451,7 +470,88 @@ class UserService{
             throw err;
         }
     }
+
+
+     /***Bill Entries */
+     static async addNewBillEntry(billEntryData, token){
+        try{
+
+            const response = await axios.post(`${UserService.BASE_URL}/bill-entry/save`, billEntryData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async updateBillEntry(billEntryId, billEntryData, token){
+        try{
+
+            const response = await axios.put(`${UserService.BASE_URL}/bill-entry/update/${billEntryId}`, billEntryData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async deleteBillEntry(billEntryId, token){
+        try{
+
+            const response = await axios.delete(`${UserService.BASE_URL}/bill-entry/delete/${billEntryId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getBillEntryById(billEntryId, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/bill-entry/get-bill-entry/${billEntryId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllBillEntries(token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/bill-entry/get-all-bill-entries`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
     
+    static async getAllBillEntriesByBillId(billId, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/bill-entry/get-all-bill-entries-by-bill-id/${billId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
     
 
     /***SERVICE TYPES */

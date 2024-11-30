@@ -224,13 +224,12 @@ const CustomerPayments = () => {
                           : "bg-white text-green-500"
                       }`}
                     >
-                      {bill.billStatus === 1 ? "Pending" : "Completed"}
+                      {bill.billStatus === 1 ? "Pending Payment" : "Payment Completed"}
                     </span>
                   </div>
                   <h2 className="text-xl font-bold">
-                    {bill.vehicleBrand} {bill.vehicleModel}
+                    {bill.vehicleNo} - {bill.vehicleBrand} {bill.vehicleModel}
                   </h2>
-                  <p className="text-gray-600">{bill.vehicleNumber}</p>
                   <p className="text-gray-600 mt-2 font-bold">
                     Job ID: {bill.jobRegistry.jobId} {/* Display customer name */}
                   </p>
@@ -245,7 +244,7 @@ const CustomerPayments = () => {
                     {bill.billStatus === 1 && (
                        <div className="flex justify-start items-center w-full">
                         <a
-                          href="/editbill"
+                          href={`/editbill/${bill.billId}`}
                           className="py-2 px-4 text-white font-medium bg-green-600 hover:bg-green-500 active:bg-indigo-600 rounded-lg duration-150"
                         >
                           Edit Bill
@@ -253,12 +252,12 @@ const CustomerPayments = () => {
                       </div>
                     )}
                     <div className="flex justify-end items-center w-full">
-                      <button
-                        onClick={() => setSelectedBill(bill)}
+                      <a
+                        href={`/billpaymentview/${bill.billId}`}
                         className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-green-700 rounded-lg duration-150"
                       >
                         View Bill
-                      </button>
+                      </a>
                     </div>
                     
                     

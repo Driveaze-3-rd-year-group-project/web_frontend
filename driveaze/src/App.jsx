@@ -42,9 +42,20 @@ import BookNewService from "./components/userpage/Customer/BookNewService.jsx";
 import OngoingRepairs from "./components/userpage/Customer/OngoingRepairs.jsx"
 import RepairDetails from "./components/userpage/Customer/RepairDetails.jsx"
 import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
+import SendComplaint from "./components/userpage/Customer/SendComplaint.jsx";
 
 import ManagerDashboard from "./components/userpage/Manager/ManagerDashboard.jsx";
 import MStaffAccounts from "./components/userpage/Manager/MStaffAccounts.jsx";
+import CustomerAccounts from "./components/userpage/Manager/CustomerAccounts.jsx";
+import MUpdateEmployee from "./components/userpage/Manager/MUpdateEmployee.jsx";
+import OngoingJob from './components/userpage/Manager/OngoingJob';
+import ViewOngoingjob from './components/userpage/Manager/ViewOngoingjob';
+import RegisteredVehicle from './components/userpage/Manager/RegisteredVehicle';
+import CustomerComplaints from './components/userpage/Manager/CustomerComplaints';
+import CustomerReports from "./components/userpage/Manager/CustomerReports.jsx";
+import CustomerAccountDetails from "./components/userpage/Manager/CustomerAccountDetails.jsx";
+import OngoingJobs from './components/userpage/Manager/OngoingJobs';
+import MRegisterEmployee from "./components/userpage/Manager/MRegisterEmployee.jsx";
 
 import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
 import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
@@ -63,21 +74,10 @@ import Billing from "./components/userpage/Receptionist/Billing";
 import EditVehicle from "./components/userpage/Receptionist/EditVehicle";
 import JobDetails from "./components/userpage/Receptionist/JobDetails";
 import JobCreate from "./components/userpage/Receptionist/JobCreate";
-import CustomerAccounts from "./components/userpage/Manager/CustomerAccounts.jsx";
-import MUpdateEmployee from "./components/userpage/Manager/MUpdateEmployee.jsx";
-import OngoingJob from './components/userpage/Manager/OngoingJob';
-import ViewOngoingjob from './components/userpage/Manager/ViewOngoingjob';
-import RegisteredVehicle from './components/userpage/Manager/RegisteredVehicle';
-import CustomerComplaints from './components/userpage/Manager/CustomerComplaints';
-import CustomerReports from "./components/userpage/Manager/CustomerReports.jsx";
-import CustomerAccountDetails from "./components/userpage/Manager/CustomerAccountDetails.jsx";
-import OngoingJobs from './components/userpage/Manager/OngoingJobs';
-import MRegisterEmployee from "./components/userpage/Manager/MRegisterEmployee.jsx";
 import UpdateJob from "./components/userpage/Receptionist/UpdateJob.jsx";
 
 import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/WarehouseKeeperDashboard"
 import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
-import SendComplaint from "./components/userpage/Customer/SendComplaint.jsx";
 import UserProfile from "./components/common/UserProfile.jsx";
 import TechnicianDashboard from "./components/userpage/Technician/TechnicianDashboard.jsx";
 import AssignedJobs from "./components/userpage/Technician/AssignedJobs.jsx";
@@ -174,7 +174,6 @@ function App() {
                   <Route path="/register-employee" element={<MRegisterEmployee />} />
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
                   <Route path="/ongoingjobs" element={<OngoingJobs />} />
-                  <Route path="/reports" element={<ReportsAnalytics />} />
                   <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                   <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjob/>} />

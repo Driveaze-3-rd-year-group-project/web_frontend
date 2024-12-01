@@ -24,8 +24,11 @@ const CustomerComplaints = () => {
 
         const response = await RetrieveComplaintService.retrieveComplaintData(token);
         if (response.success) {
-          
-          setComplaints(response.message); 
+          const sortedComplaints = response.message.sort((a, b) => {
+            // Sort pending (status 0) to the top, others below
+            return a.status - b.status;
+          });
+          setComplaints(sortedComplaints);
         } else {
           setError(response.message || "Failed to fetch complaints.");
         }
@@ -56,9 +59,12 @@ const CustomerComplaints = () => {
           text: "The complaint has been marked as resolved.",
           icon: "success",
           confirmButtonText: "OK",
-        }).then(() => {
+        }).then((result) => {
           setSelectedComplaint(null);
           setReply("");
+          if (result.isConfirmed) {
+            window.location.reload(); 
+          }
         });
       } else {
         Swal.fire({
@@ -66,7 +72,11 @@ const CustomerComplaints = () => {
           text: response.message || "Failed to update complaint status.",
           icon: "error",
           confirmButtonText: "OK",
-        });
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload(); 
+          }
+      })
       }
     } catch (err) {
       Swal.fire({

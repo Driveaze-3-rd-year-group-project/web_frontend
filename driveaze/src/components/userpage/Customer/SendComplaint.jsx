@@ -19,12 +19,7 @@ const SendComplaint = () => {
     const [reply, setReply] = useState('');
 
     const [isValid, setIsValid] = useState(true); // Track validity
-
-    const Validation = (e) => {
-        const value = e.target.value;
-        setDescription(value);
-        setIsValid(value.trim() !== ''); // Check if the field is not empty
-    };
+    
 
 
     const handleClick = () => setShowPopup(true);
@@ -42,7 +37,7 @@ const SendComplaint = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const currentDate = new Date().toISOString();
-        const updatedComplaint = { ...complaint, date: currentDate };
+        const updatedComplaint = { ...complaint };
 
         try {
             setIsLoading(true);
@@ -56,6 +51,10 @@ const SendComplaint = () => {
                     text: res.message || 'Complaint submitted successfully.',
                     icon: 'success',
                     confirmButtonText: 'OK',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.location.reload(); // Refresh the page
+                    }
                 });
                 closePopup();
             } else {
@@ -65,6 +64,10 @@ const SendComplaint = () => {
                     text: res.message || 'Failed to send complaint.',
                     icon: 'error',
                     confirmButtonText: 'OK',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.location.reload(); 
+                    }
                 });
             }
         } catch (err) {
@@ -283,12 +286,10 @@ const ServiceBookingDetails = ({ handleChange, complaint, handleSubmit, isLoadin
     <form onSubmit={handleSubmit} className="space-y-5">
          <div>
             <textarea
-                value={description}
+                onChange={handleChange}
                 maxLength="1000"
-                onChange={Validation}
-                className={`w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    isValid ? 'border-gray-300' : 'border-red-600'
-                }`}
+                className={`w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300 
+                `}
                 placeholder="Type your message here..."
                 required
             />

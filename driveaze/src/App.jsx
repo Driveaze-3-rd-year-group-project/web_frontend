@@ -247,8 +247,8 @@ function App() {
                   <Route path="/createbill" element={<CreateBill />} />
                   <Route path="/viewbill" element={<ViewBill />} />
                   <Route path="/customerpayments" element={<CustomerPayments />} />
-                  <Route path="/editbill" element={<ViewBill />} />
-                  <Route path="/payment" element={<MakePayments />} />
+                  <Route path="/editbill/:billId" element={<ViewBill />} />
+                  <Route path="/billpaymentview/:billId" element={<MakePayments />} />
                   <Route path="/supplierpayments" element={<SupplierPayments />} />
                   <Route path="/addsupplier" element={<AddSupplier />} />
                   <Route path="/managesupplier" element={<ManageSupplier />} />

@@ -56,6 +56,7 @@ import CustomerReports from "./components/userpage/Manager/CustomerReports.jsx";
 import CustomerAccountDetails from "./components/userpage/Manager/CustomerAccountDetails.jsx";
 import OngoingJobs from './components/userpage/Manager/OngoingJobs';
 import MRegisterEmployee from "./components/userpage/Manager/MRegisterEmployee.jsx";
+import ServiceTypes from "./components/userpage/Manager/ServiceTypes.jsx";
 
 import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
 import AddVehicle from "./components/userpage/Receptionist/AddVehicle";
@@ -175,6 +176,7 @@ function App() {
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
                   <Route path="/ongoingjobs" element={<OngoingJobs />} />
                   <Route path="/userProfile" element={<UserProfile />} />
+                  <Route path="/servicetypes" element={<ServiceTypes />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                   <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjob/>} />
                 </>

@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import BookingService from "../../service/BookingService";
 
 const BookNewService = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     vehicleNo: "",
     brand: "",
@@ -18,20 +19,6 @@ const BookNewService = () => {
     
     return bookingDate > currentDate;
   };
-  
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const today = new Date();
-  const currentDate = today.toISOString().split("T")[0]; // YYYY-MM-DD
-  const currentTime = today.toTimeString().split(" ")[0]; // HH:MM:SS
-
-  useEffect(() => {
-    document.getElementById("preferredDate").setAttribute("min", currentDate);
-    
-    const formattedTime = currentTime.substring(0, 5);
-    document.getElementById("preferredTime").setAttribute("min", formattedTime);
-  }, [currentDate, currentTime]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,8 +26,18 @@ const BookNewService = () => {
   };
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
-
+    if (!isTimeValid(data.preferredDate,data.preferredTime)) {
+      Swal.fire({
+        title: "Error",
+        text: "Invalid time slot or date selected. Please choose a valid date and time slot",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+      setIsLoading(false);
+      return;
+    }
 
     try {
       setIsLoading(true);

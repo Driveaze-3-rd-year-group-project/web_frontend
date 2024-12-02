@@ -82,10 +82,11 @@ const ServiceBookings = () => {
     if (!isTimeValid(updateData.preferredDate, updateData.preferredTime)) {
       Swal.fire({
         title: "Error",
-        text: "Invalid time slot selected. Please choose a valid time slot!",
+        text: "Invalid time slot or date selected. Please choose a valid date and time slot",
         icon: "warning",
         confirmButtonText: "OK",
       });
+      setIsLoading(false);
       return;
     }
 
@@ -116,7 +117,7 @@ const ServiceBookings = () => {
     try {
       setIsLoading(true);
       const token = localStorage.getItem("token");
-      const res = await BookingService.deleteBooking(updateData.bookingId, token);
+      const res = await BookingService.deleteBooking(updateData, token);
 
       if (res.success) {
         Swal.fire("Success", res.message || "Reservation cancelled successfully.", "success");

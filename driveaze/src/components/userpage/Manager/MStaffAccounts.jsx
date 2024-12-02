@@ -106,9 +106,15 @@ function MStaffAccounts() {
 
         <Link
           to="/register-employee"
-          className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+          className="ml-40 py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
           Create Staff Account
+        </Link>
+        <Link
+          to="/addtechniciancategory"
+          className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+        >
+          Add Technician Category
         </Link>
       </div>
 

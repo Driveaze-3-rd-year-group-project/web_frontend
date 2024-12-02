@@ -53,7 +53,7 @@ function ServiceTypes() {
         </form>
 
 <a
-          href="/add-service"
+          href="/addservice"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
           Add Service

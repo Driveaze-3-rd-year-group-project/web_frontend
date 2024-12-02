@@ -471,6 +471,60 @@ class UserService{
         }
     }
 
+    static async getAllBillsWithPaginationAndStatusesByCustomerPhoneNo(phoneNo, statuses, offset, token) {
+        try {
+            const params = new URLSearchParams();
+            params.append("phoneNo", phoneNo); // Add phoneNo as a query param
+            statuses.forEach(status => params.append("statuses", status)); // Add statuses as query params
+    
+            const response = await axios.get(
+                `${UserService.BASE_URL}/bill/paginationAndSortAndGetWithCustomerPhone/${offset}?${params.toString()}`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
+            return response.data;
+        } catch (err) {
+            throw err;
+        }
+    }    
+    
+
+    static async downloadBill(billId, token) {
+        try {
+            // Notice: removed /api/ from the URL
+            const response = await axios.get(`${UserService.BASE_URL}/bill/${billId}/download`, {
+                responseType: 'blob',
+                headers: { 
+                    Authorization: `Bearer ${token}`,
+                    accept: '*/*'  // Match the exact header from curl
+                }
+            });
+    
+            const pdfBlob = response.data;
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(pdfBlob);
+            link.download = `bill-${billId}.pdf`;
+    
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+    
+            return { success: true, message: 'Bill downloaded successfully' };
+        } catch (error) {
+            console.error('Error downloading the bill:', {
+                status: error.response?.status,
+                statusText: error.response?.statusText,
+                data: error.response?.data
+            });
+            throw error;
+        }
+    }
+    
+    
 
      /***Bill Entries */
      static async addNewBillEntry(billEntryData, token){

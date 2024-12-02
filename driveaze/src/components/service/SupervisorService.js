@@ -56,6 +56,7 @@ class SupervisorService {
     }
 
     static async addEntry(payload,token){
+        // console.log(payload.inventoryItemList);
         try{
             const response = await axios.post(`${SupervisorService.BASE_URL}/job-entry/save`,payload, {
                 headers: {Authorization: `Bearer ${token}`}

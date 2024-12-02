@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import BookingService from "../../service/BookingService";
 
@@ -12,7 +12,26 @@ const BookNewService = () => {
     preferredTime: "",
   });
 
+  const isTimeValid = (preferredDate, preferredTime) => {
+    const currentDate = new Date();
+    const bookingDate = new Date(`${preferredDate}T${preferredTime}:00`);
+    
+    return bookingDate > currentDate;
+  };
+  
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const today = new Date();
+  const currentDate = today.toISOString().split("T")[0]; // YYYY-MM-DD
+  const currentTime = today.toTimeString().split(" ")[0]; // HH:MM:SS
+
+  useEffect(() => {
+    document.getElementById("preferredDate").setAttribute("min", currentDate);
+    
+    const formattedTime = currentTime.substring(0, 5);
+    document.getElementById("preferredTime").setAttribute("min", formattedTime);
+  }, [currentDate, currentTime]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +40,7 @@ const BookNewService = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
 
     try {
       setIsLoading(true);
@@ -115,6 +135,7 @@ const BookNewService = () => {
                 <input
                   type="date"
                   name="preferredDate"
+                  id="preferredDate"
                   required
                   onChange={handleChange}
                   value={data.preferredDate}
@@ -128,6 +149,7 @@ const BookNewService = () => {
                 <input
                   type="time"
                   name="preferredTime"
+                  id="preferredTime"
                   required
                   onChange={handleChange}
                   value={data.preferredTime}
@@ -145,9 +167,7 @@ const BookNewService = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-48 h-12 flex items-center justify-center text-white font-medium ${
-                  isLoading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700"
-                } mt-6 rounded-lg duration-150`}
+                className={`w-48 h-12 flex items-center justify-center text-white font-medium ${isLoading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700"} mt-6 rounded-lg duration-150`}
               >
                 {isLoading ? "Submitting..." : "Submit"}
               </button>

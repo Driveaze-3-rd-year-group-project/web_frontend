@@ -15,13 +15,10 @@ class BookingService {
         if (response.data.statusCode === 200 && response.data) {
           return { success: true, message: response.data.bookingList};  
         } else {
-            console.log("FAILED TO GET DATA");
-          return { success: false, message: "You haven't made" };
+          return { success: false, message: "No reservations!" };
         }
   
       } catch (err) {
-        console.error("Error while retrieving bookings for the customer:", err);
-  
         if (err.response) {
           return { success: false, message: err.response.data || "Server error occurred" };
         } else if (err.request) {
@@ -48,7 +45,6 @@ class BookingService {
                 return { success: false, message: "Failed to create your booking!" };
             }
         } catch (err) {
-            console.error("Error while sending complaint:", err);
             if (err.response) {
                 return { success: false, message: err.response.data || "Server error occurred" };
             } else if (err.request) {
@@ -57,10 +53,66 @@ class BookingService {
                 return { success: false, message: err.message || "An error occurred." };
             }
         }
+
+        
     }
 
+    static async updateBooking(bookingData, token) {
+      try {
 
+          const response = await axios.put(
+              `${BookingService.BASE_URL}/booking/updateWaitingBooking`,
+              bookingData,
+              {
+                  headers: { Authorization: `Bearer ${token}` }
+              }
+          );
 
+          if (response.status === 200) {
+              return { success: true, message: "Your booking was update sucessfully!"};
+          } else {
+              return { success: false, message: "Failed to update your booking!" };
+          }
+      } catch (err) {
+          if (err.response) {
+              return { success: false, message: err.response.data || "Server error occurred" };
+          } else if (err.request) {
+              return { success: false, message: "No response from server." };
+          } else {
+              return { success: false, message: err.message || "An error occurred." };
+          }
+      }
+
+      
+    }
+
+    static async deleteBooking(bookingData, token) {
+      try {
+          const response = await axios.post(
+              `${BookingService.BASE_URL}/booking/deleteWaitingBooking`,
+              bookingData,
+              {
+                  headers: { Authorization: `Bearer ${token}` }
+              }
+          );
+
+          if (response.status === 200) {
+              return { success: true, message: "Your booking was cancelled sucessfully!"};
+          } else {
+              return { success: false, message: "Failed to cancel your booking!" };
+          }
+      } catch (err) {
+          if (err.response) {
+              return { success: false, message: err.response.data || "Server error occurred" };
+          } else if (err.request) {
+              return { success: false, message: "No response from server." };
+          } else {
+              return { success: false, message: err.message || "An error occurred." };
+          }
+      }
+
+      
+  }
 
   }
   export default BookingService;

@@ -86,6 +86,9 @@ import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
 import UserProfile from "./components/common/UserProfile.jsx";
 import TechnicianDashboard from "./components/userpage/Technician/TechnicianDashboard.jsx";
 import AssignedJobs from "./components/userpage/Technician/AssignedJobs.jsx";
+import PaymentPage from "./components/common/PaymentPage.jsx";
+import PaymentSuccess from "./components/common/PaymentSuccess.jsx";
+import PaymentCancel from "./components/common/PaymentCancel.jsx";
 
 
 
@@ -200,7 +203,7 @@ function App() {
                   <Route path="/myvehicles" element={<Myvehicles/>} />
                   <Route path="/vehicleinfo" element={<VehicleInfo/>} />
                   <Route path="/billings" element={<Billings/>} />
-                  <Route path="/billinfo" element={<Billinfo/>} />
+                  <Route path="/billinfo/:billId" element={<Billinfo/>} />
                   <Route path="/servicehistory" element={<ServiceHistory/>} />
                   <Route path="/booknewservice" element={<BookNewService/>} />
                   <Route path="/servicebookings" element={<ServiceBookings/>} />
@@ -210,6 +213,10 @@ function App() {
                   <Route path="/ongoingrepairs/repairdetails/:numberPlate" element={<RepairDetails/>} />
                   <Route path="/sendcomplaint" element={<SendComplaint/>}/>
                   <Route path="/userProfile" element={<UserProfile />} />
+                  <Route path="/payment" element={<PaymentPage />} />
+                  
+                  <Route path="/payment/success" element={<PaymentSuccess />} />
+                  <Route path="/payment/cancel" element={<PaymentCancel />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

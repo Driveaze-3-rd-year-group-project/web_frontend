@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MakePayments from "./MakePayments"; // Correct import path
 import { FaSearch, FaEdit, FaInfoCircle, FaRegTrashAlt, FaArrowLeft, FaArrowRight  } from 'react-icons/fa';
 import UserService from "../../service/UserService";
 import Swal from 'sweetalert2';

@@ -165,51 +165,67 @@ const MakePayments = () => {
     
   };
 
-  const generatePDF = () => {
-    const element = document.getElementById("bill-container");
+  // const generatePDF = () => {
+  //   const element = document.getElementById("bill-container");
   
-    // Select all elements to hide
-    const elementsToHide = document.querySelectorAll(".hide-on-pdf");
-    elementsToHide.forEach(el => el.style.display = "none"); // Temporarily hide
+  //   // Select all elements to hide
+  //   const elementsToHide = document.querySelectorAll(".hide-on-pdf");
+  //   elementsToHide.forEach(el => el.style.display = "none"); // Temporarily hide
   
-    const options = {
-      margin: 5, // Margin around the content
-      filename: `bill_${billData.ownerName}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 3, // Adjust scale for better clarity
-        useCORS: true, // Ensure external assets (images/fonts) are included
-      },
-      jsPDF: {
-        unit: "mm",
-        format: "a4", // A4 size
-        orientation: "portrait",
+  //   const options = {
+  //     margin: 5, // Margin around the content
+  //     filename: `bill_${billData.ownerName}.pdf`,
+  //     image: { type: 'jpeg', quality: 0.98 },
+  //     html2canvas: {
+  //       scale: 3, // Adjust scale for better clarity
+  //       useCORS: true, // Ensure external assets (images/fonts) are included
+  //     },
+  //     jsPDF: {
+  //       unit: "mm",
+  //       format: "a4", // A4 size
+  //       orientation: "portrait",
+  //     }
+  //   };
+
+  //   // Adjust styles to improve table appearance before generating the PDF
+  //   const table = document.getElementById("bill-table");
+  //   const tableStyle = table.style;
+  //   tableStyle.borderCollapse = "collapse"; // Ensure borders are compact
+  //   tableStyle.width = "100%"; // Full width for the table
+  //   tableStyle.tableLayout = "fixed"; // Ensure columns have equal width
+
+  //   const tableCells = table.querySelectorAll("th, td");
+  //   tableCells.forEach((cell) => {
+  //     cell.style.whiteSpace = "nowrap"; // Prevent wrapping for all cells
+  //     cell.style.overflow = "hidden"; // Avoid content overflow
+  //     cell.style.textOverflow = "ellipsis"; // Add ellipsis if content overflows
+  //   });
+  
+  //   html2pdf()
+  //     .from(element)
+  //     .set(options)
+  //     .save()
+  //     .then(() => {
+  //       // Restore visibility of elements after PDF generation
+  //       elementsToHide.forEach(el => el.style.display = "");
+  //     })
+  //     .catch(error => console.error("Error generating PDF:", error));
+  // };
+
+  const handleDownload = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      console.log("Token from localStorage:", token);
+
+      const billId = billData.billId;
+      console.log("Bill ID:", billId);
+      const result = await UserService.downloadBill(billId, token);
+      if (result.success) {
+        console.log(result.message);
       }
-    };
-
-    // Adjust styles to improve table appearance before generating the PDF
-    const table = document.getElementById("bill-table");
-    const tableStyle = table.style;
-    tableStyle.borderCollapse = "collapse"; // Ensure borders are compact
-    tableStyle.width = "100%"; // Full width for the table
-    tableStyle.tableLayout = "fixed"; // Ensure columns have equal width
-
-    const tableCells = table.querySelectorAll("th, td");
-    tableCells.forEach((cell) => {
-      cell.style.whiteSpace = "nowrap"; // Prevent wrapping for all cells
-      cell.style.overflow = "hidden"; // Avoid content overflow
-      cell.style.textOverflow = "ellipsis"; // Add ellipsis if content overflows
-    });
-  
-    html2pdf()
-      .from(element)
-      .set(options)
-      .save()
-      .then(() => {
-        // Restore visibility of elements after PDF generation
-        elementsToHide.forEach(el => el.style.display = "");
-      })
-      .catch(error => console.error("Error generating PDF:", error));
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
   };
   
   
@@ -272,7 +288,7 @@ const MakePayments = () => {
             </span>
             <button
                 type="button"
-                onClick={generatePDF}
+                onClick={handleDownload}
                 className="hide-on-pdf w-40 h-12 flex items-center justify-center text-white font-medium bg-gray-700 hover:bg-gray-600 active:bg-gray-800 mt-6 rounded-lg duration-150"
             >
               Download Bill

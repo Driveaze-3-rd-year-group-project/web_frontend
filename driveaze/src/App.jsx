@@ -60,6 +60,7 @@ import ServiceTypes from "./components/userpage/Manager/ServiceTypes.jsx";
 import VehicleModelBrand from "./components/userpage/Manager/VehicleModelBrand.jsx";
 import AddVehicleModelBrand from "./components/userpage/Manager/AddVehicleModelBrand.jsx";
 import AddService from "./components/userpage/Manager/AddService.jsx";
+import AddTechnicianCategory from "./components/userpage/Manager/AddTechnicianCategory.jsx";
 
 
 import AddSupplierBill from "./components/userpage/Receptionist/AddSupplierbill.jsx";
@@ -86,6 +87,7 @@ import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
 import UserProfile from "./components/common/UserProfile.jsx";
 import TechnicianDashboard from "./components/userpage/Technician/TechnicianDashboard.jsx";
 import AssignedJobs from "./components/userpage/Technician/AssignedJobs.jsx";
+
 
 
 
@@ -186,6 +188,7 @@ function App() {
                   <Route path="/addservice" element={<AddService />} />
                   <Route path="/vehiclemodelbrand" element={<VehicleModelBrand />} />
                   <Route path="/addvehiclemodelbrand" element={<AddVehicleModelBrand />} />
+                  <Route path="/addtechniciancategory" element={<AddTechnicianCategory />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                   <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjob/>} />
                 </>

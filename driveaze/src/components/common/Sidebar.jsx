@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../service/UserService';
+import { useLocation } from 'react-router-dom';
 import { FaTrademark, FaCog, FaSignOutAlt, FaHome, FaChartLine, FaUserTie, FaUsers, FaRegFrown, FaBullhorn, FaBusinessTime, FaCarAlt, FaCalendarCheck, FaMoneyCheckAlt, FaRegClipboard, FaWarehouse, FaUserPlus, FaClipboardList, FaClipboardCheck, FaCar, FaMoneyCheck, FaWrench, FaCalendarAlt, FaCommentDots  } from "react-icons/fa";
 import Swal from 'sweetalert2';
+import { useMemo } from 'react';
 
 function Sidebar() {
     const [isAuthenticated, setIsAuthenticated] = useState(UserService.isAuthenticated());
@@ -12,12 +14,20 @@ function Sidebar() {
     const [isSupervisor, setIsSupervisor] = useState(UserService.isSupervisor());
     const [isTechnician, setIsTechnician] = useState(UserService.isTechnician());
     const [isWarehouseKeeper, setIsWarehouseKeeper] = useState(UserService.isWarehouseKeeper());
-    
+    const [tabPath,setTabPath]=useState('dashboard');
     const [profileInfo, setProfileInfo] = useState({});
 
     useEffect(() => {
         fetchProfileInfo();
     }, []);
+
+    const getTabStyles = useMemo(() => (path) => {
+        const location = useLocation();
+        const currentPath = location.pathname.split('/').pop();
+        return currentPath === path
+          ? 'bg-gray-100 text-black'
+          : 'text-white hover:bg-lightblue hover:text-black';
+      }, [location.pathname]);
 
     const fetchProfileInfo = async () => {
         try {
@@ -82,28 +92,32 @@ function Sidebar() {
                         <ul className="px-4 text-lg font-medium flex-1">
                             {isAdmin && (
                                <li>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/dashboard"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('dashboard')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full text-white scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-                                    <a href="/staffaccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/staffaccounts"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('staffaccounts')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaUserTie />
                                         </div>
                                         <p className="flex-1">Staff Accounts</p>
                                     </a>
-                                    <a href="/reports" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/reports"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('reports')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaChartLine />
                                         </div>
                                         <p className="flex-1">Reports & Analytics</p>
                                     </a>
-                                    <a href="/siteannouncements" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/siteannouncements"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('siteannouncements')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaBullhorn />
@@ -114,63 +128,72 @@ function Sidebar() {
                             )}
                             {isManager && (
                                <li>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/dashboard"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('dashboard')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full text-white scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-                                    <a href="/staffaccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/staffaccounts"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('staffaccounts')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaUserTie />
                                         </div>
                                         <p className="flex-1">Staff Accounts</p>
                                     </a>
-                                    <a href="/customeraccounts" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/customeraccounts"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('customeraccounts')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaUsers />
                                         </div>
                                         <p className="flex-1">Customer Accounts</p>
                                     </a>
-                                    <a href="/ongoingjobs" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/ongoingjobs"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('ongoingjobs')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaBusinessTime />
                                         </div>
                                         <p className="flex-1">Ongoing Jobs</p>
                                     </a>
-                                    <a href="/registeredvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/registeredvehicles"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('registeredvehicles')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaCarAlt />
                                         </div>
                                         <p className="flex-1">Registered Vehicles</p>
                                     </a>
-                                    <a href="#" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="#"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('#')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaTrademark />
                                         </div>
                                         <p className="flex-1">Vehicle Models&Brands</p>
                                     </a>
-                                    <a href="/customercomplaints" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/customercomplaints"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('customercomplaints')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaRegFrown />
                                         </div>
                                         <p className="flex-1">Customer Complaints</p>
                                     </a>
-                                    <a href="/servicetypes" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/reports"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('reports')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaChartLine />
                                         </div>
                                         <p className="flex-1">Service Types</p>
                                     </a>
-                                    <a href="/siteannouncements" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/siteannouncements"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('siteannouncements')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaBullhorn />
@@ -181,14 +204,16 @@ function Sidebar() {
                             )}
                             {isTechnician && (
                                <li>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/dashboard"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('dashboard')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full text-white scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-                                    <a href="/assigned-jobs" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/assigned-jobs"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('assigned-jobs')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaBusinessTime />
@@ -199,21 +224,24 @@ function Sidebar() {
                             )}
                             {isWarehouseKeeper && (
                                <li>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/dashboard"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('dashboard')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full text-white scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-                                    <a href="/inventory" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/inventory"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('inventory')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaUserTie />
                                         </div>
                                         <p className="flex-1">Inventory</p>
                                     </a>
-                                    <a href="/siteannouncements" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/siteannouncements"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('siteannouncements')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaBullhorn />
@@ -224,35 +252,40 @@ function Sidebar() {
                             )}
                             {isCustomer && (
                                 <li>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/dashboard"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('dashboard')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-                                    <a href="/myvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/myvehicles" className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('myvehicles')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaCar />
                                         </div>
                                         <p className="flex-1">My Vehicles</p>
                                     </a>
-                                    <a href="/ongoingrepairs" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/ongoingrepairs"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('ongoingrepairs')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaWrench />
                                         </div>
                                         <p className="flex-1">Ongoing Repairs</p>
                                     </a>
-                                    <a href="/servicebookings" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/servicebookings"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('servicebookings')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaCalendarAlt />
                                         </div>
                                         <p className="flex-1">Service Bookings</p>
                                     </a>
-                                    <a href="/billings" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/billings"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('billings')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaMoneyCheckAlt />
@@ -263,7 +296,8 @@ function Sidebar() {
                             )}
                             {isSupervisor && (
                                 <li>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/dashboard"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('dashboard')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaHome />
@@ -271,7 +305,8 @@ function Sidebar() {
                                         <p className="flex-1">Dashboard</p>
                                     </a>
 
-                                    <a href="/repairvehicles" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/completedjobs"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('completedjobs')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaClipboardList />
@@ -279,7 +314,8 @@ function Sidebar() {
                                         <p className="flex-1">Assigned Jobs</p>
                                     </a>
 
-                                    <a href="/completedjobs" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/repairvehicles"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('repairvehicles')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaClipboardCheck />
@@ -287,7 +323,8 @@ function Sidebar() {
                                         <p className="flex-1">Completed Jobs</p>
                                     </a>
 
-                                    <a href="/vehiclehistory" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/vehiclehistory"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('vehiclehistory')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaCar />
@@ -295,14 +332,16 @@ function Sidebar() {
                                         <p className="flex-1">Vehicle History</p>
                                     </a>
 
-                                    <a href="/inventorymanagement" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/inventorymanagement"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('inventorymanagement')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaWarehouse />
                                         </div>
                                         <p className="flex-1">Inventory Management</p>
                                     </a>
-                                    <a href="/addtechnicians" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/addtechnicians"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('addtechnicians')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaUserPlus />
@@ -313,49 +352,56 @@ function Sidebar() {
                             )}
                             {isReceptionist && (
                                 <li>
-                                    <a href="/dashboard" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/dashboard"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('dashboard')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaHome />
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-                                    <a href="/jobmanagement" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/jobmanagement"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('jobmanagement')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaBusinessTime />
                                         </div>
                                         <p className="flex-1">Job Management</p>
                                     </a>
-                                    <a href="/vehiclemanagement" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/vehiclemanagement"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('vehiclemanagement')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaCarAlt />
                                         </div>
                                         <p className="flex-1">Vehicle Management</p>
                                     </a>
-                                    <a href="/bookingmanagement" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/bookingmanagement"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('bookingmanagement')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaCalendarCheck />
                                         </div>
                                         <p className="flex-1">Booking Management</p>
                                     </a>
-                                    <a href="/billing" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/billing"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('billing')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaRegClipboard />
                                         </div>
                                         <p className="flex-1">Billing</p>
                                     </a>
-                                    <a href="/customerpayments" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/customerpayments"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('customerpayments')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaMoneyCheckAlt />
                                         </div>
                                         <p className="flex-1">Customer Payments</p>
                                     </a>
-                                    <a href="/supplierpayments" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                    <a href="/supplierpayments"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('supplierpayments')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaMoneyCheck />
@@ -368,7 +414,8 @@ function Sidebar() {
                         <div>
                             <ul className="px-4 pb-4 text-lg font-medium">
                                 {isCustomer && (
-                                        <a href="/sendComplaint" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <a href="/sendComplaint"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('sendComplaint')}`}>
                                             <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                             <div className="flex-none">
                                                 <FaCommentDots/>
@@ -378,7 +425,8 @@ function Sidebar() {
                                 )}
                                 {isAuthenticated && (
                                     <li>
-                                        <a href="/userProfile" className="flex items-center gap-x-2 text-white p-2 rounded-lg  hover:bg-lightblue hover:text-black active:bg-gray-100 duration-150">
+                                        <a href="/userProfile"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('userProfile')}`}>
                                             <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                             <div className="flex-none">
                                                 <FaCog />

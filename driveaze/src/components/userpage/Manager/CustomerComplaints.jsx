@@ -24,8 +24,11 @@ const CustomerComplaints = () => {
 
         const response = await RetrieveComplaintService.retrieveComplaintData(token);
         if (response.success) {
-          
-          setComplaints(response.message); 
+          const sortedComplaints = response.message.sort((a, b) => {
+            // Sort pending (status 0) to the top, others below
+            return a.status - b.status;
+          });
+          setComplaints(sortedComplaints);
         } else {
           setError(response.message || "Failed to fetch complaints.");
         }
@@ -56,9 +59,12 @@ const CustomerComplaints = () => {
           text: "The complaint has been marked as resolved.",
           icon: "success",
           confirmButtonText: "OK",
-        }).then(() => {
+        }).then((result) => {
           setSelectedComplaint(null);
           setReply("");
+          if (result.isConfirmed) {
+            window.location.reload(); 
+          }
         });
       } else {
         Swal.fire({
@@ -66,7 +72,11 @@ const CustomerComplaints = () => {
           text: response.message || "Failed to update complaint status.",
           icon: "error",
           confirmButtonText: "OK",
-        });
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload(); 
+          }
+      })
       }
     } catch (err) {
       Swal.fire({
@@ -244,7 +254,8 @@ const CustomerComplaints = () => {
                     value={reply}
                     onChange={(e) => setReply(e.target.value)}
                     maxlength="1000"
-                    className="w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500  invalid:border-red-500 invalid:text-red-600
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500"
                     placeholder="Type your reply here..."
                   />
                 )}
@@ -255,7 +266,7 @@ const CustomerComplaints = () => {
               !reply.trim() ? (
                 <button
                   onClick={() => handleMarkAsResolved(selectedComplaint)}
-                  className="py-2 px-4 font-medium rounded-lg duration-150 bg-gray-400 cursor-not-allowed"
+                  className="py-2 px-4  mx-1 mt-2 font-medium  text-sm rounded-lg duration-150 bg-gray-400 cursor-not-allowed"
                   disabled
                 >
                   Mark as Resolved
@@ -263,7 +274,7 @@ const CustomerComplaints = () => {
               ) : (
                 <button
                   onClick={() => handleMarkAsResolved(selectedComplaint)}
-                  className="py-2 px-4 text-white font-medium rounded-lg duration-150 bg-blue-600 hover:bg-green-500"
+                  className="py-2 px-4  mx-1 mt-2 text-white  text-sm font-medium rounded-lg duration-150 bg-blue-600 hover:bg-green-500"
                 >
                   Mark as Resolved
                 </button>

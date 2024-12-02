@@ -18,6 +18,10 @@ const SendComplaint = () => {
     const [selectedComplaint, setSelectedComplaint] = useState(null);
     const [reply, setReply] = useState('');
 
+    const [isValid, setIsValid] = useState(true); // Track validity
+    
+
+
     const handleClick = () => setShowPopup(true);
 
     const closePopup = () => {
@@ -33,7 +37,7 @@ const SendComplaint = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const currentDate = new Date().toISOString();
-        const updatedComplaint = { ...complaint, date: currentDate };
+        const updatedComplaint = { ...complaint };
 
         try {
             setIsLoading(true);
@@ -47,6 +51,10 @@ const SendComplaint = () => {
                     text: res.message || 'Complaint submitted successfully.',
                     icon: 'success',
                     confirmButtonText: 'OK',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.location.reload(); // Refresh the page
+                    }
                 });
                 closePopup();
             } else {
@@ -56,6 +64,10 @@ const SendComplaint = () => {
                     text: res.message || 'Failed to send complaint.',
                     icon: 'error',
                     confirmButtonText: 'OK',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.location.reload(); 
+                    }
                 });
             }
         } catch (err) {
@@ -117,6 +129,12 @@ const SendComplaint = () => {
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Your Filings</h3>
+                <button
+                    onClick={handleClick}
+                    className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-white bg-green-600 hover:bg-green-500 active:bg-green-700 rounded-lg sm:mt-0"
+                >
+                    Send a complaint
+                </button>
             </div>
 
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
@@ -140,7 +158,7 @@ const SendComplaint = () => {
                                                 : 'text-green-500 font-bold'
                                         }
                                     >
-                                        {item.status === 0 ? 'Pending' : 'Received'}
+                                        {item.status === 0 ? 'Pending' : 'Addressed'}
                                     </span>
                                 </td>
                                 <td className="py-3 px-6 whitespace-nowrap">
@@ -158,12 +176,6 @@ const SendComplaint = () => {
             </div>
 
             <div className="flex items-center justify-between mt-4">
-                <button
-                    onClick={handleClick}
-                    className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-white bg-green-600 hover:bg-green-500 active:bg-green-700 rounded-lg sm:mt-0"
-                >
-                    Send a Complaint
-                </button>
             </div>
 
             {showPopup && (
@@ -178,15 +190,84 @@ const SendComplaint = () => {
 
             {error && <p className="text-red-600 mt-4">{error}</p>}
             {message && <p className="text-green-600 mt-4">{message}</p>}
+
+
+
+            {selectedComplaint && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white w-1/2 h-5/6 p-4 rounded-lg shadow-lg flex flex-col">
+            <div className="flex justify-between items-center mb-4">
+              <h4 className="text-gray-800 text-xl font-bold">Complaint Details</h4>
+            </div>
+            <div className="flex-1 overflow-auto">
+              <div className="flex items-center gap-x-3 mb-4">
+                <div className="flex flex-col flex-grow">
+                  <p className="text-gray-800">
+                    <strong>Status:</strong>{" "}
+                    <span
+                      className={
+                        selectedComplaint.status === 0
+                          ? "text-orange-500 font-bold"
+                          : "text-green-500 font-bold"
+                      }
+                    >
+                      {selectedComplaint.status === 0 ? "pending" : "addressed"}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Complaint Details */}
+              <p className="text-gray-800 mb-4">
+                <strong>Complaint Date:</strong> {selectedComplaint.date}
+              </p>
+              <div className="mb-4">
+                <p className="text-center py-0.5 bg-slate-200 rounded-md font-bold mb-2">
+                  Description
+                </p>
+                <div className="p-4 bg-slate-100 rounded-lg w-full h-fit min-h-52 border overflow-auto text-wrap">
+                  {selectedComplaint.description}
+                </div>
+              </div>
+
+              {/* Reply Section */}
+              <div className="mb-4">
+                
+                {selectedComplaint.reply ? (
+                    <><p className="text-center py-0.5 text-white bg-blue-950 rounded-md font-bold mb-2">Reply</p>
+                    <div className="p-4 bg-slate-600 min-h-52 text-white rounded-lg w-full h-full border overflow-auto text-wrap">
+                            {selectedComplaint.reply}
+                    </div></>
+                ) : (
+                    <p className="italic text-center py-0.5 text-white bg-blue-950 rounded-md font-bold mb-2">Your filing has not been addressed yet</p>
+                )}
+              </div>
+            </div>
+            <div className="flex justify-between">
+            <button
+              onClick={handleClosePopup}
+              className="py-2 px-4 mx-1 mt-2 text-sm w-36 text-white font-medium bg-red-600 hover:bg-red-500 rounded-lg duration-150"
+            >
+              Close
+            </button>
+          </div>
+
+
+          </div>
         </div>
+      )}
+        </div>
+
+
+            
     );
 };
 
 const Popup = ({ closePopup, complaint, handleChange, handleSubmit, isLoading }) => (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
-        <div className="bg-white p-8 rounded-lg shadow-lg max-w-xl w-full">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="bg-white w-1/2 h-fit p-4 rounded-lg shadow-lg flex flex-col">
             <div className="flex justify-between items-center pb-3">
-                <h4 className="text-xl font-semibold">Send Feedback</h4>
+                <h4 className="text-gray-800 text-xl font-bold">Report an issue</h4>
                 <button onClick={closePopup} className="text-gray-600 hover:text-gray-900">
                     <FaTimes />
                 </button>
@@ -203,24 +284,34 @@ const Popup = ({ closePopup, complaint, handleChange, handleSubmit, isLoading })
 
 const ServiceBookingDetails = ({ handleChange, complaint, handleSubmit, isLoading }) => (
     <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
-            <label className="font-medium">Please share your thoughts</label>
+         <div>
             <textarea
-                value={complaint.description}
                 onChange={handleChange}
-                className="w-full h-20 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                maxLength="1000"
+                className={`w-full min-h-52 p-4 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300 
+                `}
                 placeholder="Type your message here..."
                 required
             />
         </div>
         <div className="flex justify-center">
-            <button
+        {!complaint.description.trim() ?(
+                <button
+                    type="submit"
+                    className="py-2 px-4 text-white font-medium rounded-lg duration-150 bg-slate-400"
+                    disabled
+                    >
+                    {isLoading ? 'Submitting...' : 'Submit Complaint'}
+                </button>
+            ):(
+                <button
                 type="submit"
-                className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400"
-                disabled={isLoading}
-            >
+                className="py-2 px-4 text-white font-medium rounded-lg duration-150 bg-blue-600 hover:bg-green-500"
+                >
                 {isLoading ? 'Submitting...' : 'Submit Complaint'}
-            </button>
+                </button>
+            ) 
+        } 
         </div>
     </form>
 );

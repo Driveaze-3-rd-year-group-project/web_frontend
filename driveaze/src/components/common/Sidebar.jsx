@@ -190,7 +190,7 @@ function Sidebar() {
                                         <div className="flex-none">
                                             <FaChartLine />
                                         </div>
-                                        <p className="flex-1">Reports & Analytics</p>
+                                        <p className="flex-1">Service Types</p>
                                     </a>
                                     <a href="/siteannouncements"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
                                          ${getTabStyles('siteannouncements')}`}>

@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from 'react';
 import Landingpage from "./components/userpage/Landingpage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
+import { UserContext } from './UserContext.jsx';
+import { useEffect } from 'react';
 
 import LoginPage from "./components/auth/LoginPage";
 import ForgetPassword from "./components/auth/ForgetPassword.jsx";
@@ -89,20 +92,69 @@ import AssignedJobs from "./components/userpage/Technician/AssignedJobs.jsx";
 import PaymentPage from "./components/common/PaymentPage.jsx";
 import PaymentSuccess from "./components/common/PaymentSuccess.jsx";
 import PaymentCancel from "./components/common/PaymentCancel.jsx";
+import OTPVerification from "./components/userpage/Customer/OTPVerificationScreen.jsx";
 
 
 
 
 function App() {
+  const { userData } = useContext(UserContext); // Accessing userData from context
+  const [requiresOTP, setRequiresOTP] = useState(false);
+
+  // Update the state only when userData changes
+  useEffect(() => {
+    if (userData && userData.requiresOTP) {
+      setRequiresOTP(true);  // Set requiresOTP state when the user requires OTP
+    } else {
+      setRequiresOTP(false); // Set it to false when not required
+    }
+  }, [userData]); // Runs whenever userData changes
+
+  // Function to check if customer needs phone verification
+  const needsPhoneVerification = () => {
+    return requiresOTP;  // Simply return the state, no need to refer to userData again
+  };
+
+  // Modified userRoleRedirect to include OTP verification check
   const userRoleRedirect = () => {
-    if (UserService.isAdmin()) return "/dashboard";
-    if (UserService.isManager()) return "/dashboard";
-    if (UserService.isCustomer()) return "/dashboard";
-    if (UserService.isSupervisor()) return "/dashboard";
-    if (UserService.isReceptionist()) return "/dashboard";
-    if (UserService.isWarehouseKeeper()) return "/dashboard";
+    // Check if OTP verification is required
+    if (needsPhoneVerification()) {
+        return "/verify-phone";
+  }
+
+    // Role-based redirects after OTP verification or full authentication
+    if (UserService.isCustomer()) {
+        return "/dashboard";
+    }
+
+    const rolesWithDashboardAccess = [
+        "Admin",
+        "Manager",
+        "Supervisor",
+        "Receptionist",
+        "WarehouseKeeper",
+        "Technician"
+    ];
+
+    for (const role of rolesWithDashboardAccess) {
+        if (UserService[`is${role}`]?.()) {
+            return "/dashboard";
+        }
+    }
+
+    // Fallback for unauthenticated users or unrecognized roles
     return "/";
   };
+
+  // const userRoleRedirect = () => {
+  //   if (UserService.isAdmin()) return "/dashboard";
+  //   if (UserService.isManager()) return "/dashboard";
+  //   if (UserService.isCustomer()) return "/dashboard";
+  //   if (UserService.isSupervisor()) return "/dashboard";
+  //   if (UserService.isReceptionist()) return "/dashboard";
+  //   if (UserService.isWarehouseKeeper()) return "/dashboard";
+  //   return "/";
+  // };
   
   return (
     <BrowserRouter>
@@ -116,7 +168,7 @@ function App() {
         </div>
       </div>
       <div className="App flex">
-        {UserService.isAuthenticated() && (
+        {/* {UserService.isAuthenticated() && (
           <div className="w-72">
             <Sidebar />
           </div>
@@ -124,6 +176,17 @@ function App() {
         <div
           className={`content ${
             UserService.isAuthenticated() ? "w-3/4" : "w-full"
+          }`}
+        > */}
+
+        {UserService.isAuthenticated() && !needsPhoneVerification() && (
+          <div className="w-72">
+            <Sidebar />
+          </div>
+        )}
+        <div
+          className={`content ${
+            UserService.isAuthenticated() && !needsPhoneVerification() ? "w-3/4" : "w-full"
           }`}
         >
           <Routes>
@@ -137,9 +200,25 @@ function App() {
               </>
             )}
 
+            {/* Handle Customers with Unverified Phone Numbers */}
+            {needsPhoneVerification() && (
+              <Route path="/verify-phone" element={<OTPVerification />} />
+            )}
+
+            {/* Redirect Authenticated Users */}
             {UserService.isAuthenticated() && (
               <Route path="/" element={<Navigate to={userRoleRedirect()} />} />
             )}
+
+            {/* OTP Verification Route */}
+            <Route 
+              path="/verify-phone" 
+              element={
+                needsPhoneVerification() 
+                  ? <OTPVerification/> 
+                  : <Navigate to={userRoleRedirect()} />
+              } 
+            />
 
             {!UserService.isSuperUser() && (
               <Route path="/staffaccounts" element={<Navigate to="/" />} />
@@ -193,33 +272,43 @@ function App() {
                   <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjob/>} />
                 </>
               )}
+
+              {/* Customer Routes */}
               {!UserService.isCustomer() ? (
-                <>
-                  <Route path="/profile" element={<Navigate to="/" />} />
-                </>
+                <Route path="/profile" element={<Navigate to="/" />} />
               ) : (
                 <>
-                  <Route path="/dashboard" element={<CustomerDashboard />} />
-                  <Route path="/myvehicles" element={<Myvehicles/>} />
-                  <Route path="/vehicleinfo" element={<VehicleInfo/>} />
-                  <Route path="/billings" element={<Billings/>} />
-                  <Route path="/billinfo/:billId" element={<Billinfo/>} />
-                  <Route path="/servicehistory" element={<ServiceHistory/>} />
-                  <Route path="/booknewservice" element={<BookNewService/>} />
-                  <Route path="/servicebookings" element={<ServiceBookings/>} />
-                  <Route path="/admin/user-management" element={<Navigate to="/profile" />} />
-                  <Route path="/update-user/:userId" element={<Navigate to="/profile" />} />
-                  <Route path="/ongoingrepairs" element={<OngoingRepairs/>} />
-                  <Route path="/ongoingrepairs/repairdetails/:numberPlate" element={<RepairDetails/>} />
-                  <Route path="/sendcomplaint" element={<SendComplaint/>}/>
-                  <Route path="/userProfile" element={<UserProfile />} />
-                  <Route path="/payment" element={<PaymentPage />} />
-                  
-                  <Route path="/payment/success" element={<PaymentSuccess />} />
-                  <Route path="/payment/cancel" element={<PaymentCancel />} />
+                  <Route 
+                    path="/dashboard" 
+                    element={
+                      needsPhoneVerification() 
+                        ? <Navigate to="/verify-phone" /> 
+                        : <CustomerDashboard />
+                    }
+                  />
+                  {/* Protect all customer routes with phone verification check */}
+                  {!needsPhoneVerification() && (
+                    <>
+                      <Route path="/myvehicles" element={<Myvehicles/>} />
+                      <Route path="/vehicleinfo" element={<VehicleInfo/>} />
+                      <Route path="/billings" element={<Billings/>} />
+                      <Route path="/billinfo/:billId" element={<Billinfo/>} />
+                      <Route path="/servicehistory" element={<ServiceHistory/>} />
+                      <Route path="/booknewservice" element={<BookNewService/>} />
+                      <Route path="/servicebookings" element={<ServiceBookings/>} />
+                      <Route path="/ongoingrepairs" element={<OngoingRepairs/>} />
+                      <Route path="/ongoingrepairs/repairdetails/:numberPlate" element={<RepairDetails/>} />
+                      <Route path="/sendcomplaint" element={<SendComplaint/>}/>
+                      <Route path="/userProfile" element={<UserProfile />} />
+                      <Route path="/payment" element={<PaymentPage />} />
+                      <Route path="/payment/success" element={<PaymentSuccess />} />
+                      <Route path="/payment/cancel" element={<PaymentCancel />} />
+                    </>
+                  )}
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
+
               {!UserService.isSupervisor() ? (
                 <>
                   <Route path="/repairvehicles" element={<Navigate to="/" />} />

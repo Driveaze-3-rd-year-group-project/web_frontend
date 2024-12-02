@@ -113,9 +113,9 @@ const UpdateRepairs = () => {
 
   const handleSave = async () => {
     try {
-      console.log(currentDetail);
-      console.log(selectedTechnician);
-      console.log(selectedInventoryItems);
+      // console.log(currentDetail);
+      // console.log(selectedTechnician);
+      // console.log(selectedInventoryItems);
 
       const token = localStorage.getItem('token');
 
@@ -169,6 +169,7 @@ const UpdateRepairs = () => {
         };
         // console.log(payload);
         const res = await SupervisorService.addEntry(payload, token);
+        console.log(res);
         if (res.statusCode === 200) {
             toast.success("Entry Added successfully!");
             setTimeout(() => {
@@ -258,13 +259,14 @@ const UpdateRepairs = () => {
       // Handle error (e.g., show error message)
     }
   };
+
   const filteredEntry = jobEntries
         .sort((a, b) => a.jobEntryId - b.jobEntryId);
         // .filter(entry => entry.details.toLowerCase().includes(searchTerm.toLowerCase()));
   // console.log(filteredEntry);
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error loading job entries: {error.message}</div>;
-  if (!jobEntries) return <div>No job details found</div>;
+  // if (loading) return <div>Loading...</div>;
+  // if (error) return <div>Error loading job entries: {error.message}</div>;
+  // if (!jobEntries) return <div>No job details found</div>;
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">

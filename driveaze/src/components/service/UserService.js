@@ -838,6 +838,61 @@ class UserService{
             throw err;
         }
     }
+    //Announcements
+    static async getAllAnnouncement( token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/announcement/get-all-announcements`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async addAnnouncement(currentDetail,token){
+        try{
+            // console.log(currentDetail);
+            const response = await axios.post(`${UserService.BASE_URL}/announcement/save`, currentDetail,{
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async updateAnnouncement(announcementId, currentDetail, token){
+        try{
+            console.log(currentDetail);
+            const response = await axios.put(`${UserService.BASE_URL}/announcement/update/${announcementId}`, currentDetail,{
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async deleteAnnouncement(announcementId, token){
+        try{
+            // console.log(ItemId);
+            const response = await axios.delete(`${UserService.BASE_URL}/announcement/delete/${announcementId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
 
 
     /**AUTHENTICATION CHECKER */

@@ -78,12 +78,12 @@ const ServiceBookings = () => {
 
   const submitUpdate = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (!isTimeValid(updateData.preferredDate, updateData.preferredTime)) {
       Swal.fire({
         title: "Error",
-        text: "Invalid time slot selected. Please choose a future time!",
-        icon: "error",
+        text: "Invalid time slot selected. Please choose a valid time slot!",
+        icon: "warning",
         confirmButtonText: "OK",
       });
       return;
@@ -221,6 +221,7 @@ const ServiceBookings = () => {
               handleChange={handleChange}
               submitUpdate={submitUpdate}
               submitDelete={submitDelete}
+              isLoading={isLoading}
             />
           </div>
         </div>
@@ -228,18 +229,7 @@ const ServiceBookings = () => {
     </div>
   );};
 
-const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdate, submitDelete}) => {
-  const today = new Date();
-  const currentDate = today.toISOString().split("T")[0]; // YYYY-MM-DD
-  const currentTime = today.toTimeString().split(" ")[0]; // HH:MM:SS
-
-  useEffect(() => {
-    document.getElementById("preferredDate").setAttribute("min", currentDate);
-    
-    const formattedTime = currentTime.substring(0, 5);
-    document.getElementById("preferredTime").setAttribute("min", formattedTime);
-  }, [currentDate, currentTime]);
-
+const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdate, submitDelete,isLoading}) => {
   return (
     <main className="py-14">
       <div className="max-w-screen-xl mx-auto my-auto px-4 text-gray-600 md:px-8">

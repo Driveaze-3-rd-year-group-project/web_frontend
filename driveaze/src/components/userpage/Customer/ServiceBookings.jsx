@@ -13,14 +13,22 @@ const ServiceBookings = () => {
   const [ServiceBookings, setServiceBookings] = useState([]);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [updateData,setUpdateData]=useState(null);
 
+  const handleClick = (item) => {
+    setUpdateData({ ...item }); 
+    setShowPopup(true); 
+  };
 
-  const handleClick = () => {
-    setShowPopup(true);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateData({ ...updateData, [name]: value });
   };
 
   const closePopup = () => {
     setShowPopup(false);
+    setSelectedBooking(null);
+    setUpdateData(null);
   };
 
   useEffect(() => {
@@ -55,6 +63,47 @@ const ServiceBookings = () => {
 
     fetchServiceBookings(); 
 }, []);
+
+const handleSubmit = async (e) => {
+  console.log("updateData-->",updateData);
+  e.preventDefault();
+
+  try {
+    setIsLoading(true);
+    const token = localStorage.getItem("token");
+    console.log("updateData-->",updateData);
+    const res = await BookingService.updateBooking(updateData, token);
+
+    if (res.success) {
+      Swal.fire({
+        title: "Success",
+        text: res.message || "Booking created successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: res.message || "Failed to create booking.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  } catch (err) {
+    Swal.fire({
+      title: "Error",
+      text: err.message || "An error occurred.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const labelColors = {
     "accepted": {
@@ -117,7 +166,7 @@ const ServiceBookings = () => {
                                   {item.status}
                                 </span>
                                 <button
-                                  onClick={handleClick}
+                                    onClick={() => handleClick(item)}
                                   className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg"
                                 >
                                   Details
@@ -146,7 +195,7 @@ const ServiceBookings = () => {
                         <FaTimes />
                     </button>
                 </div>
-                <ServiceBookingDetails closePopup={closePopup} />
+                <ServiceBookingDetails  closePopup={closePopup} updateData={updateData} handleChange={handleChange} handleSubmit={handleSubmit} />
             </div>
         </div>
       )}
@@ -154,7 +203,7 @@ const ServiceBookings = () => {
   );
 };
 
-const ServiceBookingDetails = ({ closePopup }) => {
+const ServiceBookingDetails = ({ closePopup,updateData,handleChange, handleSubmit}) => {
   return (
     <main className="py-14">
       <div className="max-w-screen-xl mx-auto my-auto px-4 text-gray-600 md:px-8">
@@ -172,14 +221,17 @@ const ServiceBookingDetails = ({ closePopup }) => {
               <label className="font-medium">Vehicle Number</label>
               <input
                 type="text"
+                onChange={handleChange}
                 required
+                name='vehicleNo'
+                value={updateData.vehicleNo}
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               />
             </div>
             <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
               <div>
                 <label className="font-medium">Vehicle Brand</label>
-                <select className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
+                <select onChange={handleChange} name='brand' value={updateData.brand} className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
                   <option>Honda</option>
                   <option>Nissan</option>
                   <option>Toyota</option>
@@ -187,7 +239,7 @@ const ServiceBookingDetails = ({ closePopup }) => {
               </div>
               <div>
                 <label className="font-medium">Vehicle Model</label>
-                <select className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
+                <select name='model'value={updateData.model}  onChange={handleChange} className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
                   <option>Civic</option>
                   <option>Altima</option>
                   <option>Corolla</option>
@@ -199,6 +251,9 @@ const ServiceBookingDetails = ({ closePopup }) => {
                 <label className="font-medium">Preferred Date</label>
                 <input
                   type="date"
+                  name='preferredDate'
+                  value={updateData.preferredDate}
+                  onChange={handleChange}
                   required
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
@@ -209,25 +264,33 @@ const ServiceBookingDetails = ({ closePopup }) => {
                     <label className="font-medium">Preferred Time</label>
                     <input
                         type="time"
+                        name='preferredTime'
+                        value={updateData.preferredTime}
+                        onChange={handleChange}
                         required
                         className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                     />
                 </div>
             </div>  
-            <div className="flex items-center justify-between mt-6">
-              <button
-                type="button"
-                onClick={closePopup}
-                className="w-40 h-12 flex items-center justify-center text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 mt-6 rounded-lg duration-150"
-              >
-                Back
-              </button>
-              <button
-                type="submit"
-                className="w-40 h-12 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
-              >
-                Cancel Reservation
-              </button>    
+            <div className="flex gap-3 text-sm items-center justify-between mt-6">
+            {updateData?.status== "waiting" && (
+              <>
+                <button
+                  type="submit"
+                  className="w-32 h-12 p-4 flex items-center justify-center text-white font-medium bg-red-600 hover:bg-red-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
+                >
+                  Cancel Reservation
+                </button>   
+
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="w-32 h-12 p-4 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
+                >
+                  Update Reservation
+                </button>
+              </>
+            )}
             </div>
           </form>
         </div>

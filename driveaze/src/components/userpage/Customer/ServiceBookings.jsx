@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'; 
 import Calendar from '../Calender';
 import { FaTimes } from "react-icons/fa";
+import Swal from 'sweetalert2';
+import BookingService from '../../service/BookingService';
 
 const ServiceBookings = () => {
   const location = useLocation();
   const navigate = useNavigate(); 
   const [showPopup, setShowPopup] = useState(false);
+  const [ServiceBookings, setServiceBookings] = useState([]);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleClick = () => {
     setShowPopup(true);
@@ -17,48 +23,44 @@ const ServiceBookings = () => {
     setShowPopup(false);
   };
 
-  const members = [
-    {
-        icon: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
-        brand: "Honda",
-        model: "Civic",
-        vehi_no: "CBH-1312",
-        status: "Completed",
-        date: "3/16/2023",
-        time: "10:00AM"
-    }, {
-        icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
-        brand: "Toyota",
-        model: "corolla",
-        vehi_no: "CBH-1312",
-        status: "Upcoming",
-        date: "4/16/2023",
-        time: "10:00AM"
-    }, {
-        icon: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
-        brand: "Nissan",
-        model: "Caravan",
-        vehi_no: "CBH-1312",
-        status: "Completed",
-        date: "5/16/2023",
-        time: "10:00AM"
-    }, {
-        icon: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
-        brand: "Ford",
-        model: "Focus",
-        vehi_no: "CBH-1312",
-        status: "Completed",
-        date: "6/16/2023",
-        time: "10:00AM"
-    },
-  ]
- 
+  useEffect(() => {
+    const fetchServiceBookings = async () => {
+        setError('');
+        setIsLoading(true);
+        try {
+            const token = localStorage.getItem('token');
+            const response = await BookingService.retrieveUserBookings(token);
+            if (response.success) {
+                setServiceBookings(response.message);
+                console.log('Response from backend:', response);
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: response.message || 'Failed to retrieve your bookings, please file a complaint.',
+                    icon: 'error',
+                    confirmButtonText: 'Close',
+                });
+            }
+        } catch (err) {
+            Swal.fire({
+                title: 'Error',
+                text: err.message || 'An error occurred while retrieving your bookings, please refresh or re-login!',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    fetchServiceBookings(); 
+}, []);
 
   const labelColors = {
-    "Completed": {
+    "accepted": {
         color: "text-green-600 bg-green-50",
     },
-    "Upcoming": {
+    "waiting": {
         color: "text-red-600 bg-red-50",
     },
   }
@@ -86,32 +88,43 @@ const ServiceBookings = () => {
           </div>
           <ul className="mt-12 divide-y">
             {
-              members.map((item, idx) => (
-                <li key={idx} className="py-5 flex items-start justify-between">
-                    <div className="flex gap-3">
+             Object.values(ServiceBookings).map((item) =>(
+                <li key={item.bookingId} className="py-5 min-h-16 w-full flex items-start justify-between">
+                    <div className="flex gap-3 flex-row ">
                         <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
-                        <div className='relative flex flex-row'>
-                        <div>
-                            <span className="block text-md text-gray-700 font-semibold">{item.vehi_no}</span>
-                            <span className="block text-sm text-gray-600">{item.brand}-{item.model}</span>
-                        </div> 
-                        <div className='absolute ml-32'>
-                            <span className="block text-sm text-gray-600">{item.date}</span>
-                        </div>
-                        <div className='absolute ml-56'>
-                            <span className="block text-sm text-gray-600">{item.time}</span>
-                        </div>
-                        <div className='absolute ml-80'>
-                            <span className={`py-2 px-3 rounded-full font-semibold text-xs ${labelColors[item?.status]?.color || ""}`}>{item.status}</span>
-                        </div>   
+                        <div className="relative flex flex-row gap-8 items-center">
+                              {/* Vehicle Info */}
+                              <div className="flex-2 flex gap-1 flex-col items-start justify-center">
+                                <span className="block text-md text-gray-700 font-semibold">{item.vehicleNo}</span>
+                                <span className="block text-sm text-gray-600">{item.brand} - {item.model}</span>
+                              </div>
+
+                              {/* Preferred Date */}
+                              <div className="flex-1 flex items-center justify-center">
+                                <span className="block text-sm text-gray-600">{item.preferredDate}</span>
+                              </div>
+
+                              {/* Preferred Time */}
+                              <div className="flex-1 flex items-center justify-center">
+                                <span className="block text-sm text-gray-600">{item.preferredTime}</span>
+                              </div>
+
+                              {/* Status and Button */}
+                              <div className="flex-1 flex flex-row gap-8 mx-14 items-center justify-center">
+                                <span
+                                  className={`py-2 px-3 rounded-full font-semibold text-xs ${labelColors[item?.status]?.color || ""}`}
+                                >
+                                  {item.status}
+                                </span>
+                                <button
+                                  onClick={handleClick}
+                                  className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg"
+                                >
+                                  Details
+                                </button>
+                              </div>
                         </div>
                     </div>
-                    <button
-                        onClick={handleClick}
-                        className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg sm:mt-0"
-                    >
-                        Details
-                    </button>
                 </li>
               ))
             }

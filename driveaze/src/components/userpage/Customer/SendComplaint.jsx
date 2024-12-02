@@ -18,7 +18,7 @@ const SendComplaint = () => {
     const [selectedComplaint, setSelectedComplaint] = useState(null);
     const [reply, setReply] = useState('');
 
-    const [isValid, setIsValid] = useState(true); // Track validity
+    const [isValid, setIsValid] = useState(true); 
     
 
 

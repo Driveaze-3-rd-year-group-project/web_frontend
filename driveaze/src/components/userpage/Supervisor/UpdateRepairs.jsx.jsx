@@ -10,7 +10,7 @@ const UpdateRepairs = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { jobDetails, vehicle, serviceTypeDetails } = location.state || {};
+  const { jobDetails, vehicle, serviceTypeDetails, vehicleBrandModel } = location.state || {};
   
   const [jobEntries, setJobEntries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -230,10 +230,11 @@ const UpdateRepairs = () => {
             finishedDate: now.toISOString().split('T')[0],
             supervisorId: jobDetails.supervisorId,
             serviceTypeId: jobDetails.serviceTypeId,
-            vehicleMilage: jobDetails.ehicleMilage,
+            vehicleMilage: jobDetails.vehicleMilage,
             jobStatus: 1,
             jobDescription: jobDetails.jobDescription
           };
+          console.log(payload);
 
           const res = await SupervisorService.completeJob(jobDetails.jobId,payload, token);
           if (res.statusCode === 200) {
@@ -289,7 +290,7 @@ const UpdateRepairs = () => {
                 <strong>Vehicle Number:</strong> {vehicle.vehicleNo}
               </p>
               <p className="font-semibold text-gray-700">
-                <strong>Vehicle Model:</strong> {vehicle.vehicleBrand + " " + vehicle.vehicleModel}
+                <strong>Vehicle Model:</strong> {vehicleBrandModel}
               </p>
               <p className="font-semibold text-gray-700">
                 <strong>Job Started Date:</strong> {jobDetails.startedDate}

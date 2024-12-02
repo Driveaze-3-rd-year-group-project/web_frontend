@@ -304,9 +304,9 @@ function Sidebar() {
                                         </div>
                                         <p className="flex-1">Dashboard</p>
                                     </a>
-
-                                    <a href="/completedjobs"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
-                                         ${getTabStyles('completedjobs')}`}>
+                                    
+                                    <a href="/repairvehicles"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('repairvehicles')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaClipboardList />
@@ -314,8 +314,8 @@ function Sidebar() {
                                         <p className="flex-1">Assigned Jobs</p>
                                     </a>
 
-                                    <a href="/repairvehicles"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
-                                         ${getTabStyles('repairvehicles')}`}>
+                                    <a href="/completedjobs"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                         ${getTabStyles('completedjobs')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaClipboardCheck />
@@ -332,14 +332,6 @@ function Sidebar() {
                                         <p className="flex-1">Vehicle History</p>
                                     </a>
 
-                                    <a href="/inventorymanagement"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
-                                         ${getTabStyles('inventorymanagement')}`}>
-                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
-                                        <div className="flex-none">
-                                            <FaWarehouse />
-                                        </div>
-                                        <p className="flex-1">Inventory Management</p>
-                                    </a>
                                     <a href="/addtechnicians"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
                                          ${getTabStyles('addtechnicians')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />

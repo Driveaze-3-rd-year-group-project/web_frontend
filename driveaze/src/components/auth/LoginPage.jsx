@@ -1,30 +1,44 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserService from '../service/UserService';
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from '../../UserContext.jsx';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [isPasswordHidden, setPasswordHidden] = useState(true);
+    const { setUserData } = useContext(UserContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const userData = await UserService.login(email, password);
-            if (userData.token) {
+
+            if (userData.statusCode === 200) {
+                // Successful login
                 localStorage.setItem('token', userData.token);
                 localStorage.setItem('role', userData.role);
-
-                toast.success("Login successful!");
+                setUserData(userData);
+    
+                toast.success(userData.message || "Login successful!");
                 setTimeout(() => {
-                    location.href = '/dashboard';
+                    navigate('/dashboard');
+                }, 1000);
+            } else if (userData.statusCode === 202 && userData.requiresOTP) {
+                // Requires OTP verification
+                setUserData(userData);
+                toast.info(userData.message || "Verification required.");
+                setTimeout(() => {
+                    navigate('/verify-phone', { state: { userId: userData.userId } }); // Pass userId for further processing
                 }, 1000);
             } else {
+                // Handle other errors (e.g., incorrect password, email not found)
+                setUserData(userData);
                 toast.error(userData.message || "Login failed!");
             }
         } catch (error) {

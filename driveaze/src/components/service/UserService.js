@@ -16,6 +16,22 @@ class UserService{
             throw err;
         }
     }
+    
+
+    static async verifyOTP(otpData){
+        try{
+            const response = await axios.post(`${UserService.BASE_URL}/auth/verify-otp`, otpData, {
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+            console.log("Response", response)
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
 
     static async customerRegister(userData){
         try{
@@ -824,9 +840,6 @@ class UserService{
     }
 
 
-
-
-
     /**AUTHENTICATION CHECKER */
     static logout(){
         localStorage.removeItem('token');
@@ -894,6 +907,12 @@ class UserService{
 
     static superUserOnly(){
         return this.isAuthenticated() && this.isSuperUser();
+    }
+
+    static isPhoneNumberVerified(){
+        console.log(localStorage.getItem('phoneNoVerified'));
+        console.log(localStorage.getItem('role'));
+        return localStorage.getItem('phoneNoVerified') === 'true';
     }
 }
 

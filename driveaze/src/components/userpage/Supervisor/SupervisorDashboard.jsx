@@ -47,20 +47,48 @@ const Dashboard = ({ token }) => {
         }
     };
 
+    // const fetchAnnouncements = async () => {
+    //     try {
+    //         const token = localStorage.getItem('token');
+    //         const response = await UserService.getStaffAnnouncement(token); // Fetch announcements
+    //         if (response.statusCode === 200) {
+    //             setAnnouncements(response.announcementList); // Assuming details is an array of announcements
+    //         } else {
+    //             toast.error(response.message || 'Failed to fetch announcements!');
+    //         }
+    //     } catch (error) {
+    //         console.error('Failed to fetch announcements', error);
+    //         toast.error('Failed to fetch announcements!');
+    //     }
+    // };
+
     const fetchAnnouncements = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await UserService.getStaffAnnouncement(token); // Fetch announcements
+            const response = await UserService.getStaffAnnouncement(token);
+    
             if (response.statusCode === 200) {
-                setAnnouncements(response.announcementList); // Assuming details is an array of announcements
+                setAnnouncements(response.announcementList);
             } else {
-                toast.error(response.message || 'Failed to fetch announcements!');
+                console.error('Error fetching announcements:', response.message);
+                showSingleToastError('Failed to fetch announcements!');
             }
         } catch (error) {
-            console.error('Failed to fetch announcements', error);
-            toast.error('Failed to fetch announcements!');
+            console.error('Failed to fetch announcements:', error.message);
+            showSingleToastError('Failed to fetch announcements! Please try again later.');
         }
     };
+    
+    // Utility to prevent duplicate toasts
+    let toastDisplayed = false;
+    const showSingleToastError = (message) => {
+        if (!toastDisplayed) {
+            toast.error(message);
+            toastDisplayed = true;
+            setTimeout(() => { toastDisplayed = false; }, 3000); // Reset after 3 seconds
+        }
+    };
+       
 
     const JobStatusData = {
         labels: ['Completed Repairs', 'Ongoing Repairs'],

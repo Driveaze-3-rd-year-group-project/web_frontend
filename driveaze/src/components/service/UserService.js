@@ -16,6 +16,22 @@ class UserService{
             throw err;
         }
     }
+    
+
+    static async verifyOTP(otpData){
+        try{
+            const response = await axios.post(`${UserService.BASE_URL}/auth/verify-otp`, otpData, {
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+            console.log("Response", response)
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
 
     static async customerRegister(userData){
         try{
@@ -822,9 +838,61 @@ class UserService{
             throw err;
         }
     }
+    //Announcements
+    static async getAllAnnouncement( token){
+        try{
 
+            const response = await axios.get(`${UserService.BASE_URL}/announcement/get-all-announcements`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
 
+    static async addAnnouncement(currentDetail,token){
+        try{
+            // console.log(currentDetail);
+            const response = await axios.post(`${UserService.BASE_URL}/announcement/save`, currentDetail,{
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
 
+    static async updateAnnouncement(announcementId, currentDetail, token){
+        try{
+            console.log(currentDetail);
+            const response = await axios.put(`${UserService.BASE_URL}/announcement/update/${announcementId}`, currentDetail,{
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async deleteAnnouncement(announcementId, token){
+        try{
+            // console.log(ItemId);
+            const response = await axios.delete(`${UserService.BASE_URL}/announcement/delete/${announcementId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
 
 
     /**AUTHENTICATION CHECKER */
@@ -894,6 +962,12 @@ class UserService{
 
     static superUserOnly(){
         return this.isAuthenticated() && this.isSuperUser();
+    }
+
+    static isPhoneNumberVerified(){
+        console.log(localStorage.getItem('phoneNoVerified'));
+        console.log(localStorage.getItem('role'));
+        return localStorage.getItem('phoneNoVerified') === 'true';
     }
 }
 

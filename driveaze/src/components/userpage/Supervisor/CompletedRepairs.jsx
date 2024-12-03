@@ -8,7 +8,7 @@ const CompletedRepairs = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { jobDetails, vehicle, serviceTypeDetails } = location.state || {};
+  const { jobDetails, vehicle, serviceTypeDetails, vehicleBrandModel} = location.state || {};
   
   const [jobEntries, setJobEntries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,6 +40,7 @@ const CompletedRepairs = () => {
     }
 
     try {
+      // console.log(vehicleBrandModel);
       const token = localStorage.getItem('token');
       const response = await SupervisorService.getAllEntiesOfJobs(jobDetails.jobId, token);
       const transformedEntries = response.details.map(entry => ({
@@ -107,9 +108,9 @@ const CompletedRepairs = () => {
         .sort((a, b) => a.jobEntryId - b.jobEntryId);
         // .filter(entry => entry.details.toLowerCase().includes(searchTerm.toLowerCase()));
   // console.log(filteredEntry);
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error loading job entries: {error.message}</div>;
-  if (!jobDetails) return <div>No job details found</div>;
+  // if (loading) return <div>Loading...</div>;
+  // if (error) return <div>Error loading job entries: {error.message}</div>;
+  // if (!jobDetails) return <div>No job details found</div>;
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
@@ -126,7 +127,7 @@ const CompletedRepairs = () => {
                 <strong>Vehicle Number:</strong> {vehicle.vehicleNo}
               </p>
               <p className="font-semibold text-gray-700">
-                <strong>Vehicle Model:</strong> {vehicle.vehicleBrand + " " + vehicle.vehicleModel}
+                <strong>Vehicle Model:</strong> {vehicleBrandModel}
               </p>
               <p className="font-semibold text-gray-700">
                 <strong>Job Started Date:</strong> {jobDetails.startedDate}

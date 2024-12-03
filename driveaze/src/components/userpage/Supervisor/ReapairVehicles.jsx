@@ -15,10 +15,10 @@ const RepairVehicles = () => {
         const response = await SupervisorService.getJobs(token);
         
         // Map complex response structure to component needs
-        const vehicleJobs = response.details.filter(([job]) => job.jobStatus === 0).map(([job, vehicle, serviceType]) => ({
+        const vehicleJobs = response.details.filter(([job]) => job.jobStatus === 0).map(([job, vehicle, serviceType, vehicleModel, vehicleBrand ]) => ({
           icon: "https://media.istockphoto.com/id/1431411681/vector/car-front-icon-silhouette-symbol-car-sign-in-linear-style.jpg?s=612x612&w=0&k=20&c=5ZBdsn3X507MKNQqm2dtSo0HZ1D5ATMfvPn1UAbqwOY=",
           numberPlate: vehicle.vehicleNo,
-          vehicleModel: `${vehicle.vehicleBrand} ${vehicle.vehicleModel}`,
+          vehicleBrandModel: `${vehicleBrand.brandName} ${vehicleModel.modelName}`,
           jobDetails: job,
           vehicle: vehicle,
           serviceTypeDetails: serviceType,
@@ -75,7 +75,7 @@ const RepairVehicles = () => {
         {jobs
           .filter((item) =>
             item.numberPlate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.vehicleModel.toLowerCase().includes(searchTerm.toLowerCase()) 
+            item.vehicleBrandModel.toLowerCase().includes(searchTerm.toLowerCase()) 
           )
           .map((item, idx) => (
             <li key={idx} className="py-5 flex items-start justify-between">
@@ -83,9 +83,9 @@ const RepairVehicles = () => {
                 <img src={item.icon} className="flex-none w-12 h-12 rounded-full" alt="Vehicle" />
                 <div>
                   <span className="block text-sm text-gray-700 font-semibold">{item.numberPlate}</span>
-                  <span className="block text-sm text-gray-600">{item.vehicleModel}</span>
+                  <span className="block text-sm text-gray-600">{item.vehicleBrandModel}</span>
                   <span className="block text-sm text-gray-500">
-                    Service: {item.serviceType}
+                    Service: {item.serviceTypeDetails.serviceName}
                   </span>
                   <span className="block text-sm text-gray-500">
                     Started: {item.jobDetails.startedDate} {item.jobDetails.startTime}
@@ -97,7 +97,8 @@ const RepairVehicles = () => {
                 state={{ 
                   jobDetails: item.jobDetails, 
                   vehicle: item.vehicle,
-                  serviceTypeDetails: item.serviceTypeDetails 
+                  serviceTypeDetails: item.serviceTypeDetails,
+                  vehicleBrandModel: item.vehicleBrandModel
                 }}
                 className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2"
               >

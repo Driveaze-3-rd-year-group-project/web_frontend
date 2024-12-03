@@ -81,6 +81,7 @@ const BookNewService = () => {
   }, []);
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     if (!isTimeValid(data.preferredDate, data.preferredTime)) {
       Swal.fire({
@@ -182,6 +183,7 @@ const BookNewService = () => {
                 <input
                   type="date"
                   name="preferredDate"
+                  id="preferredDate"
                   required
                   onChange={handleChange}
                   value={data.preferredDate}
@@ -193,6 +195,7 @@ const BookNewService = () => {
                 <input
                   type="time"
                   name="preferredTime"
+                  id="preferredTime"
                   required
                   onChange={handleChange}
                   value={data.preferredTime}

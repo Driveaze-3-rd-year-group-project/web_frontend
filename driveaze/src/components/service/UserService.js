@@ -150,16 +150,32 @@ class UserService{
         }
     }
 
-    static async updateCustomerAccount(userId, userData, token){
-        try{
-
-            const response = await axios.put(`${UserService.BASE_URL}/customer/update-account/${userId}`, userData,
-            {
-                headers: {Authorization: `Bearer ${token}`}
-            });
+    static async updateCustomerAccount(userId, userData, file, token) {
+        try {
+            // Create FormData object
+            const formData = new FormData();
+            
+            // Append the file if it exists
+            if (file) {
+                formData.append('file', file);
+            }
+            
+            // Append the user data as JSON string
+            formData.append('userData', JSON.stringify(userData));
+            
+            const response = await axios.put(
+                `${UserService.BASE_URL}/customer/update-account/${userId}`, 
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
             return response.data;
             
-        }catch(err){
+        } catch (err) {
             throw err;
         }
     }
@@ -178,16 +194,45 @@ class UserService{
         }
     }
 
-    static async updateEmployees(userId, userData, token){
-        try{
+    // static async updateEmployees(userId, userData, token){
+    //     try{
 
-            const response = await axios.put(`${UserService.BASE_URL}/employees/update/${userId}`, userData,
-            {
-                headers: {Authorization: `Bearer ${token}`}
-            });
+    //         const response = await axios.put(`${UserService.BASE_URL}/employees/update/${userId}`, userData,
+    //         {
+    //             headers: {Authorization: `Bearer ${token}`}
+    //         });
+    //         return response.data;
+            
+    //     }catch(err){
+    //         throw err;
+    //     }
+    // }
+    static async updateEmployees(userId, userData, file, token) {
+        try {
+            // Create FormData object
+            const formData = new FormData();
+            
+            // Append the file if it exists
+            if (file) {
+                formData.append('file', file);
+            }
+            
+            // Append the user data as JSON string
+            formData.append('userData', JSON.stringify(userData));
+            
+            const response = await axios.put(
+                `${UserService.BASE_URL}/employees/update/${userId}`, 
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
             return response.data;
             
-        }catch(err){
+        } catch (err) {
             throw err;
         }
     }

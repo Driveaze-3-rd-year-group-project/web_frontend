@@ -43,7 +43,7 @@ function UserProfile() {
                 role: userProfile.ourUsers.role,
                 contactNumber: userProfile.ourUsers.contactNumber,
                 id: userProfile.ourUsers.id,
-                // profilePicture: userProfile.ourUsers.profilePicture || "https://via.placeholder.com/150", // Default placeholder if no picture
+                profilePictureUrl: userProfile.ourUsers.profilePictureUrl || "https://via.placeholder.com/150", // Default placeholder if no picture
             });
 
             setFormData({
@@ -148,22 +148,46 @@ function UserProfile() {
         }
     };
 
-    // Handler to handle form submission
+    const validateFile = (file) => {
+        // Check if file exists
+        if (!file) return;
+        
+        // Check file type
+        if (!file.type.startsWith('image/')) {
+            throw new Error('Only image files are allowed');
+        }
+        
+        // Check file size (5MB)
+        const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+        if (file.size > maxSize) {
+            throw new Error('File size should not exceed 5MB');
+        }
+    };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log("submitting user", user);
-
             if (contactError) {
                 toast.error('Please fix the contact number error before submitting.');
                 return;
             }
     
+            const fileInput = document.getElementById('file');
+            const file = fileInput?.files[0];
+            
+            // Validate file if one is selected
+            try {
+                validateFile(file);
+            } catch (error) {
+                toast.error(error.message);
+                return;
+            }
+            
             let res;
             if (user.role === 'CUSTOMER') {
-                res = await UserService.updateCustomerAccount(user.id, user, token); // Use customer-specific method
+                res = await UserService.updateCustomerAccount(user.id, user, file, token); // Added file parameter
             } else {
-                res = await UserService.updateEmployees(user.id, user, token); // Use general method
+                res = await UserService.updateEmployees(user.id, user, file, token); // Added file parameter
             }
     
             console.log('API Response:', res);
@@ -182,6 +206,44 @@ function UserProfile() {
             toast.error("Error updating profile!");
         }
     };
+    // Handler to handle form submission
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         console.log("submitting user", user);
+    
+    //         if (contactError) {
+    //             toast.error('Please fix the contact number error before submitting.');
+    //             return;
+    //         }
+    
+    //         // Get the file from the input
+    //         const fileInput = document.getElementById('file');
+    //         const file = fileInput?.files[0];
+    
+    //         let res;
+    //         if (user.role === 'CUSTOMER') {
+    //             res = await UserService.updateCustomerAccount(user.id, user, file, token); // Added file parameter
+    //         } else {
+    //             res = await UserService.updateEmployees(user.id, user, file, token); // Added file parameter
+    //         }
+    
+    //         console.log('API Response:', res);
+    
+    //         if (res.statusCode === 200) {
+    //             toast.success("Profile updated successfully!");
+    //             setTimeout(() => {
+    //                 closeModal();
+    //                 window.location.reload();
+    //             }, 1000);
+    //         } else {
+    //             toast.error(res.message || 'Failed to Update user');
+    //         }
+    //     } catch (error) {
+    //         console.error("Error updating profile:", error);
+    //         toast.error("Error updating profile!");
+    //     }
+    // };
     
 
     return (
@@ -196,7 +258,7 @@ function UserProfile() {
                         <img
                             className="w-36 h-36 rounded-full object-cover border-4 border-gray-300"
                             // src={user.profilePicture}
-                            src="https://via.placeholder.com/150"
+                            src={user.profilePictureUrl}
                             alt={`${user.name}'s profile`}
                         />
                     </div>

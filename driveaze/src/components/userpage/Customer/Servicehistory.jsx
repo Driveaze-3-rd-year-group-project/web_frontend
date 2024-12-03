@@ -28,33 +28,25 @@ const ServiceHistory = () =>{
       const token = localStorage.getItem('token');
       const jobResponse = await UserService.getAllJobRegistriesWithPaginationByVehicleId(vehicleId, page, token);
 
-      console.log("Job Response", jobResponse);
+      // console.log("Job Response", jobResponse);
+
+      const jobsData = jobResponse?.content || [];
 
 
       const updatedJobData = await Promise.all(
         jobsData.map(async (job) => {
           try {
             const jobEntriesData = await UserService.getAllJobEntriesByJobId(job.jobId, token);
-            console.log("Job Entries", jobEntriesData);
-      
-            const jobEntries = jobEntriesData?.Details || []; // Ensure it's an array
-      
-            // Attach jobEntries to each job
-            return {
-              ...job,
-              jobEntries, // This should be an array now
-            };
+            const jobEntries = Array.isArray(jobEntriesData?.details) ? jobEntriesData.details : [];
+            return { ...job, jobEntries };
           } catch (error) {
-            console.error(`Error fetching details for job ID ${job.jobId}:`, error);
-            return {
-              ...job,
-              jobEntries: [], // Return an empty array in case of error
-            };
+            console.error(`Error fetching details for job ID ${job.jobId}:`, error.message);
+            return { ...job, jobEntries: [] }; // Default to an empty array on error
           }
         })
       );
       
-      console.log("Updated Jobs Data", updatedJobData);
+      // console.log("Updated Jobs Data", updatedJobData);
 
       setJobs(updatedJobData);
     
@@ -234,18 +226,41 @@ const ServiceHistory = () =>{
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan="4" className="border-1  border-black px-6 py-0 whitespace-nowrap">
-                      <div className={`transition-all duration-300 ease-in-out overflow-hidden ${expandedRows[idx] ? 'max-h-40' : 'max-h-0'}`}>
-                        <p className="text-deepblue font-bold  p-4">{job.content}</p>
+                    <td colSpan="6" className="border-1 border-black px-6 py-0 whitespace-nowrap">
+                      <div className={`transition-all duration-300 ease-in-out overflow-auto ${expandedRows[idx] ? 'max-h-40' : 'max-h-0'}`}>
+                        {job.jobEntries.length > 0 ? (
+                          <table className="w-full bg-gray-200">
+                            <thead>
+                              <tr className="bg-gray-400">
+                                <th className="text-left p-2">Date</th>
+                                <th className="text-left p-2">Service/Repair</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {job.jobEntries.map((entry, entryIdx) => (
+                                <tr key={entryIdx} className="border-t">
+                                  <td className="p-2">{entry.entryDate}</td>
+                                  <td className="p-2">{entry.details}</td>
+                                  
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        ) : (
+                          <p className="text-center p-4 text-gray-500">No job entries available.</p>
+                        )}
                       </div>
                     </td>
                   </tr>
+
                 </React.Fragment>
               ))
             ) : (
-              <div className="flex justify-center">
-                <span className="py-4 text-center">No Services found</span>
-              </div>
+              <tr>
+                <td colSpan="7" className="text-center py-4">
+                  No jobs found
+                </td>
+              </tr>
             )}
             </tbody>
           </table>

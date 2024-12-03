@@ -218,7 +218,7 @@ function Sidebar() {
                                         <div className="flex-none">
                                             <FaBusinessTime />
                                         </div>
-                                        <p className="flex-1">Assigned Jobs</p>
+                                        <p className="flex-1">Completed Jobs</p>
                                     </a>
                                 </li>
                             )}
@@ -324,14 +324,7 @@ function Sidebar() {
                                         <p className="flex-1">Vehicle History</p>
                                     </a>
 
-                                    <a href="/addtechnicians"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
-                                         ${getTabStyles('addtechnicians')}`}>
-                                        <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
-                                        <div className="flex-none">
-                                            <FaUserPlus />
-                                        </div>
-                                        <p className="flex-1">Add Technicians</p>
-                                    </a>
+                                    
                                 </li>
                             )}
                             {isReceptionist && (

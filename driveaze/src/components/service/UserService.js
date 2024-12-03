@@ -1121,6 +1121,87 @@ class UserService{
         }
     }
 
+    /***Technician Category */
+    static async addNewTechnicianCategory(techniciancategoryData, token){
+        try{
+    
+            const response = await axios.post(`${UserService.BASE_URL}/technician-category/save`, techniciancategoryData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+            }catch(err){
+                throw err;
+            }
+        }
+    
+        static async updateTechnicianCategory(techniciancategoryId, techniciancategoryData, token){
+            try{
+    
+                const response = await axios.put(`${UserService.BASE_URL}/technician-category/update/${techniciancategoryId}`, techniciancategoryData, {
+                    headers: {Authorization: `Bearer ${token}`}
+                });
+                return response.data;
+                
+            }catch(err){
+                throw err;
+            }
+        }
+    
+        static async deleteTechnicianCategory(techniciancategoryId, token){
+        try{
+    
+            const response = await axios.delete(`${UserService.BASE_URL}/technician-category/delete/${techniciancategoryId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+        }
+    
+        static async getTechnicianCategoryById(techniciancategoryId, token){
+        try{
+    
+            const response = await axios.get(`${UserService.BASE_URL}/technician-category/get-technician-category/${techniciancategoryId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+        }
+    
+        static async getAllTechnicianCategories(token){
+        try{
+    
+            const response = await axios.get(`${UserService.BASE_URL}/technician-category/get-all-technician-category`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+        }
+    
+        static async getAllTechnicianCategoriesWithPagination(offset, token){
+            try{
+    
+                const response = await axios.get(`${UserService.BASE_URL}/technician-category/paginationAndSort/${offset}`, {
+                    headers: {Authorization: `Bearer ${token}`}
+                });
+                // console.log(response);
+                return response.data;
+                
+            }catch(err){
+                throw err;
+            }
+        }
+    
 
     /**AUTHENTICATION CHECKER */
     static logout(){

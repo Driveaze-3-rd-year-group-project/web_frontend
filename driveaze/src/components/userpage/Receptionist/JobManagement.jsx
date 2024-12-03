@@ -318,9 +318,9 @@ const JobManagement = () => {
               ))
             ) : (
               <tr>
-                <div className="mt-12 text-gray-600 text-lg font-semibold">
-                    No jobs Found
-                  </div>
+                <td colSpan="7" className="text-center py-4">
+                  No jobs found
+                </td>
               </tr>
             )}
           </tbody>

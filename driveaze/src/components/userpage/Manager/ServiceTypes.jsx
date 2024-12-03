@@ -231,7 +231,7 @@ function ServiceTypes() {
           ) : (
             <tr>
               <td colSpan="7" className="text-center py-4">
-                No jobs found
+                No Service Types found
               </td>
             </tr>
           )}

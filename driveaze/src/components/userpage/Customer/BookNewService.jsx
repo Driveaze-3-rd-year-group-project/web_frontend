@@ -17,6 +17,7 @@ const BookNewService = () => {
     model: "",
     status:0,
     preferredDate: "",
+    createdDate:"",
     preferredTime: "",
   });
 
@@ -91,9 +92,18 @@ const BookNewService = () => {
 
   const handleSubmit = async (e) => {
     setIsLoading(true);
-    setIsSubmitting(true); // Prevent further submissions
+    setIsSubmitting(true); 
     e.preventDefault();
-
+  
+    
+    const currentDate = new Date();
+    const formattedCurrentDate = currentDate.toISOString().split('T')[0]; 
+    
+    setData((prev) => ({
+      ...prev,
+      createdDate: formattedCurrentDate, 
+    }));
+  
     if (!isTimeValid(data.preferredDate, data.preferredTime)) {
       Swal.fire({
         title: "Error",
@@ -106,7 +116,7 @@ const BookNewService = () => {
       });
       return;
     }
-
+  
     try {
       const token = localStorage.getItem("token");
       const res = await BookingService.createBooking(data, token);
@@ -124,7 +134,7 @@ const BookNewService = () => {
           confirmButtonText: "OK",
         });
         setIsLoading(false);
-        setIsSubmitting(false); // Enable suqbmit button again
+        setIsSubmitting(false); // Enable submit button again
       }
     } catch (err) {
       Swal.fire({
@@ -137,6 +147,7 @@ const BookNewService = () => {
       setIsSubmitting(false); // Enable submit button again
     }
   };
+  
 
   return (
     <main className="py-14">

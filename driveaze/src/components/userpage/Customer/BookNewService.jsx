@@ -7,23 +7,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const BookNewService = () => {
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track submit state
 
   const [data, setData] = useState({
     vehicleNo: "",
     brand: "",
     model: "",
-    status: "waiting",
+    status: "pending",
     preferredDate: "",
     preferredTime: "",
   });
 
   const [error, setError] = useState("");
-
   const [vehicleBrands, setVehicleBrands] = useState([]);
   const [vehicleModels, setVehicleModels] = useState([]);
-  const [selectedId, setSelectedId] = useState('');
+  const [selectedId, setSelectedId] = useState("");
 
   const isTimeValid = (preferredDate, preferredTime) => {
     const currentDate = new Date();
@@ -31,13 +31,11 @@ const BookNewService = () => {
     return bookingDate > currentDate;
   };
 
-
   useEffect(() => {
     const fetchVehicleBrands = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const response = await UserService.getAllVehicleBrands(token);
-        console.log('Fetched vehicle brands:', response.vehicleBrandList);
         setVehicleBrands(response.vehicleBrandList || []);
       } catch (err) {
         console.error(err);
@@ -56,9 +54,8 @@ const BookNewService = () => {
       }
 
       try {
-        const token = localStorage.getItem('token');
-        const response = await UserService.getAllVehicleModelsWithVehicleBrandId(selectedId,token);
-        console.log('Fetched vehicle models:', response.vehicleModelList);
+        const token = localStorage.getItem("token");
+        const response = await UserService.getAllVehicleModelsWithVehicleBrandId(selectedId, token);
         setVehicleModels(response.vehicleModelList || []);
       } catch (err) {
         console.error(err);
@@ -69,35 +66,34 @@ const BookNewService = () => {
     fetchVehicleModels();
   }, [selectedId]);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'brand') {
+    if (name === "brand") {
       const selectedBrand = vehicleBrands.find((brand) => brand.brandName === value);
-      // console.log('Selected vehicle brand:', selectedBrand);
-      setSelectedId(selectedBrand ? selectedBrand.brandId : ''); // Set selected brand ID
+      setSelectedId(selectedBrand ? selectedBrand.brandId : ""); // Set selected brand ID
       setVehicleModels([]); // Clear models when the brand changes
       setData((prev) => ({
         ...prev,
         brand: value,
-        model: '', // Reset model
+        model: "", // Reset model
       }));
-    } else if (name === 'model' && !selectedId) {
-      setError('Please select a vehicle brand first.');
-      setTimeout(() => setError(''), 3000);
+    } else if (name === "model" && !selectedId) {
+      setError("Please select a vehicle brand first.");
+      setTimeout(() => setError(""), 3000);
     } else {
       setData((prev) => ({
         ...prev,
         [name]: value,
       }));
     }
-  }
-
+  };
 
   const handleSubmit = async (e) => {
     setIsLoading(true);
+    setIsSubmitting(true); // Prevent further submissions
     e.preventDefault();
+
     if (!isTimeValid(data.preferredDate, data.preferredTime)) {
       Swal.fire({
         title: "Error",
@@ -105,7 +101,8 @@ const BookNewService = () => {
         icon: "warning",
         confirmButtonText: "OK",
       }).then(() => {
-        setIsLoading(false); 
+        setIsLoading(false);
+        setIsSubmitting(false); // Enable submit button again after alert
       });
       return;
     }
@@ -114,20 +111,20 @@ const BookNewService = () => {
       const token = localStorage.getItem("token");
       const res = await BookingService.createBooking(data, token);
       if (res.success) {
-        toast.success('Reservation created successfully');
+        toast.success("Reservation created successfully");
         setTimeout(() => {
-          navigate('/servicebookings');
-          setIsLoading(false);
-        }, 4000);
+          navigate("/servicebookings");
+          setIsLoading(true);
+        }, 3000);
       } else {
         Swal.fire({
           title: "Error",
           text: "An error occurred in creating a booking, please try again!",
           icon: "error",
           confirmButtonText: "OK",
-          
         });
         setIsLoading(false);
+        setIsSubmitting(false); // Enable submit button again
       }
     } catch (err) {
       Swal.fire({
@@ -136,8 +133,8 @@ const BookNewService = () => {
         icon: "error",
         confirmButtonText: "OK",
       });
-    } finally {
       setIsLoading(false);
+      setIsSubmitting(false); // Enable submit button again
     }
   };
 
@@ -172,10 +169,10 @@ const BookNewService = () => {
                     );
                     setData((prev) => ({
                       ...prev,
-                      brand:selectedBrand? selectedBrand.brandName:'',
-                      model: '', // Clear model selection
+                      brand: selectedBrand ? selectedBrand.brandName : "",
+                      model: "", // Clear model selection
                     }));
-                    setSelectedId(selectedBrand ? selectedBrand.brandId : '');
+                    setSelectedId(selectedBrand ? selectedBrand.brandId : "");
                   }}
                   value={data.brand}
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
@@ -199,7 +196,7 @@ const BookNewService = () => {
                     );
                     setData((prev) => ({
                       ...prev,
-                      model: selectedModel ? selectedModel.modelName : '',
+                      model: selectedModel ? selectedModel.modelName : "",
                     }));
                   }}
                   value={data.model}
@@ -207,7 +204,7 @@ const BookNewService = () => {
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 >
                   <option value="" disabled hidden>
-                    {selectedId ? 'Select a Model' : 'First select a Vehicle Brand'}
+                    {selectedId ? "Select a Model" : "First select a Vehicle Brand"}
                   </option>
                   {vehicleModels.length > 0 ? (
                     vehicleModels.map((model) => (
@@ -260,20 +257,20 @@ const BookNewService = () => {
               </a>
               <button
                 type="submit"
-                disabled={isLoading}
-                className={`w-48 h-12 flex items-center justify-center text-white font-medium ${
-                  isLoading
-                    ? "bg-gray-400"
-                    : "bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700"
-                } mt-6 rounded-lg duration-150`}
+                disabled={isLoading || isSubmitting} // Disable button during loading or submitting
+                className="w-48 h-12 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
               >
-                {isLoading ? "Submitting..." : "Submit"}
+                {isLoading ? (
+                  <div className="loader">Submitting...</div>
+                ) : (
+                  "Submit"
+                )}
               </button>
             </div>
           </form>
         </div>
       </div>
-      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
+      <ToastContainer />
     </main>
   );
 };

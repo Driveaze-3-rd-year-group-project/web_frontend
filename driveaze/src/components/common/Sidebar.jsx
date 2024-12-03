@@ -431,8 +431,8 @@ function Sidebar() {
                             <div className="py-4 px-4 border-t">
                                 <div className="flex items-center gap-x-4">
                                     <img 
-                                        src={profileInfo.profilePictureUrl} 
-                                        className="w-12 h-12 rounded-full border-2 border-gray-300" 
+                                        src={profileInfo.profilePictureUrl ? profileInfo.profilePictureUrl : "https://driveaze-images.s3.eu-north-1.amazonaws.com/12345.jpg"} 
+                                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-300" 
                                     />
                                     <div>
                                         <span className="block text-white text-lg font-semibold">{profileInfo.name}</span>

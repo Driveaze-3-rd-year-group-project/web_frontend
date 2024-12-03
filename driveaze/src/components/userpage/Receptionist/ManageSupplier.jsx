@@ -45,6 +45,14 @@ const ManageSupplier = () => {
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Supplier Details
         </h3>
+
+        <a
+          href="/supplierpayments"
+          className="mr-6 px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150 text-center"
+        >
+          Back
+        </a>
+
       </div>
       <div className="bg-white p-6 rounded-lg shadow-md">
         <div className="mb-6">

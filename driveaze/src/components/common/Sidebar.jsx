@@ -430,7 +430,10 @@ function Sidebar() {
                             </ul>
                             <div className="py-4 px-4 border-t">
                                 <div className="flex items-center gap-x-4">
-                                    <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-12 h-12 rounded-full" />
+                                    <img 
+                                        src={profileInfo.profilePictureUrl} 
+                                        className="w-12 h-12 rounded-full border-2 border-gray-300" 
+                                    />
                                     <div>
                                         <span className="block text-white text-lg font-semibold">{profileInfo.name}</span>
                                         <span className="block mt-px text-red-600 text-sm">

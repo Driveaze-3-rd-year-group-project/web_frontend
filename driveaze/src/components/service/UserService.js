@@ -285,7 +285,7 @@ class UserService{
         }
     }
 
-    static async getAllJobsWithPaginationByVehicleId(vehicleId, offset, token) {
+    static async getAllJobRegistriesWithPaginationByVehicleId(vehicleId, offset, token) {
         try {
             const params = new URLSearchParams();
             params.append("vehicleId", vehicleId);
@@ -302,6 +302,7 @@ class UserService{
             throw err;
         }
     }
+    
 
     // static async getAllVehiclesWithPaginationAndStatusesByCustomerPhoneNo(phoneNo, offset, token) {
     //     try {
@@ -821,6 +822,23 @@ class UserService{
             throw err;
         }
     }
+
+    
+     /**Job Entries */
+     static async getAllJobEntriesByJobId(jobId, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/job-entry/get-all-job-entries-by-job-id/${jobId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+     
 
     /**Vehicle Models */
     static async addNewVehicleModel(modelData, token){

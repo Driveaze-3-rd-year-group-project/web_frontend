@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ServiceBookings = () => {
+  
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [reservationList, setServiceBookings] = useState([]);
@@ -63,12 +64,8 @@ const ServiceBookings = () => {
     fetchVehicleModels();
   }, [selectedId]);
 
-  const handleClick = (item) => {
-    setUpdateData({ ...item });
-    setShowPopup(true);
-  };
 
-  const handleChange = (e) => {
+  /*const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === 'brand') {
@@ -90,7 +87,12 @@ const ServiceBookings = () => {
         [name]: value,
       }));
     }
-  };
+  }
+
+    const handleClick = (item) => {
+    setUpdateData({ ...item });
+    setShowPopup(true);
+  
 
   const closePopup = () => {
     setShowPopup(false);
@@ -102,7 +104,7 @@ const ServiceBookings = () => {
       preferredTime: "",
       status: "",
     });
-  };
+  };*/
 
   useEffect(() => {
     const fetchServiceBookings = async () => {
@@ -136,64 +138,37 @@ const ServiceBookings = () => {
     return selectedDateTime >= new Date();
   };
 
-  const submitUpdate = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    if (!isTimeValid(updateData.preferredDate, updateData.preferredTime)) {
-      Swal.fire({
-        title: "Error",
-        text: "Invalid time slot or date selected. Please choose a valid date and time slot",
+
+  const submitDelete = async (item) => {
+    try {
+      // Show confirmation dialog
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to cancel this reservation? This action cannot be undone.",
         icon: "warning",
-        confirmButtonText: "OK",
-      }).then(() => {
-        setIsLoading(false); 
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, cancel it!",
+        cancelButtonText: "No, keep it",
       });
-      return;
-    }
-    
-
-    try {
-      setIsLoading(true);
-      const token = localStorage.getItem("token");
-      const res = await BookingService.updateBooking(updateData, token);
-
-      if (res.success) {
-        setServiceBookings((prev) =>
-          prev.map((item) =>
-            item.bookingId === updateData.bookingId ? { ...item, ...updateData } : item
-          )
-        );
-        toast.success('Reservation updated successfully');
-        setTimeout(() => {
-          navigate('/servicebookings');
-          setIsLoading(false);
-        }, 4000);
-        closePopup();
-      } else {
-        Swal.fire("Error", res.message || "Failed to update booking. Please try again!", "error");
-      }
-      window.location.reload();
-    } catch (err) {
-      Swal.fire("Error", err.message || "An error occurred. Please try again!", "error");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const submitDelete = async () => {
-    try {
-      setIsLoading(true);
-      const token = localStorage.getItem("token");
-      const res = await BookingService.deleteBooking(updateData, token);
-
-      if (res.success) {
-        Swal.fire("Success", res.message || "Reservation cancelled successfully.", "success");
-        setServiceBookings((prev) => prev.filter((item) => item.bookingId !== updateData.bookingId));
-        closePopup();
-        window.location.reload();
-      } else {
-        Swal.fire("Error", res.message || "Failed to cancel reservation.Please try again!", "error");
-      }
+  
+      if (result.isConfirmed) {
+        setIsLoading(true);
+        const token = localStorage.getItem("token");
+        const res = await BookingService.deleteBooking(item, token);
+  
+        if (res.success) {
+          toast.success("Reservation cancelled successfully");
+          setServiceBookings((prev) => prev.filter((booking) => booking.bookingId !== item.bookingId)); // Remove the item locally
+          setTimeout(() => {
+            navigate("/servicebookings");
+            setIsLoading(false);
+          }, 4000);
+        } else {
+          Swal.fire("Error", res.message || "Failed to cancel reservation. Please try again!", "error");
+        }
+      } 
     } catch (err) {
       Swal.fire("Error", err.message || "An error occurred.", "error");
       window.location.reload();
@@ -201,6 +176,7 @@ const ServiceBookings = () => {
       setIsLoading(false);
     }
   };
+  
 
   const convertTo12HourFormat = (time) => {
     if (!time) return "";
@@ -211,12 +187,13 @@ const ServiceBookings = () => {
   };
 
   const labelColors = {
-    accepted: "text-green-600 bg-green-50",
-    waiting: "text-red-600 bg-red-50",
+    completed: "text-green-600 bg-green-50",
+    pending: "text-orange-600 bg-orange-50",
   };
 
   return (
     <div className='flex flex-row'>
+        <ToastContainer position="top-right" autoClose={4000} hideProgressBar={true} />
       <div className='left-side w-9/12 mt-14'>
         <div className="max-w-2xl mx-auto px-4">
           <div className="items-start justify-between sm:flex">
@@ -245,28 +222,32 @@ const ServiceBookings = () => {
                   <div className="flex gap-3 flex-row ">
                     <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
                     <div className="relative flex flex-row gap-8 items-center">
-                      <div className="flex-auto flex gap-1 flex-col items-start justify-center">
-                        <span className="block text-md text-gray-700 font-semibold">{item.vehicleNo}</span>
-                        <span className="block text-sm text-gray-600">{item.brand} - {item.model}</span>
+                      <div className="flex-auto flex gap-1  w-36 h-12 flex-col items-start justify-center">
+                        <span className="block text-md w-full text-gray-700 font-semibold">{item.vehicleNo}</span>
+                        <span className="block text-sm w-full text-gray-600">{item.brand} - {item.model}</span>
                       </div>
-                      <div className="flex-auto flex items-center justify-center">
+                      <div className="flex-auto flex items-center w-22 h-12   justify-center">
                         <span className="block text-sm text-gray-600">{item.preferredDate}</span>
                       </div>
-                      <div className="flex-auto flex items-center justify-center">
+                      <div className="flex-auto flex items-center w-22 h-12   justify-center">
                         <span className="block text-sm text-gray-600">
                         {convertTo12HourFormat(item.preferredTime)}
                         </span>
                       </div>
-                      <div className="grow flex-row-reverse mx-10  justify-center">
-                        <span className={`py-2 px-3 mx-4 rounded-full font-semibold text-xs ${labelColors[item?.status] || ""}`}>
-                          {item.status}
-                        </span>
+                      <div className="flex-auto flex items-center justify-center w-12 h-12">
+                      <span className={`p-2 rounded-full font-semibold text-xs ${labelColors[item?.status] || ""}`}>
+                        {item.status}
+                      </span>
+                    </div>
+                      <div className="flex-auto flex items-center justify-center w-24 h-12">
+                        { item.status=="pending" || item.status=="waiting"?(
                         <button
-                          onClick={() => handleClick(item)}
-                          className="inline-flex items-center justify-center gap-1 py-2 px-3 mt-2 font-medium text-sm text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg"
+                          onClick={() => submitDelete(item)}
+                          className="flex items-center justify-center p-3 w-15 font-medium text-sm text-white bg-red-600 hover:bg-red-500 active:bg-red-700 rounded-lg"
                         >
-                          Details
+                          Cancel
                         </button>
+                          ):""}     
                       </div>
                     </div>
                   </div>
@@ -313,9 +294,9 @@ const ServiceBookings = () => {
         </div>
       )}
     </div>
-  );};
+  );
 
-const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdate, 
+/*const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdate, 
   submitDelete,isLoading,vehicleBrands,vehicleModels,selectedId, setUpdateData,setSelectedId}) => {
   return (
     <main className="py-14">
@@ -445,24 +426,16 @@ const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdat
                 >
                   Cancel Reservation
                 </button>   
-
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  onClick={submitUpdate}
-                  className="w-32 h-12 p-4 flex items-center justify-center text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
-                >
-                  Update Reservation
-                </button>
               </>
             )}
             </div>
           </form>
         </div>
       </div>
-      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
+      
     </main>
   );
 };
-
+*/
+};
 export default ServiceBookings;

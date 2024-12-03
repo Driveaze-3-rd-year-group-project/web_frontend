@@ -43,7 +43,7 @@ function UserProfile() {
                 role: userProfile.ourUsers.role,
                 contactNumber: userProfile.ourUsers.contactNumber,
                 id: userProfile.ourUsers.id,
-                profilePictureUrl: userProfile.ourUsers.profilePictureUrl || "https://via.placeholder.com/150", // Default placeholder if no picture
+                profilePictureUrl: userProfile.ourUsers.profilePictureUrl || "https://driveaze-images.s3.eu-north-1.amazonaws.com/12345.jpg", // Default placeholder if no picture
             });
 
             setFormData({
@@ -206,44 +206,6 @@ function UserProfile() {
             toast.error("Error updating profile!");
         }
     };
-    // Handler to handle form submission
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         console.log("submitting user", user);
-    
-    //         if (contactError) {
-    //             toast.error('Please fix the contact number error before submitting.');
-    //             return;
-    //         }
-    
-    //         // Get the file from the input
-    //         const fileInput = document.getElementById('file');
-    //         const file = fileInput?.files[0];
-    
-    //         let res;
-    //         if (user.role === 'CUSTOMER') {
-    //             res = await UserService.updateCustomerAccount(user.id, user, file, token); // Added file parameter
-    //         } else {
-    //             res = await UserService.updateEmployees(user.id, user, file, token); // Added file parameter
-    //         }
-    
-    //         console.log('API Response:', res);
-    
-    //         if (res.statusCode === 200) {
-    //             toast.success("Profile updated successfully!");
-    //             setTimeout(() => {
-    //                 closeModal();
-    //                 window.location.reload();
-    //             }, 1000);
-    //         } else {
-    //             toast.error(res.message || 'Failed to Update user');
-    //         }
-    //     } catch (error) {
-    //         console.error("Error updating profile:", error);
-    //         toast.error("Error updating profile!");
-    //     }
-    // };
     
 
     return (
@@ -289,7 +251,7 @@ function UserProfile() {
                             <div className="flex justify-between text-lg">
                                 <span className="text-gray-600 font-medium">Contact Number:</span>
                                 <span className="text-gray-900">
-                                    {user.contactNumber ? user.contactNumber : "Please enter your contact details"}
+                                    {user.contactNumber ? user.contactNumber : "Not Provided"}
                                 </span>
                             </div>
                         )}
@@ -357,7 +319,7 @@ function UserProfile() {
                                 className="w-full mt-2 px-3 py-2 text-gray-700 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                             />
                         </div>
-                        {user.role === "CUSTOMER" && (
+                        {/* {user.role === "CUSTOMER" && (
                             <div>
                                 <label className="font-medium">Contact Number</label>
                                 <input
@@ -370,7 +332,7 @@ function UserProfile() {
                                 />
                                 {contactError && <p className="text-red-500 text-sm mt-1">{contactError}</p>}
                             </div>
-                        )}
+                        )} */}
                         
                         {/* <div>
                             <label className="font-medium">Password</label>

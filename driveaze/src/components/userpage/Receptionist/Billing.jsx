@@ -440,8 +440,8 @@ const Billing = () => {
                 </div>
             ))
           ) : (
-            <div className="flex justify-center">
-              <span className="py-4 text-center">No bills found</span>
+            <div className="mt-12 text-gray-600 text-lg font-semibold">
+              No bills found
             </div>
           )}
         </div>

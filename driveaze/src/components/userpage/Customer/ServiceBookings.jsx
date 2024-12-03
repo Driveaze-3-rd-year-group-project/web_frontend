@@ -65,46 +65,7 @@ const ServiceBookings = () => {
   }, [selectedId]);
 
 
-  /*const handleChange = (e) => {
-    const { name, value } = e.target;
 
-    if (name === 'brand') {
-      const selectedBrand = vehicleBrands.find((brand) => brand.brandName === value);
-      // console.log('Selected vehicle brand:', selectedBrand);
-      setSelectedId(selectedBrand ? selectedBrand.brandId : ''); // Set selected brand ID
-      setVehicleModels([]); // Clear models when the brand changes
-      setUpdateData((prev) => ({
-        ...prev,
-        brand: value,
-        model: '', // Reset model
-      }));
-    } else if (name === 'model' && !selectedId) {
-      setError('Please select a vehicle brand first.');
-      setTimeout(() => setError(''), 3000);
-    } else {
-      setUpdateData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  }
-
-    const handleClick = (item) => {
-    setUpdateData({ ...item });
-    setShowPopup(true);
-  
-
-  const closePopup = () => {
-    setShowPopup(false);
-    setUpdateData({
-      vehicleNo: "",
-      brand: "",
-      model: "",
-      preferredDate: "",
-      preferredTime: "",
-      status: "",
-    });
-  };*/
 
   useEffect(() => {
     const fetchServiceBookings = async () => {
@@ -114,6 +75,7 @@ const ServiceBookings = () => {
         const token = localStorage.getItem("token");
         const response = await BookingService.retrieveUserBookings(token);
         if (response.success) {
+          console.log("data-->",response.message);
           setServiceBookings(response.message);
         } else {
           setServiceBookings([]);
@@ -136,6 +98,14 @@ const ServiceBookings = () => {
   const isTimeValid = (date, time) => {
     const selectedDateTime = new Date(`${date}T${time}`);
     return selectedDateTime >= new Date();
+  };
+
+  const isWithinTwoDays = (createdDate) => {
+    const created = new Date(createdDate); // Parse the createdDate
+    const today = new Date(); // Current date
+    const diffInTime = today - created; // Difference in milliseconds
+    const diffInDays = diffInTime / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+    return diffInDays <= 2; // Return true if within two days
   };
 
 
@@ -240,14 +210,14 @@ const ServiceBookings = () => {
                       </span>
                     </div>
                       <div className="flex-auto flex items-center justify-center w-24 h-12">
-                        { item.status==0?(
+                      {item.status === 0 && isWithinTwoDays(item.createdDate) && (
                         <button
                           onClick={() => submitDelete(item)}
                           className="flex items-center justify-center p-3 w-15 font-medium text-sm text-white bg-red-600 hover:bg-red-500 active:bg-red-700 rounded-lg"
                         >
                           Cancel
                         </button>
-                          ):""}     
+                      )}     
                       </div>
                     </div>
                   </div>
@@ -296,146 +266,6 @@ const ServiceBookings = () => {
     </div>
   );
 
-/*const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdate, 
-  submitDelete,isLoading,vehicleBrands,vehicleModels,selectedId, setUpdateData,setSelectedId}) => {
-  return (
-    <main className="py-14">
-      <div className="max-w-screen-xl mx-auto my-auto px-4 text-gray-600 md:px-8">
-        <div className="max-w-lg mx-auto space-y-3 sm:text-center">
-          <h3 className="text-indigo-600 text-xl font-semibold">
-            Service Reservation Details
-          </h3>
-        </div>
-        <div className="mt-12 max-w-lg mx-auto">
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            closePopup();
-          }} className="space-y-5">
-            <div>
-              <label className="font-medium">Vehicle Number</label>
-              <input
-                type="text"
-                onChange={handleChange}
-                required
-                name='vehicleNo'
-                value={updateData.vehicleNo}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-              />
-            </div>
-            <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
-              <div>
-                <label className="font-medium">Vehicle Brand</label>
-                <select
-                  name="brand"
-                  required
-                  onChange={(e) => {
-                    const selectedBrand = vehicleBrands.find(
-                      (brand) => brand.brandName === e.target.value
-                    );
-                    setUpdateData((prev) => ({
-                      ...prev,
-                      brand:selectedBrand? selectedBrand.brandName:'',
-                      model: '', // Clear model selection
-                    }));
-                    setSelectedId(selectedBrand ? selectedBrand.brandId : '');
-                  }}
-                  value={updateData.brand}
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                >
-                  <option value="">Select a brand</option>
-                  {vehicleBrands.map((brand) => (
-                    <option key={brand.brandId} value={brand.brandName}>
-                      {brand.brandName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="font-medium">Vehicle Model</label>
-                <select
-                  name="model"
-                  required
-                  onChange={(e) => {
-                    const selectedModel = vehicleModels.find(
-                      (model) => model.modelName === e.target.value
-                    );
-                    setUpdateData((prev) => ({
-                      ...prev,
-                      model: selectedModel ? selectedModel.modelName : '',
-                    }));
-                  }}
-                  value={updateData.model}
-                  disabled={!selectedId}
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                >
-                  <option value="" disabled hidden>
-                    {selectedId ? 'Select a Model' : 'First select a Vehicle Brand'}
-                  </option>
-                  {vehicleModels.length > 0 ? (
-                    vehicleModels.map((model) => (
-                      <option key={model.modelId} value={model.modelName}>
-                        {model.modelName}
-                      </option>
-                    ))
-                  ) : (
-                    selectedId && (
-                      <option value="" disabled>
-                        No Vehicle Models Available
-                      </option>
-                    )
-                  )}
-                </select>
-              </div>
-            </div>
-            <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
-              <div>
-                <label className="font-medium">Preferred Date</label>
-                <input
-                  type="date"
-                  id='preferredDate'
-                  name='preferredDate'
-                  value={updateData.preferredDate}
-                  onChange={handleChange}
-                  required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                />
-              </div>
-            </div>   
-            <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
-                <div>
-                    <label className="font-medium">Preferred Time</label>
-                    <input
-                        type="time"
-                        id='preferredTime'
-                        name='preferredTime'
-                        value={updateData.preferredTime}
-                        onChange={handleChange}
-                        required
-                        className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                    />
-                </div>
-            </div>  
-            <div className="flex gap-3 text-sm items-center justify-between mt-6">
-            {updateData?.status== "waiting" && (
-              <>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  onClick={submitDelete}
-                  className="w-32 h-12 p-4 flex items-center justify-center text-white font-medium bg-red-600 hover:bg-red-500 active:bg-indigo-700 mt-6 rounded-lg duration-150"
-                >
-                  Cancel Reservation
-                </button>   
-              </>
-            )}
-            </div>
-          </form>
-        </div>
-      </div>
-      
-    </main>
-  );
-};
-*/
+
 };
 export default ServiceBookings;

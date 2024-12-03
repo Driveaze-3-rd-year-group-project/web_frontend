@@ -1,16 +1,37 @@
-import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserService from "../../service/UserService";
 
-const AddService = () => {
+const UpdateServiceType = () => {
+    
+  const { serviceId } = useParams();  
   const navigate = useNavigate();
   const [ServiceTypes, setServiceTypes] = useState({
     serviceName: '', 
   });
 
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetchserviceTypeById(serviceId); 
+  }, [serviceId]);
+
+  const fetchserviceTypeById = async (serviceId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await UserService.getServiceTypeById(serviceId, token);
+      console.log(response);
+
+      setServiceTypes({
+        serviceName: response.serviceTypes.serviceName,
+      });
+
+    } catch (error) {
+      console.error('Error fetching vehicle data:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +48,7 @@ const AddService = () => {
     const registeredTime = currentDate.toLocaleTimeString('en-GB'); // Format as HH:mm:ss
 
      // Set jobData with the current time and date
-     const updatedServiceType = {
+    const updatedServiceType = {
       ...ServiceTypes,
       registeredDate,
       registeredTime,
@@ -65,7 +86,7 @@ const AddService = () => {
   return (
     <div className="py-14 max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
       <div className="max-w-lg mx-auto space-y-3 sm:text-center">
-        <h3 className="text-indigo-600 font-semibold">Add Service Type</h3>
+        <h3 className="text-indigo-600 font-semibold">Edit Service Type</h3>
         </div>
         <div className="mt-12 max-w-lg mx-auto space-y-3">
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -102,4 +123,4 @@ const AddService = () => {
   );
 };
 
-export default AddService;
+export default UpdateServiceType;

@@ -188,7 +188,7 @@ function Sidebar() {
                                          ${getTabStyles('servicetypes')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaChartLine />
+                                            <FaClipboardList />
                                         </div>
                                         <p className="flex-1">Service Types</p>
                                     </a>

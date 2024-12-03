@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import BookingService from "../../service/BookingService";
 import UserService from "../../service/UserService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const BookNewService = () => {
+  const navigate =useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const [data, setData] = useState({
@@ -97,29 +101,33 @@ const BookNewService = () => {
     if (!isTimeValid(data.preferredDate, data.preferredTime)) {
       Swal.fire({
         title: "Error",
-        text: "Invalid time slot or date selected. Please choose a valid date and time.",
+        text: "Invalid time slot or date selected. Please choose a valid date and time slot",
         icon: "warning",
         confirmButtonText: "OK",
+      }).then(() => {
+        setIsLoading(false); 
       });
       return;
     }
 
-    setIsLoading(true);
     try {
       const token = localStorage.getItem("token");
       const res = await BookingService.createBooking(data, token);
-
       if (res.success) {
-        Swal.fire({
-          title: "Success",
-          text: res.message || "Booking created successfully.",
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          window.location.reload();
-        });
+        toast.success('Reservation created successfully');
+        setTimeout(() => {
+          navigate('/servicebookings');
+          setIsLoading(false);
+        }, 4000);
       } else {
-        throw new Error(res.message || "Failed to create booking.");
+        Swal.fire({
+          title: "Error",
+          text: "An error occurred in creating a booking, please try again!",
+          icon: "error",
+          confirmButtonText: "OK",
+          
+        });
+        setIsLoading(false);
       }
     } catch (err) {
       Swal.fire({
@@ -265,6 +273,7 @@ const BookNewService = () => {
           </form>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
     </main>
   );
 };

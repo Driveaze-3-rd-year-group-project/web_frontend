@@ -202,7 +202,8 @@ function ServiceTypes() {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {serviceTypes.map((service, index) => (
+            {serviceTypes.length > 0 ? (
+              serviceTypes.map((service, index) => (
               <tr key={index} className="hover:bg-gray-100">
                 <td className="py-3 px-6">{service.registeredDate}</td>
                 <td className="py-3 px-6">{service.serviceName}</td>
@@ -226,7 +227,14 @@ function ServiceTypes() {
                   </div>
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" className="text-center py-4">
+                No jobs found
+              </td>
+            </tr>
+          )}
           </tbody>
         </table>
       </div>

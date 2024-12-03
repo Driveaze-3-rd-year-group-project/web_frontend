@@ -115,7 +115,7 @@ const BookNewService = () => {
         setTimeout(() => {
           navigate("/servicebookings");
           setIsLoading(true);
-        }, 3000);
+        }, 2500);
       } else {
         Swal.fire({
           title: "Error",
@@ -140,6 +140,7 @@ const BookNewService = () => {
 
   return (
     <main className="py-14">
+       <ToastContainer position="top-right" autoClose={4000} hideProgressBar={true} />
       <div className="max-w-screen-xl mx-auto my-auto px-4 text-gray-600 md:px-8">
         <div className="max-w-lg mx-auto space-y-3 sm:text-center">
           <h3 className="text-indigo-600 font-semibold">Book a Service Date</h3>
@@ -270,7 +271,7 @@ const BookNewService = () => {
           </form>
         </div>
       </div>
-      <ToastContainer />
+
     </main>
   );
 };

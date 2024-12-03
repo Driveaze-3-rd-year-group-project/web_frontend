@@ -31,37 +31,30 @@ const ServiceHistory = () =>{
       console.log("Job Response", jobResponse);
 
 
-      // const response = await UserService.getAllJobsWithPaginationByVehicleId(vehicleId, page, token);
-      // console.log(response);
-
-      
-      
-      const jobsData = jobResponse?.content || [];
-      console.log("Jobs Data", jobsData);
-
       const updatedJobData = await Promise.all(
         jobsData.map(async (job) => {
           try {
             const jobEntriesData = await UserService.getAllJobEntriesByJobId(job.jobId, token);
             console.log("Job Entries", jobEntriesData);
-
-            const jobEntries = jobEntriesData?.Details || [];
-
-            // console.log("Job Entries", jobEntries);
-
+      
+            const jobEntries = jobEntriesData?.Details || []; // Ensure it's an array
+      
+            // Attach jobEntries to each job
             return {
               ...job,
-              jobEntries,
+              jobEntries, // This should be an array now
             };
           } catch (error) {
-            console.error(`Error fetching details for vehicle ID ${job.jobId}:`, error);
+            console.error(`Error fetching details for job ID ${job.jobId}:`, error);
             return {
               ...job,
-              jobEntries: [],
+              jobEntries: [], // Return an empty array in case of error
             };
           }
         })
       );
+      
+      console.log("Updated Jobs Data", updatedJobData);
 
       setJobs(updatedJobData);
     

@@ -101,6 +101,7 @@ import OTPVerification from "./components/userpage/Customer/OTPVerificationScree
 import AllAnnouncement from './components/userpage/WarehouseKeeper/AllAnnouncements.jsx';
 import UpdateServiceType from './components/userpage/Manager/UpdateServiceType.jsx';
 import TecAnnouncement from './components/userpage/Technician/AllAnnouncements.jsx';
+import EditTechnicianCategory from './components/userpage/Manager/EditTechnicianCategory.jsx';
 
 
 
@@ -282,6 +283,7 @@ function App() {
                   <Route path="/addvehiclemodelbrand" element={<AddVehicleModelBrand />} />
                   <Route path="/techniciancategory" element={<TechnicianCategory />} />
                   <Route path="/addtechniciancategory" element={<AddTechnicianCategory />} />
+                  <Route path="/edittechniciancategory/:categoryId" element={<EditTechnicianCategory />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                   <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjob/>} />
                 </>

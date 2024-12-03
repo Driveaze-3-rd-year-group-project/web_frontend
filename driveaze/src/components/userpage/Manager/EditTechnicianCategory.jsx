@@ -1,17 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import UserService from '../../service/UserService';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from 'sweetalert2';
 
-const AddTechnicianCategory = () => {
+
+
+const EditTechnicianCategory = () => {
+  const { categoryId } = useParams();
   const navigate = useNavigate();
 
   const [technicianCategoryData, setTechnicianCategoryData] = useState({
     technicianCategoryName: '',
     pricePerManHour: '',
   });
+
+  useEffect(() => {
+    fetchTechnicianCategoryDataById(categoryId); 
+  }, [categoryId]);
+
+  const fetchTechnicianCategoryDataById = async (categoryId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await UserService.getTechnicianCategoryById(categoryId, token);
+    //   console.log(response);
+
+    //   console.log(response.technicianCategory);
+      const fetchedCategory = response.technicianCategory;
+      setTechnicianCategoryData({
+        technicianCategoryName: fetchedCategory.technicianCategoryName,
+        pricePerManHour: fetchedCategory.pricePerManHour,
+      });
+
+    } catch (error) {
+      console.error('Error fetching category data:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +50,7 @@ const AddTechnicianCategory = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await UserService.addNewTechnicianCategory(updatedData, token);
+      const res = await UserService.updateTechnicianCategory(categoryId, updatedData, token);
 
       if (res.statusCode === 200) {
         toast.success("Technician Category added successfully!");
@@ -100,7 +125,7 @@ const AddTechnicianCategory = () => {
               type="submit"
               className="w-2/5 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150 text-center"
             >
-              Add
+              Update
             </button>
           </div>
         </form>
@@ -113,4 +138,6 @@ const AddTechnicianCategory = () => {
 
 
 
-export default AddTechnicianCategory;
+
+
+export default EditTechnicianCategory;

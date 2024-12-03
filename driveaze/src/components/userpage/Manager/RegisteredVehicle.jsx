@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../../service/UserService';
+import { FaSearch, FaEdit, FaRegTrashAlt } from 'react-icons/fa';
 
 function RegisteredVehicle() {
   const [vehicles, setVehicles] = useState([]);
@@ -90,26 +91,30 @@ function RegisteredVehicle() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
-      <div className="flex items-start justify-between">
-        <div className="max-w-lg">
-          <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-            Registered Vehicles
-          </h3>
-        </div>
-        <div className="mt-3 md:mt-0">
-          <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
-            <div className="relative w-full">
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
-              />
-            </div>
-          </form>
-        </div>
+      {/* Title */}
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+          Registered Vehicles
+        </h3>
       </div>
+
+      {/* Search and Add Button */}
+      <div className="flex justify-between items-center mb-3">
+        {/* Search Bar */}
+        <form onSubmit={(e) => e.preventDefault()} className="flex">
+          <div className="relative w-full">
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+            />
+            {/* Search Icon */}
+            <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
+          </div>
+        </form>
+        </div>
 
       <div className="mt-4 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">

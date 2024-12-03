@@ -55,11 +55,11 @@ const AddSupplier = () => {
           navigate('/supplierpayments');
         }, 1000);
       } else {
-        setError(res.message);
+        // setError(res.message);
         toast.error(res.message);
       }
     } catch (error) {
-      setError(error.message);
+      // setError(error.message);
       toast.error(error.message);
     }
   };

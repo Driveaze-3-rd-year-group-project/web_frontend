@@ -254,7 +254,8 @@ const SupplierPayments = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {suppliers.map((supplier, index) => (
+            {Array.isArray(suppliers) && suppliers.length > 0 ? (
+              suppliers.map((supplier, index) => (
               <tr key={index} className="hover:bg-gray-100">
                 <td className="py-3 px-6 whitespace-nowrap">
                   {supplier.registeredDate}
@@ -292,7 +293,14 @@ const SupplierPayments = () => {
                   </a>
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" className="text-center py-4">
+                No Suppliers Found
+              </td>
+            </tr>
+          )}
           </tbody>
         </table>
       </div>

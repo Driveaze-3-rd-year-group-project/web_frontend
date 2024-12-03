@@ -25,6 +25,7 @@ import VehicleHistory from "./components/userpage/Supervisor/VehicleHistory.jsx"
 import ViewHistory from "./components/userpage/Supervisor/ViewHistory.jsx";
 import InventoryManagement from "./components/userpage/Supervisor/InventoryManagement.jsx";
 import RepairVehicles from "./components/userpage/Supervisor/ReapairVehicles";
+import SupAnnouncement from './components/userpage/Supervisor/AllAnnouncements.jsx';
 
 
 import UpdateEmployee from "./components/userpage/Admin/UpdateEmployee";
@@ -46,6 +47,7 @@ import OngoingRepairs from "./components/userpage/Customer/OngoingRepairs.jsx"
 import RepairDetails from "./components/userpage/Customer/RepairDetails.jsx"
 import CustomerDashboard from "./components/userpage/Customer/CustomerDashboard";
 import SendComplaint from "./components/userpage/Customer/SendComplaint.jsx";
+import CustAnnouncement from './components/userpage/Customer/AllAnnouncements.jsx';
 
 import ManagerDashboard from "./components/userpage/Manager/ManagerDashboard.jsx";
 import MStaffAccounts from "./components/userpage/Manager/MStaffAccounts.jsx";
@@ -85,6 +87,7 @@ import EditVehicle from "./components/userpage/Receptionist/EditVehicle";
 import JobDetails from "./components/userpage/Receptionist/JobDetails";
 import JobCreate from "./components/userpage/Receptionist/JobCreate";
 import UpdateJob from "./components/userpage/Receptionist/UpdateJob.jsx";
+import RecepAnnouncement from './components/userpage/Receptionist/AllAnnouncements.jsx';
 
 import WarehouseKeeperDashboard from "./components/userpage/WarehouseKeeper/WarehouseKeeperDashboard"
 import Inventory from "./components/userpage/WarehouseKeeper/Inventory.jsx"
@@ -97,6 +100,7 @@ import PaymentCancel from "./components/common/PaymentCancel.jsx";
 import OTPVerification from "./components/userpage/Customer/OTPVerificationScreen.jsx";
 import AllAnnouncement from './components/userpage/WarehouseKeeper/AllAnnouncements.jsx';
 import UpdateServiceType from './components/userpage/Manager/UpdateServiceType.jsx';
+import TecAnnouncement from './components/userpage/Technician/AllAnnouncements.jsx';
 
 
 
@@ -313,6 +317,7 @@ function App() {
                       <Route path="/payment" element={<PaymentPage />} />
                       <Route path="/payment/success" element={<PaymentSuccess />} />
                       <Route path="/payment/cancel" element={<PaymentCancel />} />
+                      <Route path="/allannouncements" element={<CustAnnouncement />} />
                     </>
                   )}
                   <Route path="*" element={<Navigate to="/dashboard" />} />
@@ -337,6 +342,7 @@ function App() {
                   <Route path="/vehiclehistory/viewhistory/:vehicleNumber" element={<ViewHistory />} />
                   <Route path="/inventorymanagement" element={<InventoryManagement />} />
                   <Route path="/userProfile" element={<UserProfile />} />
+                  <Route path="/allannouncements" element={<SupAnnouncement />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -370,6 +376,7 @@ function App() {
                   <Route path="/managesupplier" element={<ManageSupplier />} />
                   <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="/addsupplierbill" element={<AddSupplierBill />} />  
+                  <Route path="/allannouncements" element={<RecepAnnouncement />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}
@@ -382,6 +389,7 @@ function App() {
                   <Route path="/dashboard" element={<TechnicianDashboard />} />
                   <Route path="/assigned-jobs" element={<AssignedJobs/>} />
                   <Route path="/userProfile" element={<UserProfile />} />
+                  <Route path="/allannouncements" element={<TecAnnouncement />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

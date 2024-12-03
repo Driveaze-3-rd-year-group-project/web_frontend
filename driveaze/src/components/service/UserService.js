@@ -1293,6 +1293,19 @@ class UserService{
                 throw err;
             }
         }
+
+        static async getTechnicianEntries(userid,token){
+            try{
+                const response = await axios.get(`${UserService.BASE_URL}/job-entry/get-all--entries-of-technician/${userid}`, {
+                    headers: {Authorization: `Bearer ${token}`}
+                });
+                // console.log(response);
+                return response.data;
+                
+            }catch(err){
+                throw err;
+            }
+        }
     
 
     /**AUTHENTICATION CHECKER */

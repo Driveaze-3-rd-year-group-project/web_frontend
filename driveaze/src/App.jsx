@@ -63,6 +63,7 @@ import ServiceTypes from "./components/userpage/Manager/ServiceTypes.jsx";
 import VehicleModelBrand from "./components/userpage/Manager/VehicleModelBrand.jsx";
 import AddVehicleModelBrand from "./components/userpage/Manager/AddVehicleModelBrand.jsx";
 import AddService from "./components/userpage/Manager/AddService.jsx";
+import TechnicianCategory from './components/userpage/Manager/TechnicianCategory.jsx';
 import AddTechnicianCategory from "./components/userpage/Manager/AddTechnicianCategory.jsx";
 
 
@@ -94,6 +95,7 @@ import PaymentPage from "./components/common/PaymentPage.jsx";
 import PaymentSuccess from "./components/common/PaymentSuccess.jsx";
 import PaymentCancel from "./components/common/PaymentCancel.jsx";
 import OTPVerification from "./components/userpage/Customer/OTPVerificationScreen.jsx";
+
 
 
 
@@ -270,6 +272,7 @@ function App() {
                   <Route path="/addservice" element={<AddService />} />
                   <Route path="/vehiclemodelbrand" element={<VehicleModelBrand />} />
                   <Route path="/addvehiclemodelbrand" element={<AddVehicleModelBrand />} />
+                  <Route path="/techniciancategory" element={<TechnicianCategory />} />
                   <Route path="/addtechniciancategory" element={<AddTechnicianCategory />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                   <Route path="/viewongoingjobs/:numberPlate" element={<ViewOngoingjob/>} />

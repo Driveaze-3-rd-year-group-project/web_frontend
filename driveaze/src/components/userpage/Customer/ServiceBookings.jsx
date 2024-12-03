@@ -104,10 +104,11 @@ const ServiceBookings = () => {
         );
         closePopup();
       } else {
-        Swal.fire("Error", res.message || "Failed to update booking.", "error");
+        Swal.fire("Error", res.message || "Failed to update booking. Please try again!", "error");
       }
+      window.location.reload();
     } catch (err) {
-      Swal.fire("Error", err.message || "An error occurred.", "error");
+      Swal.fire("Error", err.message || "An error occurred. Please try again!", "error");
     } finally {
       setIsLoading(false);
     }
@@ -123,11 +124,13 @@ const ServiceBookings = () => {
         Swal.fire("Success", res.message || "Reservation cancelled successfully.", "success");
         setServiceBookings((prev) => prev.filter((item) => item.bookingId !== updateData.bookingId));
         closePopup();
+        window.location.reload();
       } else {
-        Swal.fire("Error", res.message || "Failed to cancel reservation.", "error");
+        Swal.fire("Error", res.message || "Failed to cancel reservation.Please try again!", "error");
       }
     } catch (err) {
       Swal.fire("Error", err.message || "An error occurred.", "error");
+      window.location.reload();
     } finally {
       setIsLoading(false);
     }

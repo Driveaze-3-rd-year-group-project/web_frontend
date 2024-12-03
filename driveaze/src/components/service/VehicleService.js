@@ -86,5 +86,36 @@ class VehicleService{
         }
     }
 
+    static async getModelsForBrand(token,brandId) {
+      try {
+        const [brandsResponse, modelsResponse] = await Promise.all([
+          this.getVehicleBrands(token),
+          this.getVehicleModels(token),
+        ]);
+    
+        if (!brandsResponse.success) {
+          return { success: false, message: brandsResponse.message };
+        }
+        if (!modelsResponse.success) {
+          return { success: false, message: modelsResponse.message };
+        }
+    
+        const brands = brandsResponse.message; // List of brands
+        const models = modelsResponse.message; // List of models
+    
+        const brandsWithModels = brands.map((brand) => {
+          const associatedModels = models.filter((model) => model.brandId === brand.brandId);
+          return {
+            ...brand,
+            models: associatedModels, // Attach models to the brand
+          };
+        });
+    
+        return { success: true, message: brandsWithModels };
+      } catch (err) {
+        return { success: false, message: "An error occurred while processing data." };
+      }
+  }
+
 }
 export default VehicleService

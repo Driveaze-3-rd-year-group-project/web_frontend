@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import CustomerComplaintService from '../../service/CustomerComplaintService';
-import RetrieveComplaintService from '../../service/RetrieveComplaintService';
 import { FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
@@ -99,17 +98,17 @@ const SendComplaint = () => {
             setIsLoading(true);
             try {
                 const token = localStorage.getItem('token');
-                const response = await RetrieveComplaintService.retrieveUserComplaintData(token);
-                if (response.success) {
+                const response = await CustomerComplaintService.retrieveComplaintData(token);
+                if (response && response.success) {
                     setComplaintData(response.message || []);
                 } else {
                     Swal.fire({
                         title: 'Error',
-                        text: response.message || 'Failed to retrieve your complaints.',
+                        text: response?.message || 'Failed to retrieve your complaints.',
                         icon: 'error',
                         confirmButtonText: 'Close',
                     });
-                }
+                }queueMicrotask
             } catch (err) {
                 Swal.fire({
                     title: 'Error',

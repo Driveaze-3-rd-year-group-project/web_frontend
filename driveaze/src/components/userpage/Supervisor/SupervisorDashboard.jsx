@@ -1,101 +1,150 @@
-import React, { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import 'chart.js/auto';
-import { FaWrench, FaCheckCircle, FaBoxes, FaUserCog } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaWarehouse, FaExclamationCircle, FaChartLine } from 'react-icons/fa';
+import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+import InventoryService from "../../service/InventoryService";
+import UserService from '../../service/UserService'; // Assuming you have an announcement service
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../WarehouseKeeper/WarehouseKeeperDashboard.css";
+import SupervisorService from '../../service/SupervisorService';
 
-const SupervisorDashboard = () => {
-  const [pageIndex, setPageIndex] = useState(0);
+ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setPageIndex((prevIndex) => (prevIndex + 1) % 3);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, []);
+const Dashboard = ({ token }) => {
+    const [metrics, setMetrics] = useState({
+        JobCount: 0,
+        completedJobs: 0,
+        pendingJobs: 0,
+        technicianCount: 0,
+    });
 
-  const announcements = [
-    { title: 'System Maintenance Notice', details: 'Due to scheduled maintenance, our services will be unavailable on 20/08/2024 from 9 AM to 12 PM.' },
-    { title: 'Announcement 2', details: 'Details of announcement 2' },
-    { title: 'Announcement 3', details: 'Details of announcement 3' },
-    { title: 'Announcement 4', details: 'Details of announcement 4' },
-  ];
+    const [announcements, setAnnouncements] = useState([]);
 
-  const summaryData = [
-    { title: 'Repairing', count: '7', icon: FaWrench },
-    { title: 'Completed', count: '10', icon: FaCheckCircle },
-    { title: 'Inventory item', count: '100', icon: FaBoxes },
-    { title: 'Technicians', count: '30', icon: FaUserCog },
-  ];
+    useEffect(() => {
+        fetchStatistics();
+        fetchAnnouncements();
+    }, []);
 
-  const chartData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        label: 'Completed Vehicles',
-        data: [10, 28, 27, 39, 35, 44],
-        fill: false,
-        backgroundColor: 'rgba(0, 123, 255, 0.5)',
-        borderColor: 'rgba(0, 123, 255, 1)',
-      },
-    ],
-  };
+    const fetchStatistics = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await SupervisorService.getSupervisorStatistic(token);
+            if (response.statusCode === 200) {
+                setMetrics(prevMetrics => ({
+                    ...prevMetrics,
+                    JobCount: response.details.JobCount,
+                    completedJobs: response.details.completedJobs,
+                    pendingJobs: response.details.pendingJobs,
+                    technicianCount: response.details.technicianCount,
+                }));
+            } else {
+                toast.error(response.message || 'Failed to get statistic!');
+            }
+        } catch (error) {
+            console.error('Failed to fetch statistics', error);
+            toast.error('Failed to get details!');
+        }
+    };
 
-  return (
-    <div className="mt-14 max-w-screen-xl mx-auto px-4 md:px-8">
-      <div className="items-start justify-between md:flex">
-      <div className="max-w-lg">
-        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-          Dashboard
-        </h3>
-      </div>
-      </div>
-      <main className="p-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-          {summaryData.map((data, index) => (
-            <SummaryCard key={index} title={data.title} count={data.count} Icon={data.icon} />
-          ))}
-        </div>
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="w-full md:w-2/3">
-            <div className="p-4 bg-white rounded shadow">
-              <SectionTitle title="Monthly Repairs" />
-              <Line data={chartData} />
+    const fetchAnnouncements = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await UserService.getStaffAnnouncement(token); // Fetch announcements
+            if (response.statusCode === 200) {
+                setAnnouncements(response.announcementList); // Assuming details is an array of announcements
+            } else {
+                toast.error(response.message || 'Failed to fetch announcements!');
+            }
+        } catch (error) {
+            console.error('Failed to fetch announcements', error);
+            toast.error('Failed to fetch announcements!');
+        }
+    };
+
+    const JobStatusData = {
+        labels: ['Completed Repairs', 'Ongoing Repairs'],
+        datasets: [
+            {
+                label: 'Job Status',
+                data: [
+                    metrics.completedJobs,
+                    metrics.pendingJobs,
+                ],
+                backgroundColor: ['#191970','#d53300'],
+                borderColor: '#fff',
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    return (
+        <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
+            <h3 className="text-gray-800 text-xl font-bold sm:text-2xl mb-6">Supervisor Dashboard</h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+                    <div className="flex-shrink-0 text-4xl text-blue-500">
+                        <FaWarehouse />
+                    </div>
+                    <div className="ml-4">
+                        <h4 className="text-gray-800 text-lg font-semibold">Completed Jobs</h4>
+                        <p className="text-gray-600 text-xl font-bold">{metrics.completedJobs}</p>
+                    </div>
+                </div>
+
+                <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+                    <div className="flex-shrink-0 text-4xl text-red-500">
+                        <FaExclamationCircle />
+                    </div>
+                    <div className="ml-4">
+                        <h4 className="text-gray- 800 text-lg font-semibold">Pending Jobs</h4>
+                        <p className="text-gray-600 text-xl font-bold">{ metrics.pendingJobs}</p>
+                    </div>
+                </div>
+
+                <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+                    <div className="flex-shrink-0 text-4xl text-green-500">
+                        <FaChartLine />
+                    </div>
+                    <div className="ml-4">
+                        <h4 className="text-gray-800 text-lg font-semibold">Technician Count</h4>
+                        <p className="text-gray-600 text-xl font-bold">{metrics.technicianCount}</p>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div className="w-full md:w-1/3">
-            <div className="space-y-4">
-              {announcements.map((announcement, index) => (
-                <AnnouncementCard key={index} title={announcement.title} details={announcement.details} />
-              ))}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col">
+                <div className="flex justify-between items-center mb-4">
+                    <h4 className="text-gray-800 text-xl font-semibold">Announcements</h4>
+                    <a href='allannouncements' className="py-1 px-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2">View All</a>
+                </div>
+                    <div className="max-h-80 overflow-hidden overflow-y-auto scrollbar-hide space-y-4">
+                        {announcements.length > 0 ? (
+                            announcements.slice(0, 5).map((announcement, index) => (
+                                <div key={index} className="p-4 border rounded-lg shadow-md">
+                                    <h5 className="font-bold">{announcement.title}</h5>
+                                    <p className="text-xs text-gray-500 mb-2">{new Date(announcement.date).toLocaleDateString()}</p>
+                                    <p className="text-sm text-gray-600">{announcement.content}</p>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-600">No announcements available.</p>
+                        )}
+                    </div>
+                </div>
+
+                <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col">
+                    <h4 className="text-gray-800 text-xl font-semibold mb-4">Job Status Distribution</h4>
+                    <div className="w-full h-64 flex items-center justify-center">
+                        <Doughnut data={JobStatusData} />
+                    </div>
+                </div>
             </div>
-          </div>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
         </div>
-      </main>
-    </div>
-  );
+    );
 };
 
-const AnnouncementCard = ({ title, details }) => (
-  <div className="p-4 bg-white rounded shadow">
-    <h3 className="font-bold text-lg">{title}</h3>
-    <p className="mt-2 text-sm">{details}</p>
-  </div>
-);
-
-const SummaryCard = ({ title, count, Icon }) => (
-  <div className="p-4 bg-white rounded shadow flex justify-between items-center">
-    <div>
-      <h4 className="font-semibold">{title}</h4>
-      <p className="text-2xl text-blue-900 font-bold">{count}</p>
-    </div>
-    <Icon className="text-3xl text-gray-400" />
-  </div>
-);
-
-const SectionTitle = ({ title }) => (
-  <div className="my-4 p-2 rounded">
-    <h2 className="text-xl font-semibold">{title}</h2>
-  </div>
-);
-
-export default SupervisorDashboard;
+export default Dashboard;

@@ -120,6 +120,19 @@ class SupervisorService {
             throw err;
         }
     }
+
+    static async getSupervisorStatistic(token){
+        try{
+            const response = await axios.get(`${SupervisorService.BASE_URL}/dashboard/sup-statistic`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
     
 }
 

@@ -168,7 +168,7 @@ const MSiteAnnouncement = () => {
                             <h4 className="text-lg font-semibold text-gray-800">{announcement.title}</h4>
                             <p className="text-gray-600">{announcement.content}</p>
                             <div className="flex justify-between mt-2">
-                                <p className={`text-sm ${roleColors[announcement.recivers]}`}>Role: {announcement.recivers}</p>
+                                <p className={`text-sm ${roleColors[announcement.recivers]}`}>Recivers: {announcement.recivers}</p>
                                 <p className="text-gray-500 text-sm">{new Date(announcement.date).toLocaleDateString()}</p>
                             </div>
                             <div className="flex justify-end space-x-2 mt-4">

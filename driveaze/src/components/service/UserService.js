@@ -958,6 +958,20 @@ class UserService{
         }
     }
 
+    static async getStaffAnnouncement( token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/announcement/get-dash-staff-announcements`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+          return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
      /**Suppliers */
      static async addNewSupplier(supplierData, token){
         try{
@@ -965,6 +979,7 @@ class UserService{
             const response = await axios.post(`${UserService.BASE_URL}/supplier/save`, supplierData, {
                 headers: {Authorization: `Bearer ${token}`}
             });
+
             return response.data;
             
         }catch(err){
@@ -972,6 +987,20 @@ class UserService{
         }
     }
 
+
+    static async getCustomerAnnouncement( token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/announcement/get-dash-ccustomer-announcements`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+          return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
     static async updateSuppliers(supplierId, supplierData, token){
         try{
 

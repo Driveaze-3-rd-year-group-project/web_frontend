@@ -124,7 +124,10 @@ const Dashboard = ({ token }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col">
-                    <h4 className="text-gray-800 text-xl font-semibold mb-4">Announcements</h4>
+                <div className="flex justify-between items-center mb-4">
+                    <h4 className="text-gray-800 text-xl font-semibold">Announcements</h4>
+                    <a href='allannouncements' className="py-1 px-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 mb-2">View All</a>
+                </div>
                     <div className="max-h-80 overflow-hidden overflow-y-auto scrollbar-hide space-y-4">
                         {announcements.length > 0 ? (
                             announcements.slice(0, 5).map((announcement, index) => (

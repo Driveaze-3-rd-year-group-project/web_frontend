@@ -95,6 +95,7 @@ import PaymentPage from "./components/common/PaymentPage.jsx";
 import PaymentSuccess from "./components/common/PaymentSuccess.jsx";
 import PaymentCancel from "./components/common/PaymentCancel.jsx";
 import OTPVerification from "./components/userpage/Customer/OTPVerificationScreen.jsx";
+import AllAnnouncement from './components/userpage/WarehouseKeeper/AllAnnouncements.jsx';
 
 
 
@@ -391,6 +392,7 @@ function App() {
                   <Route path="/inventory" element={<Inventory />} />
                   <Route path="/assigned-jobs" element={<Myvehicles/>} />
                   <Route path="/userProfile" element={<UserProfile />} />
+                  <Route path="/allannouncements" element={<AllAnnouncement />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               )}

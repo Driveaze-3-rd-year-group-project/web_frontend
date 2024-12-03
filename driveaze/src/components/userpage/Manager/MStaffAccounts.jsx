@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaEdit, FaRegTrashAlt } from 'react-icons/fa';
 import UserService from "../../service/UserService";
 
 function MStaffAccounts() {
@@ -149,18 +149,18 @@ function MStaffAccounts() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {user.registeredDate}
                 </td>
-                <td className="text-center px-6 whitespace-nowrap">
+                <td className="flex justify-center items-center space-x-4">
                   <Link
                     to={`/update-user/${user.id}`}
-                    className="px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150"
+                    className="text-indigo-600 hover:text-indigo-800 text-xl"
                   >
-                    Update
+                    <FaEdit />
                   </Link>
                   <button
                     onClick={() => deleteUser(user.id)}
-                    className="delete-button ml-4 px-4 py-2 text-white font-medium bg-red-500 hover:bg-red-400 active:bg-red-600 rounded-lg duration-150"
+                    className="text-red-500 hover:text-red-800 text-xl"
                   >
-                    Delete
+                    <FaRegTrashAlt />
                   </button>
                 </td>
               </tr>
@@ -173,3 +173,4 @@ function MStaffAccounts() {
 }
 
 export default MStaffAccounts;
+ 

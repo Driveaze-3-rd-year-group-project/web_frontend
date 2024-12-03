@@ -187,8 +187,8 @@ const ServiceBookings = () => {
   };
 
   const labelColors = {
-    completed: "text-green-600 bg-green-50",
-    pending: "text-orange-600 bg-orange-50",
+    1: "text-green-600 bg-green-50",
+    0: "text-orange-600 bg-orange-50",
   };
 
   return (
@@ -236,11 +236,11 @@ const ServiceBookings = () => {
                       </div>
                       <div className="flex-auto flex items-center justify-center w-12 h-12">
                       <span className={`p-2 rounded-full font-semibold text-xs ${labelColors[item?.status] || ""}`}>
-                        {item.status}
+                        {item.status==0?"Pending":"Completed"}
                       </span>
                     </div>
                       <div className="flex-auto flex items-center justify-center w-24 h-12">
-                        { item.status=="pending" || item.status=="waiting"?(
+                        { item.status==0?(
                         <button
                           onClick={() => submitDelete(item)}
                           className="flex items-center justify-center p-3 w-15 font-medium text-sm text-white bg-red-600 hover:bg-red-500 active:bg-red-700 rounded-lg"

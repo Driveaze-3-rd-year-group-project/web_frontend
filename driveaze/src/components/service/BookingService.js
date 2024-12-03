@@ -39,8 +39,11 @@ class BookingService {
                 }
             );
 
-            if (response.status === 200) {
-                return { success: true, message: "Your booking was created sucessfully!"};
+
+            if (response.data.statusCode === 200) {
+                return { success: true, message: "Your booking was created successfully!" };
+            } else if (response.data.statusCode === 409) {
+                return { success: false, message: "Booking already exists, please select a different vehicle!" };
             } else {
                 return { success: false, message: "Failed to create your booking!" };
             }
@@ -67,8 +70,7 @@ class BookingService {
                   headers: { Authorization: `Bearer ${token}` }
               }
           );
-
-          if (response.status === 200) {
+          if (response.data.statusCode === 200) {
               return { success: true, message: "Your booking was update sucessfully!"};
           } else {
               return { success: false, message: "Failed to update your booking!" };
@@ -96,7 +98,7 @@ class BookingService {
               }
           );
 
-          if (response.status === 200) {
+          if (response.data.statusCode === 200) {
               return { success: true, message: "Your booking was cancelled sucessfully!"};
           } else {
               return { success: false, message: "Failed to cancel your booking!" };

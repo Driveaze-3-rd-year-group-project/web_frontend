@@ -15,7 +15,7 @@ const BookNewService = () => {
     vehicleNo: "",
     brand: "",
     model: "",
-    status: "pending",
+    status:0,
     preferredDate: "",
     preferredTime: "",
   });
@@ -119,12 +119,12 @@ const BookNewService = () => {
       } else {
         Swal.fire({
           title: "Error",
-          text: "An error occurred in creating a booking, please try again!",
+          text: res.message,
           icon: "error",
           confirmButtonText: "OK",
         });
         setIsLoading(false);
-        setIsSubmitting(false); // Enable submit button again
+        setIsSubmitting(false); // Enable suqbmit button again
       }
     } catch (err) {
       Swal.fire({

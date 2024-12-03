@@ -1,66 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { FaTimes,FaSearch } from 'react-icons/fa';
+import BookingService from '../../service/BookingService';
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 const BookingManagement = () => {
-  const [bookings, setBookings] = useState([
-    {
-      id: 1,
-      customerName: "Nimal Perera",
-      vehicleNumber: "WPQ 1234",
-      brand: "Toyota",
-      model: "Camry",
-      status: "Arrived",
-      date: "2024-08-01",
-      time: "10:00 AM",
-    },
-    {
-      id: 2,
-      customerName: "Kumarasiri Silva",
-      vehicleNumber: "WPR 5678",
-      brand: "Honda",
-      model: "Accord",
-      status: "Arrived",
-      date: "2024-08-02",
-      time: "02:00 PM",
-    },
-    {
-      id: 3,
-      customerName: "Ayesha Fernando",
-      vehicleNumber: "WPK 9012",
-      brand: "Ford",
-      model: "Focus",
-      status: "Pending",
-      date: "2024-08-03",
-      time: "11:00 AM",
-    },
-    {
-      id: 4,
-      customerName: "Saman Wijesinghe",
-      vehicleNumber: "WPL 3456",
-      brand: "Chevrolet",
-      model: "Malibu",
-      status: "Pending",
-      date: "2024-08-04",
-      time: "03:00 PM",
-    },
-    {
-      id: 5,
-      customerName: "Ravi Abeysekera",
-      vehicleNumber: "WPM 7890",
-      brand: "Nissan",
-      model: "Altima",
-      status: "Pending",
-      date: "2024-08-05",
-      time: "09:00 AM",
-    },
-  ]);
-
+  const [bookings, setBookings] = useState([]);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
+  
 
   const handleViewDetails = (booking) => {
     setSelectedBooking(booking);
@@ -72,11 +29,83 @@ const BookingManagement = () => {
     setSelectedBooking(null);
   };
 
-  const handleAcceptBooking = (id) => {
-    setBookings(bookings.map(b =>
-      b.id === id ? { ...b, status: "Arrived" } : b
-    ));
+  const convertTo12HourFormat = (time) => {
+    if (!time) return "";
+    const [hour, minute] = time.split(":").map(Number); // Extract hour and minute
+    const period = hour >= 12 ? "PM" : "AM"; // Determine AM/PM
+    const hour12 = hour % 12 || 12; // Convert to 12-hour format, handling 12 AM and 12 PM
+    return `${hour12}:${minute.toString().padStart(2, "0")} ${period}`;
   };
+
+
+const handleAcceptBooking = async (item) => {
+  setError("");
+  setIsLoading(true);
+
+  const updatedData = { ...item, status: 1 }; // Update the status directly
+
+  try {
+    const token = localStorage.getItem("token");
+    const response = await BookingService.updateBooking(updatedData, token);
+    if (response.success) {
+      toast.success("Booking updated successfully");
+
+      // Update the bookings state without reloading the page
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking.bookingId === updatedData.bookingId
+            ? { ...booking, status: 1 } // Update the status locally
+            : booking
+        )
+      );
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: response.message || "Failed to update the booking. Please try again later!",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  } catch (err) {
+    Swal.fire({
+      title: "Error",
+      text: err.message || "Server Error, Please refresh and try again!",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+  } finally {
+    setIsLoading(false); // Ensure loading state is reset
+  }
+};
+
+
+  useEffect(() => {
+    const fetchServiceBookings = async () => {
+      setError("");
+      setIsLoading(true);
+      try {
+        const token = localStorage.getItem("token");
+        const response = await BookingService.retrieveAllBookings(token);
+        if (response.success) {
+          console.log("response.message-->",response.message);
+          setBookings(response.message);
+        } else {
+          setBookings([]);
+        }
+      } catch (err) {
+        Swal.fire({
+          title: "Error",
+          text: err.message || "Error retrieving reservations. Please refresh or re-login!",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchServiceBookings();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -87,19 +116,12 @@ const BookingManagement = () => {
   };
 
   const handleCreateNewJob = () => {
-    // Logic for creating a new job
-    alert('Create New Job button clicked');
+    navigate("/create-job");
   };
-
-  const filteredBookings = bookings.filter(booking => {
-    const matchesQuery = booking.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         booking.vehicleNumber.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = filterStatus === "All" || booking.status === filterStatus;
-    return matchesQuery && matchesStatus;
-  });
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={true} />
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Booking Management</h3>
       </div>
@@ -145,41 +167,31 @@ const BookingManagement = () => {
       </div>
 
       <ul className="divide-y mx-auto">
-        {filteredBookings.map((booking) => (
-          <li key={booking.id} className="py-2 flex items-start justify-between">
+        {bookings.map((booking) => (
+          <li key={booking.bookingId} className="py-2 flex items-start justify-between">
             <div className="flex-grow">
               <h4 className="font-medium">{booking.customerName}</h4>
-              <p className="text-gray-600 text-sm">{booking.vehicleNumber} - {booking.brand} {booking.model}</p>
-              <p className="text-gray-600 text-sm">{booking.date} at {booking.time}</p>
-              <span className={`py-1 px-2 rounded-full text-xs ${booking.status === "Pending" ? "bg-yellow-50 text-yellow-600 font-bold" : booking.status === "Arrived" ? "bg-green-50 text-green-600" : "" }`}>
-                {booking.status}
+              <p className="text-gray-600 text-sm">{booking.vehicleNo} - {booking.brand} {booking.model}</p>
+              <p className="text-gray-600 text-sm">{booking.preferredDate} at {booking.preferredTime}</p>
+              <span className={`py-1 px-2 rounded-full text-xs ${booking.status === 0 ? "bg-yellow-50 text-yellow-600 font-bold" : booking.status === 1 ? "bg-green-50 text-green-600" : "" }`}>
+                {booking.status==0?"Pending":"Arrived"}
               </span>
             </div>
             <div className="flex-shrink-0 flex gap-5">
-              {booking.status === "Pending" ? (
+              {booking.status == 0 ? (
                 <>
                   <button
-                    onClick={() => handleAcceptBooking(booking.id)}
+                    disabled={isLoading}
+                    onClick={() => handleAcceptBooking(booking)}
                     className="py-2 px-4 text-white font-medium bg-green-600 hover:bg-green-500 rounded-lg"
                   >
                     Vehicle Arrived
                   </button>
-                  <button
-                    onClick={() => handleViewDetails(booking)}
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 rounded-lg"
-                  >
-                    View Details
-                  </button>
                 </>
               ) : (
                 <>
-                  <button
-                    onClick={() => handleViewDetails(booking)}
-                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 rounded-lg"
-                  >
-                    View Details
-                  </button>
                   <a
+                    onClick={handleCreateNewJob}
                     href="/createnewjob"
                     className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 rounded-lg"
                   >
@@ -192,29 +204,6 @@ const BookingManagement = () => {
         ))}
       </ul>
 
-      {showDetails && selectedBooking && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
-            <div className="flex justify-between items-center pb-3 relative">
-              <button
-                onClick={handleCloseDetails}
-                className="absolute top-0 right-0 text-gray-600 hover:text-gray-900"
-              >
-                <FaTimes />
-              </button>
-              <h4 className="text-xl font-semibold">Booking Details</h4>
-            </div>
-            <div className="space-y-4">
-              <p><strong>Customer Name:</strong> {selectedBooking.customerName}</p>
-              <p><strong>Vehicle Number:</strong> {selectedBooking.vehicleNumber}</p>
-              <p><strong>Vehicle Brand and Model:</strong> {selectedBooking.brand} {selectedBooking.model}</p>
-              <p><strong>Date:</strong> {selectedBooking.date}</p>
-              <p><strong>Time:</strong> {selectedBooking.time}</p>
-              <p><strong>Status:</strong> <span className={`py-1 px-2 rounded-full text-xs ${selectedBooking.status === "Pending" ? "bg-yellow-50 text-yellow-600 font-bold" : selectedBooking.status === "Arrived" ? "bg-green-50 text-green-600" : "bg-red-50 text-red-600 font-bold"}`}>{selectedBooking.status}</span></p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

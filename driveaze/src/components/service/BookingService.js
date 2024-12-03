@@ -29,6 +29,31 @@ class BookingService {
       }
     }
 
+    static async retrieveAllBookings(token) {
+        try {
+          const response = await axios.get(`${this.BASE_URL}/booking/getAll`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log("response-----",response.data);
+          if (response.data.statusCode === 200 && response.data) {
+            return { success: true, message: response.data.bookingList};  
+          } else {
+            return { success: false, message: "No reservations!" };
+          }
+    
+        } catch (err) {
+          if (err.response) {
+            return { success: false, message: err.response.data || "Server error occurred" };
+          } else if (err.request) {
+            return { success: false, message: "No response from server." };
+          } else {
+            return { success: false, message: err.message || "An error occurred." };
+          }
+        }
+      }
+
     static async createBooking(bookingData, token) {
         try {
             const response = await axios.post(

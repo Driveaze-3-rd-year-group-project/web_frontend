@@ -30,7 +30,9 @@ const ViewHistory = () =>{
       const jobResponse = await UserService.getAllJobRegistriesWithPaginationByVehicleId(vehicleId, page, token);
 
       console.log("Job Response", jobResponse);
-
+      
+      const jobsData = jobResponse?.content || [];
+      console.log("Jobs Data", jobsData);
 
       const updatedJobData = await Promise.all(
         jobsData.map(async (job) => {

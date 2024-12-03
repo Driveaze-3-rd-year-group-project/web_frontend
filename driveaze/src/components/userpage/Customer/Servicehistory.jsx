@@ -21,17 +21,50 @@ const ServiceHistory = () =>{
   }, [currentPage]);
 
   // console.log("Vehicle Data:", vehicleData);
+  console.log("Jobs updated:", jobs);
 
   const fetchJobDataByVehicleId = async (page) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await UserService.getAllJobsWithPaginationByVehicleId(vehicleId, page, token);
-      console.log(response);
+      const jobResponse = await UserService.getAllJobRegistriesWithPaginationByVehicleId(vehicleId, page, token);
 
-      const jobsData = response?.content || [];
+      console.log("Job Response", jobResponse);
+
+
+      // const response = await UserService.getAllJobsWithPaginationByVehicleId(vehicleId, page, token);
+      // console.log(response);
+
+      
+      
+      const jobsData = jobResponse?.content || [];
       console.log("Jobs Data", jobsData);
 
-      setJobs(jobsData);
+      const updatedJobData = await Promise.all(
+        jobsData.map(async (job) => {
+          try {
+            const jobEntriesData = await UserService.getAllJobEntriesByJobId(job.jobId, token);
+            console.log("Job Entries", jobEntriesData);
+
+            const jobEntries = jobEntriesData?.Details || [];
+
+            // console.log("Job Entries", jobEntries);
+
+            return {
+              ...job,
+              jobEntries,
+            };
+          } catch (error) {
+            console.error(`Error fetching details for vehicle ID ${job.jobId}:`, error);
+            return {
+              ...job,
+              jobEntries: [],
+            };
+          }
+        })
+      );
+
+      setJobs(updatedJobData);
+    
 
       const vehicleData = await UserService.getCustomerVehicleById(vehicleId, token);
       // console.log('Fetched vehicle data:', vehicleData); 

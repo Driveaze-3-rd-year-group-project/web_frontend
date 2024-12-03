@@ -104,10 +104,11 @@ const ServiceBookings = () => {
         );
         closePopup();
       } else {
-        Swal.fire("Error", res.message || "Failed to update booking.", "error");
+        Swal.fire("Error", res.message || "Failed to update booking. Please try again!", "error");
       }
+      window.location.reload();
     } catch (err) {
-      Swal.fire("Error", err.message || "An error occurred.", "error");
+      Swal.fire("Error", err.message || "An error occurred. Please try again!", "error");
     } finally {
       setIsLoading(false);
     }
@@ -123,14 +124,24 @@ const ServiceBookings = () => {
         Swal.fire("Success", res.message || "Reservation cancelled successfully.", "success");
         setServiceBookings((prev) => prev.filter((item) => item.bookingId !== updateData.bookingId));
         closePopup();
+        window.location.reload();
       } else {
-        Swal.fire("Error", res.message || "Failed to cancel reservation.", "error");
+        Swal.fire("Error", res.message || "Failed to cancel reservation.Please try again!", "error");
       }
     } catch (err) {
       Swal.fire("Error", err.message || "An error occurred.", "error");
+      window.location.reload();
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const convertTo12HourFormat = (time) => {
+    if (!time) return "";
+    const [hour, minute] = time.split(":").map(Number); // Extract hour and minute
+    const period = hour >= 12 ? "PM" : "AM"; // Determine AM/PM
+    const hour12 = hour % 12 || 12; // Convert to 12-hour format, handling 12 AM and 12 PM
+    return `${hour12}:${minute.toString().padStart(2, "0")} ${period}`;
   };
 
   const labelColors = {
@@ -140,7 +151,7 @@ const ServiceBookings = () => {
 
   return (
     <div className='flex flex-row'>
-      <div className='left-side w-2/3 mt-14'>
+      <div className='left-side w-9/12 mt-14'>
         <div className="max-w-2xl mx-auto px-4">
           <div className="items-start justify-between sm:flex">
             <div>
@@ -162,24 +173,26 @@ const ServiceBookings = () => {
   
           {/* Check if reservationList is null or empty */}
           {reservationList && reservationList.length > 0 ? (
-            <ul className="mt-12 divide-y">
+            <ul className="mt-12 divide-y ">
               {Object.values(reservationList).map((item) => (
                 <li key={item.bookingId} className="py-5 min-h-16 w-full flex items-start justify-between">
                   <div className="flex gap-3 flex-row ">
                     <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
                     <div className="relative flex flex-row gap-8 items-center">
-                      <div className="flex-2 flex gap-1 flex-col items-start justify-center">
+                      <div className="flex-auto flex gap-1 flex-col items-start justify-center">
                         <span className="block text-md text-gray-700 font-semibold">{item.vehicleNo}</span>
                         <span className="block text-sm text-gray-600">{item.brand} - {item.model}</span>
                       </div>
-                      <div className="flex-1 flex items-center justify-center">
+                      <div className="flex-auto flex items-center justify-center">
                         <span className="block text-sm text-gray-600">{item.preferredDate}</span>
                       </div>
-                      <div className="flex-1 flex items-center justify-center">
-                        <span className="block text-sm text-gray-600">{item.preferredTime}</span>
+                      <div className="flex-auto flex items-center justify-center">
+                        <span className="block text-sm text-gray-600">
+                        {convertTo12HourFormat(item.preferredTime)}
+                        </span>
                       </div>
-                      <div className="flex-1 flex flex-row gap-8 mx-14 items-center justify-center">
-                        <span className={`py-2 px-3 rounded-full font-semibold text-xs ${labelColors[item?.status]?.color || ""}`}>
+                      <div className="grow flex-row-reverse mx-10  justify-center">
+                        <span className={`py-2 px-3 mx-4 rounded-full font-semibold text-xs ${labelColors[item?.status] || ""}`}>
                           {item.status}
                         </span>
                         <button
@@ -201,7 +214,7 @@ const ServiceBookings = () => {
           )}
         </div>
       </div>
-      <div className='right-side w-1/3 mt-36'>
+      <div className='right-side w-4/12 mt-36'>
         <Calendar />
       </div>
   

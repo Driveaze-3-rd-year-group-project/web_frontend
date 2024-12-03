@@ -341,7 +341,7 @@ function App() {
                   <Route path="/completedrepairs/:numberPlate" element={<CompletedRepairs />} />
                   <Route path="/addtechnicians" element={<AddTechnicians />} />
                   <Route path="/vehiclehistory" element={<VehicleHistory />} />
-                  <Route path="/vehiclehistory/viewhistory/:vehicleNumber" element={<ViewHistory />} />
+                  <Route path="/vehiclehistory/viewhistory/:vehicleId" element={<ViewHistory />} />
                   <Route path="/inventorymanagement" element={<InventoryManagement />} />
                   <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="/allannouncements" element={<SupAnnouncement />} />

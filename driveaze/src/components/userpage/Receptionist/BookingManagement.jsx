@@ -192,6 +192,7 @@ const handleAcceptBooking = async (item) => {
                 <>
                   <a
                     onClick={handleCreateNewJob}
+                    // href="/createnewjob"
                     className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 rounded-lg"
                   >
                     Create New Job

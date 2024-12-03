@@ -1054,7 +1054,7 @@ class UserService{
     static async getCustomerAnnouncement( token){
         try{
 
-            const response = await axios.get(`${UserService.BASE_URL}/announcement/get-dash-ccustomer-announcements`, {
+            const response = await axios.get(`${UserService.BASE_URL}/announcement/get-dash-customer-announcements`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             console.log(response);

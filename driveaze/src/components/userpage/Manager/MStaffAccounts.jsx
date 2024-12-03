@@ -111,10 +111,10 @@ function MStaffAccounts() {
           Create Staff Account
         </Link>
         <Link
-          to="/addtechniciancategory"
+          to="/techniciancategory"
           className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
         >
-          Add Technician Category
+          Technician Category
         </Link>
       </div>
 

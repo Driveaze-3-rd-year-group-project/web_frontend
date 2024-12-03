@@ -254,9 +254,9 @@ function JobDetails() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="text-center py-4">
+                  <div className="mt-12 text-gray-600 text-lg font-semibold">
                     No job Details Available
-                  </td>
+                  </div>
                 </tr>
               )}
             </tbody>

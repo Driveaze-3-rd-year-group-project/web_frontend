@@ -3,13 +3,16 @@ import { UserContext } from '../../../UserContext';
 import UserService from '../../service/UserService';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 const OTPVerification = () => {
+  const navigate = useNavigate();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef([]);
   const [error, setError] = useState('');
   const [timer, setTimer] = useState(30);
   const { userData } = useContext(UserContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [otpData, setOtpData] = useState({
     phoneNumber: '',
     otp: '',
@@ -60,35 +63,35 @@ const OTPVerification = () => {
     const phoneNumber = userData.phoneNumber;
     const userId = userData.userId;
 
-    setOtpData({
-      ...otpData,
+    // Instead of setting state and using otpData, create the payload directly
+    const payload = {
       phoneNumber,
       otp: otpValue,
       userId
-    });
+    };
   
+    setIsSubmitting(true);
     try {
-      const response = await UserService.verifyOTP(otpData);
+      // Use the payload directly instead of otpData
+      const response = await UserService.verifyOTP(payload);
   
       if (response.statusCode === 200) {
-        // console.log('OTP verified successfully:', response);
-        
         localStorage.setItem('token', response.token);
         localStorage.setItem('role', response.role);
         toast.success("OTP verified successfully!");
         setTimeout(() => {
-          window.refresh();
+          window.location.reload();
         }, 500);
-        // setUserData(userData);
       } else {
         setError(response.message || 'Failed to verify OTP');
         toast.error(response.message || 'Failed to verify OTP');
       }
     } catch (error) {
-      // Handle any network or unexpected errors
       setError('An error occurred. Please try again.');
       console.error('Error verifying OTP:', error.response ? error.response.data : error);
       toast.error('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -129,11 +132,11 @@ const OTPVerification = () => {
           )}
 
           <button
-            // type="submit"
-            onClick={handleSubmit}
-            className="w-full px-4 py-3 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="w-full px-4 py-3 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg duration-150 disabled:bg-indigo-300"
           >
-            Verify
+              {isSubmitting ? 'Verifying...' : 'Verify'}
           </button>
         </form>
 

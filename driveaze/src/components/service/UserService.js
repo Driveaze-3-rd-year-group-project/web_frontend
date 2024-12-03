@@ -285,6 +285,47 @@ class UserService{
         }
     }
 
+    static async getAllJobsWithPaginationByVehicleId(vehicleId, offset, token) {
+        try {
+            const params = new URLSearchParams();
+            params.append("vehicleId", vehicleId);
+
+            const response = await axios.get(
+                `${UserService.BASE_URL}/job-registry/pagination-and-sort-and-get-with-vehicle-id/${offset}`,
+                {
+                    params: { vehicleId }, // Include vehicleId as a query parameter
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+            return response.data;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    // static async getAllVehiclesWithPaginationAndStatusesByCustomerPhoneNo(phoneNo, offset, token) {
+    //     try {
+    //         // Create query parameters
+    //         const params = new URLSearchParams();
+    //         params.append("phoneNo", phoneNo);
+    
+    //         // Make API call to the updated endpoint
+    //         const response = await axios.get(
+    //             `${UserService.BASE_URL}/customer-vehicle/paginationAndSortAndGetWithCustomerPhone/${offset}`,
+    //             {
+    //                 params: { phoneNo }, // This is a cleaner way to pass query parameters
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 }
+    //             }
+    //         );
+    
+    //         return response.data;
+    //     } catch (err) {
+    //         throw err;
+    //     }
+    // }
+
     /***Job Entries */
     
 
@@ -340,7 +381,7 @@ class UserService{
             throw err;
         }
     }
-
+    
     static async getAllCustomerVehicles(token){
         try{
 
@@ -507,6 +548,29 @@ class UserService{
             throw err;
         }
     }    
+
+    static async getAllVehiclesWithPaginationAndStatusesByCustomerPhoneNo(phoneNo, offset, token) {
+        try {
+            // Create query parameters
+            const params = new URLSearchParams();
+            params.append("phoneNo", phoneNo);
+    
+            // Make API call to the updated endpoint
+            const response = await axios.get(
+                `${UserService.BASE_URL}/customer-vehicle/paginationAndSortAndGetWithCustomerPhone/${offset}`,
+                {
+                    params: { phoneNo }, // This is a cleaner way to pass query parameters
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }
+            );
+    
+            return response.data;
+        } catch (err) {
+            throw err;
+        }
+    }
     
 
     static async downloadBill(billId, token) {
@@ -975,6 +1039,87 @@ class UserService{
         }
     }
 
+
+    /***ServiceTypes */
+    static async addNewServiceType(serviceData, token){
+    try{
+
+        const response = await axios.post(`${UserService.BASE_URL}/service-type/save`, serviceData, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
+        return response.data;
+        
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async updateServiceType(serviceId, serviceData, token){
+        try{
+
+            const response = await axios.put(`${UserService.BASE_URL}/service-type/update/${serviceId}`, serviceData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async deleteServiceType(serviceId, token){
+    try{
+
+        const response = await axios.delete(`${UserService.BASE_URL}/service-type/delete/${serviceId}`, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
+        return response.data;
+        
+    }catch(err){
+        throw err;
+    }
+    }
+
+    static async getServiceTypeById(serviceId, token){
+    try{
+
+        const response = await axios.get(`${UserService.BASE_URL}/service-type/get-service-type/${serviceId}`, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
+        return response.data;
+        
+    }catch(err){
+        throw err;
+    }
+    }
+
+    static async getAllServiceTypes(token){
+    try{
+
+        const response = await axios.get(`${UserService.BASE_URL}/service-type/get-all-service-types`, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
+        // console.log(response);
+        return response.data;
+        
+    }catch(err){
+        throw err;
+    }
+    }
+
+    static async getAllServiceTypesWithPagination(offset, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/service-type/paginationAndSort/${offset}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
 
 
     /**AUTHENTICATION CHECKER */

@@ -894,6 +894,88 @@ class UserService{
         }
     }
 
+     /**Suppliers */
+     static async addNewSupplier(supplierData, token){
+        try{
+
+            const response = await axios.post(`${UserService.BASE_URL}/supplier/save`, supplierData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async updateSuppliers(supplierId, supplierData, token){
+        try{
+
+            const response = await axios.put(`${UserService.BASE_URL}/supplier/update/${supplierId}`, supplierData, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async deleteSuppliers(supplierId, token){
+        try{
+
+            const response = await axios.delete(`${UserService.BASE_URL}/supplier/delete/${supplierId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getSupplierById(supplierId, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/supplier/get-supplier/${supplierId}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllSuppliers(token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/supplier/get-all-suppliers`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async getAllSuppliersWithPagination(offset, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/supplier/paginationAndSort/${offset}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+
 
     /**AUTHENTICATION CHECKER */
     static logout(){

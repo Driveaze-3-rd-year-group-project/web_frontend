@@ -48,7 +48,7 @@ const CustomerDashboard = () => {
     const fetchAnnouncements = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await UserService.getStaffAnnouncement(token); // Fetch announcements
+            const response = await UserService.getCustomerAnnouncement(token); // Fetch announcements
             if (response.statusCode === 200) {
                 setAnnouncements(response.announcementList); // Assuming announcementList is an array
             } else {

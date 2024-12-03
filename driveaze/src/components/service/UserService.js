@@ -894,6 +894,20 @@ class UserService{
         }
     }
 
+    static async getStaffAnnouncement( token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/announcement/get-dash-staff-announcements`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
 
     /**AUTHENTICATION CHECKER */
     static logout(){

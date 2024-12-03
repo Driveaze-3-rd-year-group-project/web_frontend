@@ -21,7 +21,7 @@ function VehicleManagement() {
       const token = localStorage.getItem("token");
       const response = await UserService.getAllVehiclesWithPagination(page, token);
 
-      // console.log('Fetched paginated vehicles:', response);
+      console.log('Fetched paginated vehicles:', response);
   
       const vehiclesData = response?.content || [];
 

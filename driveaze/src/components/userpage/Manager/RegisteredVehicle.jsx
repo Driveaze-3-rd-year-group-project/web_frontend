@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../../service/UserService';
-import { FaSearch, FaEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaSearch} from 'react-icons/fa';
 
 function RegisteredVehicle() {
   const [vehicles, setVehicles] = useState([]);

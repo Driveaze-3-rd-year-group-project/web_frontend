@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import RetrieveComplaintService from "../../service/RetrieveComplaintService";
-import UpdateComplaintService from "../../service/UpdateComplaintService";
 import Swal from "sweetalert2";
+import CustomerComplaintService from "../../service/CustomerComplaintService";
+import { FaSearch } from "react-icons/fa";
 
 const CustomerComplaints = () => {
   const [complaints, setComplaints] = useState([]);
@@ -22,7 +22,7 @@ const CustomerComplaints = () => {
           throw new Error("User not authenticated. Token missing.");
         }
 
-        const response = await RetrieveComplaintService.retrieveComplaintData(token);
+        const response = await CustomerComplaintService.retrieveAllComplaints(token);
         if (response.success) {
           const sortedComplaints = response.message.sort((a, b) => {
             // Sort pending (status 0) to the top, others below
@@ -46,7 +46,7 @@ const CustomerComplaints = () => {
     try {
       const token = localStorage.getItem("token");
       const updatedComplaint = { ...complaint, status: 1, reply }; 
-      const response = await UpdateComplaintService.updateComplaintStatus(updatedComplaint, token);
+      const response = await CustomerComplaintService.updateComplaintStatus(updatedComplaint,token);
 
       if (response.success) {
         setComplaints((prevComplaints) =>
@@ -103,37 +103,35 @@ const CustomerComplaints = () => {
     setReply("");
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
+      {/* Title */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Customer Complaints</h3>
-        <div className="mt-3 md:mt-0">
-          <form onSubmit={(e) => e.preventDefault()} className="flex max-w-md mx-auto">
-            <div className="relative w-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full py-3 pl-12 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600"
-              />
-            </div>
-          </form>
-        </div>
+        <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+          Customer Complaints
+        </h3>
+      </div>
+
+      {/* Search and Add Button */}
+      <div className="flex justify-between items-center mb-3">
+        {/* Search Bar */}
+        <form onSubmit={(e) => e.preventDefault()} className="flex">
+          <div className="relative w-full">
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+            />
+            {/* Search Icon */}
+            <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
+          </div>
+        </form>
       </div>
 
       {isLoading ? (
@@ -158,7 +156,7 @@ const CustomerComplaints = () => {
                 <tr key={complaint.complaintId} className="hover:bg-gray-100">
                   <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                     <img
-                      src={complaint.avatar || "https://via.placeholder.com/50"} 
+                      src={complaint.avatar || "https://via.placeholder.com/50"}
                       alt={`${complaint.customerEmail || "Unknown"} avatar`}
                     />
                     <div>
@@ -167,7 +165,9 @@ const CustomerComplaints = () => {
                       </span>
                     </div>
                   </td>
-                  <td className="py-3 px-6 whitespace-nowrap">{complaint.date}</td>
+                  <td className="py-3 px-6 whitespace-nowrap">
+                    {complaint.date}
+                  </td>
                   <td className="py-3 px-6 whitespace-nowrap">
                     <span
                       className={
@@ -198,12 +198,16 @@ const CustomerComplaints = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white w-1/2 h-5/6 p-4 rounded-lg shadow-lg flex flex-col">
             <div className="flex justify-between items-center mb-4">
-              <h4 className="text-gray-800 text-xl font-bold">Complaint Details</h4>
+              <h4 className="text-gray-800 text-xl font-bold">
+                Complaint Details
+              </h4>
             </div>
             <div className="flex-1 overflow-auto">
               <div className="flex items-center gap-x-3 mb-4">
                 <img
-                  src={selectedComplaint.avatar || "https://via.placeholder.com/50"}
+                  src={
+                    selectedComplaint.avatar || "https://via.placeholder.com/50"
+                  }
                   className="w-16 h-16 rounded-full"
                   alt={`${selectedComplaint.customerEmail || "Unknown"} avatar`}
                 />
@@ -223,7 +227,10 @@ const CustomerComplaints = () => {
                       {selectedComplaint.status === 0 ? "Pending" : "Resolved"}
                     </span>
                   </p>
-                  <p className="text-gray-700 text-lg font-medium"><strong>Name:</strong>{selectedComplaint.complaintHolder}</p>
+                  <p className="text-gray-700 text-lg font-medium">
+                    <strong>Name:</strong>
+                    {selectedComplaint.complaintHolder}
+                  </p>
                 </div>
               </div>
 
@@ -262,39 +269,35 @@ const CustomerComplaints = () => {
               </div>
             </div>
             <div className="flex justify-between">
-            {!selectedComplaint.reply ? (
-              !reply.trim() ? (
-                <button
-                  onClick={() => handleMarkAsResolved(selectedComplaint)}
-                  className="py-2 px-4  mx-1 mt-2 font-medium  text-sm rounded-lg duration-150 bg-gray-400 cursor-not-allowed"
-                  disabled
-                >
-                  Mark as Resolved
-                </button>
-              ) : (
-                <button
-                  onClick={() => handleMarkAsResolved(selectedComplaint)}
-                  className="py-2 px-4  mx-1 mt-2 text-white  text-sm font-medium rounded-lg duration-150 bg-blue-600 hover:bg-green-500"
-                >
-                  Mark as Resolved
-                </button>
-              )
-            ) : null}
+              {!selectedComplaint.reply ? (
+                !reply.trim() ? (
+                  <button
+                    onClick={() => handleMarkAsResolved(selectedComplaint)}
+                    className="py-2 px-4  mx-1 mt-2 font-medium  text-sm rounded-lg duration-150 bg-gray-400 cursor-not-allowed"
+                    disabled
+                  >
+                    Mark as Resolved
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleMarkAsResolved(selectedComplaint)}
+                    className="py-2 px-4  mx-1 mt-2 text-white  text-sm font-medium rounded-lg duration-150 bg-blue-600 hover:bg-green-500"
+                  >
+                    Mark as Resolved
+                  </button>
+                )
+              ) : null}
 
-            <button
-              onClick={handleClosePopup}
-              className="py-2 px-4 mx-1 mt-2 text-sm w-36 text-white font-medium bg-red-600 hover:bg-red-500 rounded-lg duration-150"
-            >
-              Close
-            </button>
-          </div>
-
-
+              <button
+                onClick={handleClosePopup}
+                className="py-2 px-4 mx-1 mt-2 text-sm w-36 text-white font-medium bg-red-600 hover:bg-red-500 rounded-lg duration-150"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
-
-
     </div>
   );
 };

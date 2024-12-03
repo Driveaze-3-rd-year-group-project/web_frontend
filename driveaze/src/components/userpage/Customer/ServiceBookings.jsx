@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'; 
 import Calendar from '../Calender';
 import { FaTimes } from "react-icons/fa";
 import Swal from 'sweetalert2';
 import BookingService from '../../service/BookingService';
+import UserService from '../../service/UserService';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ServiceBookings = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [reservationList, setServiceBookings] = useState([]);
   const [error, setError] = useState("");
+  const [vehicleBrands, setVehicleBrands] = useState([]);
+  const [vehicleModels, setVehicleModels] = useState([]);
+  const [selectedId, setSelectedId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [updateData, setUpdateData] = useState({
     vehicleNo: "",
@@ -22,6 +26,43 @@ const ServiceBookings = () => {
     status: "",
   });
 
+  useEffect(() => {
+    const fetchVehicleBrands = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await UserService.getAllVehicleBrands(token);
+        console.log('Fetched vehicle brands:', response.vehicleBrandList);
+        setVehicleBrands(response.vehicleBrandList || []);
+      } catch (err) {
+        console.error(err);
+        setVehicleBrands([]);
+      }
+    };
+
+    fetchVehicleBrands();
+  }, []);
+
+  useEffect(() => {
+    const fetchVehicleModels = async () => {
+      if (!selectedId) {
+        setVehicleModels([]);
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await UserService.getAllVehicleModelsWithVehicleBrandId(selectedId,token);
+        console.log('Fetched vehicle models:', response.vehicleModelList);
+        setVehicleModels(response.vehicleModelList || []);
+      } catch (err) {
+        console.error(err);
+        setVehicleModels([]);
+      }
+    };
+
+    fetchVehicleModels();
+  }, [selectedId]);
+
   const handleClick = (item) => {
     setUpdateData({ ...item });
     setShowPopup(true);
@@ -29,7 +70,26 @@ const ServiceBookings = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUpdateData((prevData) => ({ ...prevData, [name]: value }));
+
+    if (name === 'brand') {
+      const selectedBrand = vehicleBrands.find((brand) => brand.brandName === value);
+      // console.log('Selected vehicle brand:', selectedBrand);
+      setSelectedId(selectedBrand ? selectedBrand.brandId : ''); // Set selected brand ID
+      setVehicleModels([]); // Clear models when the brand changes
+      setUpdateData((prev) => ({
+        ...prev,
+        brand: value,
+        model: '', // Reset model
+      }));
+    } else if (name === 'model' && !selectedId) {
+      setError('Please select a vehicle brand first.');
+      setTimeout(() => setError(''), 3000);
+    } else {
+      setUpdateData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const closePopup = () => {
@@ -85,10 +145,12 @@ const ServiceBookings = () => {
         text: "Invalid time slot or date selected. Please choose a valid date and time slot",
         icon: "warning",
         confirmButtonText: "OK",
+      }).then(() => {
+        setIsLoading(false); 
       });
-      setIsLoading(false);
       return;
     }
+    
 
     try {
       setIsLoading(true);
@@ -96,18 +158,23 @@ const ServiceBookings = () => {
       const res = await BookingService.updateBooking(updateData, token);
 
       if (res.success) {
-        Swal.fire("Success", res.message || "Booking updated successfully.", "success");
         setServiceBookings((prev) =>
           prev.map((item) =>
             item.bookingId === updateData.bookingId ? { ...item, ...updateData } : item
           )
         );
+        toast.success('Reservation updated successfully');
+        setTimeout(() => {
+          navigate('/servicebookings');
+          setIsLoading(false);
+        }, 4000);
         closePopup();
       } else {
-        Swal.fire("Error", res.message || "Failed to update booking.", "error");
+        Swal.fire("Error", res.message || "Failed to update booking. Please try again!", "error");
       }
+      window.location.reload();
     } catch (err) {
-      Swal.fire("Error", err.message || "An error occurred.", "error");
+      Swal.fire("Error", err.message || "An error occurred. Please try again!", "error");
     } finally {
       setIsLoading(false);
     }
@@ -123,14 +190,24 @@ const ServiceBookings = () => {
         Swal.fire("Success", res.message || "Reservation cancelled successfully.", "success");
         setServiceBookings((prev) => prev.filter((item) => item.bookingId !== updateData.bookingId));
         closePopup();
+        window.location.reload();
       } else {
-        Swal.fire("Error", res.message || "Failed to cancel reservation.", "error");
+        Swal.fire("Error", res.message || "Failed to cancel reservation.Please try again!", "error");
       }
     } catch (err) {
       Swal.fire("Error", err.message || "An error occurred.", "error");
+      window.location.reload();
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const convertTo12HourFormat = (time) => {
+    if (!time) return "";
+    const [hour, minute] = time.split(":").map(Number); // Extract hour and minute
+    const period = hour >= 12 ? "PM" : "AM"; // Determine AM/PM
+    const hour12 = hour % 12 || 12; // Convert to 12-hour format, handling 12 AM and 12 PM
+    return `${hour12}:${minute.toString().padStart(2, "0")} ${period}`;
   };
 
   const labelColors = {
@@ -140,7 +217,7 @@ const ServiceBookings = () => {
 
   return (
     <div className='flex flex-row'>
-      <div className='left-side w-2/3 mt-14'>
+      <div className='left-side w-9/12 mt-14'>
         <div className="max-w-2xl mx-auto px-4">
           <div className="items-start justify-between sm:flex">
             <div>
@@ -162,24 +239,26 @@ const ServiceBookings = () => {
   
           {/* Check if reservationList is null or empty */}
           {reservationList && reservationList.length > 0 ? (
-            <ul className="mt-12 divide-y">
+            <ul className="mt-12 divide-y ">
               {Object.values(reservationList).map((item) => (
                 <li key={item.bookingId} className="py-5 min-h-16 w-full flex items-start justify-between">
                   <div className="flex gap-3 flex-row ">
                     <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
                     <div className="relative flex flex-row gap-8 items-center">
-                      <div className="flex-2 flex gap-1 flex-col items-start justify-center">
+                      <div className="flex-auto flex gap-1 flex-col items-start justify-center">
                         <span className="block text-md text-gray-700 font-semibold">{item.vehicleNo}</span>
                         <span className="block text-sm text-gray-600">{item.brand} - {item.model}</span>
                       </div>
-                      <div className="flex-1 flex items-center justify-center">
+                      <div className="flex-auto flex items-center justify-center">
                         <span className="block text-sm text-gray-600">{item.preferredDate}</span>
                       </div>
-                      <div className="flex-1 flex items-center justify-center">
-                        <span className="block text-sm text-gray-600">{item.preferredTime}</span>
+                      <div className="flex-auto flex items-center justify-center">
+                        <span className="block text-sm text-gray-600">
+                        {convertTo12HourFormat(item.preferredTime)}
+                        </span>
                       </div>
-                      <div className="flex-1 flex flex-row gap-8 mx-14 items-center justify-center">
-                        <span className={`py-2 px-3 rounded-full font-semibold text-xs ${labelColors[item?.status]?.color || ""}`}>
+                      <div className="grow flex-row-reverse mx-10  justify-center">
+                        <span className={`py-2 px-3 mx-4 rounded-full font-semibold text-xs ${labelColors[item?.status] || ""}`}>
                           {item.status}
                         </span>
                         <button
@@ -201,7 +280,7 @@ const ServiceBookings = () => {
           )}
         </div>
       </div>
-      <div className='right-side w-1/3 mt-36'>
+      <div className='right-side w-4/12 mt-36'>
         <Calendar />
       </div>
   
@@ -223,6 +302,12 @@ const ServiceBookings = () => {
               submitUpdate={submitUpdate}
               submitDelete={submitDelete}
               isLoading={isLoading}
+              vehicleBrands={vehicleBrands}
+              vehicleModels={vehicleModels}
+              selectedId={selectedId}
+              setUpdateData={setUpdateData}
+              setSelectedId={setSelectedId}
+
             />
           </div>
         </div>
@@ -230,7 +315,8 @@ const ServiceBookings = () => {
     </div>
   );};
 
-const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdate, submitDelete,isLoading}) => {
+const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdate, 
+  submitDelete,isLoading,vehicleBrands,vehicleModels,selectedId, setUpdateData,setSelectedId}) => {
   return (
     <main className="py-14">
       <div className="max-w-screen-xl mx-auto my-auto px-4 text-gray-600 md:px-8">
@@ -258,18 +344,65 @@ const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdat
             <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
               <div>
                 <label className="font-medium">Vehicle Brand</label>
-                <select onChange={handleChange} name='brand' value={updateData.brand} className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
-                  <option>Honda</option>
-                  <option>Nissan</option>
-                  <option>Toyota</option>
+                <select
+                  name="brand"
+                  required
+                  onChange={(e) => {
+                    const selectedBrand = vehicleBrands.find(
+                      (brand) => brand.brandName === e.target.value
+                    );
+                    setUpdateData((prev) => ({
+                      ...prev,
+                      brand:selectedBrand? selectedBrand.brandName:'',
+                      model: '', // Clear model selection
+                    }));
+                    setSelectedId(selectedBrand ? selectedBrand.brandId : '');
+                  }}
+                  value={updateData.brand}
+                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                >
+                  <option value="">Select a brand</option>
+                  {vehicleBrands.map((brand) => (
+                    <option key={brand.brandId} value={brand.brandName}>
+                      {brand.brandName}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
                 <label className="font-medium">Vehicle Model</label>
-                <select name='model'value={updateData.model}  onChange={handleChange} className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg">
-                  <option>Civic</option>
-                  <option>Altima</option>
-                  <option>Corolla</option>
+                <select
+                  name="model"
+                  required
+                  onChange={(e) => {
+                    const selectedModel = vehicleModels.find(
+                      (model) => model.modelName === e.target.value
+                    );
+                    setUpdateData((prev) => ({
+                      ...prev,
+                      model: selectedModel ? selectedModel.modelName : '',
+                    }));
+                  }}
+                  value={updateData.model}
+                  disabled={!selectedId}
+                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                >
+                  <option value="" disabled hidden>
+                    {selectedId ? 'Select a Model' : 'First select a Vehicle Brand'}
+                  </option>
+                  {vehicleModels.length > 0 ? (
+                    vehicleModels.map((model) => (
+                      <option key={model.modelId} value={model.modelName}>
+                        {model.modelName}
+                      </option>
+                    ))
+                  ) : (
+                    selectedId && (
+                      <option value="" disabled>
+                        No Vehicle Models Available
+                      </option>
+                    )
+                  )}
                 </select>
               </div>
             </div>
@@ -327,6 +460,7 @@ const ServiceBookingDetails = ({ closePopup,updateData,handleChange, submitUpdat
           </form>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
     </main>
   );
 };

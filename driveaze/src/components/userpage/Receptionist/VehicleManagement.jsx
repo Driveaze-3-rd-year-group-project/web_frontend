@@ -249,9 +249,9 @@ function VehicleManagement() {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="text-center py-4">
-                  No jobs found
-                </td>
+                <div className="mt-12 text-gray-600 text-lg font-semibold">
+                    No Vehicles Found
+                </div>
               </tr>
             )}
           </tbody>

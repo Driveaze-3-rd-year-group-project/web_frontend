@@ -25,8 +25,8 @@ function Sidebar() {
         const location = useLocation();
         const currentPath = location.pathname.split('/').pop();
         return currentPath === path
-          ? 'bg-gray-100 text-black'
-          : 'text-white hover:bg-lightblue hover:text-black';
+          ? 'bg-lightblue text-black'
+          : 'text-white hover:bg-slate-500 hover:text-white';
       }, [location.pathname]);
 
     const fetchProfileInfo = async () => {
@@ -89,7 +89,7 @@ function Sidebar() {
                     </a>
                     </div>
                     <div className="flex-1 flex flex-col h-full overflow-auto mt-10">
-                        <ul className="px-4 text-lg font-medium flex-1">
+                        <ul className="px-4 text-lg  font-medium flex-1">
                             {isAdmin && (
                                <li>
                                     <a href="/dashboard"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
@@ -188,7 +188,7 @@ function Sidebar() {
                                          ${getTabStyles('servicetypes')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
-                                            <FaChartLine />
+                                            <FaClipboardList />
                                         </div>
                                         <p className="flex-1">Service Types</p>
                                     </a>

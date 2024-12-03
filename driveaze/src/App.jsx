@@ -96,6 +96,8 @@ import PaymentSuccess from "./components/common/PaymentSuccess.jsx";
 import PaymentCancel from "./components/common/PaymentCancel.jsx";
 import OTPVerification from "./components/userpage/Customer/OTPVerificationScreen.jsx";
 import AllAnnouncement from './components/userpage/WarehouseKeeper/AllAnnouncements.jsx';
+import UpdateServiceType from './components/userpage/Manager/UpdateServiceType.jsx';
+
 
 
 
@@ -269,6 +271,7 @@ function App() {
                   <Route path="/customer-details/:userId" element={<CustomerAccountDetails />} />
                   <Route path="/ongoingjobs" element={<OngoingJobs />} />
                   <Route path="/userProfile" element={<UserProfile />} />
+                  <Route path="/update-service-types/:serviceId" element={<UpdateServiceType />} />
                   <Route path="/servicetypes" element={<ServiceTypes />} />
                   <Route path="/addservice" element={<AddService />} />
                   <Route path="/vehiclemodelbrand" element={<VehicleModelBrand />} />
@@ -300,7 +303,7 @@ function App() {
                       <Route path="/vehicleinfo" element={<VehicleInfo/>} />
                       <Route path="/billings" element={<Billings/>} />
                       <Route path="/billinfo/:billId" element={<Billinfo/>} />
-                      <Route path="/servicehistory" element={<ServiceHistory/>} />
+                      <Route path="/servicehistory/:vehicleId" element={<ServiceHistory/>} />
                       <Route path="/booknewservice" element={<BookNewService/>} />
                       <Route path="/servicebookings" element={<ServiceBookings/>} />
                       <Route path="/ongoingrepairs" element={<OngoingRepairs/>} />

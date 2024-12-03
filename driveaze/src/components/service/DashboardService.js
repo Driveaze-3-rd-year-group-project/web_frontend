@@ -28,6 +28,20 @@ class DashboardService {
             throw err;
         }
     }
+
+    static async getCustomerStatistics(id,contact,token){
+        try{
+            const response = await axios.get(`${DashboardService.BASE_URL}/dashboard/cus-statistic/${id}/${contact}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
 }
 
 export default DashboardService;

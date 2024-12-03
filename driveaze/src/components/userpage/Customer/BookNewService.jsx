@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import BookingService from "../../service/BookingService";
-import VehicleService from "../../service/VehicleService";
+import UserService from "../../service/UserService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const BookNewService = () => {
+  const navigate =useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+
   const [data, setData] = useState({
     vehicleNo: "",
     brand: "",
@@ -14,10 +19,11 @@ const BookNewService = () => {
     preferredTime: "",
   });
 
-  const [brandsModels, setBrandsModels] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [availableModels, setAvailableModels] = useState([]);
   const [error, setError] = useState("");
+
+  const [vehicleBrands, setVehicleBrands] = useState([]);
+  const [vehicleModels, setVehicleModels] = useState([]);
+  const [selectedId, setSelectedId] = useState('');
 
   const isTimeValid = (preferredDate, preferredTime) => {
     const currentDate = new Date();
@@ -25,60 +31,69 @@ const BookNewService = () => {
     return bookingDate > currentDate;
   };
 
-  useEffect(() => {
-    console.log("Selected brand updated:", selectedBrand);
-    // Filter models based on selected brand
-    if (selectedBrand) {
-      const brand = brandsModels.find(brand => brand.brandId === selectedBrand);
-      
-      setAvailableModels(brand ? brand.models : []); // Set models for selected brand
-      console.log('availableModels--->'+availableModels);
-    } else {
-      setAvailableModels([]); // Reset models if no brand is selected
-    }
-  }, [selectedBrand, brandsModels]); // Runs when selectedBrand or brandsModels change
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "brand") {
-      setSelectedBrand(value); // Set the selected brand
-      setData({ ...data, [name]: value, model: "" }); // Reset model when brand changes
-    } else {
-      setData({ ...data, [name]: value });
-    }
-    console.log("Value:", value, "Data object:", data);
-  };
 
   useEffect(() => {
-    const fetchVehicleData = async () => {
-      setError("");
-      setIsLoading(true);
+    const fetchVehicleBrands = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await VehicleService.getBrandsWithModels(token);
-        if (response.success) {
-          setBrandsModels(response.message); // Set brands with models
-          console.log("brandsmodels-->", response.message);
-        } else {
-          throw new Error(
-            response.message || "Error fetching vehicle data. Please try again."
-          );
-        }
+        const token = localStorage.getItem('token');
+        const response = await UserService.getAllVehicleBrands(token);
+        console.log('Fetched vehicle brands:', response.vehicleBrandList);
+        setVehicleBrands(response.vehicleBrandList || []);
       } catch (err) {
-        setError(err.message);
-        Swal.fire({
-          title: "Error",
-          text: err.message || "Error retrieving data from the server!",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      } finally {
-        setIsLoading(false);
+        console.error(err);
+        setVehicleBrands([]);
       }
     };
 
-    fetchVehicleData();
+    fetchVehicleBrands();
   }, []);
+
+  useEffect(() => {
+    const fetchVehicleModels = async () => {
+      if (!selectedId) {
+        setVehicleModels([]);
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await UserService.getAllVehicleModelsWithVehicleBrandId(selectedId,token);
+        console.log('Fetched vehicle models:', response.vehicleModelList);
+        setVehicleModels(response.vehicleModelList || []);
+      } catch (err) {
+        console.error(err);
+        setVehicleModels([]);
+      }
+    };
+
+    fetchVehicleModels();
+  }, [selectedId]);
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === 'brand') {
+      const selectedBrand = vehicleBrands.find((brand) => brand.brandName === value);
+      // console.log('Selected vehicle brand:', selectedBrand);
+      setSelectedId(selectedBrand ? selectedBrand.brandId : ''); // Set selected brand ID
+      setVehicleModels([]); // Clear models when the brand changes
+      setData((prev) => ({
+        ...prev,
+        brand: value,
+        model: '', // Reset model
+      }));
+    } else if (name === 'model' && !selectedId) {
+      setError('Please select a vehicle brand first.');
+      setTimeout(() => setError(''), 3000);
+    } else {
+      setData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  }
+
 
   const handleSubmit = async (e) => {
     setIsLoading(true);
@@ -86,29 +101,33 @@ const BookNewService = () => {
     if (!isTimeValid(data.preferredDate, data.preferredTime)) {
       Swal.fire({
         title: "Error",
-        text: "Invalid time slot or date selected. Please choose a valid date and time.",
+        text: "Invalid time slot or date selected. Please choose a valid date and time slot",
         icon: "warning",
         confirmButtonText: "OK",
+      }).then(() => {
+        setIsLoading(false); 
       });
       return;
     }
 
-    setIsLoading(true);
     try {
       const token = localStorage.getItem("token");
       const res = await BookingService.createBooking(data, token);
-
       if (res.success) {
-        Swal.fire({
-          title: "Success",
-          text: res.message || "Booking created successfully.",
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          window.location.reload();
-        });
+        toast.success('Reservation created successfully');
+        setTimeout(() => {
+          navigate('/servicebookings');
+          setIsLoading(false);
+        }, 4000);
       } else {
-        throw new Error(res.message || "Failed to create booking.");
+        Swal.fire({
+          title: "Error",
+          text: "An error occurred in creating a booking, please try again!",
+          icon: "error",
+          confirmButtonText: "OK",
+          
+        });
+        setIsLoading(false);
       }
     } catch (err) {
       Swal.fire({
@@ -147,13 +166,23 @@ const BookNewService = () => {
                 <select
                   name="brand"
                   required
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const selectedBrand = vehicleBrands.find(
+                      (brand) => brand.brandName === e.target.value
+                    );
+                    setData((prev) => ({
+                      ...prev,
+                      brand:selectedBrand? selectedBrand.brandName:'',
+                      model: '', // Clear model selection
+                    }));
+                    setSelectedId(selectedBrand ? selectedBrand.brandId : '');
+                  }}
                   value={data.brand}
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 >
                   <option value="">Select a brand</option>
-                  {brandsModels.map((brand) => (
-                    <option key={brand.brandId} value={brand.brandId}>
+                  {vehicleBrands.map((brand) => (
+                    <option key={brand.brandId} value={brand.brandName}>
                       {brand.brandName}
                     </option>
                   ))}
@@ -164,16 +193,35 @@ const BookNewService = () => {
                 <select
                   name="model"
                   required
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const selectedModel = vehicleModels.find(
+                      (model) => model.modelName === e.target.value
+                    );
+                    setData((prev) => ({
+                      ...prev,
+                      model: selectedModel ? selectedModel.modelName : '',
+                    }));
+                  }}
                   value={data.model}
+                  disabled={!selectedId}
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 >
-                  <option value="Sample">Select a model</option>
-                  {availableModels.map((model) => (
-                    <option key={model.modelId} value={model.modelId}>
-                      {model.modelName}
-                    </option>
-                  ))}
+                  <option value="" disabled hidden>
+                    {selectedId ? 'Select a Model' : 'First select a Vehicle Brand'}
+                  </option>
+                  {vehicleModels.length > 0 ? (
+                    vehicleModels.map((model) => (
+                      <option key={model.modelId} value={model.modelName}>
+                        {model.modelName}
+                      </option>
+                    ))
+                  ) : (
+                    selectedId && (
+                      <option value="" disabled>
+                        No Vehicle Models Available
+                      </option>
+                    )
+                  )}
                 </select>
               </div>
             </div>
@@ -225,6 +273,7 @@ const BookNewService = () => {
           </form>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
     </main>
   );
 };

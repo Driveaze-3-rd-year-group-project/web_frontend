@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import RetrieveComplaintService from "../../service/RetrieveComplaintService";
-import UpdateComplaintService from "../../service/UpdateComplaintService";
 import Swal from "sweetalert2";
+import CustomerComplaintService from "../../service/CustomerComplaintService";
 
 const CustomerComplaints = () => {
   const [complaints, setComplaints] = useState([]);
@@ -22,7 +21,7 @@ const CustomerComplaints = () => {
           throw new Error("User not authenticated. Token missing.");
         }
 
-        const response = await RetrieveComplaintService.retrieveComplaintData(token);
+        const response = await CustomerComplaintService.retrieveAllComplaints(token);
         if (response.success) {
           const sortedComplaints = response.message.sort((a, b) => {
             // Sort pending (status 0) to the top, others below
@@ -46,7 +45,7 @@ const CustomerComplaints = () => {
     try {
       const token = localStorage.getItem("token");
       const updatedComplaint = { ...complaint, status: 1, reply }; 
-      const response = await UpdateComplaintService.updateComplaintStatus(updatedComplaint, token);
+      const response = await CustomerComplaintService.updateComplaintStatus(updatedComplaint,token);
 
       if (response.success) {
         setComplaints((prevComplaints) =>

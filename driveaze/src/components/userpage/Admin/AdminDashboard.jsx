@@ -137,11 +137,11 @@ const AdminDashboard = () => {
                     <Bar data={dataBar} />
                 </div>
                 <div className='bg-white p-4 rounded-lg shadow-md'>
-                    <h3 className='text-lg font-semibold mb-4'>Job Status</h3>
-                    <div style={{ width: '300px', height: '300px' }}> {/* Adjust width and height as needed */}
-                        <Doughnut data={dataDoughnut} />
-                    </div>
-                </div>
+                  <h3 className='text-lg font-semibold mb-4'>Job Status</h3>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}> {/* Adjust height as needed */}
+                      <Doughnut data={dataDoughnut} />
+                  </div>
+              </div>
             </div>
         </div>
     );

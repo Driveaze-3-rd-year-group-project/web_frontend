@@ -16,6 +16,18 @@ class DashboardService {
         }
     }
     
+    static async getReceptionistStatistic(token){
+        try{
+            const response = await axios.get(`${DashboardService.BASE_URL}/dashboard/recp-statistic`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
 }
 
 export default DashboardService;

@@ -39,11 +39,12 @@ class BookingService {
                 }
             );
 
-
             if (response.data.statusCode === 200) {
                 return { success: true, message: "Your booking was created successfully!" };
             } else if (response.data.statusCode === 409) {
                 return { success: false, message: "Booking already exists, please select a different vehicle!" };
+            } else if(response.data.statusCode===300){
+                return { success: false, message: "Selected date has too many reservations, Please select another date!" };
             } else {
                 return { success: false, message: "Failed to create your booking!" };
             }

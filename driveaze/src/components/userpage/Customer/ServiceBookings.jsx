@@ -190,7 +190,7 @@ const ServiceBookings = () => {
               {Object.values(reservationList).map((item) => (
                 <li key={item.bookingId} className="py-5 min-h-16 w-full flex items-start justify-between">
                   <div className="flex gap-3 flex-row ">
-                    <img src={item.icon} className="flex-none w-12 h-12 rounded-full" />
+                    <img src='https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg' className="flex-none w-12 h-12 rounded-full" />
                     <div className="relative flex flex-row gap-8 items-center">
                       <div className="flex-auto flex gap-1  w-36 h-12 flex-col items-start justify-center">
                         <span className="block text-md w-full text-gray-700 font-semibold">{item.vehicleNo}</span>

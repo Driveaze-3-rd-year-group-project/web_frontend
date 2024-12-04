@@ -802,18 +802,54 @@ class UserService{
     }
 
     /**Vehicle Brands */
-    static async addNewVehicleBrand(brandData, token){
-        try{
+    // static async addNewVehicleBrand(brandData, token){
+    //     try{
 
-            const response = await axios.post(`${UserService.BASE_URL}/vehicle-brand/save`, brandData, {
-                headers: {Authorization: `Bearer ${token}`}
-            });
-            return response.data;
+    //         const response = await axios.post(`${UserService.BASE_URL}/vehicle-brand/save`, brandData, {
+    //             headers: {Authorization: `Bearer ${token}`}
+    //         });
+    //         return response.data;
             
-        }catch(err){
-            throw err;
+    //     }catch(err){
+    //         throw err;
+    //     }
+    // }
+
+    static async addNewVehicleBrand(userData, file, token) {
+        try {
+          const formData = new FormData();
+          
+          // Append the file if it exists
+          if (file) {
+            formData.append('file', file);
+          }
+          
+          // Ensure userData matches your DTO structure
+          const brandDTO = {
+            brandName: userData.brandName,
+            brandImage: userData.brandImage,
+            registeredDate: userData.registeredDate
+          };
+          
+          // Append the user data as JSON string
+          formData.append('userData', JSON.stringify(brandDTO));
+          
+          const response = await axios.post(
+            `${UserService.BASE_URL}/vehicle-brand/save`,
+            formData,
+            {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          );
+          
+          return response.data;
+        } catch (err) {
+          throw err;
         }
-    }
+      }
 
     static async updateVehicleBrand(brandId, brandData, token){
         try{
@@ -867,6 +903,22 @@ class UserService{
             throw err;
         }
     }
+
+    static async getAllBrandsWithPagination(offset, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/vehicle-brand/paginationAndSort/${offset}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+    
 
     
      /**Job Entries */
@@ -965,6 +1017,22 @@ class UserService{
             throw err;
         }
     }
+
+    static async getAllModelsWithPagination(offset, token){
+        try{
+
+            const response = await axios.get(`${UserService.BASE_URL}/vehicle-model/paginationAndSort/${offset}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+            // console.log(response);
+            return response.data;
+            
+        }catch(err){
+            throw err;
+        }
+    }
+
+
     //Announcements
     static async getAllAnnouncement( token){
         try{

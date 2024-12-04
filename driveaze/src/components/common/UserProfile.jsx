@@ -13,7 +13,7 @@ function UserProfile() {
         email: "",
         address: "",
         contactNumber: "",
-        // profilePicture: "", // Default profile picture will be updated
+        profilePicture: "", // Default profile picture will be updated
     });
 
     const [formData, setFormData] = useState({});
@@ -217,12 +217,12 @@ function UserProfile() {
                 <div className="flex items-center gap-6">
                     {/* Profile Picture */}
                     <div className="flex-shrink-0">
-                        <img
-                            className="w-36 h-36 rounded-full object-cover border-4 border-gray-300"
-                            // src={user.profilePicture}
-                            src={user.profilePictureUrl}
-                            alt={`${user.name}'s profile`}
-                        />
+                    <img
+                        className="w-36 h-36 rounded-full object-cover border-4 border-gray-500 pointer-events-none"
+                        src={user.profilePictureUrl}
+                        alt={`${user.name}'s profile`}
+                    />
+
                     </div>
                     {/* Profile Details */}
                     <div className="flex flex-col gap-4 flex-grow">

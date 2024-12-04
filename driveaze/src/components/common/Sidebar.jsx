@@ -425,7 +425,7 @@ function Sidebar() {
                                 <div className="flex items-center gap-x-4">
                                     <img 
                                         src={profileInfo.profilePictureUrl ? profileInfo.profilePictureUrl : "https://driveaze-images.s3.eu-north-1.amazonaws.com/12345.jpg"} 
-                                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-300" 
+                                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-500 pointer-events-none" 
                                     />
                                     <div>
                                         <span className="block text-white text-lg font-semibold">{profileInfo.name}</span>

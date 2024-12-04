@@ -255,7 +255,7 @@ const JobManagement = () => {
                 <tr key={job.jobId}>
                   <td className="px-6 py-4 whitespace-nowrap">{job.jobId}</td>
                   <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                    <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-10 h-10 rounded-full" />
+                    <img src="https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg" className="w-10 h-10 rounded-full" />
                     <div>
                       <span className="block text-gray-700 text-sm font-medium">{job.vehicleNo}</span>
                       <span className="block text-gray-700 text-xs">{job.vehicleBrand}-{job.vehicleModel}</span>   

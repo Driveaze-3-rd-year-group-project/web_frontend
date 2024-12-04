@@ -214,7 +214,7 @@ const CustomerPayments = () => {
                 >
                   <div className="flex justify-between items-center w-full">
                     <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-2">
-                      <img className="w-16 h-16 rounded-full" src={`${bill.image}`} alt={bill.brand} />
+                      <img className="w-16 h-16 rounded-full" src="https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg" alt={bill.brand} />
                     </div>
                     <span
                       className={`${
@@ -240,7 +240,7 @@ const CustomerPayments = () => {
                   </p>
                   <div className="flex justify-between items-center w-full mt-4">
                     
-                    {bill.billStatus === 1 && (
+                    {/* {bill.billStatus === 1 && (
                        <div className="flex justify-start items-center w-full">
                         <a
                           href={`/editbill/${bill.billId}`}
@@ -249,7 +249,7 @@ const CustomerPayments = () => {
                           Edit Bill
                         </a>
                       </div>
-                    )}
+                    )} */}
                     <div className="flex justify-end items-center w-full">
                       <a
                         href={`/billpaymentview/${bill.billId}`}

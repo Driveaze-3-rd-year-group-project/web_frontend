@@ -48,7 +48,7 @@ const OngoingJob = () => {
       {/* Title */}
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-          Registered Vehicles
+        Ongoing Jobs
         </h3>
       </div>
 

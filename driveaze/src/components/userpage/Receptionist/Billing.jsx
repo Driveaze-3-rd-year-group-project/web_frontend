@@ -205,7 +205,7 @@ const Billing = () => {
       const token = localStorage.getItem("token");
       const response = await UserService.getAllBillsWithPaginationAndStatuses(statuses, page, token);
 
-      // console.log('Fetched paginated bills:', response);
+      console.log('Fetched paginated bills:', response);
   
       const billsData = response?.content || [];
 

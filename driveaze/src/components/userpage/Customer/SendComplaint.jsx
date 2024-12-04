@@ -16,7 +16,7 @@ const SendComplaint = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedComplaint, setSelectedComplaint] = useState(null);
     const [reply, setReply] = useState('');
-
+    const [isEmpty,setIsEmpty] =useState(false);
     const [isValid, setIsValid] = useState(true); 
     
 
@@ -102,13 +102,8 @@ const SendComplaint = () => {
                 if (response && response.success) {
                     setComplaintData(response.message || []);
                 } else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: response?.message || 'Failed to retrieve your complaints.',
-                        icon: 'error',
-                        confirmButtonText: 'Close',
-                    });
-                }queueMicrotask
+                    setIsEmpty(true);
+                }
             } catch (err) {
                 Swal.fire({
                     title: 'Error',
@@ -137,42 +132,49 @@ const SendComplaint = () => {
             </div>
 
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
-                <table className="w-full table-auto text-sm text-left">
-                    <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                        <tr>
-                            <th className="py-3 px-6">Complaint Date</th>
-                            <th className="py-3 px-6">Status</th>
-                            <th className="py-3 px-6">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-gray-600 divide-y">
-                        {complaintData.map((item) => (
-                            <tr key={item.complaintId} className="hover:bg-gray-100">
-                                <td className="py-3 px-6 whitespace-nowrap">{item.date}</td>
-                                <td className="py-3 px-6 whitespace-nowrap">
-                                    <span
-                                        className={
-                                            item.status === 0
-                                                ? 'text-orange-500 font-bold'
-                                                : 'text-green-500 font-bold'
-                                        }
-                                    >
-                                        {item.status === 0 ? 'Pending' : 'Addressed'}
-                                    </span>
-                                </td>
-                                <td className="py-3 px-6 whitespace-nowrap">
-                                    <button
-                                        onClick={() => handleViewClick(item)}
-                                        className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                                    >
-                                        View
-                                    </button>
-                                </td>
+                {isEmpty==true ? (
+                    <div className="text-center py-4 text-gray-600">
+                        You haven't reported any issues!
+                    </div>
+                ) : (
+                    <table className="w-full table-auto text-sm text-left">
+                        <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                            <tr>
+                                <th className="py-3 px-6">Complaint Date</th>
+                                <th className="py-3 px-6">Status</th>
+                                <th className="py-3 px-6">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody className="text-gray-600 divide-y">
+                            {complaintData.map((item) => (
+                                <tr key={item.complaintId} className="hover:bg-gray-100">
+                                    <td className="py-3 px-6 whitespace-nowrap">{item.date}</td>
+                                    <td className="py-3 px-6 whitespace-nowrap">
+                                        <span
+                                            className={
+                                                item.status === 0
+                                                    ? 'text-orange-500 font-bold'
+                                                    : 'text-green-500 font-bold'
+                                            }
+                                        >
+                                            {item.status === 0 ? 'Pending' : 'Addressed'}
+                                        </span>
+                                    </td>
+                                    <td className="py-3 px-6 whitespace-nowrap">
+                                        <button
+                                            onClick={() => handleViewClick(item)}
+                                            className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+                </div>
+
 
             <div className="flex items-center justify-between mt-4">
             </div>

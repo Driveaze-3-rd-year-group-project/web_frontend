@@ -166,7 +166,7 @@ const handleAcceptBooking = async (item) => {
         </div>
       </div>
 
-      <ul className="divide-y mx-auto">
+      <ul className="divide-y mx-auto overflow-auto">
         {bookings.map((booking) => (
           <li key={booking.bookingId} className="py-2 flex items-start justify-between">
             <div className="flex-grow">

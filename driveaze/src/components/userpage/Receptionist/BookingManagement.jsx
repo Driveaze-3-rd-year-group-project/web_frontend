@@ -170,8 +170,8 @@ const handleAcceptBooking = async (item) => {
         {bookings.map((booking) => (
           <li key={booking.bookingId} className="py-2 flex items-start justify-between">
             <div className="flex-grow">
-              <h4 className="font-medium">{booking.customerName}</h4>
-              <p className="text-gray-600 text-sm">{booking.vehicleNo} - {booking.brand} {booking.model}</p>
+              <h4 className="font-medium">{booking.vehicleNo}</h4>
+              <p className="text-gray-600 text-sm">{booking.brand} {booking.model}</p>
               <p className="text-gray-600 text-sm">{booking.preferredDate} at {booking.preferredTime}</p>
               <span className={`py-1 px-2 rounded-full text-xs ${booking.status === 0 ? "bg-yellow-50 text-yellow-600 font-bold" : booking.status === 1 ? "bg-green-50 text-green-600" : "" }`}>
                 {booking.status==0?"Pending":"Arrived"}

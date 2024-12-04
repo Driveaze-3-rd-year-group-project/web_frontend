@@ -108,14 +108,14 @@ function Sidebar() {
                                         </div>
                                         <p className="flex-1">Staff Accounts</p>
                                     </a>
-                                    <a href="/reports"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
+                                    {/* <a href="/reports"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
                                          ${getTabStyles('reports')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />
                                         <div className="flex-none">
                                             <FaChartLine />
                                         </div>
                                         <p className="flex-1">Reports & Analytics</p>
-                                    </a>
+                                    </a> */}
                                     <a href="/siteannouncements"  className={`flex items-center gap-x-2 p-2 rounded-lg duration-150 hover:bg-lightblue hover:text-black
                                          ${getTabStyles('siteannouncements')}`}>
                                         <div className="absolute left-0 w-1.5 h-full rounded-r-full bg-gray-600 scale-y-0 group-hover:scale-y-100 transition-transform ease-in-out" />

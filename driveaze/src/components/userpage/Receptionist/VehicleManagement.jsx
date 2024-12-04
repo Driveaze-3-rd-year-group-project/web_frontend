@@ -203,7 +203,7 @@ function VehicleManagement() {
               vehicles.map((vehicle) => (
                 <tr key={vehicle.vehicleId}>
                   <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                    <img src="https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png" className="w-10 h-10 rounded-full" />
+                    <img src="https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg" className="w-10 h-10 rounded-full" />
                     <div>
                       <span className="block text-gray-700 text-sm font-medium">{vehicle.vehicleNo}</span>
                       <span className="block text-gray-700 text-xs">{vehicle.brandName}-{vehicle.modelName}</span>   

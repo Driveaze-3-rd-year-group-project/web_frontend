@@ -216,6 +216,7 @@ const Billinfo = () => {
           <div className="flex items-center space-x-4">
             <div className="w-24 h-24 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full">
               {/* {bill.image} */}
+              <img src="https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg" alt="Vehicle" />
             </div>
             <div>
               <h2 className="text-2xl font-bold">

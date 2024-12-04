@@ -219,7 +219,7 @@ const Billings = () => {
                 >
                   <div className="flex justify-between items-center w-full">
                     <div className="w-16 h-16 bg-slate-200 text-black flex items-center justify-center text-xl font-bold rounded-full mb-2">
-                      <img className="w-16 h-16 rounded-full" src={`${bill.image}`} alt={bill.brand} />
+                      <img className="w-16 h-16 rounded-full" src='https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg' alt={bill.brand} />
                     </div>
                     <span
                       className={`${

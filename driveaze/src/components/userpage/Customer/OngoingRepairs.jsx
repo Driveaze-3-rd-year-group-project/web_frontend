@@ -5,7 +5,8 @@ const OngoingRepairs = () => {
     const [searchTerm, setSearchTerm] = useState('');
   const members = [
     {
-      icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      // icon: "https://i.pinimg.com/736x/7b/51/cc/7b51cc879d02e11f06c34858f850424c.jpg",
+      icon: "https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg",
       numberPlate: "ABC-1234",
       vehicleModel: "Toyota Corolla",
       startDate: "12/12/2024",
@@ -13,21 +14,21 @@ const OngoingRepairs = () => {
     },
     {
 
-      icon: "https://img.icons8.com/?size=100&id=18806&format=png&color=000000",
+      icon: "https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg",
       numberPlate: "XYZ-5678",
       vehicleModel: "Honda Civic",
       startDate: "12/12/2024",
       startTime: "12:00PM"
     },
     {
-      icon: "https://img.icons8.com/?size=100&id=57662&format=png&color=000000",
+      icon: "https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg",
       numberPlate: "CAK-5678",
       vehicleModel: "Nissan Sentra",
       startDate: "12/12/2024",
       startTime: "12:00PM"
     },
     {
-      icon: "https://img.icons8.com/?size=100&id=57660&format=png&color=000000",
+      icon: "https://png.pngtree.com/png-vector/20191021/ourmid/pngtree-vector-car-icon-png-image_1834482.jpg",
       numberPlate: "EFD-1234",
       vehicleModel: "Ford Mustang",
       startDate: "12/12/2024",

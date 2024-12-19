@@ -247,6 +247,7 @@ const JobManagement = () => {
               <th className="py-3 px-6">Assigned Supervisor</th>
               <th className="py-3 px-6">Status</th>
               <th className="py-3 px-6">Actions</th>
+              <th className="py-3 px-6">time</th>
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
@@ -314,6 +315,7 @@ const JobManagement = () => {
                       </div>
                     </div>
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{job.startTime}</td>
                 </tr>
               ))
             ) : (

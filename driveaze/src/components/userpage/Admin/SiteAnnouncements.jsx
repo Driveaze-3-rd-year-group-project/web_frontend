@@ -4,7 +4,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserService from '../../service/UserService';
 
-// Define role colors
 const roleColors = {
     ALL: 'text-gray-600',
     CUSTOMER: 'text-blue-600',
@@ -22,8 +21,9 @@ const Announcement = () => {
         content: '',
         date: now.toISOString().split('T')[0],
         time: now.toISOString().split('T')[1].split('.')[0],
-        recivers: 'ALL' 
+        recivers: 'ALL'
     });
+    const [errors, setErrors] = useState({});
     const [editingIndex, setEditingIndex] = useState(null);
     const [popupType, setPopupType] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -36,7 +36,6 @@ const Announcement = () => {
         try {
             const token = localStorage.getItem('token');
             const response = await UserService.getAllAnnouncement(token);
-            console.log("response", response);
             setTableItems(response?.announcementList || []);
         } catch (error) {
             console.error('Error fetching announcements:', error);
@@ -45,6 +44,7 @@ const Announcement = () => {
     };
 
     const openPopup = (type, index = null) => {
+        setErrors({});
         if (type === 'update' && index !== null) {
             setEditingIndex(index);
             setCurrentDetail(filteredItems[index]);
@@ -53,9 +53,9 @@ const Announcement = () => {
                 announcementId: null,
                 title: '',
                 content: '',
-                date: now.toISOString().split('T')[0], // Default to current date
-                time: now.toISOString().split('T')[1].split('.')[0], // Default to current time
-                recivers: 'ALL' // Default to ALL
+                date: now.toISOString().split('T')[0],
+                time: now.toISOString().split('T')[1].split('.')[0],
+                recivers: 'ALL'
             });
         }
         setPopupType(type);
@@ -64,23 +64,40 @@ const Announcement = () => {
 
     const closePopup = () => {
         setIsPopupOpen(false);
+        setErrors({});
         setCurrentDetail({
             announcementId: null,
             title: '',
             content: '',
-            date: now.toISOString().split('T')[0], // Default to current date
-            time: now.toISOString().split('T')[1].split('.')[0], // Default to current time
-            recivers: 'ALL' // Default to ALL
+            date: now.toISOString().split('T')[0],
+            time: now.toISOString().split('T')[1].split('.')[0],
+            recivers: 'ALL'
         });
         setEditingIndex(null);
     };
 
+    const validateFields = () => {
+        const validationErrors = {};
+        if (!currentDetail.title.trim()) {
+            validationErrors.title = 'Title is required.';
+        }
+        if (!currentDetail.content.trim()) {
+            validationErrors.content = 'Content is required.';
+        }
+        setErrors(validationErrors);
+        return Object.keys(validationErrors).length === 0;
+    };
+
     const handleSave = async () => {
+        if (!validateFields()) {
+            return;
+        }
+
         try {
             const token = localStorage.getItem('token');
             let res;
             if (popupType === 'update') {
-                res = await UserService.updateAnnouncement(currentDetail.announcementId,currentDetail, token);
+                res = await UserService.updateAnnouncement(currentDetail.announcementId, currentDetail, token);
                 if (res.statusCode === 200) {
                     toast.success("Announcement Updated successfully!");
                 } else {
@@ -110,13 +127,12 @@ const Announcement = () => {
             if (confirmDelete) {
                 const token = localStorage.getItem('token');
                 const res = await UserService.deleteAnnouncement(filteredItems[index].announcementId, token);
-                if (res['statusCode'] === 200) { 
-                  toast.success("Announcement Deleted successfully!");
-                  fetchAnnouncement();
-                }else{
-                  toast.error(res.message || 'Failed to Delete job');
+                if (res.statusCode === 200) {
+                    toast.success("Announcement Deleted successfully!");
+                    fetchAnnouncement();
+                } else {
+                    toast.error(res.message || 'Failed to Delete Announcement');
                 }
-                // fetchAnnouncement();
             }
         } catch (error) {
             console.error('Error deleting Announcement:', error);
@@ -129,35 +145,31 @@ const Announcement = () => {
 
     const filteredItems = tableItems
         .filter(announcement => announcement.title.toLowerCase().includes(searchTerm.toLowerCase()))
-        .sort((a, b) => b.announcementId - a.announcementId); // Sort by announcement ID descending
+        .sort((a, b) => b.announcementId - a.announcementId);
 
     return (
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-14">
             <div className="flex items-start justify-between mb-3">
-                <h3 className="text-gray-800 text-xl font-bold sm:text- 2xl">Announcement Management</h3>
+                <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Announcement Management</h3>
             </div>
 
             <div className="flex justify-between items-center mb-3">
-                <div className="flex items-center space-x-4">
-                    <div className="relative">
-                        <input
-                            type="text"
-                            placeholder="Search Title"
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                            className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                        />
-                        <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
-                    </div>
+                <div className="relative">
+                    <input
+                        type="text"
+                        placeholder="Search Title"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        className="py-2 px-3 pr-10 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                    />
+                    <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400" />
                 </div>
-                <div className="mt-3 md:mt-0">
-                    <button
-                        onClick={() => openPopup('add')}
-                        className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                    >
-                        Add Announcement
-                    </button>
-                </div>
+                <button
+                    onClick={() => openPopup('add')}
+                    className="py-2 px-4 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+                >
+                    Add Announcement
+                </button>
             </div>
 
             <div className="mt-6 space-y-6">
@@ -185,50 +197,49 @@ const Announcement = () => {
             </div>
 
             {isPopupOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                  <div className="bg-white p-6 rounded-lg shadow-lg w-96"> {/* Increased width from w-80 to w-96 */}
-                      <h3 className="text-lg font-medium text-gray-700">{popupType === 'update' ? 'Update Announcement' : 'Add Announcement'}</h3>
-                      <div className="mt-4">
-                          <label className="block text-sm font-medium text-gray-700">Title</label>
-                          <input
-                              type="text"
-                              value={currentDetail.title}
-                              onChange={(e) => setCurrentDetail({ ...currentDetail, title: e.target.value })}
-                              className="mt-1 w-full px-3 py-2 border rounded-lg"
-                          />
-                      </div>
-                      <div className="mt-4">
-                          <label className="block text-sm font-medium text-gray-700">Content</label>
-                          <textarea
-                              value={currentDetail.content}
-                              onChange={(e) => setCurrentDetail({ ...currentDetail, content: e.target.value })}
-                              className="mt-1 w-full px-3 py-4 border rounded-lg h-32" // Increased height
-                          />
-                      </div>
-                      <div className="mt-4">
-                          <label className="block text-sm font-medium text-gray-700">Role</label>
-                          <select
-                              value={currentDetail.recivers}
-                              onChange={(e) => setCurrentDetail({ ...currentDetail, recivers: e.target.value })}
-                              className="mt-1 w-full px-3 py-2 border rounded-lg"
-                          >
-                              <option value="ALL">ALL</option>
-                              <option value="CUSTOMER">CUSTOMER</option>
-                              <option value="STAFF">STAFF</option>
-                          </select>
-                      </div>
-                      <div className="mt-6 flex justify-end space-x-3">
-                          <button onClick={closePopup} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
-                              Cancel
-                          </button>
-                          <button onClick={handleSave} className="px-4 py-2 bg-indigo-600 text-white rounded-lg">
-                              Save
-                          </button>
-                      </div>
-                  </div>
-              </div>
-          )}
-            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h3 className="text-lg font-medium text-gray-700">{popupType === 'update' ? 'Update Announcement' : 'Add Announcement'}</h3>
+                        <div className="mt-4">
+                            <label className="block text-sm font-medium text-gray-700">Title</label>
+                            <input
+                                type="text"
+                                value={currentDetail.title}
+                                onChange={(e) => setCurrentDetail({ ...currentDetail, title: e.target.value })}
+                                className="mt-1 w-full px-3 py-2 border rounded-lg"
+                            />
+                            {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+                        </div>
+                        <div className="mt-4">
+                            <label className="block text-sm font-medium text-gray-700">Content</label>
+                            <textarea
+                                value={currentDetail.content}
+                                onChange={(e) => setCurrentDetail({ ...currentDetail, content: e.target.value })}
+                                className="mt-1 w-full px-3 py-4 border rounded-lg h-32"
+                            />
+                            {errors.content && <p className="text-red-500 text-sm mt-1">{errors.content}</p>}
+                        </div>
+                        <div className="mt-4">
+                            <label className="block text-sm font-medium text-gray-700">Role</label>
+                            <select
+                                value={currentDetail.recivers}
+                                onChange={(e) => setCurrentDetail({ ...currentDetail, recivers: e.target.value })}
+                                className="mt-1 w-full px-3 py-2 border rounded-lg"
+                            >
+                                <option value="ALL">ALL</option>
+                                <option value="CUSTOMER">Customer</option>
+                                <option value="STAFF">Staff</option>
+                            </select>
+                        </div>
+                        <div className="mt-4 flex justify-end space-x-2">
+                            <button onClick={closePopup} className="py-2 px-4 text-gray-600 border rounded-lg">Cancel</button>
+                            <button onClick={handleSave} className="py-2 px-4 text-white bg-indigo-600 rounded-lg">Save</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <ToastContainer />
         </div>
     );
 };
